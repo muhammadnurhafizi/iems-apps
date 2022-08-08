@@ -1,0 +1,69 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+  <style name="MyTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <item name="windowNoTitle">true</item>
+    <item name="windowActionBar">false</item>
+    <item name="colorControlNormal">#0C92CF</item>
+    <item name="colorPrimary">#2196F3</item>
+    <item name="colorPrimaryDark">#1976D2</item>
+    <item name="colorAccent">#0C92CF</item>
+  </style>
+  <style name="LoginTheme" parent="MyTheme.Base">
+  </style>
+
+  <style name="DialogWindowTitle_Holo">
+    <item name="android:maxLines">1</item>
+    <item name="android:scrollHorizontally">true</item>
+    <item name="android:textAppearance">@android:style/TextAppearance.Holo.DialogWindowTitle</item>
+  </style>
+
+  <style name="CustomDialogAlert" parent="android:Theme.Holo.Light">
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    <item name="android:windowMinWidthMajor">@android:dimen/dialog_min_width_major</item>
+    <item name="android:windowMinWidthMinor">@android:dimen/dialog_min_width_minor</item>
+    <item name="android:windowTitleStyle">@style/DialogWindowTitle_Holo</item>
+    <item name="android:textColorPrimary">@color/black</item>
+    <item name="android:textColorAlertDialogListItem">@android:color/holo_orange_light</item>
+    <!--<item name="android:buttonBarStyle">@style/MyButtonBar</item>-->
+  </style>
+
+  <style name="TextLabel" parent="TextAppearance.AppCompat">
+    <!-- Hint color and label color in FALSE state -->
+    <item name="android:textColorHint">#2400ff</item>
+    <item name="android:textSize">15sp</item>
+    <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+    <item name="colorAccent">#2400ff</item>
+    <item name="colorControlNormal">#2400ff</item>
+    <item name="colorControlActivated">#2400ff</item>
+  </style>
+  
+  <style name="TextLabelRequired" parent="TextAppearance.AppCompat">
+    <!-- Hint color and label color in FALSE state -->
+    <item name="android:textColorHint">@color/red</item>
+    <item name="android:textSize">15sp</item>
+    <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+    <item name="colorAccent">@color/red</item>
+    <item name="colorControlNormal">@color/red</item>
+    <item name="colorControlActivated">@color/red</item>
+  </style>
+  
+</resources>

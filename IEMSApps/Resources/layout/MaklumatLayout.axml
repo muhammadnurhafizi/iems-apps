@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+	<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"        
+			android:orientation="vertical"
+			android:layout_marginTop="10dp"
+			android:background="@color/MaklumatGrey" 
+		android:gravity="center">
+
+		<TextView
+						android:id="@+id/lbl"
+						android:text="Maklumat Pasukan"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="24dp"  
+						android:textColor="@color/black"
+						android:textStyle="bold"
+		android:layout_marginBottom="20dp"
+		android:layout_marginTop="10dp"/>
+
+	</LinearLayout>
+
+	  <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lView"
+        android:layout_marginTop="10dp" 
+		android:layout_weight="0.1" />
+
+	<Button
+		android:id="@+id/btnClose"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="24dp"
+		android:background="@color/transparent"
+		
+		android:layout_marginBottom="10dp"
+		android:textColor="@color/black"
+		android:text="X" />
+		
+</LinearLayout>

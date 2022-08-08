@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:orientation="vertical"
+	android:background="@drawable/modal_bg">		
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#DEEAF6"
+		android:gravity="center_vertical">
+		<TextView
+			android:text="Hapus Ahli Pasukan"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:id="@+id/lblTitle"
+			android:gravity="center" 
+		android:textStyle="bold"/>
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="10dp">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"			
+			android:gravity="center_vertical">
+				<TextView
+					android:text="ID Pengguna :"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:id="@+id/lblNoKp" />				
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="35dp"
+			android:background="@drawable/textview_bg"
+			android:paddingLeft="5dp"
+			android:layout_marginTop="5dp"
+			android:gravity="center_vertical"			>
+			<TextView
+				android:text="890930-43-3221"
+				android:textStyle="bold"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/txtNoKPValue"
+				android:textAppearance="?android:attr/textAppearanceMedium" />
+		</LinearLayout>				
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical"
+			android:paddingTop="10dp">
+				<TextView
+					android:text="Nama Ahli :"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_width="120dp"
+					android:layout_height="wrap_content"
+					android:minWidth="25px"
+					android:minHeight="25px"
+					android:id="@+id/lblName" />				
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="35dp"
+			android:background="@drawable/textview_bg"
+			android:paddingLeft="5dp"
+			android:layout_marginTop="5dp"
+			android:gravity="center_vertical">
+			<TextView
+				android:text="Saya Abdul"
+				android:textStyle="bold"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/txtNameValue"
+				android:textAppearance="?android:attr/textAppearanceMedium" />
+			</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:paddingTop="10dp"
+			android:orientation="vertical">
+			<TextView
+				android:text="Alasan untuk dikeluarkan ahli dari pasukan :"
+				android:textSize="16dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:minWidth="25px"
+				android:minHeight="25px" />	
+			<EditText
+				android:text="saya"
+				android:inputType="textMultiLine"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/txtAlasan" 
+				android:lines="5"
+				android:maxLines="5"
+				android:gravity="top|left"
+				android:scrollbars="vertical"
+				android:layout_marginTop="5dp"
+				android:padding="3dp"
+				android:background="@drawable/edittext_bg"/>		
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:gravity="center_vertical|center"
+			android:layout_marginTop="10dp"
+			android:padding="10dp">
+			<Button
+				android:id="@+id/btnOk"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:background="@drawable/save_icon"
+				android:layout_marginRight="5dp"/>			
+			<Button
+				android:id="@+id/btnCancel"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:background="@drawable/cancel_icon"
+				android:layout_marginLeft="5dp"/>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>

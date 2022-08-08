@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@color/backgroundprimary"
+	android:gravity="center"
+	android:orientation="vertical"
+	android:padding="10dp">
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linear11"
+		android:weightSum="100">
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:id="@+id/linear11"
+			android:layout_weight="20" />
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:id="@+id/linear11"
+			android:layout_weight="60" />
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:id="@+id/linear11"
+			android:layout_weight="20">
+		</LinearLayout>
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:orientation="vertical"
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp">
+		<TextView
+			android:text="Aplikasi IEMS"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/lblTitle"
+			android:textColor="@color/black"
+			android:gravity="center_horizontal"
+			android:textStyle="bold"
+			android:textSize="32dp"
+			android:textAppearance="?android:attr/textAppearanceLarge" />
+	</LinearLayout>
+	<RelativeLayout
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/relativeLayout1"
+		android:paddingBottom="-10dp">
+		<ImageView
+			android:src="@drawable/biglogo"
+			android:id="@+id/imageView1"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="40dp"
+			android:layout_centerVertical="true"
+			android:layout_centerHorizontal="true" />
+	</RelativeLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:orientation="vertical"
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp"
+		android:gravity="center">
+		<TextView
+			android:text="Proses muat turun/muat naik data sedang di jalankan.
+Pastikan skrin anda sentiasa ON.
+JANGAN tekan butang BACK"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/lblInfo"
+			android:textColor="@color/black"
+			android:textStyle="bold"
+			android:textSize="18dp"
+			android:gravity="top"
+			android:textAlignment="center" />
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center"
+		android:orientation="vertical"
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp"
+		android:paddingTop="40dp"
+		android:gravity="center">
+		<TextView
+			android:text="loading. . ."
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:id="@+id/lblInfo"
+			android:textColor="@color/black"
+			android:textStyle="bold"
+			android:textSize="18dp"
+			android:gravity="center_horizontal" />
+	</LinearLayout>
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/linearSnack">
+		<ProgressBar
+			android:id="@+id/progressBar1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			style="@android:style/Widget.ProgressBar.Horizontal"
+			android:min="0"
+			android:max="100"/>
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<TextView
+				android:id="@+id/lblTotal"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Total 30"
+				android:textAppearance="?android:attr/textAppearanceSmall"/>
+			<TextView
+				android:id="@+id/lblPercentage"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="1%"
+				android:layout_alignParentRight="true"
+				android:textAppearance="?android:attr/textAppearanceSmall"/>
+		</RelativeLayout>				
+	</LinearLayout>
+</LinearLayout>

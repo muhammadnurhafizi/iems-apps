@@ -1,0 +1,37 @@
+﻿<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools">
+  <item
+    android:id="@+id/menus"
+    android:icon="@drawable/main_menu"
+    app:showAsAction="always">
+    <menu>
+      <item
+        android:id="@+id/add_menu"
+        android:title="Baru"
+        android:icon="@drawable/add_new"
+        app:showAsAction="always"/>
+      <item
+        android:id="@+id/akta_menu"
+        android:title="Akta"
+        android:icon="@drawable/akta"
+        app:showAsAction="always"/>
+      <item
+        android:id="@+id/photo_menu"
+        android:title="Gambar"
+        android:icon="@drawable/camera"
+        app:showAsAction="always"/>
+      <item
+        android:id="@+id/cardreader_menu"
+        android:title="Card Reader"
+        android:icon="@drawable/cardreader"
+        app:showAsAction="always"/>
+      <item
+        android:id="@+id/print_menu"
+        android:title="Cetak"
+        android:icon="@drawable/print"
+        app:showAsAction="always"/>
+    </menu>
+  </item>
+
+</menu>

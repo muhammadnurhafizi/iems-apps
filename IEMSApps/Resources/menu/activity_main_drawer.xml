@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:showIn="navigation_view">
+
+  <group android:checkableBehavior="single">
+    <item
+      android:id="@+id/nav_pasukan"
+      android:icon="@drawable/pasukan"
+      android:title="PASUKAN" />
+    <item
+      android:id="@+id/nav_pemeriksaan"
+      android:icon="@drawable/pemeriksaan"
+      android:title="PEMERIKSAAN" />
+    <item
+      android:id="@+id/nav_semakan"
+      android:icon="@drawable/semakan"
+      android:title="SEMAKAN" />
+    <item
+      android:id="@+id/nav_summary"
+      android:icon="@drawable/ringkasan"
+      android:title="RINGKASAN" />
+    <item
+      android:id="@+id/nav_muatturundata"
+      android:icon="@drawable/checkout"
+      android:title="MUAT TURUN DATA" />
+    <item
+      android:id="@+id/nav_checkout"
+      android:icon="@drawable/checkout"
+      android:title="TAMAT TUGAS" />
+    <item
+      android:id="@+id/nav_cleardatas"
+      android:icon="@drawable/remove"
+      android:title="PEMBERSIHAN DATA" />
+    <!--<item
+      android:id="@+id/nav_logout"
+      android:icon="@drawable/keluarsistem"
+      android:title="LOG KELUAR" />-->
+
+  </group>
+</menu>

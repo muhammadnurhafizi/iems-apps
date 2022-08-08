@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:padding="5dp">
+
+
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"        
+			android:orientation="vertical"
+			android:layout_marginTop="30dp"
+			android:gravity="center">
+		 <ImageView
+                android:src="@drawable/logo"
+                android:id="@+id/imageView1"
+                android:layout_width="180dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true" />
+      
+		<TextView
+			android:id="@+id/lbl"
+			android:text="APLIKASI IEMS"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textSize="24dp"  
+			android:textColor="@color/black"
+			android:textStyle="bold"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"        
+			android:orientation="vertical"
+			android:layout_marginTop="30dp"
+			android:padding="10dp"
+		    android:background="@drawable/edittext_bg"
+			 >
+		 <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblAppName"           
+           
+            android:text="Tiada data konfigurasi untuk peranti ini."
+			android:textColor="#000"
+			android:textSize="18dp"
+            android:textStyle="bold"/>
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"        
+			android:orientation="horizontal"
+			android:layout_marginTop="5dp"
+			android:background="@color/background1" >
+
+			 <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblAppName"           
+           
+            android:text="Sila masukkan ID peranti dan tekan"
+			
+			android:textColor="#000"
+			android:textSize="18dp"
+            android:textStyle="bold"/>
+
+			<Button
+				android:id="@+id/btnOk"
+				android:layout_width="40dp"
+				android:layout_height="40dp"
+				android:background="@drawable/startgreen"
+				android:layout_marginLeft="5dp"
+			/>
+
+			</LinearLayout>
+		
+
+
+		 <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblAppName"           
+           
+            android:text="untuk mulakan proses muat naik data 
+konfigurasi"
+			
+			android:textColor="#000"
+			android:textSize="18dp"
+            android:textStyle="bold"/>
+
+		</LinearLayout>
+	
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="60dp"        
+			android:orientation="horizontal"
+			android:layout_marginTop="30dp"
+			android:gravity="center"
+			android:background="@color/background1" >
+			<EditText
+				android:text=""
+				android:layout_width="150dp"
+				android:layout_height="30dp"
+				android:hint="      ID PERANTI"
+				android:singleLine="true" 
+				android:padding="3dp"
+				android:id="@+id/txtPiranti"
+				android:background="@drawable/border_red"
+				android:textAppearance="?android:attr/textAppearanceMedium" />
+			<Button
+				android:id="@+id/btnStart"
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				android:layout_marginTop="0dp"
+				android:layout_marginLeft="5dp"
+				android:background="@drawable/startgreen"
+				/>
+
+	</LinearLayout>
+	
+		
+</LinearLayout>

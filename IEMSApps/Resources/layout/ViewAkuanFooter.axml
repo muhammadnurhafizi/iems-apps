@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:paddingTop="3dp"
+	android:id="@+id/linearFooterPemeriksaan"
+	android:weightSum="2">
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:gravity="center"
+		android:id="@+id/linearOk"
+		android:orientation="vertical">
+		<Button
+			android:layout_width="35dip"
+			android:layout_height="35dip"
+			android:id="@+id/btnOk"
+			android:background="@drawable/ok_icon"/>
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Selesai"
+			android:id="@+id/lblBtnOk"
+			android:textColor="@color/black"
+			android:gravity="center"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+	</LinearLayout>
+	
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:gravity="center"
+		android:orientation="vertical">
+		<Button
+			android:layout_width="35dip"
+			android:layout_height="35dip"
+			android:id="@+id/btnPrint"
+			android:background="@drawable/print_icon"/>
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Cetak"
+			android:id="@+id/lblBtnPrint"
+			android:textColor="@color/black"
+			android:gravity="center"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+	</LinearLayout>
+	
+	
+</LinearLayout>

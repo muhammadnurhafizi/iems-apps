@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:background="@drawable/modal_bg">
+	<RelativeLayout 
+		android:layout_width="match_parent"
+		android:layout_height="50dp"
+		android:background="#DEEAF6">
+		<ImageView
+			android:id="@+id/close_button"
+			android:layout_width="100px"
+			android:layout_height="100px"
+			android:layout_alignParentRight="true"
+			android:src="@drawable/close_icon"
+			android:scaleType="centerCrop" />
+		<TextView
+			android:text="Carian JPN DETAIL"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/lblTitleCarian"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:textStyle="bold"
+			android:layout_centerVertical="true"
+			android:gravity="center" />
+	</RelativeLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="10dp">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"			
+			android:weightSum="7">
+			<LinearLayout
+				android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1">
+				<EditText
+					android:layout_width="match_parent"
+					android:layout_height="50dp"
+					android:id="@+id/txtCarian"
+					android:background="@drawable/edittext_bg"
+					android:paddingLeft="5dp"
+					android:hint="Carian"
+					android:singleLine="true"/>	
+				
+			</LinearLayout>
+			<LinearLayout
+				android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1">				
+				<Button
+					android:id="@+id/btnSearch"					
+					android:layout_width="50dp"			
+					android:layout_height="50dp"	
+					android:layout_marginRight="0dp"
+					android:layout_marginLeft="5dp"
+					android:layout_marginTop="0dp"
+					android:background="@drawable/semakan"/>
+			</LinearLayout>
+		</LinearLayout>
+		
+		<ListView
+			android:id="@+id/listView"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5dp"/>
+	</LinearLayout>	
+</LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="colorPrimary">#2c3e50</color>
+  <color name="colorPrimaryDark">#1B3147</color>
+  <color name="colorAccent">#3498db</color>
+  <color name="backgroundprimary">#ffffff</color>
+  <color name="foregroundprimary">#000</color>
+
+  <color name="backgroundForm">#151c5c</color>
+  <color name="button">#DCE6F2</color>
+
+  <color name="toolbarbackground">#2f2fed</color>
+  <color name="toolbarcolor">#FFFF00</color>
+
+  <color name="black">#000</color>
+  <color name="transparent">#00000000</color>
+  <color name="MaklumatGrey">#D9D9D9</color>
+
+  <color name="red">#FF0000</color>
+  <color name="white">#ffffff</color>
+  <color name="containBackground">#DEEAF6</color>
+
+  <color name="rowgrey">#F2F2F2</color>
+  <color name="background1">#FAFAFD</color>
+
+  <color name="buttongrey">#D7D7D7</color>
+  <color name="buttonblue">#2400FF</color>
+
+  <color name="buttondisable">#706b6b</color>
+  
+</resources>

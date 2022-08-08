@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/toolbarbackground"
+        android:weightSum="100">
+				 <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:gravity="left"
+			android:layout_marginLeft="10dp" >
+          <ImageView
+                android:src="@drawable/backarrow"
+                android:id="@+id/imageView1"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+              android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"  />      
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:gravity="center">
+           <TextView
+                android:id="@+id/PageTitle"
+                android:text="APLIKASI IEMS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"  
+				android:textColor="@color/toolbarcolor"
+				android:textStyle="bold"
+				
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="10dp" />          
+        </LinearLayout>
+     
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            android:gravity="right">
+            <TextView
+                android:id="@+id/txtHhId"
+                android:text="WKL001"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:textSize="14dp"  
+				android:textColor="@color/toolbarcolor"
+				android:textStyle="bold"						
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp" />
+          
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:weightSum="38" >
+		<CheckBox
+			android:id="@+id/cbPilih"
+			android:layout_width="0dp"
+			android:layout_weight="3"
+			android:layout_height="wrap_content"
+			android:gravity="center">
+		</CheckBox>		
+		<TextView
+			android:id="@+id/txtCawangan"
+			android:text="Cawangan"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="0dp"
+			android:layout_weight="18"
+			android:layout_height="wrap_content"
+			android:textColor="@color/black"
+			android:gravity="center_vertical"/>
+		<TextView
+			android:id="@+id/txtJumlahDalamApp"
+			android:text="74"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="0dp"
+			android:layout_weight="7"
+			android:layout_height="wrap_content"
+			android:textColor="@color/black"
+			android:gravity="right" />
+		<TextView
+			android:id="@+id/txtJumlahSepatutnya"
+			android:text="0"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_width="0dp"
+			android:layout_weight="10"
+			android:layout_height="wrap_content"
+			android:textColor="@color/black"
+			android:gravity="right" />
+	</LinearLayout>
+</LinearLayout>

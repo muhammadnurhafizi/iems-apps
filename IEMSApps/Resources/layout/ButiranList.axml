@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#ffff00"
+		android:gravity="center_vertical">
+		<TextView
+			android:text="Butir Kesalahan"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:id="@+id/lblTitle"
+			android:textColor="@color/black"
+			android:gravity="center"
+			android:textStyle="bold" />
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="10dp">	
+		<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+			android:id="@+id/listView1"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content" >
+		</ListView>
+	</LinearLayout>
+</LinearLayout>

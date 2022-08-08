@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">	
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"        
+			android:orientation="vertical"
+			android:layout_marginTop="10dp"
+			android:id="@+id/linearInfo"
+			android:background="@color/toolbarcolor" >
+
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="50dp"       
+					android:orientation="horizontal"
+					android:padding="10dp"
+					android:weightSum="100">
+			 <LinearLayout
+					android:orientation="vertical"
+					android:layout_width="0dp"
+					android:layout_height="40dp"
+					android:layout_weight="40"
+					android:gravity="left">
+				<TextView
+						android:id="@+id/lbl"
+						android:text="Maklumat Pasukan"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="14dp"  			
+						android:textStyle="bold"/>
+				</LinearLayout>
+				
+
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="60"
+					android:gravity="left">
+				<ImageView
+					android:id="@+id/imgMaklumat"
+					android:layout_width="wrap_content"
+					android:layout_height="30dp"
+					android:src="@drawable/infopasukan"
+					android:layout_marginTop="0dp"
+					android:scaleType="fitStart" />
+					
+			
+					
+				
+
+				</LinearLayout>
+			</LinearLayout>
+
+			
+		 
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="40dp"       
+				android:orientation="horizontal"
+				android:padding="10dp"
+			
+				android:weightSum="100">
+			 <LinearLayout
+				android:orientation="vertical"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_weight="30"
+				android:gravity="left">
+				<TextView
+					android:id="@+id/lbl"
+					android:text="ID Pasukan"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="14dp"  			
+					android:textStyle="bold"/>
+			</LinearLayout>
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_weight="10"
+				android:gravity="left">
+				<TextView
+                android:id="@+id/lbl"
+                android:text=" : "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"  			
+				android:textStyle="bold"/>
+			</LinearLayout>
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="0dp"
+				android:layout_height="40dp"
+				android:layout_weight="60"
+				android:gravity="left">
+				<TextView
+                android:id="@+id/lblIdPasukan"
+                android:text="-"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"  			
+				android:textStyle="bold" />
+			</LinearLayout>
+			
+		
+		</LinearLayout>
+		
+
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="40dp"       
+					android:orientation="horizontal"
+					android:padding="10dp"
+					android:weightSum="100">
+				 <LinearLayout
+					android:orientation="vertical"
+					android:layout_width="0dp"
+					android:layout_height="40dp"
+					android:layout_weight="30"
+					android:gravity="left">
+					<TextView
+						android:id="@+id/lbl"
+						android:text="Ketua Pasukan"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="14dp"  			
+						android:textStyle="bold"/>
+				</LinearLayout>
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="0dp"
+					android:layout_height="40dp"
+					android:layout_weight="10"
+					android:gravity="left">
+					<TextView
+					android:id="@+id/lbl"
+					android:text=" : "
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="14dp"  			
+					android:textStyle="bold"/>
+				</LinearLayout>
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="0dp"
+					android:layout_height="40dp"
+					android:layout_weight="60"
+					android:gravity="left">
+					<TextView
+					android:id="@+id/lblKetuaPasukan"
+					android:text="-"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textSize="14dp"  			
+					android:textStyle="bold" />
+				</LinearLayout>
+			
+		
+			</LinearLayout>
+
+		</LinearLayout>
+
+	
+</LinearLayout>
+ 

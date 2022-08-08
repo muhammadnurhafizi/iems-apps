@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/backgroundprimary">
+   
+	
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="1dp"
+		android:background="@color/toolbarcolor">
+	 <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lbl"           
+            android:gravity="center_horizontal"
+            android:text="MAKLUMAT"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="10dp"
+			android:textColor="#000"
+			android:textSize="24dp"
+            android:textStyle="bold"/>
+		</LinearLayout>
+
+	<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">     
+          
+		 <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblAppName"           
+            android:gravity="center_horizontal"
+            android:text="SELAMAT DATANG"
+			android:layout_marginTop="60dp"
+			android:textColor="#000"
+			android:textSize="24dp"/>
+		 <TextView
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblTitle"          
+            android:gravity="center_horizontal"
+            android:text="Ke Aplikasi IEMS"
+			android:textColor="#000"
+			android:textSize="24dp"
+			android:layout_marginTop="0dp"/>    
+		
+		 <LinearLayout
+		android:layout_height="wrap_content"
+		android:gravity="center"
+		android:orientation="vertical"
+		android:id="@+id/linearContain"
+		android:background="@color/containBackground"
+		android:measureWithLargestChild="false"
+		android:minHeight="700dp"
+		android:layout_width="match_parent" 
+			android:padding="10dp"
+			android:layout_marginTop="60dp">
+	</LinearLayout>
+    </LinearLayout>
+	
+
+</RelativeLayout>

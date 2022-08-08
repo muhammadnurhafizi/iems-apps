@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                                        xmlns:tools="http://schemas.android.com/tools"
+                                        android:id="@+id/drawer_layout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:fitsSystemWindows="true"
+                                        tools:openDrawer="start">
+
+  <include
+    layout="@layout/app_bar_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
+	<android.support.design.widget.NavigationView
+		android:id="@+id/nav_view"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"	
+		android:layout_gravity="start"
+		android:fitsSystemWindows="true"
+		android:background="@color/backgroundprimary"
+		app:headerLayout="@layout/nav_header_main"
+		app:menu="@menu/activity_main_drawer" 
+		app:itemTextColor="@color/foregroundprimary">		
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:orientation="horizontal"
+			android:paddingLeft="40px"
+			android:id="@+id/linearLogout"
+			android:paddingBottom="20px">
+			<ImageView
+				android:layout_width="80px"
+				android:layout_height="60px"
+				android:src="@drawable/keluarsistem_brown"/>
+			<TextView
+				android:id="@+id/logout"
+				android:layout_width="wrap_content"
+				android:layout_height="60px"
+				android:textSize="14sp"
+				android:textStyle="bold"
+				android:textColor="@color/foregroundprimary"
+				android:text="LOG KELUAR"
+				android:paddingLeft="70px"
+				android:gravity="center_vertical" />
+		</LinearLayout>
+			
+	</android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

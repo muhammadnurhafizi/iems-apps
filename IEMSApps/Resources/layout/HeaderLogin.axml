@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/toolbarbackground"
+        android:weightSum="100">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="50"
+            android:gravity="left"
+			 android:layout_marginLeft="15dp">
+           <TextView
+                android:id="@+id/txtDate"
+                android:text="06/02/2018"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"  
+				android:textColor="@color/toolbarcolor"
+				android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp" />
+            <TextView
+                android:id="@+id/txtTime"
+                android:text="12:05:00 PM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                 android:textSize="14dp"  
+				android:textColor="@color/toolbarcolor"
+				android:textStyle="bold"            
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+     
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="50"
+            android:gravity="right">
+            <TextView
+                android:id="@+id/txtHhId"
+                android:text="WKL001"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:textSize="14dp"  
+				android:textColor="@color/toolbarcolor"
+				android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp" />
+          
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

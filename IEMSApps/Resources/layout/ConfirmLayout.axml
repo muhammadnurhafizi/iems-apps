@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#ffff00"
+		android:gravity="center_vertical">
+		<TextView
+			android:text="PEMERIKSAAN"
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:id="@+id/lblTitle"
+			android:textColor="@color/black"
+			android:gravity="center"
+			android:textStyle="bold" />
+	</LinearLayout>
+	
+	<ListView
+		android:minWidth="25px"
+		android:minHeight="25px"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/lView"
+		android:layout_marginTop="10dp"  
+		android:layout_weight="0.1"/>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="3dp"
+		android:weightSum="2">
+		<LinearLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:orientation="vertical">
+			<Button
+				android:layout_width="35dip"
+				android:layout_height="35dip"
+				android:id="@+id/btnCetak"
+				android:background="@drawable/print_icon"/>
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Cetak"
+				android:id="@+id/lblBtnCetak"
+				android:textColor="@color/black"
+				android:gravity="center"
+				android:textAppearance="?android:attr/textAppearanceSmall"/>
+		</LinearLayout>	
+		<LinearLayout
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:gravity="center"
+			android:orientation="vertical">
+			<Button
+				android:layout_width="35dip"
+				android:layout_height="35dip"
+				android:id="@+id/btnCancel"
+				android:background="@drawable/cancel_icon"/>
+			<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Batal"
+				android:id="@+id/lblBtnCancel"
+				android:textColor="@color/black"
+				android:gravity="center"
+				android:textAppearance="?android:attr/textAppearanceSmall"/>
+		</LinearLayout>
+		
+	</LinearLayout>		
+</LinearLayout>
