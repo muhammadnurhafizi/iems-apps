@@ -108,7 +108,7 @@ namespace IEMSApps.Services
                 using (HttpClient client = GenerateHttpClient())
                 {
                     ///var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.PrepareDownloadData}" + encodedIdPiranti;
-                    var url = $"{GeneralBll.GetWebServicUrl()}API_IEMS/api/preparedownloaddata/" + encodedIdPiranti;
+                    var url = $"{GeneralBll.GetWebServicUrl()}API_IEMS_STAG/api/preparedownloaddata/" + encodedIdPiranti;
                     var req = new HttpRequestMessage(HttpMethod.Get, url);
                     var response = await client.SendAsync(req);
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)

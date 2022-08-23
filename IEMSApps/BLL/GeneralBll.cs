@@ -873,7 +873,8 @@ namespace IEMSApps.BLL
 
         public static string GetWebServicUrl()
         {
-            return SharedPreferences.GetString(SharedPreferencesKeys.WebServiceUrl, Constants.DefaultWebServiceUrl);
+            //return SharedPreferences.GetString(SharedPreferencesKeys.WebServiceUrl, Constants.DefaultWebServiceUrl);
+            return Constants.DefaultWebServiceUrl;
         }
 
         public static int GetIntervalBackgroundService()
