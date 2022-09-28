@@ -10,65 +10,65 @@
         layout="@layout/HeaderLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-	
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-		 android:background="@color/backgroundprimary"
+        android:background="@color/backgroundprimary"
         android:padding="1dp">
-     
-            <ImageView
-                android:src="@drawable/logo"
-                android:id="@+id/imageView1"
-                android:layout_width="180dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="10dp"
-                android:layout_centerHorizontal="true" />
-      
-		 <TextView
+
+        <ImageView
+            android:src="@drawable/logo"
+            android:id="@+id/imageView1"
+            android:layout_width="180dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lblAppName"           
+            android:id="@+id/lblAppName"
             android:gravity="center_horizontal"
             android:text=" Integrated Enforcement Management System (IEMS)"
-			android:layout_marginTop="20dp"
-			android:textColor="#000"
-			android:textSize="20dp"
+            android:layout_marginTop="20dp"
+            android:textColor="#000"
+            android:textSize="20dp"
             android:textStyle="bold"/>
-		 <TextView
+        <TextView
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lblTitle"          
+            android:id="@+id/lblTitle"
             android:gravity="center_horizontal"
             android:text="BAHAGIAN PENGUATKUASA"
-			android:textColor="#000"
-			android:textSize="24dp"
+            android:textColor="#000"
+            android:textSize="24dp"
             android:textStyle="bold"
-			android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"/>
         <TextView
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lblVersion"           
+            android:id="@+id/lblVersion"
             android:gravity="center_horizontal"
-			android:textSize="18dp"
+            android:textSize="18dp"
             android:text="Version 1"
-		android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"/>
         <TextView
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lblBattery"           
+            android:id="@+id/lblBattery"
             android:gravity="center_horizontal"
-            android:text="Bateri 100%"        
-			android:textSize="18dp"
+            android:text="Bateri 100%"
+            android:textSize="18dp"
             android:layout_marginBottom="10dp"
-		android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,57 +76,57 @@
             android:orientation="vertical"
             android:paddingLeft="20dp"
             android:paddingRight="20dp">
-             <android.support.design.widget.TextInputLayout
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/txtUserName"
-                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-               android:layout_marginLeft="-3dp"
-					android:drawableLeft="@drawable/username"
-				android:hint="  Id Pengguna"
-					 android:singleLine="true"
-               android:textAllCaps="true"/>
+                android:id="@+id/textInputLayout2">
+                <EditText
+                    android:id="@+id/txtUserName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="-3dp"
+                    android:drawableLeft="@drawable/username"
+                    android:hint="  Id Pengguna"
+                    android:singleLine="true"
+                    android:textAllCaps="true"/>
             </android.support.design.widget.TextInputLayout>
-			 
-			 <android.support.design.widget.TextInputLayout
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <EditText
-                android:id="@+id/txtPassword"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:inputType="textPassword"               
-                android:singleLine="true"            
-              
-                android:password="true"
-                android:textAllCaps="true"
-                android:focusable="true"				
-                android:focusableInTouchMode="true"
-				android:drawableLeft="@drawable/password"
-				android:hint="  Kata Laluan"/>
+                <EditText
+                    android:id="@+id/txtPassword"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:inputType="textPassword"
+                    android:singleLine="true"
+                    android:password="true"
+                    android:textAllCaps="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:drawableLeft="@drawable/password"
+                    android:hint="  Kata Laluan"/>
 
-          </android.support.design.widget.TextInputLayout>
-        <!-- Login Button -->
-           
-              
-        <!-- Link to Login Screen -->
+            </android.support.design.widget.TextInputLayout>
+            <!-- Login Button -->
+
+
+            <!-- Link to Login Screen -->
         </LinearLayout>
-		<Button
-                android:id="@+id/btnLogin"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"               
-              android:textSize="24dp"
-				android:background="@color/toolbarbackground"
-			android:layout_marginTop="40dp"
-			android:layout_marginBottom="20dp"
-			android:textColor="@color/toolbarcolor"
-                android:text="LOG MASUK"/>
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:background="@color/toolbarbackground"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/toolbarcolor"
+            android:text="LOG MASUK"/>
 
-		
+
     </LinearLayout>
 	
 	 <include

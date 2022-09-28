@@ -63,8 +63,11 @@ namespace IEMSApps.Activities
             SetInit();
 
 #if DEBUG
-            txtUser.Text = "750730105115";// "870208025493";730315016109;830724035085;//750730105115
-            txtPasswd.Text = "750730105115";
+            //txtUser.Text = "750730105115";// "870208025493";730315016109;830724035085;//750730105115
+            //txtPasswd.Text = "750730105115";
+
+            txtUser.Text = "870131065453";// "870208025493";730315016109;830724035085;//750730105115
+            txtPasswd.Text = "870131065453!@#$";
 
             //var resultData = Task.Run(async () => await HttpClientService.GetListJpnDetail("OTYwNTEzMDM1MjQw")).Result;
             var imageView = FindViewById<ImageView>(Resource.Id.imageView1);
