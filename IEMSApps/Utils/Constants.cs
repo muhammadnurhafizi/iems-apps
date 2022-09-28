@@ -224,7 +224,7 @@ namespace IEMSApps.Utils
         public const int MaxKompaunIzinRetry = 5;
         public const int SleepRetryKompaunIzin = 2000;//in second = 2 detik
 
-        public const string ApiUrl = "API_IEMS_STAG/api/";
+        public const string ApiUrl = "API_IEMS/api/";
 
         public static class ApiUrlAction
         {
@@ -257,8 +257,8 @@ namespace IEMSApps.Utils
         public const int DefaultIntervalInSecond = 30;
         public const int DefaultDistanceInMeter = 100;
         //public const string DefaultWebServiceUrl = "http://1.9.46.170:98/";
-        //public const string DefaultWebServiceUrl = "http://iemsstag.kpdnhep.gov.my/";
-        public const string DefaultWebServiceUrl = "http://128.199.135.41:8000/";
+        public const string DefaultWebServiceUrl = "http://iemsstag.kpdnhep.gov.my/";
+        //public const string DefaultWebServiceUrl = "http://128.199.135.41:8000/";
         public const int DefaultIntervalBackgroundServiceInSecond = 300;
 
         public static class PriorityUpdate
