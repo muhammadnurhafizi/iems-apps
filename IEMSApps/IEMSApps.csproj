@@ -65,6 +65,10 @@
     <AndroidCreatePackagePerAbi>false</AndroidCreatePackagePerAbi>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <AndroidKeyStore>false</AndroidKeyStore>
+    <AndroidSigningKeyStore>C:\Users\aminh\AppData\Local\Xamarin\Mono for Android\Keystore\Object Expression\Object Expression.keystore</AndroidSigningKeyStore>
+    <AndroidSigningStorePass>ToughJob^321</AndroidSigningStorePass>
+    <AndroidSigningKeyAlias>Object Expression</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>ToughJob^321</AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="SQLite.Net.Platform.SQLCipher.XamarinAndroid">
