@@ -14,7 +14,7 @@ namespace IEMSApps
 {
 	
 	
-	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "1.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "13.0.0.73")]
 	public partial class Resource
 	{
 		
@@ -27,8 +27,6 @@ namespace IEMSApps
 		{
 			global::SQLite.Net.Platform.SQLCipher.XamarinAndroid.Resource.String.ApplicationName = global::IEMSApps.Resource.String.ApplicationName;
 			global::SQLite.Net.Platform.SQLCipher.XamarinAndroid.Resource.String.Hello = global::IEMSApps.Resource.String.Hello;
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::IEMSApps.Resource.String.ApplicationName;
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::IEMSApps.Resource.String.Hello;
 		}
 		
 		public partial class Animation
@@ -4577,31 +4575,58 @@ namespace IEMSApps
 			public const int Hello = 2131558401;
 			
 			// aapt resource value: 0x7F0D0024
-			public const int navigation_drawer_close = 2131558436;
+			public const int library_android_database_sqlcipher_author = 2131558436;
 			
 			// aapt resource value: 0x7F0D0025
-			public const int navigation_drawer_open = 2131558437;
+			public const int library_android_database_sqlcipher_authorWebsite = 2131558437;
 			
 			// aapt resource value: 0x7F0D0026
-			public const int password_toggle_content_description = 2131558438;
+			public const int library_android_database_sqlcipher_isOpenSource = 2131558438;
 			
 			// aapt resource value: 0x7F0D0027
-			public const int path_password_eye = 2131558439;
+			public const int library_android_database_sqlcipher_libraryDescription = 2131558439;
 			
 			// aapt resource value: 0x7F0D0028
-			public const int path_password_eye_mask_strike_through = 2131558440;
+			public const int library_android_database_sqlcipher_libraryName = 2131558440;
 			
 			// aapt resource value: 0x7F0D0029
-			public const int path_password_eye_mask_visible = 2131558441;
+			public const int library_android_database_sqlcipher_libraryVersion = 2131558441;
 			
 			// aapt resource value: 0x7F0D002A
-			public const int path_password_strike_through = 2131558442;
+			public const int library_android_database_sqlcipher_libraryWebsite = 2131558442;
 			
 			// aapt resource value: 0x7F0D002B
-			public const int search_menu_title = 2131558443;
+			public const int library_android_database_sqlcipher_licenseLink = 2131558443;
 			
 			// aapt resource value: 0x7F0D002C
-			public const int status_bar_notification_info_overflow = 2131558444;
+			public const int library_android_database_sqlcipher_repositoryLink = 2131558444;
+			
+			// aapt resource value: 0x7F0D002D
+			public const int navigation_drawer_close = 2131558445;
+			
+			// aapt resource value: 0x7F0D002E
+			public const int navigation_drawer_open = 2131558446;
+			
+			// aapt resource value: 0x7F0D002F
+			public const int password_toggle_content_description = 2131558447;
+			
+			// aapt resource value: 0x7F0D0030
+			public const int path_password_eye = 2131558448;
+			
+			// aapt resource value: 0x7F0D0031
+			public const int path_password_eye_mask_strike_through = 2131558449;
+			
+			// aapt resource value: 0x7F0D0032
+			public const int path_password_eye_mask_visible = 2131558450;
+			
+			// aapt resource value: 0x7F0D0033
+			public const int path_password_strike_through = 2131558451;
+			
+			// aapt resource value: 0x7F0D0034
+			public const int search_menu_title = 2131558452;
+			
+			// aapt resource value: 0x7F0D0035
+			public const int status_bar_notification_info_overflow = 2131558453;
 			
 			static String()
 			{

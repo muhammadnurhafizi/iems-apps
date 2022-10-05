@@ -140,6 +140,7 @@ namespace IEMSApps.Fragments
                     UpdateInfo("Sila Tunggu...");
 
                     UpdateInfo("Servis Dihentikan...");
+                    GeneralAndroidClass.StopLocationService(this.Context);
                     GeneralAndroidClass.StopBackgroundService(this.Context);
                     Thread.Sleep(2000);
 
