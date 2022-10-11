@@ -453,7 +453,7 @@ namespace IEMSApps.Activities
                 if (result.Success)
                 {
                     var data = result.Result.SingleOrDefault();
-                    if (data.Status == "3") //Todo Need update data on server
+                    if (data.Status == "1") //Todo Need update data on server
                     {
                         UpdateInfo("Simpan data ...");
                         _progressBar1.Progress = 30;
