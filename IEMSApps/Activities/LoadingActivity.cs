@@ -132,7 +132,8 @@ namespace IEMSApps.Activities
                             //    DataAccessQuery<TbPasukanHh>.ExecuteSql(item.value.Value);
                             //}
 
-                            //UpdateCountAndPercentage(totalData, totalData);
+                            //UpdateCountAndPercentage(totalData, totalData
+                            deleteTbGpsLogs();
                             break;
                         case 2:
 
@@ -677,6 +678,28 @@ namespace IEMSApps.Activities
                 return true;
             return base.OnKeyDown(keyCode, e);
         }
+
+        #region TbGpsLogs        
+
+        private void deleteTbGpsLogs ()
+        {
+            var items = DataAccessQuery<TbGpsLog>.GetAll();
+
+            UpdateInfo(Constants.Messages.HapusData + " TbGpsLogs");
+
+            var totalData = items.Datas.Count;
+            _progressBar1.Max = totalData;
+
+            foreach (var item in items.Datas.Select((value, index) => new { index, value }))
+            {
+                UpdateCountAndPercentage(item.index, totalData);
+                DataAccessQuery<TbGpsLog>.Delete(item.value);
+            }
+            UpdateCountAndPercentage(totalData, totalData);
+
+        }
+
+        #endregion
 
         #region Penggguna        
 
