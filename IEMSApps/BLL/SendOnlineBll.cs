@@ -719,7 +719,7 @@ namespace IEMSApps.BLL
                 tbGpsLog.IsSendOnline = Enums.StatusOnline.Sent;
                 DataAccessQuery<TbGpsLog>.Update(tbGpsLog);
             }
-            Thread.Sleep(500);
+            Thread.Sleep(100);
         }
 
         public static async Task UpdateHandheldAsync(Android.Content.Context context)
