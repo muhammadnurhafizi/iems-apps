@@ -40,7 +40,7 @@ namespace IEMSApps.Services
 
             try
             {
-                var query = $"SELECT idhh,kodcawangan,kodaset_peranti,kodaset_pencetak,appver,noturutan_kpp,status, Year FROM tbhandheld where idhh='{IdPeranti}'";
+                var query = $"SELECT idhh,kodcawangan,kodaset_peranti,kodaset_pencetak,appver,noturutan_kpp,noturutan_kots,noturutan_datakes,status, Year FROM tbhandheld where idhh='{IdPeranti}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
                 using (HttpClient client = GenerateHttpClient())
