@@ -38,6 +38,14 @@ namespace IEMSApps.Utils
             WriteLogFile(log);
         }
 
+        public static void WriteLogFile(string className, TimeSpan timeSpan, Enums.LogType logType)
+        {
+            string log = logType + " : " + className;
+            log += "\r";
+            log += logType + " : " + timeSpan;
+            WriteLogFile(log);
+        }
+
         public static void WriteLogFile(string className, string functionName, string message, Enums.LogType logType)
         {
             string log = logType + " : " + className;

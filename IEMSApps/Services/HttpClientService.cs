@@ -49,6 +49,8 @@ namespace IEMSApps.Services
                     var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
                     var req = new HttpRequestMessage(HttpMethod.Get, url);
                     var response = await client.SendAsync(req);
+                    var timeout = client.Timeout = TimeSpan.FromMinutes(1);
+                    Log.WriteLogFile("Timeout : ",timeout, Enums.LogType.Info);
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         var stringJson = await response.Content.ReadAsStringAsync();
