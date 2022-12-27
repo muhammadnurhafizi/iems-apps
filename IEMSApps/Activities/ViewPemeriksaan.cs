@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
@@ -17,6 +18,8 @@ using IEMSApps.Classes;
 using IEMSApps.Fragments;
 using IEMSApps.Services;
 using IEMSApps.Utils;
+using Plugin.BxlMpXamarinSDK;
+using Plugin.BxlMpXamarinSDK.Abstractions;
 
 namespace IEMSApps.Activities
 {
@@ -32,6 +35,10 @@ namespace IEMSApps.Activities
 
         private HourGlassClass _hourGlass = new HourGlassClass();
 
+        private MPosControllerPrinter _printer;
+        private MposConnectionInformation2 _connectionInfo;
+        private static SemaphoreSlim _printSemaphore = new SemaphoreSlim(1, 1);
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -41,8 +48,16 @@ namespace IEMSApps.Activities
 
             _hourGlass?.StartMessage(this, SetInit);
 
+            _printer = null;
+            _connectionInfo = null;
+
+            
+
             //SetInit();
         }
+
+      
+
 
         private string _noRujukan;
         private int _tindakan;
@@ -558,16 +573,157 @@ namespace IEMSApps.Activities
 
         }
 
+        async Task<MPosControllerDevices> OpenPrinterService(MposConnectionInformation2 connectionInfo)
+        {
+            if (connectionInfo == null)
+                return null;
+
+            if (_printer != null)
+                return _printer;
+
+            _printer = MPosDeviceFactory.Current.createDevice(MPosDeviceType.MPOS_DEVICE_PRINTER) as MPosControllerPrinter;
+
+            switch (connectionInfo.IntefaceType)
+            {
+                case MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH:
+                case MPosInterfaceType.MPOS_INTERFACE_WIFI:
+                case MPosInterfaceType.MPOS_INTERFACE_ETHERNET:
+                    _printer.selectInterface((int)connectionInfo.IntefaceType, connectionInfo.Address);
+                    _printer.selectCommandMode((int)(true ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
+                    break;
+                default:
+                    //await DisplayAlert("Connection Fail", "Not Supported Interface", "OK");
+                    return null;
+            }
+
+            await _printSemaphore.WaitAsync();
+
+            try
+            {
+                var result = await _printer.openService();
+                if (result != (int)MPosResult.MPOS_SUCCESS)
+                {
+                    _printer = null;
+                    //await DisplayAlert("Connection Fail", "openService failed. (" + result.ToString() + ")", "OK");
+                }
+            }
+            finally
+            {
+                _printSemaphore.Release();
+            }
+
+            return _printer;
+        }
         void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             try
             {
-                if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
-                    return;
+                string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
 
-                _alert.Dismiss();
-                GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
-                Print(false);
+                
+
+
+                if (bx == "SPP-R410")
+                {
+
+                    
+
+                    try
+                    {
+                        _connectionInfo = new MposConnectionInformation2();
+
+                        _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
+                        _connectionInfo.Name = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
+                        _connectionInfo.Address = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
+                        _connectionInfo.MacAddress = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
+
+
+                        // Prepares to communicate with the printer 
+                        //_printer = OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
+
+                        _printer = MPosDeviceFactory.Current.createDevice(MPosDeviceType.MPOS_DEVICE_PRINTER) as MPosControllerPrinter;
+
+                        switch (_connectionInfo.IntefaceType)
+                        {
+                            case MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH:
+                            case MPosInterfaceType.MPOS_INTERFACE_WIFI:
+                            case MPosInterfaceType.MPOS_INTERFACE_ETHERNET:
+                                _printer.selectInterface((int)_connectionInfo.IntefaceType, _connectionInfo.Address);
+                                _printer.selectCommandMode((int)(false ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
+                                break;
+                            default:
+                                //await DisplayAlert("Connection Fail", "Not Supported Interface", "OK");
+                                return;
+                        }
+
+                        _printer.openService();
+                        
+
+                        if (_printer == null)
+                            return;
+
+                        _printSemaphore.WaitAsync();
+
+                        uint textCount = 0;
+                        string printText = lblTabLawatan.Text;
+
+                        //lRet = await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
+
+                        // note : Page mode and transaction mode cannot be used together between IN and OUT.
+                        // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
+                        //await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
+                        // Printer Setting Initialize
+                         _printer.directIO(new byte[] { 0x1b, 0x40 });
+
+                        // Code Pages for the contries in east Asia. Please note that the font data downloading is required to print characters for Korean, Japanese and Chinese.
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_KSC5601 });   // Korean
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_SHIFTJIS });  // Japanese
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_GB2312 });    // Simplifies Chinese
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_BIG5 });      // Traditional Chinese
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI });     // Persian 
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI_II });  // Persian 
+
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_B });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_C });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Alignment = MPosAlignment.MPOS_ALIGNMENT_CENTER });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Bold = true });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Reverse = true });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Underline = MPosFontUnderline.MPOS_FONT_UNDERLINE_2 });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Height = MPosFontSizeHeight.MPOS_FONT_SIZE_HEIGHT_1 });
+                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Width = MPosFontSizeWidth.MPOS_FONT_SIZE_WIDTH_1 });
+
+                        //printText = "A. 1. عدد ۰۱۲۳۴۵۶۷۸۹" + "\nB. 2. عدد 0123456789" + "\nC. 3. به" + "\nD. 4. نه" + "\nE. 5. مراجعه" + "\n";// 
+                        //await _printer.printText(printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI, Alignment = MPosAlignment.MPOS_ALIGNMENT_LEFT });     // Persian 
+
+                        // Feed to tear-off position (Manual Cutter Position)
+                         _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
+                    }
+                    catch (Exception ex)
+                    {
+                         //DisplayAlert("Exception", ex.Message, "OK");
+                    }
+                    finally
+                    {
+                        // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
+                         _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
+                        // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
+                        _printSemaphore.Release();
+                    }
+
+                }
+                else
+                {
+                    if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
+                        return;
+
+                    _alert.Dismiss();
+                    GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
+                    Print(false);
+                }
+
+
+               
             }
             catch (Exception ex)
             {
@@ -577,7 +733,8 @@ namespace IEMSApps.Activities
 
         private void Print(bool isNeedCheck)
         {
-#if !DEBUG
+
+#if DEBUG
             if (isNeedCheck)
             {
                 PreparePrinterDevice();
@@ -791,4 +948,25 @@ namespace IEMSApps.Activities
 
         #endregion
     }
+
+    public class MposConnectionInformation2
+    {
+        public MPosInterfaceType IntefaceType { get; set; }
+
+        public string Name { get; set; }
+
+        public string Address
+        {
+            get; set;
+        }
+
+        public string MacAddress { get; set; }
+
+        public string IpAddress { get; set; }
+
+        public string PortNumber { get; set; }
+
+        public string BluetoohDeviceId { get; set; }
+    }
+
 }
