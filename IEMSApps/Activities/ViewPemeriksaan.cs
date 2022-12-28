@@ -28,7 +28,7 @@ namespace IEMSApps.Activities
     {
         private const string LayoutName = "ViewPemeriksaan";
         LinearLayout tabPremis, tabLawatan, tabPenerima;
-        TextView lblTabPremis, lblTabLawatan, lblTabPenerima;
+        TextView lblTabPremis, lblTabLawatan, lblTabPenerima, txtTarikh;
         View viewPremis, viewLawatan, viewPenerima;
 
         ServicetHandler handler;
@@ -128,7 +128,7 @@ namespace IEMSApps.Activities
         private void LoadDataLawatan(TbKpp data)
         {
             var dtData = GeneralBll.ConvertDatabaseFormatStringToDateTime(data.TrkhMulaLawatankpp);
-            var txtTarikh = FindViewById<TextView>(Resource.Id.txtTarikh);
+            txtTarikh = FindViewById<TextView>(Resource.Id.txtTarikh);
             txtTarikh.Text = dtData.ToString(Constants.DateFormatDisplay);
 
             var txtMasa = FindViewById<TextView>(Resource.Id.txtMasa);
@@ -589,7 +589,7 @@ namespace IEMSApps.Activities
                 case MPosInterfaceType.MPOS_INTERFACE_WIFI:
                 case MPosInterfaceType.MPOS_INTERFACE_ETHERNET:
                     _printer.selectInterface((int)connectionInfo.IntefaceType, connectionInfo.Address);
-                    _printer.selectCommandMode((int)(true ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
+                    _printer.selectCommandMode((int)(false ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
                     break;
                 default:
                     //await DisplayAlert("Connection Fail", "Not Supported Interface", "OK");
@@ -614,19 +614,15 @@ namespace IEMSApps.Activities
 
             return _printer;
         }
-        void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        
+        async void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             try
             {
                 string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
 
-                
-
-
                 if (bx == "SPP-R410")
                 {
-
-                    
 
                     try
                     {
@@ -639,33 +635,17 @@ namespace IEMSApps.Activities
 
 
                         // Prepares to communicate with the printer 
-                        //_printer = OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
+                        //_printer = OpenPrinterService(_connectionInfo) as MPosControllerPrinter
+                        _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
 
-                        _printer = MPosDeviceFactory.Current.createDevice(MPosDeviceType.MPOS_DEVICE_PRINTER) as MPosControllerPrinter;
-
-                        switch (_connectionInfo.IntefaceType)
-                        {
-                            case MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH:
-                            case MPosInterfaceType.MPOS_INTERFACE_WIFI:
-                            case MPosInterfaceType.MPOS_INTERFACE_ETHERNET:
-                                _printer.selectInterface((int)_connectionInfo.IntefaceType, _connectionInfo.Address);
-                                _printer.selectCommandMode((int)(false ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
-                                break;
-                            default:
-                                //await DisplayAlert("Connection Fail", "Not Supported Interface", "OK");
-                                return;
-                        }
-
-                        _printer.openService();
-                        
 
                         if (_printer == null)
                             return;
 
-                        _printSemaphore.WaitAsync();
+                        await _printSemaphore.WaitAsync();
 
-                        uint textCount = 0;
-                        string printText = lblTabLawatan.Text;
+                        var printImageBll = new PrintImageBll();
+                        var bitmap = printImageBll.Pemeriksaan(this, lblNoKpp.Text);
 
                         //lRet = await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
 
@@ -673,7 +653,12 @@ namespace IEMSApps.Activities
                         // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
                         //await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
                         // Printer Setting Initialize
-                         _printer.directIO(new byte[] { 0x1b, 0x40 });
+
+                        await _printer.directIO(new byte[] { 0x1b, 0x40 });
+
+                        await _printer.printBitmap(bitmap, -2, 1, 100, true, true);
+
+
 
                         // Code Pages for the contries in east Asia. Please note that the font data downloading is required to print characters for Korean, Japanese and Chinese.
                         //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_KSC5601 });   // Korean
@@ -683,21 +668,21 @@ namespace IEMSApps.Activities
                         //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI });     // Persian 
                         //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI_II });  // Persian 
 
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_B });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_C });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Alignment = MPosAlignment.MPOS_ALIGNMENT_CENTER });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Bold = true });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Reverse = true });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Underline = MPosFontUnderline.MPOS_FONT_UNDERLINE_2 });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Height = MPosFontSizeHeight.MPOS_FONT_SIZE_HEIGHT_1 });
-                         _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Width = MPosFontSizeWidth.MPOS_FONT_SIZE_WIDTH_1 });
+                        //await _printer.printText(printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_B });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_C });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Alignment = MPosAlignment.MPOS_ALIGNMENT_CENTER });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Bold = true });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Reverse = true });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Underline = MPosFontUnderline.MPOS_FONT_UNDERLINE_2 });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Height = MPosFontSizeHeight.MPOS_FONT_SIZE_HEIGHT_1 });
+                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Width = MPosFontSizeWidth.MPOS_FONT_SIZE_WIDTH_1 });
 
                         //printText = "A. 1. عدد ۰۱۲۳۴۵۶۷۸۹" + "\nB. 2. عدد 0123456789" + "\nC. 3. به" + "\nD. 4. نه" + "\nE. 5. مراجعه" + "\n";// 
                         //await _printer.printText(printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI, Alignment = MPosAlignment.MPOS_ALIGNMENT_LEFT });     // Persian 
 
                         // Feed to tear-off position (Manual Cutter Position)
-                         _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
+                        await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
                     }
                     catch (Exception ex)
                     {
@@ -706,7 +691,7 @@ namespace IEMSApps.Activities
                     finally
                     {
                         // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
-                         _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
+                         await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
                         // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
                         _printSemaphore.Release();
                     }
