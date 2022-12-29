@@ -620,7 +620,7 @@ namespace IEMSApps.Activities
             try
             {
                 string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
-
+                _alert.Dismiss();
                 if (bx == "SPP-R410")
                 {
 
@@ -633,19 +633,26 @@ namespace IEMSApps.Activities
                         _connectionInfo.Address = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
                         _connectionInfo.MacAddress = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
 
+                        if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.Address))
+                        {
+                                GeneralAndroidClass.RegisterPrinter(_connectionInfo.Address);
+                        }
 
                         // Prepares to communicate with the printer 
                         //_printer = OpenPrinterService(_connectionInfo) as MPosControllerPrinter
                         _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
-
 
                         if (_printer == null)
                             return;
 
                         await _printSemaphore.WaitAsync();
 
+                        await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
+
                         var printImageBll = new PrintImageBll();
                         var bitmap = printImageBll.Pemeriksaan(this, lblNoKpp.Text);
+
+                        await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth);
 
                         //lRet = await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
 
@@ -659,7 +666,6 @@ namespace IEMSApps.Activities
                         await _printer.printBitmap(bitmap, -2, 1, 100, true, true);
 
 
-
                         // Code Pages for the contries in east Asia. Please note that the font data downloading is required to print characters for Korean, Japanese and Chinese.
                         //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_KSC5601 });   // Korean
                         //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_SHIFTJIS });  // Japanese
@@ -668,18 +674,6 @@ namespace IEMSApps.Activities
                         //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI });     // Persian 
                         //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI_II });  // Persian 
 
-                        //await _printer.printText(printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_B });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { FontType = MPosFontType.MPOS_FONT_TYPE_C });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Alignment = MPosAlignment.MPOS_ALIGNMENT_CENTER });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Bold = true });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Reverse = true });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Underline = MPosFontUnderline.MPOS_FONT_UNDERLINE_2 });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Height = MPosFontSizeHeight.MPOS_FONT_SIZE_HEIGHT_1 });
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { Width = MPosFontSizeWidth.MPOS_FONT_SIZE_WIDTH_1 });
-
-                        //printText = "A. 1. عدد ۰۱۲۳۴۵۶۷۸۹" + "\nB. 2. عدد 0123456789" + "\nC. 3. به" + "\nD. 4. نه" + "\nE. 5. مراجعه" + "\n";// 
-                        //await _printer.printText(printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI, Alignment = MPosAlignment.MPOS_ALIGNMENT_LEFT });     // Persian 
 
                         // Feed to tear-off position (Manual Cutter Position)
                         await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
@@ -694,6 +688,10 @@ namespace IEMSApps.Activities
                          await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
                         // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
                         _printSemaphore.Release();
+
+                        await ShowMessageNew(true, Constants.Messages.SuccessPrint);
+                        Thread.Sleep(Constants.DefaultWaitingMilisecond);
+                        await ShowMessageNew(false, "");
                     }
 
                 }
@@ -816,7 +814,7 @@ namespace IEMSApps.Activities
         private async Task OnPrinting()
         {
             Log.WriteLogFile("Printer Firmware : " + GlobalClass.FwCode);
-#if DEBUG
+#if !DEBUG
             //await ShowMessageNew(true, "Loading...");
             //Thread.Sleep(1000);
             //await ShowMessageNew(true, "Message 1");
