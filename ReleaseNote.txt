@@ -942,4 +942,3 @@ Version: 1.0.2.1
 2019-10-28
 1. Update PrintImageBll
 2. Add Max Length for EditText
-
