@@ -257,7 +257,7 @@ namespace IEMSApps.Utils
         public const int DefaultIntervalInSecond = 30;
         public const int DefaultDistanceInMeter = 100;
         //public const string DefaultWebServiceUrl = "http://1.9.46.170:98/";
-        public const string DefaultWebServiceUrl = "http://iemsstag.kpdnhep.gov.my/";
+        public const string DefaultWebServiceUrl = "http://iems.kpdn.gov.my/";
         public const int DefaultIntervalBackgroundServiceInSecond = 300;
 
         public static class PriorityUpdate

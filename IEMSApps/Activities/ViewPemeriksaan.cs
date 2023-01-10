@@ -717,7 +717,6 @@ namespace IEMSApps.Activities
         private void Print(bool isNeedCheck)
         {
 
-#if DEBUG
             if (isNeedCheck)
             {
                 PreparePrinterDevice();
@@ -732,7 +731,6 @@ namespace IEMSApps.Activities
             //RunOnUiThread(() => GetFWCode()) ;
             GetFWCode();
 
-#endif
             new Task(() =>
             {
                 try
