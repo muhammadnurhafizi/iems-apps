@@ -1,5 +1,9 @@
 # Release Note For iems-apps 
 
+Version: 1.1.3.7
+====================================================================================
+1. Change Jata-KPDNHEP to Jata-KPDN
+
 Version: 1.1.3.6
 ====================================================================================
 1. Add deleteLog() semasa tamat tugas. 
