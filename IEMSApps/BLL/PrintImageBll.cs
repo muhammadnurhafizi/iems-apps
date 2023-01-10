@@ -486,7 +486,7 @@ namespace IEMSApps.BLL
             listData.Add(CreateText("KEMENTERIAN PERDAGANGAN DALAM NEGERI", positionX, positionY));
 
             positionY += 20;
-            listData.Add(CreateText("DAN HAL EHWAL PENGGUNA ", positionX, positionY));
+            listData.Add(CreateText("DAN KOS SARA HIDUP ", positionX, positionY));
 
             //positionY += 20;
             //listData.Add(CreateText("BAHAGIAN PENGUATKUASA", positionX, positionY));
