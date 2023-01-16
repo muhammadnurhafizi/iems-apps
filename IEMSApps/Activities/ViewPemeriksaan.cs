@@ -36,7 +36,7 @@ namespace IEMSApps.Activities
         private HourGlassClass _hourGlass = new HourGlassClass();
 
         private MPosControllerPrinter _printer;
-        private MposConnectionInformation2 _connectionInfo;
+        MposConnectionInformation _connectionInfo;
         private static SemaphoreSlim _printSemaphore = new SemaphoreSlim(1, 1);
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -51,13 +51,8 @@ namespace IEMSApps.Activities
             _printer = null;
             _connectionInfo = null;
 
-            
-
             //SetInit();
         }
-
-      
-
 
         private string _noRujukan;
         private int _tindakan;
@@ -573,7 +568,7 @@ namespace IEMSApps.Activities
 
         }
 
-        async Task<MPosControllerDevices> OpenPrinterService(MposConnectionInformation2 connectionInfo)
+        async Task<MPosControllerDevices> OpenPrinterService(MposConnectionInformation connectionInfo)
         {
             if (connectionInfo == null)
                 return null;
@@ -626,20 +621,19 @@ namespace IEMSApps.Activities
 
                     try
                     {
-                        _connectionInfo = new MposConnectionInformation2();
+                        
+                        _connectionInfo = new MposConnectionInformation();
 
                         _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
                         _connectionInfo.Name = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
-                        _connectionInfo.Address = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
                         _connectionInfo.MacAddress = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
 
-                        if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.Address))
+                        if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
                         {
-                                GeneralAndroidClass.RegisterPrinter(_connectionInfo.Address);
+                                GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
                         }
 
-                        // Prepares to communicate with the printer 
-                        //_printer = OpenPrinterService(_connectionInfo) as MPosControllerPrinter
+                        // Prepares to communicate with the printer
                         _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
 
                         if (_printer == null)
@@ -654,33 +648,21 @@ namespace IEMSApps.Activities
 
                         await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth);
 
-                        //lRet = await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_WPC1252 });
-
                         // note : Page mode and transaction mode cannot be used together between IN and OUT.
                         // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
-                        //await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
-                        // Printer Setting Initialize
-
+                        await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
+                        
                         await _printer.directIO(new byte[] { 0x1b, 0x40 });
 
                         await _printer.printBitmap(bitmap, -2, 1, 100, true, true);
-
-
-                        // Code Pages for the contries in east Asia. Please note that the font data downloading is required to print characters for Korean, Japanese and Chinese.
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_KSC5601 });   // Korean
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_SHIFTJIS });  // Japanese
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_GB2312 });    // Simplifies Chinese
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosEastAsiaCodePage.MPOS_CODEPAGE_BIG5 });      // Traditional Chinese
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI });     // Persian 
-                        //await _printer.printText((textCount++).ToString() + printText, new MPosFontAttribute() { CodePage = (int)MPosCodePage.MPOS_CODEPAGE_FARSI_II });  // Persian 
-
 
                         // Feed to tear-off position (Manual Cutter Position)
                         await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
                     }
                     catch (Exception ex)
                     {
-                         //DisplayAlert("Exception", ex.Message, "OK");
+                        //DisplayAlert("Exception", ex.Message, "OK");
+                        GeneralAndroidClass.LogData(LayoutName, "Printer error : ", ex.Message, Enums.LogType.Error);
                     }
                     finally
                     {
@@ -717,7 +699,6 @@ namespace IEMSApps.Activities
         private void Print(bool isNeedCheck)
         {
 
-#if DEBUG
             if (isNeedCheck)
             {
                 PreparePrinterDevice();
@@ -732,7 +713,6 @@ namespace IEMSApps.Activities
             //RunOnUiThread(() => GetFWCode()) ;
             GetFWCode();
 
-#endif
             new Task(() =>
             {
                 try
@@ -930,26 +910,6 @@ namespace IEMSApps.Activities
 
 
         #endregion
-    }
-
-    public class MposConnectionInformation2
-    {
-        public MPosInterfaceType IntefaceType { get; set; }
-
-        public string Name { get; set; }
-
-        public string Address
-        {
-            get; set;
-        }
-
-        public string MacAddress { get; set; }
-
-        public string IpAddress { get; set; }
-
-        public string PortNumber { get; set; }
-
-        public string BluetoohDeviceId { get; set; }
     }
 
 }
