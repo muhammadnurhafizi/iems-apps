@@ -3,5 +3,5 @@
   <IntervalInSecond>30</IntervalInSecond>
   <DistanceInMeter>100</DistanceInMeter>
   <IntervalBackgroundServiceInSecond>300</IntervalBackgroundServiceInSecond>
-  <WebServiceUrl>http://iemsstag.kpdnhep.gov.my/</WebServiceUrl>
+  <WebServiceUrl>http://iems.kpdn.gov.my/</WebServiceUrl>
 </ConfigApp>
