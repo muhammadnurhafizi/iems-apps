@@ -312,7 +312,7 @@ namespace IEMSApps.Activities
         {
             try
             {
-#if !DEBUG
+#if DEBUG
                 var printImageBll = new PrintImageBll();
                 var bitmap = printImageBll.Kompaun(this, lblNoKpp.Text);
                 GeneralAndroidClass.ShowToast("Sedang cetak");
@@ -517,6 +517,7 @@ namespace IEMSApps.Activities
             try
             {
                 string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
+                _alert.Dismiss();
                 if (bx == "SPP-R410") {
                     try
                     {

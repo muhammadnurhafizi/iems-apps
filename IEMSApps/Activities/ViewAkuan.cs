@@ -330,7 +330,7 @@ namespace IEMSApps.Activities
 
         private void Print(bool isNeedCheck)
         {
-#if DEBUG
+#if !DEBUG
             if (isNeedCheck)
             {
                 PreparePrinterDevice();

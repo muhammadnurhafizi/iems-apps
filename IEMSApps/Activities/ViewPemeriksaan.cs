@@ -794,7 +794,7 @@ namespace IEMSApps.Activities
         private async Task OnPrinting()
         {
             Log.WriteLogFile("Printer Firmware : " + GlobalClass.FwCode);
-#if !DEBUG
+#if DEBUG
             //await ShowMessageNew(true, "Loading...");
             //Thread.Sleep(1000);
             //await ShowMessageNew(true, "Message 1");
