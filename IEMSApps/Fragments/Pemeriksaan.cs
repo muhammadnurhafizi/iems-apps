@@ -2443,10 +2443,17 @@ namespace IEMSApps.Fragments
         {
             try
             {
+                //var intent = new Intent(Intent.ActionMain);
+                //intent.SetComponent(new ComponentName("com.aimforce.mykad.woosim", "com.aimforce.mykad.woosim.MainActivity"));
+                //intent.PutExtra("command", "no-ui");
+                //intent.PutExtra("command2", "no-photo");
+                //StartActivityForResult(intent, REQUEST_MYKAD);
+                //SetPrintButton();
+
                 var intent = new Intent(Intent.ActionMain);
-                intent.SetComponent(new ComponentName("com.aimforce.mykad.woosim", "com.aimforce.mykad.woosim.MainActivity"));
-                intent.PutExtra("command", "no-ui");
-                intent.PutExtra("command2", "no-photo");
+                intent.SetComponent(new ComponentName("com.securemetric.myidreader", "com.securemetric.myidreader.MainActivity"));
+                intent.AddFlags(ActivityFlags.NewTask);
+                //intent.SetAction("com.securemetric.myidreader.READ");
                 StartActivityForResult(intent, REQUEST_MYKAD);
                 SetPrintButton();
             }
@@ -2468,7 +2475,8 @@ namespace IEMSApps.Fragments
                 {
                     if (resultCode == Result.Ok)
                     {
-                        result = data.GetStringExtra("result");
+                        result = data.GetStringExtra("data");
+                        System.Console.WriteLine(result);
                         var card = GeneralBll.ReadMyKadInfo(result);
                         if (card.IsSuccessRead)
                             SetMyCard(card);
