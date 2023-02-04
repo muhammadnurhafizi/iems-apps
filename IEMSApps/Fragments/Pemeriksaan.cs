@@ -31,6 +31,7 @@ using Thread = System.Threading.Thread;
 using Plugin.BxlMpXamarinSDK.Abstractions;
 using System.Threading;
 using Plugin.BxlMpXamarinSDK;
+using Android.Provider;
 
 namespace IEMSApps.Fragments
 {
@@ -2438,6 +2439,7 @@ namespace IEMSApps.Fragments
         }
 
         private static int REQUEST_MYKAD = 1001;
+        private static int REQUEST_MYKAD2 = 1002;
 
         private void BtnNamaPenerima_Click(object sender, EventArgs e)
         {
@@ -2452,9 +2454,7 @@ namespace IEMSApps.Fragments
 
                 var intent = new Intent(Intent.ActionMain);
                 intent.SetComponent(new ComponentName("com.securemetric.myidreader", "com.securemetric.myidreader.MainActivity"));
-                intent.AddFlags(ActivityFlags.NewTask);
-                //intent.SetAction("com.securemetric.myidreader.READ");
-                StartActivityForResult(intent, REQUEST_MYKAD);
+                StartActivityForResult(intent, REQUEST_MYKAD2);
                 SetPrintButton();
             }
             catch (Exception ex)
@@ -2475,11 +2475,23 @@ namespace IEMSApps.Fragments
                 {
                     if (resultCode == Result.Ok)
                     {
-                        result = data.GetStringExtra("data");
-                        System.Console.WriteLine(result);
+                        result = data.GetStringExtra("result");
                         var card = GeneralBll.ReadMyKadInfo(result);
                         if (card.IsSuccessRead)
                             SetMyCard(card);
+                        else
+                            GeneralAndroidClass.ShowToast(card.Message);
+
+                    }
+                }
+                else if (requestCode == REQUEST_MYKAD2) 
+                {
+                    if (resultCode == Result.Ok) {
+
+                        result = data.GetStringExtra("data");
+                        var card = GeneralBll.ReadMyKadInfo2(result);
+                        if (card.IsSuccessRead)
+                            SetMyCard2(card);
                         else
                             GeneralAndroidClass.ShowToast(card.Message);
 
@@ -2549,6 +2561,54 @@ namespace IEMSApps.Fragments
             }
         }
 
+        private void SetMyCard2(CardInfoDto2 cardDto)
+        {
+            ClearMyCardField();
+
+            var listAddress = new List<string>();
+
+            var fullName = cardDto.gmpcName;
+            fullName = string.Join(" ", fullName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+
+            txtNamaPenerima.Text = fullName;
+            txtNoKpPenerima.Text = cardDto.icNo;
+
+            var address = $"{cardDto.address1} {cardDto.address2}";
+            var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
+
+
+            if (string.IsNullOrEmpty(cardDto.address3))
+            {
+                listAddress = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+                txtAlamatPenerima1.Text = listAddress[0];
+                if (string.IsNullOrEmpty(listAddress[1]))
+                    txtAlamatPenerima2.Text = addressPostCodeCity;
+                else
+                {
+                    txtAlamatPenerima2.Text = listAddress[1];
+                    txtAlamatPenerima3.Text = addressPostCodeCity;
+                }
+            }
+            else
+            {
+                if (address.Length <= 80)
+                {
+                    txtAlamatPenerima1.Text = address;
+                    txtAlamatPenerima2.Text = cardDto.address3;
+                    txtAlamatPenerima3.Text = addressPostCodeCity;
+                }
+                else
+                {
+                    address = string.Format("{0} {1} {2}", cardDto.address1, cardDto.address2, cardDto.address3);
+
+                    var listString = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+                    txtAlamatPenerima1.Text = listString[0].Trim();
+                    txtAlamatPenerima2.Text = listString[1].Trim();
+                    txtAlamatPenerima3.Text = addressPostCodeCity;
+                }
+
+            }
+        }
 
         private void CheckKompaunIzin()
         {

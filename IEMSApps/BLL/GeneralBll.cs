@@ -421,6 +421,26 @@ namespace IEMSApps.BLL
             return cardInfo;
         }
 
+        public static CardInfoDto2 ReadMyKadInfo2(string stringJsonFormat)
+        {
+            var cardInfo = new CardInfoDto2();
+            try
+            {
+                Log.WriteLogFile("GeneralBll", "ReadMyKadInfo2", "stringJsonFormat : " + stringJsonFormat, Enums.LogType.Info);
+
+                cardInfo = Newtonsoft.Json.JsonConvert.DeserializeObject<CardInfoDto2>(stringJsonFormat);
+                cardInfo.IsSuccessRead = true;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLogFile("ReadMyKadInfo2 Error : " + ex.Message);
+                cardInfo.IsSuccessRead = false;
+                cardInfo.Message = "Error Read MyKad2, Error : " + ex.Message;
+            }
+
+            return cardInfo;
+        }
+
         public static List<string> SeparateText(string sValueText, int lenList, int MaxLength)
         {
             List<string> listString = new List<string>();

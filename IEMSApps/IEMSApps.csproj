@@ -132,6 +132,7 @@
     <Compile Include="BusinessObject\DTOs\AsasTindakanDto.cs" />
     <Compile Include="BusinessObject\DTOs\BandarDto.cs" />
     <Compile Include="BusinessObject\DTOs\CardInfoDto.cs" />
+    <Compile Include="BusinessObject\DTOs\CardInfoDto2.cs" />
     <Compile Include="BusinessObject\DTOs\ConfigAppDto.cs" />
     <Compile Include="BusinessObject\DTOs\ConfirmDto.cs" />
     <Compile Include="BusinessObject\DTOs\DataSsmDto.cs" />
