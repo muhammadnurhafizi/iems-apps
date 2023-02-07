@@ -31,7 +31,6 @@ using Thread = System.Threading.Thread;
 using Plugin.BxlMpXamarinSDK.Abstractions;
 using System.Threading;
 using Plugin.BxlMpXamarinSDK;
-using Android.Provider;
 
 namespace IEMSApps.Fragments
 {
@@ -2444,18 +2443,29 @@ namespace IEMSApps.Fragments
         private void BtnNamaPenerima_Click(object sender, EventArgs e)
         {
             try
-            {
-                //var intent = new Intent(Intent.ActionMain);
-                //intent.SetComponent(new ComponentName("com.aimforce.mykad.woosim", "com.aimforce.mykad.woosim.MainActivity"));
-                //intent.PutExtra("command", "no-ui");
-                //intent.PutExtra("command2", "no-photo");
-                //StartActivityForResult(intent, REQUEST_MYKAD);
-                //SetPrintButton();
+            {      
+                var model = Android.OS.Build.Model;
+                Log.WriteLogFile( "\nModel: " + model, Enums.LogType.Info);
+#if DEBUG
+                model = "SM-A536";
+#endif
 
-                var intent = new Intent(Intent.ActionMain);
-                intent.SetComponent(new ComponentName("com.securemetric.myidreader", "com.securemetric.myidreader.MainActivity"));
-                StartActivityForResult(intent, REQUEST_MYKAD2);
-                SetPrintButton();
+                if (model == "SM-A536")
+                {
+                    var intent = new Intent(Intent.ActionMain);
+                    intent.SetComponent(new ComponentName("com.securemetric.myidreader", "com.securemetric.myidreader.MainActivity"));
+                    StartActivityForResult(intent, REQUEST_MYKAD2);
+                    SetPrintButton();
+                }
+                else {
+
+                    var intent = new Intent(Intent.ActionMain);
+                    intent.SetComponent(new ComponentName("com.aimforce.mykad.woosim", "com.aimforce.mykad.woosim.MainActivity"));
+                    intent.PutExtra("command", "no-ui");
+                    intent.PutExtra("command2", "no-photo");
+                    StartActivityForResult(intent, REQUEST_MYKAD);
+                    SetPrintButton();
+                }
             }
             catch (Exception ex)
             {
