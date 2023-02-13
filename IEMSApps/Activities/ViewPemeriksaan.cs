@@ -654,7 +654,7 @@ namespace IEMSApps.Activities
                         
                         await _printer.directIO(new byte[] { 0x1b, 0x40 });
 
-                        await _printer.printBitmap(bitmap, -2, 1, 100, true, true);
+                        await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
 
                         // Feed to tear-off position (Manual Cutter Position)
                         await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });

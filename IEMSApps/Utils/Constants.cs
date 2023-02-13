@@ -1,13 +1,14 @@
 ﻿using Android;
 using System;
+using System.Runtime.Remoting.Messaging;
 
 namespace IEMSApps.Utils
 {
     public static class Constants
     {
 
-        public const string AppVersion = "Version: 1.1.4.0";
-        public const int AppVersionValueForUpdate = 1140;
+        public const string AppVersion = "Version: 1.1.3.8";
+        public const int AppVersionValueForUpdate = 1138;
 
         public const string AppName = "IEMS";
        
@@ -311,6 +312,8 @@ namespace IEMSApps.Utils
         public const int DefaultWaitingConnectionToBluetooth = 3000;
 
         public const string TujuanLawatanPermeriksaanBiasa = "pemeriksaan biasa";
+
+        public const int Brightness = 50;
 
         public static class FtpAccount
         {

@@ -1942,7 +1942,7 @@ namespace IEMSApps.Fragments
 
                         await _printer.directIO(new byte[] { 0x1b, 0x40 });
 
-                        await _printer.printBitmap(bitmap, -2, 1, 100, true, true);
+                        await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
 
                         // Feed to tear-off position (Manual Cutter Position)
                         await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
@@ -2447,15 +2447,25 @@ namespace IEMSApps.Fragments
                 var model = Android.OS.Build.Model;
                 Log.WriteLogFile( "\nModel: " + model, Enums.LogType.Info);
 #if DEBUG
-                model = "SM-A536";
+                model = "SM-A536E";
 #endif
 
-                if (model == "SM-A536")
+                if (model == "SM-A536E")
                 {
-                    var intent = new Intent(Intent.ActionMain);
-                    intent.SetComponent(new ComponentName("com.securemetric.myidreader", "com.securemetric.myidreader.MainActivity"));
-                    StartActivityForResult(intent, REQUEST_MYKAD2);
-                    SetPrintButton();
+                    var ad = GeneralAndroidClass.GetDialogCustom(this.Activity);
+
+                    ad.SetMessage("Mengimbas menggunakan MyID Reader ? ");
+
+                    ad.SetButton("Tidak", (s, ev) => { });
+                    ad.SetButton2("Ya", (s, ev) =>
+                    {
+                        var intent = new Intent(Intent.ActionMain);
+                        intent.SetComponent(new ComponentName("com.securemetric.myidreader", "com.securemetric.myidreader.MainActivity"));
+                        StartActivityForResult(intent, REQUEST_MYKAD2);
+                        SetPrintButton();
+                    });
+                    ad.Show();
+
                 }
                 else {
 
