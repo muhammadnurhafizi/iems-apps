@@ -799,11 +799,11 @@ namespace IEMSApps.BLL
                 var setuju = "Tidak";
                 if (data.SetujuByr == Constants.SetujuBayar.Yes)
                 {
-                    setuju = "Ya";
+                    setuju = " Ya";
                 }
-                listData.Add(CreateText(setuju, positionX + 680, lastPositionY));
+                listData.Add(CreateText(setuju, positionX + 700, lastPositionY));
                 SetFontBold(false);
-                listData.Add(CreateRectangle(positionX + 655, lastPositionY - 30, lastPositionY + 20, DefaultWidth));
+                listData.Add(CreateRectangle(positionX + 680, lastPositionY - 30, lastPositionY + 20, DefaultWidth));
             }
 
             if (data.Tindakan == Constants.Tindakan.TiadaKes && data.Amaran == Constants.Amaran.Yes)
