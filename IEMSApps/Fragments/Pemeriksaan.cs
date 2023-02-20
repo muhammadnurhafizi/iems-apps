@@ -81,14 +81,14 @@ namespace IEMSApps.Fragments
         private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima;
 
         private EditText txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
-        private Button btnNamaPenerima;
+        private Button btnNamaPenerima, btnNegaraAsal;
         private CheckBox chkBayar;
 
         private Dictionary<string, string> ListTujuanLawatan, ListKategoriKawasan;
         private Dictionary<string, string> ListKategoryPremis, ListNegeri;
         //private RadioButton rdTiadaKes, rdKots, rdSiasatanLanjut;
         private Button btnOk, btnCamera, btnPrint, btnNote, btnLokasi, btnSearchJpn;
-        private Spinner spTindakan;
+        private Spinner spTindakan, spNegeriPenerima, spKewarganegaraan;
         private Dictionary<string, string> ListTindakan;
 
         private AlertDialog _dialog;
@@ -102,7 +102,7 @@ namespace IEMSApps.Fragments
 
         private Button btnKesalahanKompaun;
         private EditText txtNoIP, txtNoEP;
-        private LinearLayout linearSiasatUlangan, linearButtonKesalahan;
+        private LinearLayout linearSiasatUlangan, linearButtonKesalahan, linearSerahanNotis;
 
         private bool _isSkip;
 
@@ -195,6 +195,12 @@ namespace IEMSApps.Fragments
 
             spKategoryPremis = View.FindViewById<Spinner>(Resource.Id.spKategoryPremis);
             spNegeri = View.FindViewById<Spinner>(Resource.Id.spNegeri);
+
+            //for template
+            spNegeriPenerima = View.FindViewById<Spinner>(Resource.Id.spNegeriPenerima);
+            spKewarganegaraan = View.FindViewById<Spinner>(Resource.Id.spKewarganegaraan);
+            //btnNegaraAsal = View.FindViewById<Button>(Resource.Id.btnNegaraAsal);
+            //btnNegaraAsal.Click += BtnNegaraAsal_Click;
 
             txtNamaPremis = View.FindViewById<EditText>(Resource.Id.txtNamaPremis);
 
@@ -332,6 +338,9 @@ namespace IEMSApps.Fragments
 
             linearSiasatUlangan.Visibility = ViewStates.Gone;
 
+            linearSerahanNotis = View.FindViewById<LinearLayout>(Resource.Id.linearSerahanNotis);
+            linearSerahanNotis.Visibility = ViewStates.Gone;    
+
             #endregion
 
             #region Button
@@ -356,6 +365,24 @@ namespace IEMSApps.Fragments
             #endregion
         }
 
+        private void BtnNegaraAsal_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string[] listNegaraAsal = { "BANGLADESH", "IRAN", "INDONESIA", "ARAB SAUDI" };
+                var list = new List<string>
+                {
+                    listNegaraAsal[0]
+                };
+                //listView.Adapter = new CarianBandarAdapter(this.Activity, list);
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData(LayoutName, "BtnNegaraAsal_Click", ex.Message, Enums.LogType.Error);
+            }
+
+            
+        }
 
         private void BtnSearchSsm_Click(object sender, EventArgs e)
         {
@@ -999,6 +1026,14 @@ namespace IEMSApps.Fragments
 
             spNegeri.ItemSelected += SpNegeri_ItemSelected;
 
+            spNegeriPenerima.Adapter = new ArrayAdapter<string>(this.Activity,
+               Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
+
+            //add fix kewarganegaraan
+            string[] ListKewarganegaraan = { " ","WARGANEGARA", "BUKAN WARGANEGARA" };
+            spKewarganegaraan.Adapter = new ArrayAdapter<string>(this.Activity,
+               Resource.Layout.support_simple_spinner_dropdown_item, ListKewarganegaraan);
+            spKewarganegaraan.SetSelection(0);
         }
 
         private void SpNegeri_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -1031,6 +1066,8 @@ namespace IEMSApps.Fragments
                 txtNoEP.Text = "";
                 txtNoIP.Text = "";
 
+                linearSerahanNotis.Visibility = ViewStates.Gone;    
+
                 var selectedPosition = spTindakan.SelectedItemPosition - 1;
 
                 if (selectedPosition == Constants.Tindakan.TiadaKes)
@@ -1049,6 +1086,11 @@ namespace IEMSApps.Fragments
                 else if (selectedPosition == Constants.Tindakan.SiasatUlangan)
                 {
                     linearSiasatUlangan.Visibility = ViewStates.Visible;
+                }
+                else if (selectedPosition == Constants.Tindakan.SerahanNotis) { 
+                    
+                    linearSerahanNotis.Visibility= ViewStates.Visible;
+                
                 }
 
                 SetPrintButton();
@@ -1791,6 +1833,7 @@ namespace IEMSApps.Fragments
             txtNoEP.Text = "";
             txtNoIP.Text = "";
             linearSiasatUlangan.Visibility = ViewStates.Gone;
+            linearSerahanNotis.Visibility = ViewStates.Gone;
 
             SetPrintButton();
         }

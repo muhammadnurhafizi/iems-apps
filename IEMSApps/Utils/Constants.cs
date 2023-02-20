@@ -1,5 +1,6 @@
 ﻿using Android;
 using System;
+using System.Runtime.Remoting.Messaging;
 
 namespace IEMSApps.Utils
 {
@@ -130,6 +131,7 @@ namespace IEMSApps.Utils
             public const int Kots = 1;
             public const int SiasatLanjutan = 2;
             public const int SiasatUlangan = 3;
+            public const int SerahanNotis = 4;
         }
 
         public static class JenisTrans
@@ -287,6 +289,7 @@ namespace IEMSApps.Utils
             public const string KOTS = "KOTS";
             public const string SiasatLanjut = "Kes Baru dihasilkan (untuk siasatan)";
             public const string SiasatUlangan = "Siasatan Ulangan";
+            public const string SerahanNotis = "Serahan Notis";
         }
 
         public const string FWCODE = "1202T1";

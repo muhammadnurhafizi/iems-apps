@@ -49,7 +49,7 @@
 			android:textAppearance="?android:attr/textAppearanceSmall"/>
 		<Spinner
 			android:layout_width="match_parent"
-			android:id="@+id/kewarganegaraan" 
+			android:id="@+id/spKewarganegaraan" 
 			android:spinnerMode="dropdown"
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
@@ -93,7 +93,7 @@
 			<android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-			android:theme="@style/TextLabelRequired"
+			android:theme="@style/TextLabel"
 			android:layout_alignParentLeft="true">	
 			<EditText
 				android:layout_width="match_parent"
@@ -102,6 +102,27 @@
 				android:background="@drawable/edittext_bg"
 				android:paddingLeft="5dp"
 				android:hint="No. Telefon"
+				android:singleLine="true"/>	
+		</android.support.design.widget.TextInputLayout>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
+		android:orientation="vertical">	
+			<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabel"
+			android:layout_alignParentLeft="true">	
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="35dp"
+				android:id="@+id/txtEmail"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="Email"
 				android:singleLine="true"/>	
 		</android.support.design.widget.TextInputLayout>
 	</RelativeLayout>
@@ -187,7 +208,7 @@
 					android:textAppearance="?android:attr/textAppearanceSmall"/>
 				<Spinner
 					android:layout_width="match_parent"
-					android:id="@+id/spNegeri" 
+					android:id="@+id/spNegeriPenerima" 
 					android:spinnerMode="dropdown"
 					android:layout_height="35dp"
 					android:background="@drawable/spiner_bg"/>
@@ -250,34 +271,6 @@
 				</LinearLayout>
 
 		</LinearLayout>
-
-		<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:paddingLeft="0dp"
-		android:paddingRight="0dp"
-		android:paddingBottom="5dp">
-			<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:orientation="vertical"
-					android:layout_weight="1"
-					android:paddingTop="2dp">
-					<TextView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="Negara : "
-						android:textColor="#FF0000"
-						android:textAppearance="?android:attr/textAppearanceSmall"/>
-					<Spinner
-						android:layout_width="match_parent"
-						android:id="@+id/spNegara" 
-						android:spinnerMode="dropdown"
-						android:layout_height="35dp"
-						android:background="@drawable/spiner_bg"/>
-			</LinearLayout>
-		</LinearLayout>
 	</LinearLayout>
 	
 	<LinearLayout
@@ -297,6 +290,54 @@
 			android:spinnerMode="dropdown"
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:id="@+id/linearSerahanNotis"
+		android:paddingTop="5dp"
+		android:paddingBottom="5dp"
+		android:orientation="vertical">
+
+        <LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:gravity="center_vertical"
+			android:paddingTop="5dp">
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkNPMB"
+				android:background="@drawable/edittext_bg"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@color/black"
+				android:text=" NPMB -  Notis Pengesahan Maklumat Barang"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>	
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:gravity="center_vertical"
+			android:paddingTop="5dp">
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkNPMB"
+				android:background="@drawable/edittext_bg"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text=" NB - Nama Barang"
+				android:textColor="@color/black"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>	
+		</LinearLayout>
+       	
 	</LinearLayout>
 	
 	<LinearLayout

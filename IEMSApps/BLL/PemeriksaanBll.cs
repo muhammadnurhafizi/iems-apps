@@ -394,6 +394,7 @@ namespace IEMSApps.BLL
             result.Add("1", Constants.TindakanName.KOTS);
             result.Add("2", Constants.TindakanName.SiasatLanjut);
             result.Add("3", Constants.TindakanName.SiasatUlangan);
+            result.Add("4", Constants.TindakanName.SerahanNotis);
 
             return result;
         }
