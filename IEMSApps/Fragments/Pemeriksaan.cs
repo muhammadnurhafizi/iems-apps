@@ -103,6 +103,7 @@ namespace IEMSApps.Fragments
         private Button btnKesalahanKompaun;
         private EditText txtNoIP, txtNoEP;
         private LinearLayout linearSiasatUlangan, linearButtonKesalahan, linearSerahanNotis;
+        private RelativeLayout relativeStesenMinyak, relativeNegaraAsal;
 
         private bool _isSkip;
 
@@ -196,11 +197,8 @@ namespace IEMSApps.Fragments
             spKategoryPremis = View.FindViewById<Spinner>(Resource.Id.spKategoryPremis);
             spNegeri = View.FindViewById<Spinner>(Resource.Id.spNegeri);
 
-            //for template
-            spNegeriPenerima = View.FindViewById<Spinner>(Resource.Id.spNegeriPenerima);
-            spKewarganegaraan = View.FindViewById<Spinner>(Resource.Id.spKewarganegaraan);
-            //btnNegaraAsal = View.FindViewById<Button>(Resource.Id.btnNegaraAsal);
-            //btnNegaraAsal.Click += BtnNegaraAsal_Click;
+            relativeStesenMinyak = View.FindViewById<RelativeLayout>(Resource.Id.relativeStesenMinyak);
+            relativeStesenMinyak.Visibility = ViewStates.Gone;
 
             txtNamaPremis = View.FindViewById<EditText>(Resource.Id.txtNamaPremis);
 
@@ -309,11 +307,20 @@ namespace IEMSApps.Fragments
 
             btnNamaPenerima.Click += BtnNamaPenerima_Click;
 
+            //negeri
+            spNegeriPenerima = View.FindViewById<Spinner>(Resource.Id.spNegeriPenerima);
+            //kewarganegaraan init
+            spKewarganegaraan = View.FindViewById<Spinner>(Resource.Id.spKewarganegaraan);
+
             btnSearchJpn = View.FindViewById<Button>(Resource.Id.btnSearchJpn);
             btnSearchJpn.Click += BtnSearchJpn_Click;
 
             //rdKots.CheckedChange += RdKots_CheckedChange;
             //rdTiadaKes.CheckedChange += RdTiadaKes_CheckedChange;
+
+            //negara Asal
+            relativeNegaraAsal = View.FindViewById<RelativeLayout>(Resource.Id.relativeNegaraAsal);
+            relativeNegaraAsal.Visibility = ViewStates.Gone;
 
             txtNamaPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(50), allowedFilter });
             txtNoKpPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(50), allowedFilterWithoutSingleQuote });
@@ -745,7 +752,13 @@ namespace IEMSApps.Fragments
                 _jenisNiaga = listOfJenisNiagaFiltered[args.Position] != null
                     ? listOfJenisNiagaFiltered[args.Position].KodJenis
                     : 0;
-
+                if (txtJenisNiaga.Text == "STESEN MINYAK")
+                {
+                    relativeStesenMinyak.Visibility = ViewStates.Visible;
+                }
+                else {
+                    relativeStesenMinyak.Visibility = ViewStates.Gone;
+                }
                 SetPrintButton();
                 builder.Dismiss();
             };
@@ -758,6 +771,12 @@ namespace IEMSApps.Fragments
             };
 
             builder.Show();
+        }
+
+        private void showJenamaStesenMinyak() { 
+        
+            
+
         }
 
         private void BtnLokasi_Click(object sender, EventArgs e)
@@ -1034,6 +1053,29 @@ namespace IEMSApps.Fragments
             spKewarganegaraan.Adapter = new ArrayAdapter<string>(this.Activity,
                Resource.Layout.support_simple_spinner_dropdown_item, ListKewarganegaraan);
             spKewarganegaraan.SetSelection(0);
+            spKewarganegaraan.ItemSelected += spKewarganegaraan_ItemSelected;
+        }
+
+        private void spKewarganegaraan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) {
+
+            try {
+                
+                var selectedNegeri = spKewarganegaraan.SelectedItem?.ToString() ?? "";
+                if (selectedNegeri == "BUKAN WARGANEGARA")
+                {
+                    relativeNegaraAsal.Visibility = ViewStates.Visible;
+                }
+                else {
+                    relativeNegaraAsal.Visibility = ViewStates.Gone;                
+                }
+                    
+
+            } catch (Exception ex) {
+
+                GeneralAndroidClass.LogData("Pemeriksaan", "spKewarganegaraan_ItemSelected", ex.Message,Enums.LogType.Error);
+
+            }
+
         }
 
         private void SpNegeri_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)

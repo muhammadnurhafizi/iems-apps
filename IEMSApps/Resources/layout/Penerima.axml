@@ -89,6 +89,28 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:paddingTop="2dp"
+		android:id="@+id/relativeNegaraAsal"
+		android:orientation="vertical">	
+			<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabelRequired"
+			android:layout_alignParentLeft="true">	
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="35dp"
+				android:id="@+id/txtNegaraAsal"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="Negara Asal"
+				android:singleLine="true"/>	
+		</android.support.design.widget.TextInputLayout>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
 		android:orientation="vertical">	
 			<android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

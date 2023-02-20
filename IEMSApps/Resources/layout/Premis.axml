@@ -79,6 +79,7 @@
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:id="@+id/relativeStesenMinyak"
 		android:paddingTop="5dp"
 		android:orientation="vertical">
 		<android.support.design.widget.TextInputLayout
@@ -88,7 +89,7 @@
 			<EditText
 				android:layout_width="match_parent"
 				android:layout_height="35dp"
-				android:id="@+id/txtJenamaNiaga"
+				android:id="@+id/txtJenamaStesenMinyak"
 				android:background="@drawable/textView_bg"
 				android:paddingLeft="5dp"
 				android:textSize="15sp"
@@ -98,7 +99,7 @@
 				android:singleLine="true"/>	
 		</android.support.design.widget.TextInputLayout>
 		<Button
-			android:id="@+id/btnJenamaNiaga"
+			android:id="@+id/btnJenamaStesenMinyak"
 			android:layout_marginRight="5dp"
 			android:layout_width="30dp"
 			android:layout_marginTop="14dp"
