@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Content.Res;
 using Android.OS;
 using Android.Text;
 using Android.Views;
@@ -41,7 +42,7 @@ namespace IEMSApps.Activities
         private Button btnNamaPenerima;
         private TextView txtNamaPenerima, txtNoKpPenerima, txtNoResit, txtAmounBayaran;
         private TextView txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
-        private Button btnOk, btnCamera, btnPrint, btnAkuan, btnSearchJpnPenerima;
+        private Button btnOk, btnCamera, btnPrint, btnAkuan, btnSearchJpnPenerima, btnReceipt;
 
         private AlertDialog _dialog;
         private bool _isSaved = false;
@@ -83,6 +84,9 @@ namespace IEMSApps.Activities
 
                 btnPrint = FindViewById<Button>(Resource.Id.btnPrint);
                 btnPrint.Click += BtnPrint_Click;
+
+                btnReceipt = FindViewById<Button>(Resource.Id.btnReceipt);
+                btnReceipt.Click += BtnReceipt_Click1;
 
                 btnNamaPenerima.Click += BtnNamaPenerima_Click;
 
@@ -151,6 +155,18 @@ namespace IEMSApps.Activities
             btnPrint.Enabled = true;
         }
 
+        private void BtnReceipt_Click1(object sender, EventArgs e) {
+
+            try
+            {
+                var ad = GeneralAndroidClass.GetDialogCustom(this);
+            }
+            catch (Exception ex ){
+
+                GeneralAndroidClass.LogData(LayoutName, "BtnReceipt_Click", ex.Message, Enums.LogType.Error);
+            }
+        
+        }
 
         private void BtnOk_Click(object sender, EventArgs e)
         {

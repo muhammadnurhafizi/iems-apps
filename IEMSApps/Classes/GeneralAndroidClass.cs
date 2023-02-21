@@ -83,6 +83,16 @@ namespace IEMSApps.Classes
             return ad;
         }
 
+        public static AlertDialog GetReceiptDetail(Context context) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, Resource.Style.CustomDialogAlert);
+
+            AlertDialog ad = builder.Create();
+            ad.SetTitle("Resit Ipayment");
+            ad.SetIcon(Resource.Drawable.logoicon);
+            return ad;
+        }
+
 
         public static void ShowModalMessage(Activity ctx, string message)
         {

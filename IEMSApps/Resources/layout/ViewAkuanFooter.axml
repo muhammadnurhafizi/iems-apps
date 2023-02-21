@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
 	android:paddingTop="3dp"
 	android:id="@+id/linearFooterPemeriksaan"
-	android:weightSum="2">
+	android:weightSum="4">
 	<LinearLayout
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
@@ -26,6 +26,28 @@
 			android:gravity="center"
 			android:textAppearance="?android:attr/textAppearanceSmall"/>
 	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:gravity="center"
+		android:id="@+id/linearReceipt"
+		android:orientation="vertical">
+		<Button
+			android:layout_width="35dip"
+			android:layout_height="35dip"
+			android:id="@+id/btnReceipt"
+			android:background="@drawable/add"/>
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Receipt"
+			android:id="@+id/lblBtnReceipt"
+			android:textColor="@color/black"
+			android:gravity="center"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+	</LinearLayout>
 	
 	<LinearLayout
 		android:layout_width="0dp"
@@ -43,6 +65,27 @@
 			android:layout_height="wrap_content"
 			android:text="Cetak"
 			android:id="@+id/lblBtnPrint"
+			android:textColor="@color/black"
+			android:gravity="center"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:gravity="center"
+		android:orientation="vertical">
+		<Button
+			android:layout_width="35dip"
+			android:layout_height="35dip"
+			android:id="@id/btnCamera"
+			android:background="@drawable/camera_icon"/>
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Cetak"
+			android:id="@id/lblBtnCamera"
 			android:textColor="@color/black"
 			android:gravity="center"
 			android:textAppearance="?android:attr/textAppearanceSmall"/>

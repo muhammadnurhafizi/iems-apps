@@ -97,7 +97,25 @@ namespace IEMSApps.Activities
             var btnPrint = FindViewById<Button>(Resource.Id.btnPrint);
             btnPrint.Click += BtnPrint_Click;
 
+            var btnReceipt = FindViewById<Button>(Resource.Id.btnReceipt);
+            btnReceipt.Click += BtnReceipt_Click;
 
+        }
+
+        private void BtnReceipt_Click(object sender, EventArgs e) {
+
+            try {
+
+                var ad = GeneralAndroidClass.GetReceiptDetail(this);
+
+                ad.SetMessage("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n");
+
+                ad.SetButton("Tutup", (s, ev) => { });
+                ad.Show();
+
+            } catch (Exception ex) {
+                GeneralAndroidClass.LogData(LayoutName, "BtnReceipt_Click", ex.Message, Enums.LogType.Error);
+            }
 
         }
 
