@@ -185,6 +185,21 @@
 								android:singleLine="true"/>	
 						</android.support.design.widget.TextInputLayout>
 					</LinearLayout>
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:layout_marginTop="3dp">
+						<CheckBox
+							android:layout_width="wrap_content"
+							android:layout_height="30dp"
+							android:id="@+id/chkAmaran"
+							android:background="@drawable/edittext_bg"/>	
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Pembayaran telah dibuat melalui Ipayment : "
+							android:textAppearance="?android:attr/textAppearanceSmall"/>
+					</LinearLayout>
 				</LinearLayout>
 				<LinearLayout
 					android:layout_width="match_parent"
