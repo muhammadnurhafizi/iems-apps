@@ -119,6 +119,26 @@
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
 	</LinearLayout>	
+
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:gravity="center_vertical"
+			android:paddingTop="10dp">
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkSempadan"
+				android:background="@drawable/edittext_bg"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@color/black"
+				android:text=" Kepualauan dan Sempadan"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>	
+		</LinearLayout>
+
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -202,6 +222,42 @@
 			android:layout_alignParentRight="true"
 			android:background="@drawable/question_mark"/>
 	</RelativeLayout>	
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="5dp"
+		android:orientation="vertical">
+		<android.support.design.widget.TextInputLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+					android:theme="@style/TextLabelRequired">
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/txtSenaraiAgensi"
+				android:background="@drawable/textView_bg"
+				android:paddingLeft="5dp"
+				android:textSize="15sp"
+				android:hint="Senarai Agensi"
+				android:paddingRight="35dp"
+				android:enabled="false"
+				android:lines="4"
+				android:maxLines="10"
+				android:gravity="top|left"
+				android:scrollbars="vertical"
+				android:inputType="textMultiLine"/>	
+		</android.support.design.widget.TextInputLayout>
+		<Button
+			android:id="@+id/btnSenaraiAgensi"
+			android:layout_marginRight="5dp"
+			android:layout_width="30dp"
+			android:layout_marginTop="14dp"
+			android:layout_height="30dp"
+			android:layout_alignParentRight="true"
+			android:background="@drawable/question_mark"/>
+	</RelativeLayout>	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
