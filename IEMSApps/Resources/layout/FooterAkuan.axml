@@ -41,7 +41,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="Receipt"
-			android:id="@+id/lblBtnOk"
+			android:id="@+id/lblBtnReceipt"
 			android:textColor="@color/black"
 			android:gravity="center"
 			android:textAppearance="?android:attr/textAppearanceSmall"/>
@@ -80,7 +80,7 @@
 		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Cetak"
+			android:text="Kamera"
 			android:id="@id/lblBtnCamera"
 			android:textColor="@color/black"
 			android:gravity="center"
