@@ -1,4 +1,5 @@
 ﻿using Android;
+using Android.Locations;
 using System;
 using System.Runtime.Remoting.Messaging;
 
@@ -7,8 +8,8 @@ namespace IEMSApps.Utils
     public static class Constants
     {
 
-        public const string AppVersion = "Version: 1.1.3.7";
-        public const int AppVersionValueForUpdate = 1137;
+        public const string AppVersion = "Version: 1.1.3.9";
+        public const int AppVersionValueForUpdate = 1139;
 
         public const string AppName = "IEMS";
        
@@ -165,6 +166,13 @@ namespace IEMSApps.Utils
         {
             public const string GpsOn = "GpsOn";
             public const string GpsOff = "GpsOff";
+        }
+
+        public static class Kewarganegraan 
+        {
+            public const string Warganegara = "Warganegara";
+            public const string BukanWarganegara = "Bukan Warganegara";
+        
         }
 
         public static class Messages

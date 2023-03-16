@@ -28,6 +28,7 @@ using Java.Lang;
 using Enum = Java.Lang.Enum;
 using Exception = System.Exception;
 using Thread = System.Threading.Thread;
+using System.ComponentModel;
 
 namespace IEMSApps.Fragments
 {
@@ -77,10 +78,13 @@ namespace IEMSApps.Fragments
         private EditText txtAsasTindakan;
         private Button btnAsasTindakan;
 
+        private RelativeLayout relativeAgensiTerlibat;
+
         //Penerima
         private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima;
 
         private EditText txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
+        private EditText txtNoTelefonPenerima, txtEmailPenerima, txtNegeriPenerima, txtBandarPenerima, txtPoskodPenerima;
         private Button btnNamaPenerima, btnNegaraAsal;
         private CheckBox chkBayar;
 
@@ -90,6 +94,7 @@ namespace IEMSApps.Fragments
         private Button btnOk, btnCamera, btnPrint, btnNote, btnLokasi, btnSearchJpn;
         private Spinner spTindakan, spNegeriPenerima, spKewarganegaraan;
         private Dictionary<string, string> ListTindakan;
+        private Dictionary<string, string> ListKewarganegaraan;
 
         private AlertDialog _dialog;
 
@@ -271,6 +276,8 @@ namespace IEMSApps.Fragments
 
             btnAsasTindakan.Click += BtnAsasTindakan_Click;
 
+            relativeAgensiTerlibat = View.FindViewById<RelativeLayout>(Resource.Id.relativeAgensiTerlibat);
+            relativeAgensiTerlibat.Visibility = ViewStates.Gone;
             #endregion
 
             #region Penerima
@@ -283,6 +290,11 @@ namespace IEMSApps.Fragments
             txtAlamatPenerima2 = View.FindViewById<EditText>(Resource.Id.txtAlamatPenerima2);
             txtAlamatPenerima3 = View.FindViewById<EditText>(Resource.Id.txtAlamatPenerima3);
 
+            txtNoTelefonPenerima = View.FindViewById<EditText>(Resource.Id.txtNoTelefonPenerima);
+            txtEmailPenerima = View.FindViewById<EditText>(Resource.Id.txtEmailPenerima);
+            spNegeriPenerima = View.FindViewById<Spinner>(Resource.Id.spNegeriPenerima);
+            txtBandarPenerima = View.FindViewById<EditText>(Resource.Id.txtBandarPenerima);
+            txtPoskodPenerima = View.FindViewById<EditText>(Resource.Id.txtPoskodPenerima);
 
             //rdTiadaKes = View.FindViewById<RadioButton>(Resource.Id.rdTiadaKes);
             //rdKots = View.FindViewById<RadioButton>(Resource.Id.rdKots);
@@ -583,11 +595,15 @@ namespace IEMSApps.Fragments
                     txtAsasTindakan.Text = string.Join(", ",
                         listOfAsasTindakan.Where(m => kodAsasSelected.Any(x => m.KodAsas == x.KodAsas && m.KodTujuan == x.KodTujuan)).Select(m => m.Prgn)
                             .ToArray());
+
+                        ShowAgensiTerlibat(txtAsasTindakan.Text);    
                 }
                 else
                 {
                     txtAsasTindakan.Text = "";
                 }
+
+                
 
                 _kodAsasSelected = new List<AsasTindakanDto>();
                 foreach (var i in kodAsasSelected)
@@ -716,6 +732,16 @@ namespace IEMSApps.Fragments
             };
 
             builder.Show();
+        }
+
+        private void ShowAgensiTerlibat(string show) {
+
+            if (show.Contains("OPERASI BERSEPADU BERSAMA AGENSI")) {
+                relativeAgensiTerlibat.Visibility = ViewStates.Visible;
+            } else {
+                relativeAgensiTerlibat.Visibility = ViewStates.Gone;
+            }
+            
         }
 
 
@@ -1048,10 +1074,9 @@ namespace IEMSApps.Fragments
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this.Activity,
                Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
 
-            //add fix kewarganegaraan
-            string[] ListKewarganegaraan = { " ","WARGANEGARA", "BUKAN WARGANEGARA" };
+            ListKewarganegaraan = PemeriksaanBll.GetKewarganegaraan();
             spKewarganegaraan.Adapter = new ArrayAdapter<string>(this.Activity,
-               Resource.Layout.support_simple_spinner_dropdown_item, ListKewarganegaraan);
+               Resource.Layout.support_simple_spinner_dropdown_item, ListKewarganegaraan.Select(c => c.Value).ToList());
             spKewarganegaraan.SetSelection(0);
             spKewarganegaraan.ItemSelected += spKewarganegaraan_ItemSelected;
         }
@@ -1061,7 +1086,7 @@ namespace IEMSApps.Fragments
             try {
                 
                 var selectedNegeri = spKewarganegaraan.SelectedItem?.ToString() ?? "";
-                if (selectedNegeri == "BUKAN WARGANEGARA")
+                if (selectedNegeri == Constants.Kewarganegraan.BukanWarganegara)
                 {
                     relativeNegaraAsal.Visibility = ViewStates.Visible;
                 }
@@ -1359,12 +1384,14 @@ namespace IEMSApps.Fragments
 
                 var data = new TbKpp
                 {
+                    //lawatan
                     KodCawangan = GeneralBll.GetUserCawangan(),
                     NoRujukanKpp = lblNoKpp.Text,
                     IdHh = GeneralBll.GetUserHandheld(),
                     KodKatPremis = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListKategoryPremis,
                         spKategoryPremis.SelectedItem?.ToString() ?? "")),
                     KodJenis = _jenisNiaga,
+                    //premis
                     NamaPremis = txtNamaPremis.Text,
                     AlamatPremis1 = txtAlamat1.Text,
                     AlamatPremis2 = txtAlamat2.Text,
@@ -1382,12 +1409,19 @@ namespace IEMSApps.Fragments
                     //KodTujuan = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListTujuanLawatan,
                     //    spTujuanLawatan.SelectedItem?.ToString() ?? "")),
                     KodTujuan = 0,
-                    //KodAsas = _asasTindakan,
+
                     NoAduan = txtNoAduan.Text,
                     CatatanLawatan = txtCatatanLawatan.Text,
                     HasilLawatan = txtHasilLawatan.Text,
+                    //penerima
                     NamaPenerima = txtNamaPenerima.Text,
+                    Kewarganegaraan = GeneralBll.GetKeySelected(ListKewarganegaraan, spKewarganegaraan.SelectedItem?.ToString() ?? ""),
                     NoKpPenerima = txtNoKpPenerima.Text,
+                    NoTelefonPenerima = txtNoTelefonPenerima.Text,
+                    EmailPenerima = txtEmailPenerima.Text,
+                    NegeriPenerima = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? ""),
+                    BandarPenerima = txtBandarPenerima.Text,
+                    PoskodPenerima = txtPoskodPenerima.Text,
                     Jawatanpenerima = txtJawatanPenerima.Text,
                     AlamatPenerima1 = txtAlamatPenerima1.Text,
                     AlamatPenerima2 = txtAlamatPenerima2.Text,
@@ -2352,6 +2386,12 @@ namespace IEMSApps.Fragments
             result.Add(GeneralBll.CreateConfirmDto("Nama", txtNamaPenerima.Text));
             result.Add(GeneralBll.CreateConfirmDto("No. K/P", txtNoKpPenerima.Text));
             result.Add(GeneralBll.CreateConfirmDto("Jawatan", txtJawatanPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Kewarganegaraan", spKewarganegaraan.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("No. Telefon", txtNoTelefonPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Email", txtEmailPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Negeri", spNegeriPenerima.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("Bandar", txtBandarPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Poskod", txtPoskodPenerima.Text));
 
             alamat = GeneralBll.GettOneAlamat(txtAlamatPenerima1.Text, txtAlamatPenerima2.Text, txtAlamatPenerima3.Text);
             result.Add(GeneralBll.CreateConfirmDto("Alamat", alamat));

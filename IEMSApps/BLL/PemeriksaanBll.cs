@@ -399,6 +399,19 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static Dictionary<string, string> GetKewarganegaraan(bool isAddDefault = true) 
+        {
+            var result = new Dictionary<string, string>();
+            if (isAddDefault) 
+            {
+                result.Add("-"," ");
+            }
+            result.Add("0", Constants.Kewarganegraan.Warganegara);
+            result.Add("1", Constants.Kewarganegraan.BukanWarganegara);
+
+            return result;
+        }
+
         public static bool UpdatePemeriksaanSkipIzin(string noRujukan, int skipIzin)
         {
 

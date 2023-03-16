@@ -119,38 +119,74 @@
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
 	</LinearLayout>	
-
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Kategori Lokasi : "
+			android:textColor="#2400ff"
+			android:layout_marginTop="5dp"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
 	<LinearLayout
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_weight="2"
-		android:gravity="center_vertical"
-		android:paddingTop="10dp">
-		<CheckBox
-			android:layout_width="wrap_content"
-			android:layout_height="30dp"
-			android:id="@+id/chkKepulauan"
-			android:background="@drawable/edittext_bg"/>
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_weight="1"
-			android:textColor="@color/black"
-			android:text=" Kepulauan"
-			android:textAppearance="?android:attr/textAppearanceMedium"/>	
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingLeft="10dp"
+		android:paddingRight="10dp"
+		android:paddingBottom="5dp"
+		android:background="@drawable/box_bg">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
+			android:layout_weight="2"
+			android:paddingTop="10dp">
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkKepulauan"
+				android:background="@drawable/edittext_bg"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@color/black"
+				android:layout_weight="1"
+				android:text=" Kawasan Kepulauan"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
 
-		<CheckBox
-			android:layout_width="wrap_content"
-			android:layout_height="30dp"
-			android:id="@+id/chkSempadan"
-			android:background="@drawable/edittext_bg"/>
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkSempadan"
+				android:background="@drawable/edittext_bg"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@color/black"
+				android:layout_weight="1"
+				android:text=" Kawasan Sempadan"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:gravity="center_vertical"
 			android:layout_weight="1"
-			android:textColor="@color/black"
-			android:text=" Sempadan"
-			android:textAppearance="?android:attr/textAppearanceMedium"/>
+			android:paddingTop="10dp">
+		
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkPerindustrian"
+				android:background="@drawable/edittext_bg"/>
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="@color/black"
+				android:text=" Kawasan Perindustrian"
+				android:textAppearance="?android:attr/textAppearanceMedium"/>
+		</LinearLayout>
 	</LinearLayout>
 
 	<RelativeLayout
@@ -240,6 +276,7 @@
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:id="@+id/relativeAgensiTerlibat"
 		android:paddingTop="5dp"
 		android:orientation="vertical">
 		<android.support.design.widget.TextInputLayout
@@ -253,7 +290,7 @@
 				android:background="@drawable/textView_bg"
 				android:paddingLeft="5dp"
 				android:textSize="15sp"
-				android:hint="Senarai Agensi"
+				android:hint="Agensi yang Terlibat"
 				android:paddingRight="35dp"
 				android:enabled="false"
 				android:lines="4"

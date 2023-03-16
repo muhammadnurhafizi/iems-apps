@@ -57,6 +57,22 @@ namespace IEMSApps.BLL
             return "";
         }
 
+        public static string GetAgensiByAsas(int kodTujuan, int kodAsas)
+        {
+            var listData = DataAccessQuery<TbAsasTindakan>.GetAll();
+            if (listData.Success)
+            {
+                var data = listData.Datas.FirstOrDefault(c => c.KodTujuan == kodTujuan && c.KodAsas == kodAsas);
+
+                if (data != null)
+                {
+                    return data.Prgn;
+                }
+            }
+
+            return "";
+        }
+
         public static List<string> GetKesalahanButir(string kodAkta, int kodSalah)
         {
             var result = new List<string>();

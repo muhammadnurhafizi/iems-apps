@@ -144,6 +144,34 @@ namespace IEMSApps.BusinessObject.Entities
 
         public int IsSkipIzin { get; set; }
 
-      
+        //new add : Penerima
+        [MaxLength(3)]
+        public string Kewarganegaraan { get; set; }
+
+        [MaxLength(15)]
+        public string NegaraAsal { get; set; }
+
+        [MaxLength(15)]
+        public string NoTelefonPenerima { get; set; }
+
+        [MaxLength(50)] 
+        public string EmailPenerima { get; set; }
+
+        [MaxLength(10)]
+        public string NegeriPenerima { get; set; }
+
+        [MaxLength(10)]
+        public string BandarPenerima { get; set; }
+
+        [MaxLength(10)]
+        public string PoskodPenerima { get; set;}
+
+        //new add - lawatan
+        [MaxLength(3)]
+        public int KategoriLokasi { get; set; } //0 - kawasan kepulauan, 1 - kawasan sempadan, 2 - kawasan peridustrian
+
+        [MaxLength(3)]
+        public int KodAgensiTerlibat { get; set; }
+
     }
 }
