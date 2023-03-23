@@ -73,10 +73,10 @@ namespace IEMSApps.Fragments
         //Lawatan
         private Spinner spKategoryKawasan;//, spTujuanLawatan;
 
-        private EditText txtLokasi, txtNoRujukanAtr, txtNoAduan, txtCatatanLawatan, txtHasilLawatan;
+        private EditText txtLokasi, txtNoRujukanAtr, txtNoAduan, txtCatatanLawatan, txtHasilLawatan, txtLokaliti;
 
         private EditText txtAsasTindakan;
-        private Button btnAsasTindakan;
+        private Button btnAsasTindakan, btnLokaliti;
 
         private RelativeLayout relativeAgensiTerlibat;
 
@@ -84,17 +84,17 @@ namespace IEMSApps.Fragments
         private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima;
 
         private EditText txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
-        private EditText txtNoTelefonPenerima, txtEmailPenerima, txtNegeriPenerima, txtBandarPenerima, txtPoskodPenerima;
-        private Button btnNamaPenerima, btnNegaraAsal;
+        private EditText txtNegaraAsal, txtNoTelefonPenerima, txtEmailPenerima, txtNegeriPenerima, txtBandarPenerima, txtPoskodPenerima;
+        private Button btnNamaPenerima;
         private CheckBox chkBayar;
 
         private Dictionary<string, string> ListTujuanLawatan, ListKategoriKawasan;
         private Dictionary<string, string> ListKategoryPremis, ListNegeri;
         //private RadioButton rdTiadaKes, rdKots, rdSiasatanLanjut;
         private Button btnOk, btnCamera, btnPrint, btnNote, btnLokasi, btnSearchJpn;
-        private Spinner spTindakan, spNegeriPenerima, spKewarganegaraan;
+        private Spinner spTindakan, spNegeriPenerima, spKewarganegaraan, spJenisKad;
         private Dictionary<string, string> ListTindakan;
-        private Dictionary<string, string> ListKewarganegaraan;
+        private Dictionary<string, string> ListKewarganegaraan, ListJenisKad;
 
         private AlertDialog _dialog;
 
@@ -276,6 +276,11 @@ namespace IEMSApps.Fragments
 
             btnAsasTindakan.Click += BtnAsasTindakan_Click;
 
+            txtLokaliti = View.FindViewById<EditText>(Resource.Id.txtLokaliti);
+            btnLokaliti = View.FindViewById<Button>(Resource.Id.btnLokaliti);
+
+            btnLokaliti.Click += BtnLokaliti_Click;
+
             relativeAgensiTerlibat = View.FindViewById<RelativeLayout>(Resource.Id.relativeAgensiTerlibat);
             relativeAgensiTerlibat.Visibility = ViewStates.Gone;
             #endregion
@@ -319,31 +324,22 @@ namespace IEMSApps.Fragments
 
             btnNamaPenerima.Click += BtnNamaPenerima_Click;
 
-            //negeri
-            spNegeriPenerima = View.FindViewById<Spinner>(Resource.Id.spNegeriPenerima);
-            //kewarganegaraan init
-            spKewarganegaraan = View.FindViewById<Spinner>(Resource.Id.spKewarganegaraan);
-
             btnSearchJpn = View.FindViewById<Button>(Resource.Id.btnSearchJpn);
             btnSearchJpn.Click += BtnSearchJpn_Click;
 
             //rdKots.CheckedChange += RdKots_CheckedChange;
             //rdTiadaKes.CheckedChange += RdTiadaKes_CheckedChange;
 
-            //negara Asal
-            relativeNegaraAsal = View.FindViewById<RelativeLayout>(Resource.Id.relativeNegaraAsal);
-            relativeNegaraAsal.Visibility = ViewStates.Gone;
-
             txtNamaPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(50), allowedFilter });
             txtNoKpPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(50), allowedFilterWithoutSingleQuote });
             txtJawatanPenerima.SetFilters(
                 new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(50), allowedFilter });
             txtAlamatPenerima1.SetFilters(
-                new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowedFilter });
+                new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(Constants.AllowAddressCharacter), allowedFilter });
             txtAlamatPenerima2.SetFilters(
-                new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowedFilter });
+                new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(Constants.AllowAddressCharacter), allowedFilter });
             txtAlamatPenerima3.SetFilters(
-                new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowedFilter });
+                new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(Constants.AllowAddressCharacter), allowedFilter });
 
 
             spTindakan = View.FindViewById<Spinner>(Resource.Id.spTindakan);
@@ -358,7 +354,28 @@ namespace IEMSApps.Fragments
             linearSiasatUlangan.Visibility = ViewStates.Gone;
 
             linearSerahanNotis = View.FindViewById<LinearLayout>(Resource.Id.linearSerahanNotis);
-            linearSerahanNotis.Visibility = ViewStates.Gone;    
+            linearSerahanNotis.Visibility = ViewStates.Gone;
+
+
+            //kewarganegaraan init
+            spKewarganegaraan = View.FindViewById<Spinner>(Resource.Id.spKewarganegaraan);
+
+            //negara Asal
+            relativeNegaraAsal = View.FindViewById<RelativeLayout>(Resource.Id.relativeNegaraAsal);
+            relativeNegaraAsal.Visibility = ViewStates.Gone;
+            txtNegaraAsal = View.FindViewById<EditText>(Resource.Id.txtNegaraAsal);
+
+            txtNoTelefonPenerima = View.FindViewById<EditText>(Resource.Id.txtNoTelefonPenerima);
+            txtEmailPenerima = View.FindViewById<EditText>(Resource.Id.txtEmailPenerima);
+
+            //negeri
+            spNegeriPenerima = View.FindViewById<Spinner>(Resource.Id.spNegeriPenerima);
+
+            txtBandarPenerima = View.FindViewById<EditText>(Resource.Id.txtBandarPenerima);
+            txtPoskodPenerima = View.FindViewById<EditText>(Resource.Id.txtPoskodPenerima);
+
+            spJenisKad = View.FindViewById<Spinner>(Resource.Id.spJenisKad);
+
 
             #endregion
 
@@ -388,12 +405,7 @@ namespace IEMSApps.Fragments
         {
             try
             {
-                string[] listNegaraAsal = { "BANGLADESH", "IRAN", "INDONESIA", "ARAB SAUDI" };
-                var list = new List<string>
-                {
-                    listNegaraAsal[0]
-                };
-                //listView.Adapter = new CarianBandarAdapter(this.Activity, list);
+
             }
             catch (Exception ex)
             {
@@ -526,7 +538,19 @@ namespace IEMSApps.Fragments
 
         }
 
+        private void BtnLokaliti_Click(object sender, EventArgs e) {
 
+            try {
+
+                ShowLokaliti();
+
+            } catch (Exception ex) {
+
+                GeneralAndroidClass.LogData(LayoutName, "BtnLokaliti_Click", ex.Message, Enums.LogType.Error);
+
+            }
+        
+        }
 
         private void BtnAsasTindakan_Click(object sender, EventArgs e)
         {
@@ -677,6 +701,11 @@ namespace IEMSApps.Fragments
             };
 
             builder.Show();
+        }
+
+        private void ShowLokaliti()
+        {
+            //will do
         }
 
         List<BandarDto> listOfBandar;
@@ -1079,6 +1108,9 @@ namespace IEMSApps.Fragments
                Resource.Layout.support_simple_spinner_dropdown_item, ListKewarganegaraan.Select(c => c.Value).ToList());
             spKewarganegaraan.SetSelection(0);
             spKewarganegaraan.ItemSelected += spKewarganegaraan_ItemSelected;
+
+            ListJenisKad = PemeriksaanBll.GetJenisKad();
+            spJenisKad.Adapter = new ArrayAdapter<string>(this.Activity, Resource.Layout.support_simple_spinner_dropdown_item, ListJenisKad.Select(c => c.Value).ToList());
         }
 
         private void spKewarganegaraan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) {

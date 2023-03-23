@@ -399,6 +399,22 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static Dictionary<string, string> GetJenisKad(bool isAddDefault = true)
+        {
+            var result = new Dictionary<string, string>();
+            if (isAddDefault)
+            {
+                result.Add("-", "");
+            }
+            result.Add("0", Constants.JenisKad.MyKad);
+            result.Add("1", Constants.JenisKad.MyKas);
+            result.Add("2", Constants.JenisKad.MyPR);
+            result.Add("3", Constants.JenisKad.Passport);
+            result.Add("4", Constants.JenisKad.Others);
+
+            return result;
+        }
+
         public static Dictionary<string, string> GetKewarganegaraan(bool isAddDefault = true) 
         {
             var result = new Dictionary<string, string>();

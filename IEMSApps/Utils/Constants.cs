@@ -300,6 +300,16 @@ namespace IEMSApps.Utils
             public const string SerahanNotis = "Serahan Notis";
         }
 
+        public static class JenisKad 
+        {
+            public const string MyKad = "MyKAD";
+            public const string MyKas = "MyKAS";
+            public const string MyPR = "MyPR";
+            public const string Passport = "Passport";
+            public const string Others = "Lain-lain";
+        
+        }
+
         public const string FWCODE = "1202T1";
 
         public static class SkipIzin
@@ -316,6 +326,8 @@ namespace IEMSApps.Utils
         public const string AllowedChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890#$&\\_-?!@()=+':%/\" *,.<>{}[];";
         public const string AllowedCharNoIPAndNoEP = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-";
         public const string AllowedCharWithoutSingleQuote = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890#$&\\_-?!@()=+:%/\" *,.<>{}[];";
+
+        public const int AllowAddressCharacter = 35;
 
         public const int KompaunKots = 1;
         public const int DefaultWaitingMilisecond = 100;
