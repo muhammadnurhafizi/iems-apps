@@ -558,5 +558,29 @@ namespace IEMSApps.BLL
             return "";
         }
 
+        public static List<LokalitiKategoriKhasDto> GetLokalitiKategoriKhas() {
+
+            var result = new List<LokalitiKategoriKhasDto>();
+
+            var listData = DataAccessQuery<TbLokalitiKategoriKhas>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.OrderBy(m => m.Prgn);
+                foreach (var tblokaliti in list)
+                {
+                    var data = new LokalitiKategoriKhasDto
+                    {
+                        Id = tblokaliti.Id.ToString(),
+                        Prgn = tblokaliti.Prgn
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+        
+        }
+
     }
 }

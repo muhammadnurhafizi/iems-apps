@@ -168,7 +168,7 @@ namespace IEMSApps.BusinessObject.Entities
 
         //new add - lawatan
         [MaxLength(3)]
-        public int KategoriLokasi { get; set; } //0 - kawasan kepulauan, 1 - kawasan sempadan, 2 - kawasan peridustrian
+        public int KategoriLokasi { get; set; } //1- Pulau, 2- Sempadan, 3- Kawasan Peridustrian, 4- pemborong berlesen, 5 - 
 
         [MaxLength(3)]
         public int KodAgensiTerlibat { get; set; }

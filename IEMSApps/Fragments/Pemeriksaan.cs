@@ -66,9 +66,10 @@ namespace IEMSApps.Fragments
         private EditText txtNoDaftarSyarikat, txtNoLesenBkPda, txtNoLesenMajelisPremis, txtNoTelefon, txtLainLain;
         private EditText txtJenisNiaga, txtBandar;
         private Button btnJenisNiaga, btnTarikh, btnMasa, btnTarikhMula, btnMasaMula, btnBandar, btnSearchSsm;
-        private Spinner spKategoryPremis, spNegeri;
+        private Spinner spKategoryPremis, spNegeri, spKategoriPerniagaan;
 
         private CheckBox chkAmaran;
+        private Dictionary<string, string> ListKategoriPerniagaan;
 
         //Lawatan
         private Spinner spKategoryKawasan;//, spTujuanLawatan;
@@ -84,8 +85,8 @@ namespace IEMSApps.Fragments
         private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima;
 
         private EditText txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
-        private EditText txtNegaraAsal, txtNoTelefonPenerima, txtEmailPenerima, txtNegeriPenerima, txtBandarPenerima, txtPoskodPenerima;
-        private Button btnNamaPenerima;
+        private EditText txtNegaraAsal, txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima;
+        private Button btnNamaPenerima, btnBandarPenerima;
         private CheckBox chkBayar;
 
         private Dictionary<string, string> ListTujuanLawatan, ListKategoriKawasan;
@@ -139,6 +140,7 @@ namespace IEMSApps.Fragments
                 SetLayoutInvisible(viewPenerima, lblTabPenerima, tabPenerima);
 
                 _kodAsasSelected = new List<AsasTindakanDto>();
+                _lokalitiSelected = new List<LokalitiKategoriKhasDto>();
 
                 LoadData();
 
@@ -233,6 +235,9 @@ namespace IEMSApps.Fragments
 
             txtNamaPremis.TextChanged += Event_CheckMandatory_Dropdown_Edittext;
             txtAlamat1.TextChanged += Event_CheckMandatory_Dropdown_Edittext;
+
+            spKategoriPerniagaan = View.FindViewById<Spinner>(Resource.Id.spKategoriPerniagaan);
+
 
             txtNamaPremis.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(150), allowedFilter });
             txtAlamat1.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(300), allowedFilter });
@@ -376,6 +381,8 @@ namespace IEMSApps.Fragments
 
             spJenisKad = View.FindViewById<Spinner>(Resource.Id.spJenisKad);
 
+            btnBandarPenerima = View.FindViewById<Button>(Resource.Id.btnBandarPenerima);
+            btnBandarPenerima.Click += BtnBandarPenerima_Click;
 
             #endregion
 
@@ -399,6 +406,73 @@ namespace IEMSApps.Fragments
 
 
             #endregion
+        }
+
+        private void BtnBandarPenerima_Click(object sender, EventArgs e)
+        {
+            try 
+            {
+                ShowBandarPenerima();
+            }
+            catch(Exception ex) {
+
+                GeneralAndroidClass.LogData(LayoutName, "btnBandarPenerima", ex.Message, Enums.LogType.Error);
+            }
+        }
+
+        //List<BandarDto> listOfBandar;
+        private void ShowBandarPenerima()
+        {
+            var selectedNegeri = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
+
+            listOfBandar = MasterDataBll.GetBandarByNegeri(selectedNegeri);
+
+
+            var listOfBandarFiltered = listOfBandar;
+
+
+            var builder = new AlertDialog.Builder(this.Activity).Create();
+            var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Bandar";
+
+            listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandar);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listOfBandarFiltered = listOfBandar
+                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandarFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                txtBandarPenerima.Text = listOfBandarFiltered[args.Position]?.Prgn;
+
+                var negeriName = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(selectedNegeri));
+                var kodBandar = listOfBandarFiltered[args.Position] != null
+                    ? listOfBandarFiltered[args.Position].KodBandar
+                    : 0;
+
+                var bandarName = MasterDataBll.GetBandarNameByNegeri(GeneralBll.ConvertStringToInt(selectedNegeri), kodBandar);
+
+                txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
+
+                builder.Dismiss();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                builder.Dismiss();
+            };
+
+            builder.Show();
         }
 
         private void BtnNegaraAsal_Click(object sender, EventArgs e)
@@ -703,9 +777,122 @@ namespace IEMSApps.Fragments
             builder.Show();
         }
 
+        List<LokalitiKategoriKhasDto> listLokaliti;
+        //private int _asasTindakan;
+        private List<LokalitiKategoriKhasDto> _lokalitiSelected;
+
         private void ShowLokaliti()
         {
-            //will do
+            listLokaliti = MasterDataBll.GetLokalitiKategoriKhas();
+            var lokalitiSelected = new List<LokalitiKategoriKhasDto>();
+            var newlokalitiSelected = new List<LokalitiKategoriKhasDto>();
+
+            if (_lokalitiSelected.Any())
+            {
+                foreach (var item in listLokaliti)
+                {
+                    item.IsSelected = _lokalitiSelected.Any(m => m.Id == item.Id && m.Prgn == item.Prgn);
+                    if (item.IsSelected)
+                    {
+                        lokalitiSelected.Add(item);
+                    }
+                }
+            }
+
+            var listFiltered = listLokaliti;
+
+
+            var builder = new AlertDialog.Builder(this.Activity).Create();
+            var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+            builder.SetCancelable(false);
+            builder.SetButton2(Constants.Messages.Yes, (c, ev) =>
+            {
+                if (lokalitiSelected.Any())
+                {
+                    txtLokaliti.Text = string.Join(", ",
+                        listLokaliti.Where(m => lokalitiSelected.Any(x => m.Id == x.Id && m.Prgn == x.Prgn)).Select(m => m.Prgn)
+                            .ToArray());
+                }
+                else
+                {
+                    txtLokaliti.Text = "";
+                }
+
+
+
+                _lokalitiSelected = new List<LokalitiKategoriKhasDto>();
+                foreach (var i in lokalitiSelected)
+                {
+                    _lokalitiSelected.Add(i);
+                }
+
+                SetPrintButton();
+
+                builder.Dismiss();
+            });
+            builder.SetButton(Constants.Messages.No, (c, ev) =>
+            {
+
+                lokalitiSelected = new List<LokalitiKategoriKhasDto>();
+                foreach (var i in _lokalitiSelected)
+                {
+                    lokalitiSelected.Add(i);
+                }
+                SetPrintButton();
+                builder.Dismiss();
+            });
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Lokaliti/ Kategori Khas";
+
+            listView.Adapter = new CarianLokalitiMultipleAdapter(this.Activity, listLokaliti);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listFiltered = listLokaliti
+                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                if (lokalitiSelected.Any())
+                {
+                    foreach (var item in listFiltered)
+                    {
+                        item.IsSelected = lokalitiSelected.Any(m => m.Id == item.Id && m.Prgn == item.Prgn);
+                    }
+                }
+
+                listView.Adapter = new CarianLokalitiMultipleAdapter(this.Activity, listFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                listFiltered[args.Position].IsSelected = !listFiltered[args.Position].IsSelected;
+
+                if (lokalitiSelected.Any(m => m.Id == listFiltered[args.Position].Id && m.Prgn == listFiltered[args.Position].Prgn))
+                {
+                    lokalitiSelected.Remove(listFiltered[args.Position]);
+                    if (newlokalitiSelected.Any(c => c.Id == listFiltered[args.Position].Id && c.Prgn == listFiltered[args.Position].Prgn))
+                    {
+                        newlokalitiSelected.Remove(listFiltered[args.Position]);
+                    }
+                }
+                else
+                {
+                    lokalitiSelected.Add(listFiltered[args.Position]);
+                    newlokalitiSelected.Add(listFiltered[args.Position]);
+                }
+
+                listView.InvalidateViews();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                builder.Dismiss();
+            };
+
+            builder.Show();
         }
 
         List<BandarDto> listOfBandar;
@@ -1111,6 +1298,10 @@ namespace IEMSApps.Fragments
 
             ListJenisKad = PemeriksaanBll.GetJenisKad();
             spJenisKad.Adapter = new ArrayAdapter<string>(this.Activity, Resource.Layout.support_simple_spinner_dropdown_item, ListJenisKad.Select(c => c.Value).ToList());
+
+            ListKategoriPerniagaan = MasterDataBll.GetAllKategoriPerniagaan();
+            spKategoriPerniagaan.Adapter = new ArrayAdapter<string>(this.Activity,
+                Resource.Layout.support_simple_spinner_dropdown_item, ListKategoriPerniagaan.Select(c => c.Value).ToList());
         }
 
         private void spKewarganegaraan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) {

@@ -101,6 +101,7 @@
     <Compile Include="Adapters\CarianBandarAdapter.cs" />
     <Compile Include="Adapters\CarianJenisNiagaAdapter.cs" />
     <Compile Include="Adapters\CarianKesalahanAdapter.cs" />
+    <Compile Include="Adapters\CarianLokalitiMulitpleAdapter.cs" />
     <Compile Include="Adapters\CarianPremisAdapter.cs" />
     <Compile Include="Adapters\CarianSsmAdapter.cs" />
     <Compile Include="Adapters\ConfirmListAdapter.cs" />
@@ -139,6 +140,7 @@
     <Compile Include="BusinessObject\DTOs\KesalahanDto.cs" />
     <Compile Include="BusinessObject\DTOs\KppDto.cs" />
     <Compile Include="BusinessObject\DTOs\LoginDto.cs" />
+    <Compile Include="BusinessObject\DTOs\LokalitiKategoriKhasDto.cs" />
     <Compile Include="BusinessObject\DTOs\MaklumatPasukanDto.cs" />
     <Compile Include="BusinessObject\DTOs\PasukanAhliDto.cs" />
     <Compile Include="BusinessObject\DTOs\PremisDto.cs" />
@@ -178,6 +180,7 @@
     <Compile Include="BusinessObject\Entities\TbKompaunIzin.cs" />
     <Compile Include="BusinessObject\Entities\TbKpp.cs" />
     <Compile Include="BusinessObject\Entities\TbKppAsasTindakan.cs" />
+    <Compile Include="BusinessObject\Entities\TbLokalitiKategoriKhas.cs" />
     <Compile Include="BusinessObject\Entities\TbNegeri.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukan.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukanDetail.cs" />
