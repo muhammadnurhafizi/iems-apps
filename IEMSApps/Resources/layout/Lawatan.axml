@@ -129,7 +129,7 @@
 		<android.support.design.widget.TextInputLayout
 			        android:layout_width="match_parent"
 			        android:layout_height="wrap_content"
-					android:theme="@style/TextLabelRequired">
+					android:theme="@style/TextLabel">
 			<EditText
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -240,41 +240,25 @@
 			android:background="@drawable/question_mark"/>
 	</RelativeLayout>	
 
-	<RelativeLayout
+	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/relativeAgensiTerlibat"
-		android:paddingTop="5dp"
-		android:orientation="vertical">
-		<android.support.design.widget.TextInputLayout
-			        android:layout_width="match_parent"
-			        android:layout_height="wrap_content"
-					android:theme="@style/TextLabelRequired">
-			<EditText
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:id="@+id/txtSenaraiAgensi"
-				android:background="@drawable/textView_bg"
-				android:paddingLeft="5dp"
-				android:textSize="15sp"
-				android:hint="Agensi yang Terlibat"
-				android:paddingRight="35dp"
-				android:enabled="false"
-				android:lines="4"
-				android:maxLines="10"
-				android:gravity="top|left"
-				android:scrollbars="vertical"
-				android:inputType="textMultiLine"/>	
-		</android.support.design.widget.TextInputLayout>
-		<Button
-			android:id="@+id/btnSenaraiAgensi"
-			android:layout_marginRight="5dp"
-			android:layout_width="30dp"
-			android:layout_marginTop="14dp"
-			android:layout_height="30dp"
-			android:layout_alignParentRight="true"
-			android:background="@drawable/question_mark"/>
-	</RelativeLayout>	
+		android:id="@+id/linearAgensiTerlibat"
+		android:orientation="vertical"
+		android:paddingTop="2dp">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Agensi Yang Terlibat : "
+			android:textColor="#FF0000"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+		<Spinner
+			android:layout_width="match_parent"
+			android:id="@+id/spAgensiTerlibat" 
+			android:spinnerMode="dropdown"
+			android:layout_height="35dp"
+			android:background="@drawable/spiner_bg"/>
+	</LinearLayout>		
 
 	<LinearLayout
 		android:layout_width="match_parent"

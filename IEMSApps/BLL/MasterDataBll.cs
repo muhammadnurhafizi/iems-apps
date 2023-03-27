@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Android.App;
 using IEMSApps.BusinessObject.DTOs;
 using IEMSApps.BusinessObject.Entities;
 using IEMSApps.Classes;
@@ -518,6 +519,26 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static Dictionary<string,string> GetAgensiSerahan(bool isAddDefault = true)
+        {
+            var result = new Dictionary<string, string>();
+            if (isAddDefault)
+            {
+                result.Add(" ", "");
+            }
+            var listData = DataAccessQuery<TbAgensiSerahan>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var tbagensiserahan in list)
+                {
+                    result.Add(tbagensiserahan.kodserahagensi.ToString(), tbagensiserahan.prgn);
+                }
+            }
+
+            return result;
+        }
+
         public static List<BandarDto> GetBandarByNegeri(string kodNegeri)
         {
             var result = new List<BandarDto>();
@@ -570,7 +591,7 @@ namespace IEMSApps.BLL
                 {
                     var data = new LokalitiKategoriKhasDto
                     {
-                        Id = tblokaliti.Id.ToString(),
+                        Id = tblokaliti.Id,
                         Prgn = tblokaliti.Prgn
                     };
 

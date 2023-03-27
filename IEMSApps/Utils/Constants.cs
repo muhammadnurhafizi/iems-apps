@@ -175,6 +175,20 @@ namespace IEMSApps.Utils
         
         }
 
+        public static class NPMB
+        {
+            public const int Yes = 1;
+            public const int No = 0;   
+        
+        }
+
+        public static class NB
+        {
+            public const int Yes = 1;
+            public const int No = 0;
+
+        }
+
         public static class Messages
         {
             public const string SavingData = "Sedang proses simpan data... Sila tunggu";

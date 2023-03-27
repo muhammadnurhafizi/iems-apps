@@ -79,7 +79,10 @@ namespace IEMSApps.Fragments
         private EditText txtAsasTindakan;
         private Button btnAsasTindakan, btnLokaliti;
 
-        private RelativeLayout relativeAgensiTerlibat;
+        private LinearLayout linearAgensiTerlibat;
+
+        private Dictionary<string,string> ListSerahanAgensi;
+        private Spinner spAgensiTerlibat;
 
         //Penerima
         private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima;
@@ -110,6 +113,8 @@ namespace IEMSApps.Fragments
         private EditText txtNoIP, txtNoEP;
         private LinearLayout linearSiasatUlangan, linearButtonKesalahan, linearSerahanNotis;
         private RelativeLayout relativeStesenMinyak, relativeNegaraAsal;
+
+        private CheckBox chkNPMB, chkNB;
 
         private bool _isSkip;
 
@@ -286,8 +291,10 @@ namespace IEMSApps.Fragments
 
             btnLokaliti.Click += BtnLokaliti_Click;
 
-            relativeAgensiTerlibat = View.FindViewById<RelativeLayout>(Resource.Id.relativeAgensiTerlibat);
-            relativeAgensiTerlibat.Visibility = ViewStates.Gone;
+            linearAgensiTerlibat = View.FindViewById<LinearLayout>(Resource.Id.linearAgensiTerlibat);
+            linearAgensiTerlibat.Visibility = ViewStates.Gone;
+            spAgensiTerlibat = View.FindViewById<Spinner>(Resource.Id.spAgensiTerlibat);
+
             #endregion
 
             #region Penerima
@@ -311,6 +318,8 @@ namespace IEMSApps.Fragments
             //rdSiasatanLanjut = View.FindViewById<RadioButton>(Resource.Id.rdSiasatanLanjut);
             chkBayar = View.FindViewById<CheckBox>(Resource.Id.chkBayar);
             chkAmaran = View.FindViewById<CheckBox>(Resource.Id.chkAmaran);
+            chkNPMB = View.FindViewById<CheckBox>(Resource.Id.chkNPMB);
+            chkNB = View.FindViewById<CheckBox>(Resource.Id.chkNB);
 
             btnKesalahanKompaun = View.FindViewById<Button>(Resource.Id.btnKesalahanKompaun);
             btnKesalahanKompaun.Enabled = false;
@@ -953,9 +962,15 @@ namespace IEMSApps.Fragments
         private void ShowAgensiTerlibat(string show) {
 
             if (show.Contains("OPERASI BERSEPADU BERSAMA AGENSI")) {
-                relativeAgensiTerlibat.Visibility = ViewStates.Visible;
+
+                linearAgensiTerlibat.Visibility = ViewStates.Visible;
+
+                ListSerahanAgensi = MasterDataBll.GetAgensiSerahan();
+                spAgensiTerlibat.Adapter = new ArrayAdapter<string>(this.Activity,
+                    Resource.Layout.support_simple_spinner_dropdown_item, ListSerahanAgensi.Select(c => c.Key).ToList());
+
             } else {
-                relativeAgensiTerlibat.Visibility = ViewStates.Gone;
+                linearAgensiTerlibat.Visibility = ViewStates.Gone;
             }
             
         }
@@ -1302,6 +1317,7 @@ namespace IEMSApps.Fragments
             ListKategoriPerniagaan = MasterDataBll.GetAllKategoriPerniagaan();
             spKategoriPerniagaan.Adapter = new ArrayAdapter<string>(this.Activity,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListKategoriPerniagaan.Select(c => c.Value).ToList());
+
         }
 
         private void spKewarganegaraan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) {
@@ -1607,14 +1623,12 @@ namespace IEMSApps.Fragments
 
                 var data = new TbKpp
                 {
-                    //lawatan
                     KodCawangan = GeneralBll.GetUserCawangan(),
                     NoRujukanKpp = lblNoKpp.Text,
                     IdHh = GeneralBll.GetUserHandheld(),
                     KodKatPremis = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListKategoryPremis,
                         spKategoryPremis.SelectedItem?.ToString() ?? "")),
                     KodJenis = _jenisNiaga,
-                    //premis
                     NamaPremis = txtNamaPremis.Text,
                     AlamatPremis1 = txtAlamat1.Text,
                     AlamatPremis2 = txtAlamat2.Text,
@@ -1636,15 +1650,14 @@ namespace IEMSApps.Fragments
                     NoAduan = txtNoAduan.Text,
                     CatatanLawatan = txtCatatanLawatan.Text,
                     HasilLawatan = txtHasilLawatan.Text,
-                    //penerima
                     NamaPenerima = txtNamaPenerima.Text,
                     Kewarganegaraan = GeneralBll.GetKeySelected(ListKewarganegaraan, spKewarganegaraan.SelectedItem?.ToString() ?? ""),
                     NoKpPenerima = txtNoKpPenerima.Text,
-                    NoTelefonPenerima = txtNoTelefonPenerima.Text,
-                    EmailPenerima = txtEmailPenerima.Text,
-                    NegeriPenerima = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? ""),
-                    BandarPenerima = txtBandarPenerima.Text,
-                    PoskodPenerima = txtPoskodPenerima.Text,
+                    notelpenerima = txtNoTelefonPenerima.Text,
+                    emelpenerima = txtEmailPenerima.Text,
+                    negeripenerima = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? ""),
+                    bandarpenerima = txtBandarPenerima.Text,
+                    poskodpenerima = txtPoskodPenerima.Text,
                     Jawatanpenerima = txtJawatanPenerima.Text,
                     AlamatPenerima1 = txtAlamatPenerima1.Text,
                     AlamatPenerima2 = txtAlamatPenerima2.Text,
@@ -1654,7 +1667,22 @@ namespace IEMSApps.Fragments
                     //TrkhTamatLawatanKpp = GeneralBll.ConvertDateDisplayToDatabase(btnTarikh.Text) + " " + GeneralBll.ConvertTimeDisplayToDatabase(btnMasa.Text),
                     NoEp = txtNoEP.Text,
                     NoIp = txtNoIP.Text,
+
+                    //new add
+                    kodagensiterlibat = GeneralBll.GetKeySelected(ListSerahanAgensi, spAgensiTerlibat.SelectedItem?.ToString() ?? ""),
+                    kodkategoriperniagaan = GeneralBll.ConvertStringToInt(
+                        GeneralBll.GetKeySelected(ListKategoriPerniagaan, spKategoriPerniagaan.SelectedItem?.ToString() ?? "")),
+                    jeniskad = GeneralBll.ConvertStringToInt(
+                        GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? "")),
+                    npmb = chkNPMB.Checked ? Constants.NPMB.Yes : Constants.NPMB.No,
+                    nb = chkNB.Checked ? Constants.NB.Yes : Constants.NB.No,
+
                 };
+                if (_lokalitiSelected != null && _lokalitiSelected.Count > 0) {
+
+                    data.lokalitikategorikhas = _lokalitiSelected.FirstOrDefault()?.Id ?? 0;
+                
+                }
 
                 if (_kodAsasSelected != null && _kodAsasSelected.Count > 0)
                 {
