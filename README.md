@@ -1,5 +1,10 @@
 # Release Note For iems-apps 
 
+Version: 1.1.3.8
+====================================================================================
+1. Add function and make Connection to Bixolon Printer for latest Samsung A53 Gadget
+2. Add function and Connection to MyID Reader Apk 
+
 Version: 1.1.3.7
 ====================================================================================
 1. Change Logo Jata-KPDNHEP to Jata-KPDN

@@ -28,6 +28,9 @@ using Java.Lang;
 using Enum = Java.Lang.Enum;
 using Exception = System.Exception;
 using Thread = System.Threading.Thread;
+using Plugin.BxlMpXamarinSDK.Abstractions;
+using System.Threading;
+using Plugin.BxlMpXamarinSDK;
 using System.ComponentModel;
 
 namespace IEMSApps.Fragments
@@ -50,6 +53,8 @@ namespace IEMSApps.Fragments
             base.OnViewCreated(view, savedInstanceState);
 
             //SetInit();
+            _printer = null;
+            _connectionInfo = null;
 
             _hourGlass?.StartMessage(this.Activity, SetInit);
         }
@@ -117,6 +122,10 @@ namespace IEMSApps.Fragments
         private CheckBox chkNPMB, chkNB;
 
         private bool _isSkip;
+
+        private MPosControllerPrinter _printer;
+        MposConnectionInformation _connectionInfo;
+        private static SemaphoreSlim _printSemaphore = new SemaphoreSlim(1, 1);
 
         private void SetInit()
         {
@@ -2315,16 +2324,121 @@ namespace IEMSApps.Fragments
 
         }
 
-        void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        async Task<MPosControllerDevices> OpenPrinterService(MposConnectionInformation connectionInfo)
+        {
+            if (connectionInfo == null)
+                return null;
+
+            if (_printer != null)
+                return _printer;
+
+            _printer = MPosDeviceFactory.Current.createDevice(MPosDeviceType.MPOS_DEVICE_PRINTER) as MPosControllerPrinter;
+
+            switch (connectionInfo.IntefaceType)
+            {
+                case MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH:
+                case MPosInterfaceType.MPOS_INTERFACE_WIFI:
+                case MPosInterfaceType.MPOS_INTERFACE_ETHERNET:
+                    _printer.selectInterface((int)connectionInfo.IntefaceType, connectionInfo.Address);
+                    _printer.selectCommandMode((int)(false ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
+                    break;
+                default:
+                    //await DisplayAlert("Connection Fail", "Not Supported Interface", "OK");
+                    return null;
+            }
+
+            await _printSemaphore.WaitAsync();
+
+            try
+            {
+                var result = await _printer.openService();
+                if (result != (int)MPosResult.MPOS_SUCCESS)
+                {
+                    _printer = null;
+                    //await DisplayAlert("Connection Fail", "openService failed. (" + result.ToString() + ")", "OK");
+                }
+            }
+            finally
+            {
+                _printSemaphore.Release();
+            }
+
+            return _printer;
+        }
+
+        async void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             try
             {
-                if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
-                    return;
-
+                string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
                 _alert.Dismiss();
-                GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
-                Print(false);
+                if (bx ==  "SPP-R410") {
+                    try
+                    {
+
+                        _connectionInfo = new MposConnectionInformation();
+
+                        _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
+                        _connectionInfo.Name = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
+                        _connectionInfo.MacAddress = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
+
+                        if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
+                        {
+                            GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
+                        }
+
+                        // Prepares to communicate with the printer
+                        _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
+
+                        if (_printer == null)
+                            return;
+
+                        await _printSemaphore.WaitAsync();
+
+                        await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
+
+                        var printImageBll = new PrintImageBll();
+                        var bitmap = printImageBll.Pemeriksaan(this.Activity, lblNoKpp.Text);
+
+                        await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth);
+
+                        // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
+                        await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
+
+                        await _printer.directIO(new byte[] { 0x1b, 0x40 });
+
+                        await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
+
+                        // Feed to tear-off position (Manual Cutter Position)
+                        await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
+                    }
+                    catch (Exception ex)
+                    {
+                        //DisplayAlert("Exception", ex.Message, "OK");
+                        GeneralAndroidClass.LogData(LayoutName, "Printer error : ", ex.Message, Enums.LogType.Error);
+                    }
+                    finally
+                    {
+                        // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
+                        await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
+                        // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
+                        _printSemaphore.Release();
+
+                        await ShowMessageNew(true, Constants.Messages.SuccessPrint);
+                        Thread.Sleep(Constants.DefaultWaitingMilisecond);
+                        await ShowMessageNew(false, "");
+                    }
+                } 
+                else {
+
+                    if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
+                        return;
+
+                    _alert.Dismiss();
+                    GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
+                    Print(false);
+
+                }     
             }
             catch (Exception ex)
             {
@@ -2797,17 +2911,43 @@ namespace IEMSApps.Fragments
         }
 
         private static int REQUEST_MYKAD = 1001;
+        private static int REQUEST_MYKAD2 = 1002;
 
         private void BtnNamaPenerima_Click(object sender, EventArgs e)
         {
             try
-            {
-                var intent = new Intent(Intent.ActionMain);
-                intent.SetComponent(new ComponentName("com.aimforce.mykad.woosim", "com.aimforce.mykad.woosim.MainActivity"));
-                intent.PutExtra("command", "no-ui");
-                intent.PutExtra("command2", "no-photo");
-                StartActivityForResult(intent, REQUEST_MYKAD);
-                SetPrintButton();
+            {      
+                var model = Android.OS.Build.Model;
+                Log.WriteLogFile( "\nModel: " + model, Enums.LogType.Info);
+//#if DEBUG
+//                model = "SM-A536E";
+//#endif
+                if (model == "SM-A536E")
+                {
+                    var ad = GeneralAndroidClass.GetDialogCustom(this.Activity);
+
+                    ad.SetMessage("Mengimbas menggunakan MyID Reader ? ");
+
+                    ad.SetButton("Tidak", (s, ev) => { });
+                    ad.SetButton2("Ya", (s, ev) =>
+                    {
+                        var intent = new Intent(Intent.ActionMain);
+                        intent.SetComponent(new ComponentName("com.securemetric.myidreader", "com.securemetric.myidreader.MainActivity"));
+                        StartActivityForResult(intent, REQUEST_MYKAD2);
+                        SetPrintButton();
+                    });
+                    ad.Show();
+
+                }
+                else {
+
+                    var intent = new Intent(Intent.ActionMain);
+                    intent.SetComponent(new ComponentName("com.aimforce.mykad.woosim", "com.aimforce.mykad.woosim.MainActivity"));
+                    intent.PutExtra("command", "no-ui");
+                    intent.PutExtra("command2", "no-photo");
+                    StartActivityForResult(intent, REQUEST_MYKAD);
+                    SetPrintButton();
+                }
             }
             catch (Exception ex)
             {
@@ -2818,6 +2958,7 @@ namespace IEMSApps.Fragments
         {
             try
             {
+                
                 base.OnActivityResult(requestCode, resultCode, data);
 
                 string result;
@@ -2830,6 +2971,19 @@ namespace IEMSApps.Fragments
                         var card = GeneralBll.ReadMyKadInfo(result);
                         if (card.IsSuccessRead)
                             SetMyCard(card);
+                        else
+                            GeneralAndroidClass.ShowToast(card.Message);
+
+                    }
+                }
+                else if (requestCode == REQUEST_MYKAD2) 
+                {
+                    if (resultCode == Result.Ok) {
+
+                        result = data.GetStringExtra("data");
+                        var card = GeneralBll.ReadMyKadInfo2(result);
+                        if (card.IsSuccessRead)
+                            SetMyCard2(card);
                         else
                             GeneralAndroidClass.ShowToast(card.Message);
 
@@ -2899,6 +3053,54 @@ namespace IEMSApps.Fragments
             }
         }
 
+        private void SetMyCard2(CardInfoDto2 cardDto)
+        {
+            ClearMyCardField();
+
+            var listAddress = new List<string>();
+
+            var fullName = cardDto.gmpcName;
+            fullName = string.Join(" ", fullName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+
+            txtNamaPenerima.Text = fullName;
+            txtNoKpPenerima.Text = cardDto.icNo;
+
+            var address = $"{cardDto.address1} {cardDto.address2}";
+            var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
+
+
+            if (string.IsNullOrEmpty(cardDto.address3))
+            {
+                listAddress = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+                txtAlamatPenerima1.Text = listAddress[0];
+                if (string.IsNullOrEmpty(listAddress[1]))
+                    txtAlamatPenerima2.Text = addressPostCodeCity;
+                else
+                {
+                    txtAlamatPenerima2.Text = listAddress[1];
+                    txtAlamatPenerima3.Text = addressPostCodeCity;
+                }
+            }
+            else
+            {
+                if (address.Length <= 80)
+                {
+                    txtAlamatPenerima1.Text = address;
+                    txtAlamatPenerima2.Text = cardDto.address3;
+                    txtAlamatPenerima3.Text = addressPostCodeCity;
+                }
+                else
+                {
+                    address = string.Format("{0} {1} {2}", cardDto.address1, cardDto.address2, cardDto.address3);
+
+                    var listString = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+                    txtAlamatPenerima1.Text = listString[0].Trim();
+                    txtAlamatPenerima2.Text = listString[1].Trim();
+                    txtAlamatPenerima3.Text = addressPostCodeCity;
+                }
+
+            }
+        }
 
         private void CheckKompaunIzin()
         {

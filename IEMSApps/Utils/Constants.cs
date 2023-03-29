@@ -349,6 +349,8 @@ namespace IEMSApps.Utils
 
         public const string TujuanLawatanPermeriksaanBiasa = "pemeriksaan biasa";
 
+        public const int Brightness = 35;
+
         public static class FtpAccount
         {
             public const string Url = "ftp://192.168.0.2:2121/iemsapp/LOGS/";
