@@ -99,6 +99,7 @@
     <Compile Include="Activities\ViewSiasatLanjut.cs" />
     <Compile Include="Adapters\CarianAsasTindakanMultipleAdapter.cs" />
     <Compile Include="Adapters\CarianBandarAdapter.cs" />
+    <Compile Include="Adapters\CarianJenamaStesenMinyakAdapter.cs" />
     <Compile Include="Adapters\CarianJenisNiagaAdapter.cs" />
     <Compile Include="Adapters\CarianKesalahanAdapter.cs" />
     <Compile Include="Adapters\CarianLokalitiMulitpleAdapter.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="BusinessObject\DTOs\ConfigAppDto.cs" />
     <Compile Include="BusinessObject\DTOs\ConfirmDto.cs" />
     <Compile Include="BusinessObject\DTOs\DataSsmDto.cs" />
+    <Compile Include="BusinessObject\DTOs\JenamaStesenMinyakDto.cs" />
     <Compile Include="BusinessObject\DTOs\JenisNiagaDto.cs" />
     <Compile Include="BusinessObject\DTOs\KesalahanDto.cs" />
     <Compile Include="BusinessObject\DTOs\KppDto.cs" />
@@ -194,6 +196,7 @@
     <Compile Include="BusinessObject\Entities\TbSendOnline.cs" />
     <Compile Include="BusinessObject\Entities\TbSendOnlineImage.cs" />
     <Compile Include="BusinessObject\Entities\TbSkipControl.cs" />
+    <Compile Include="BusinessObject\Entities\TbStesenMinyak.cs" />
     <Compile Include="BusinessObject\Entities\TbTujuanLawatan.cs" />
     <Compile Include="BusinessObject\Inputs\PasukanAhliInput.cs" />
     <Compile Include="BusinessObject\Inputs\SaveAkuanInput.cs" />

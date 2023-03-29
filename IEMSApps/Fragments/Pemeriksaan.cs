@@ -64,8 +64,8 @@ namespace IEMSApps.Fragments
 
         private EditText txtNamaPremis, txtAlamat1, txtAlamat2, txtAlamat3;
         private EditText txtNoDaftarSyarikat, txtNoLesenBkPda, txtNoLesenMajelisPremis, txtNoTelefon, txtLainLain;
-        private EditText txtJenisNiaga, txtBandar;
-        private Button btnJenisNiaga, btnTarikh, btnMasa, btnTarikhMula, btnMasaMula, btnBandar, btnSearchSsm;
+        private EditText txtJenisNiaga, txtBandar, txtJenamaStesenMinyak;
+        private Button btnJenisNiaga, btnTarikh, btnMasa, btnTarikhMula, btnMasaMula, btnBandar, btnSearchSsm, btnJenamaStesenMinyak;
         private Spinner spKategoryPremis, spNegeri, spKategoriPerniagaan;
 
         private CheckBox chkAmaran;
@@ -81,7 +81,7 @@ namespace IEMSApps.Fragments
 
         private LinearLayout linearAgensiTerlibat;
 
-        private Dictionary<string,string> ListSerahanAgensi;
+        private Dictionary<string,string> ListSerahanAgensi ;
         private Spinner spAgensiTerlibat;
 
         //Penerima
@@ -242,7 +242,9 @@ namespace IEMSApps.Fragments
             txtAlamat1.TextChanged += Event_CheckMandatory_Dropdown_Edittext;
 
             spKategoriPerniagaan = View.FindViewById<Spinner>(Resource.Id.spKategoriPerniagaan);
-
+            txtJenamaStesenMinyak = View.FindViewById<EditText>(Resource.Id.txtJenamaStesenMinyak);
+            btnJenamaStesenMinyak = View.FindViewById<Button>(Resource.Id.btnJenamaStesenMinyak);
+            btnJenamaStesenMinyak.Click += BtnJenamaStesenMinyak_Click; 
 
             txtNamaPremis.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(150), allowedFilter });
             txtAlamat1.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(300), allowedFilter });
@@ -417,6 +419,22 @@ namespace IEMSApps.Fragments
             #endregion
         }
 
+        private void BtnJenamaStesenMinyak_Click(object sender, EventArgs e)
+        {
+            try 
+            {
+
+                ShowJenamaStesenMinyak();
+
+            } 
+            catch (Exception ex)
+            {
+
+                GeneralAndroidClass.LogData(LayoutName, "BtnJenamaStesenMinyak_Click", ex.Message, Enums.LogType.Error);
+
+            }
+        }
+
         private void BtnBandarPenerima_Click(object sender, EventArgs e)
         {
             try 
@@ -427,61 +445,6 @@ namespace IEMSApps.Fragments
 
                 GeneralAndroidClass.LogData(LayoutName, "btnBandarPenerima", ex.Message, Enums.LogType.Error);
             }
-        }
-
-        //List<BandarDto> listOfBandar;
-        private void ShowBandarPenerima()
-        {
-            var selectedNegeri = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
-
-            listOfBandar = MasterDataBll.GetBandarByNegeri(selectedNegeri);
-
-
-            var listOfBandarFiltered = listOfBandar;
-
-
-            var builder = new AlertDialog.Builder(this.Activity).Create();
-            var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
-            builder.SetView(view);
-
-            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
-            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
-            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
-            lblTitleCarian.Text = "Bandar";
-
-            listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandar);
-
-            txtCarian.TextChanged += (send, args) =>
-            {
-                listOfBandarFiltered = listOfBandar
-                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
-
-                listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandarFiltered);
-            };
-
-            listView.ItemClick += (send, args) =>
-            {
-                txtBandarPenerima.Text = listOfBandarFiltered[args.Position]?.Prgn;
-
-                var negeriName = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(selectedNegeri));
-                var kodBandar = listOfBandarFiltered[args.Position] != null
-                    ? listOfBandarFiltered[args.Position].KodBandar
-                    : 0;
-
-                var bandarName = MasterDataBll.GetBandarNameByNegeri(GeneralBll.ConvertStringToInt(selectedNegeri), kodBandar);
-
-                txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
-
-                builder.Dismiss();
-            };
-
-            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
-            close_button.Click += (send, args) =>
-            {
-                builder.Dismiss();
-            };
-
-            builder.Show();
         }
 
         private void BtnNegaraAsal_Click(object sender, EventArgs e)
@@ -663,11 +626,66 @@ namespace IEMSApps.Fragments
         ListView listView;
         List<PremisDto> listOfPremis;
         List<JenisNiagaDto> listOfJenisNiaga;
-        private int _jenisNiaga;
+        List<JenamaStesenMinyakDto> listJenamaStesenMinyak;
+        private int _jenisNiaga,_jenamaStesenMinyak;
 
         List<AsasTindakanDto> listOfAsasTindakan;
         //private int _asasTindakan;
         private List<AsasTindakanDto> _kodAsasSelected;
+
+        private void ShowBandarPenerima()
+        {
+            var selectedNegeri = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
+
+            listOfBandar = MasterDataBll.GetBandarByNegeri(selectedNegeri);
+
+
+            var listOfBandarFiltered = listOfBandar;
+
+
+            var builder = new AlertDialog.Builder(this.Activity).Create();
+            var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Bandar";
+
+            listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandar);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listOfBandarFiltered = listOfBandar
+                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandarFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                txtBandarPenerima.Text = listOfBandarFiltered[args.Position]?.Prgn;
+
+                var negeriName = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(selectedNegeri));
+                var kodBandar = listOfBandarFiltered[args.Position] != null
+                    ? listOfBandarFiltered[args.Position].KodBandar
+                    : 0;
+
+                var bandarName = MasterDataBll.GetBandarNameByNegeri(GeneralBll.ConvertStringToInt(selectedNegeri), kodBandar);
+
+                txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
+
+                builder.Dismiss();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                builder.Dismiss();
+            };
+
+            builder.Show();
+        }
 
         private void ShowAsasTindakan()
         {
@@ -961,11 +979,12 @@ namespace IEMSApps.Fragments
 
         private void ShowAgensiTerlibat(string show) {
 
+            ListSerahanAgensi = MasterDataBll.GetAgensiSerahan();
+
             if (show.Contains("OPERASI BERSEPADU BERSAMA AGENSI")) {
 
                 linearAgensiTerlibat.Visibility = ViewStates.Visible;
 
-                ListSerahanAgensi = MasterDataBll.GetAgensiSerahan();
                 spAgensiTerlibat.Adapter = new ArrayAdapter<string>(this.Activity,
                     Resource.Layout.support_simple_spinner_dropdown_item, ListSerahanAgensi.Select(c => c.Key).ToList());
 
@@ -1030,9 +1049,52 @@ namespace IEMSApps.Fragments
             builder.Show();
         }
 
-        private void showJenamaStesenMinyak() { 
-        
-            
+        private void ShowJenamaStesenMinyak() {
+
+            if (listJenamaStesenMinyak == null)
+                listJenamaStesenMinyak = MasterDataBll.GetAllJenamaStesenMinyak();
+
+            var listJenamaStesenMinyakFiltered = listJenamaStesenMinyak;
+
+
+            var builder = new AlertDialog.Builder(this.Activity).Create();
+            var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Jenama Stesen Minyak";
+
+            listView.Adapter = new CarianJenamaStesenMinyakAdapter(this.Activity, listJenamaStesenMinyak);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listJenamaStesenMinyakFiltered = listJenamaStesenMinyak
+                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                listView.Adapter = new CarianJenamaStesenMinyakAdapter(this.Activity, listJenamaStesenMinyakFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                txtJenamaStesenMinyak.Text = listJenamaStesenMinyakFiltered[args.Position]?.Prgn;
+                _jenamaStesenMinyak = listJenamaStesenMinyakFiltered[args.Position] != null
+                    ? listJenamaStesenMinyakFiltered[args.Position].Id
+                    : 0;
+               
+                SetPrintButton();
+                builder.Dismiss();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                SetPrintButton();
+                builder.Dismiss();
+            };
+
+            builder.Show();
 
         }
 
@@ -1676,6 +1738,7 @@ namespace IEMSApps.Fragments
                         GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? "")),
                     npmb = chkNPMB.Checked ? Constants.NPMB.Yes : Constants.NPMB.No,
                     nb = chkNB.Checked ? Constants.NB.Yes : Constants.NB.No,
+                    kodstesenminyak = _jenamaStesenMinyak,
 
                 };
                 if (_lokalitiSelected != null && _lokalitiSelected.Count > 0) {
@@ -1861,6 +1924,8 @@ namespace IEMSApps.Fragments
             btnAsasTindakan.Enabled = blValue;
             btnLokasi.Enabled = blValue;
 
+            spAgensiTerlibat.Enabled = blValue;
+            btnLokaliti.Enabled = blValue;
             #endregion
 
             #region Premis
@@ -1885,6 +1950,8 @@ namespace IEMSApps.Fragments
             spNegeri.Enabled = blValue;
             btnBandar.Enabled = blValue;
 
+            spKategoriPerniagaan.Enabled = blValue;
+            btnJenamaStesenMinyak.Enabled = blValue;
             #endregion
 
             #region Penerima
@@ -1903,6 +1970,15 @@ namespace IEMSApps.Fragments
 
             txtNoEP.Enabled = blValue;
             txtNoIP.Enabled = blValue;
+
+            spKewarganegaraan.Enabled = blValue;
+            spJenisKad.Enabled = blValue;
+            txtNoTelefonPenerima.Enabled = blValue;
+            txtEmailPenerima.Enabled = blValue;
+            spNegeriPenerima.Enabled = blValue;
+            txtBandarPenerima.Enabled = blValue;
+            btnBandarPenerima.Enabled = blValue;
+            txtPoskodPenerima.Enabled = blValue;
             #endregion
 
 
@@ -1917,7 +1993,7 @@ namespace IEMSApps.Fragments
                 txtNoRujukanAtr.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtCatatanLawatan.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtHasilLawatan.SetBackgroundResource(Resource.Drawable.editText_bg);
-
+                spAgensiTerlibat.SetBackgroundResource(Resource.Drawable.spiner_bg);
                 #endregion
 
                 #region Premis
@@ -1937,6 +2013,8 @@ namespace IEMSApps.Fragments
 
                 spNegeri.SetBackgroundResource(Resource.Drawable.spiner_bg);
 
+                spKategoriPerniagaan.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                
                 #endregion
 
                 #region Penerima
@@ -1953,6 +2031,14 @@ namespace IEMSApps.Fragments
                 txtNoEP.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtNoIP.SetBackgroundResource(Resource.Drawable.editText_bg);
 
+                spKewarganegaraan.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                txtNegaraAsal.SetBackgroundResource(Resource.Drawable.editText_bg);
+                spJenisKad.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                txtNoTelefonPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+                txtEmailPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+                spNegeriPenerima.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                txtBandarPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+                txtPoskodPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
                 #endregion
 
 
@@ -1968,7 +2054,7 @@ namespace IEMSApps.Fragments
                 txtNoRujukanAtr.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtCatatanLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtHasilLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
-
+                spAgensiTerlibat.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
                 #region Premis
@@ -1987,7 +2073,7 @@ namespace IEMSApps.Fragments
                 txtLainLain.SetBackgroundResource(Resource.Drawable.textView_bg);
 
                 spNegeri.SetBackgroundResource(Resource.Drawable.textView_bg);
-
+                spKategoriPerniagaan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
                 #region Penerima
@@ -2002,6 +2088,15 @@ namespace IEMSApps.Fragments
                 spTindakan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoEP.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoIP.SetBackgroundResource(Resource.Drawable.textView_bg);
+
+                spKewarganegaraan.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtNegaraAsal.SetBackgroundResource(Resource.Drawable.textView_bg);
+                spJenisKad.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtNoTelefonPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtEmailPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                spNegeriPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtBandarPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtPoskodPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
             }
@@ -2610,9 +2705,11 @@ namespace IEMSApps.Fragments
             var result = new List<ConfirmDto>();
             result.Add(GeneralBll.CreateConfirmDto("Lawatan", "", true));
             result.Add(GeneralBll.CreateConfirmDto("Kategori Kawasan", spKategoryKawasan.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("Lokaliti/ Kategori Khas", txtLokaliti.Text)); // 1
             result.Add(GeneralBll.CreateConfirmDto("Lokasi", txtLokasi.Text));
             //result.Add(GeneralBll.CreateConfirmDto("Tujuan Lawatan", spTujuanLawatan.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("Asas Tindakan", txtAsasTindakan.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Agensi Yang Terlibat", spAgensiTerlibat.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("No. Aduan", txtNoAduan.Text));
             result.Add(GeneralBll.CreateConfirmDto("No. Rujukan ATR", txtNoRujukanAtr.Text));
             result.Add(GeneralBll.CreateConfirmDto("Catatan Lawatan", txtCatatanLawatan.Text));

@@ -187,5 +187,8 @@ namespace IEMSApps.BusinessObject.Entities
 
         [MaxLength(2)]
         public int kodkategoriperniagaan { get; set; }
+
+        [MaxLength(2)]
+        public int kodstesenminyak { get; set; }
     }
 }

@@ -313,6 +313,29 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static List<JenamaStesenMinyakDto> GetAllJenamaStesenMinyak()
+        {
+            var result = new List<JenamaStesenMinyakDto>();
+
+            var listData = DataAccessQuery<TbStesenMinyak>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var tbStesenMinyak in list)
+                {
+                    var data = new JenamaStesenMinyakDto
+                    {
+                        Id = tbStesenMinyak.Id,
+                        Prgn = tbStesenMinyak.Prgn
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+        }
+
         public static List<AsasTindakanDto> GetAsasTindakanByTujuan()
         {
             var result = new List<AsasTindakanDto>();

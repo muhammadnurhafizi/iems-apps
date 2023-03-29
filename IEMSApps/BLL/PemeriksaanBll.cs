@@ -406,11 +406,11 @@ namespace IEMSApps.BLL
             {
                 result.Add("-", "");
             }
-            result.Add("0", Constants.JenisKad.MyKad);
-            result.Add("1", Constants.JenisKad.MyKas);
-            result.Add("2", Constants.JenisKad.MyPR);
-            result.Add("3", Constants.JenisKad.Passport);
-            result.Add("4", Constants.JenisKad.Others);
+            result.Add("1", Constants.JenisKad.MyKad);
+            result.Add("2", Constants.JenisKad.MyKas);
+            result.Add("3", Constants.JenisKad.MyPR);
+            result.Add("4", Constants.JenisKad.Passport);
+            result.Add("5", Constants.JenisKad.Others);
 
             return result;
         }
