@@ -366,6 +366,8 @@ namespace IEMSApps.Fragments
             txtAlamatPenerima3.SetFilters(
                 new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(Constants.AllowAddressCharacter), allowedFilter });
 
+            txtPoskodPenerima.SetFilters(
+                new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(5), allowedFilter });
 
             spTindakan = View.FindViewById<Spinner>(Resource.Id.spTindakan);
 
@@ -730,7 +732,7 @@ namespace IEMSApps.Fragments
                         listOfAsasTindakan.Where(m => kodAsasSelected.Any(x => m.KodAsas == x.KodAsas && m.KodTujuan == x.KodTujuan)).Select(m => m.Prgn)
                             .ToArray());
 
-                        ShowAgensiTerlibat(txtAsasTindakan.Text);    
+                        //ShowAgensiTerlibat(txtAsasTindakan.Text);    
                 }
                 else
                 {
@@ -1037,13 +1039,13 @@ namespace IEMSApps.Fragments
                 _jenisNiaga = listOfJenisNiagaFiltered[args.Position] != null
                     ? listOfJenisNiagaFiltered[args.Position].KodJenis
                     : 0;
-                if (txtJenisNiaga.Text == "STESEN MINYAK")
-                {
-                    relativeStesenMinyak.Visibility = ViewStates.Visible;
-                }
-                else {
-                    relativeStesenMinyak.Visibility = ViewStates.Gone;
-                }
+                //if (txtJenisNiaga.Text == "STESEN MINYAK")
+                //{
+                //    relativeStesenMinyak.Visibility = ViewStates.Visible;
+                //}
+                //else {
+                //    relativeStesenMinyak.Visibility = ViewStates.Gone;
+                //}
                 SetPrintButton();
                 builder.Dismiss();
             };
@@ -1464,11 +1466,11 @@ namespace IEMSApps.Fragments
                 {
                     linearSiasatUlangan.Visibility = ViewStates.Visible;
                 }
-                else if (selectedPosition == Constants.Tindakan.SerahanNotis) { 
+                //else if (selectedPosition == Constants.Tindakan.SerahanNotis) { 
                     
-                    linearSerahanNotis.Visibility= ViewStates.Visible;
+                //    linearSerahanNotis.Visibility= ViewStates.Visible;
                 
-                }
+                //}
 
                 SetPrintButton();
             }
@@ -1628,6 +1630,12 @@ namespace IEMSApps.Fragments
                 return false;
             }
 
+            if (spJenisKad.SelectedItem == null)
+            {
+                GeneralAndroidClass.ShowModalMessage(this.Activity, "Jenis Kad Kosong");
+                return false;
+            }
+
             if (string.IsNullOrEmpty(txtNoKpPenerima.Text))
             {
                 GeneralAndroidClass.ShowModalMessage(this.Activity, "No K/P kosong.");
@@ -1640,6 +1648,23 @@ namespace IEMSApps.Fragments
                 return false;
             }
 
+            if (spNegeriPenerima.SelectedItem == null)
+            {
+                GeneralAndroidClass.ShowModalMessage(this.Activity, "Negeri Penerima Kosong");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtBandarPenerima.Text))
+            {
+                GeneralAndroidClass.ShowModalMessage(this.Activity, "Bandar penerima kosong.");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtPoskodPenerima.Text))
+            {
+                GeneralAndroidClass.ShowModalMessage(this.Activity, "Poskod penerima kosong.");
+                return false;
+            }
 
             if (string.IsNullOrEmpty(txtAlamatPenerima1.Text))
             {
@@ -1722,7 +1747,7 @@ namespace IEMSApps.Fragments
                     CatatanLawatan = txtCatatanLawatan.Text,
                     HasilLawatan = txtHasilLawatan.Text,
                     NamaPenerima = txtNamaPenerima.Text,
-                    Kewarganegaraan = GeneralBll.GetKeySelected(ListKewarganegaraan, spKewarganegaraan.SelectedItem?.ToString() ?? ""),
+                    //Kewarganegaraan = GeneralBll.GetKeySelected(ListKewarganegaraan, spKewarganegaraan.SelectedItem?.ToString() ?? ""),
                     NoKpPenerima = txtNoKpPenerima.Text,
                     notelpenerima = txtNoTelefonPenerima.Text,
                     emelpenerima = txtEmailPenerima.Text,
@@ -1740,21 +1765,21 @@ namespace IEMSApps.Fragments
                     NoIp = txtNoIP.Text,
 
                     //new add
-                    kodagensiterlibat = GeneralBll.GetKeySelected(ListSerahanAgensi, spAgensiTerlibat.SelectedItem?.ToString() ?? ""),
-                    kodkategoriperniagaan = GeneralBll.ConvertStringToInt(
-                        GeneralBll.GetKeySelected(ListKategoriPerniagaan, spKategoriPerniagaan.SelectedItem?.ToString() ?? "")),
+                    //kodagensiterlibat = GeneralBll.GetKeySelected(ListSerahanAgensi, spAgensiTerlibat.SelectedItem?.ToString() ?? ""),
+                    //kodkategoriperniagaan = GeneralBll.ConvertStringToInt(
+                    //    GeneralBll.GetKeySelected(ListKategoriPerniagaan, spKategoriPerniagaan.SelectedItem?.ToString() ?? "")),
                     jeniskad = GeneralBll.ConvertStringToInt(
                         GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? "")),
-                    npmb = chkNPMB.Checked ? Constants.NPMB.Yes : Constants.NPMB.No,
-                    nb = chkNB.Checked ? Constants.NB.Yes : Constants.NB.No,
-                    kodstesenminyak = _jenamaStesenMinyak,
+                    //npmb = chkNPMB.Checked ? Constants.NPMB.Yes : Constants.NPMB.No,
+                    //nb = chkNB.Checked ? Constants.NB.Yes : Constants.NB.No,
+                    //kodstesenminyak = _jenamaStesenMinyak,
 
                 };
-                if (_lokalitiSelected != null && _lokalitiSelected.Count > 0) {
+                //if (_lokalitiSelected != null && _lokalitiSelected.Count > 0) {
 
-                    data.lokalitikategorikhas = _lokalitiSelected.FirstOrDefault()?.Id ?? 0;
+                //    data.lokalitikategorikhas = _lokalitiSelected.FirstOrDefault()?.Id ?? 0;
                 
-                }
+                //}
 
                 if (_kodAsasSelected != null && _kodAsasSelected.Count > 0)
                 {
@@ -2248,6 +2273,12 @@ namespace IEMSApps.Fragments
 
             //rdTiadaKes.Checked = true;
             spTindakan.SetSelection(0);
+            spJenisKad.SetSelection(0);
+            txtNoTelefonPenerima.Text = "";
+            txtEmailPenerima.Text = "";
+            spNegeriPenerima.SetSelection(0);
+            txtBandarPenerima.Text = "";
+            txtPoskodPenerima.Text = "";
 
             #endregion
 
@@ -2819,11 +2850,11 @@ namespace IEMSApps.Fragments
             var result = new List<ConfirmDto>();
             result.Add(GeneralBll.CreateConfirmDto("Lawatan", "", true));
             result.Add(GeneralBll.CreateConfirmDto("Kategori Kawasan", spKategoryKawasan.SelectedItem?.ToString() ?? ""));
-            result.Add(GeneralBll.CreateConfirmDto("Lokaliti/ Kategori Khas", txtLokaliti.Text)); // 1
+            //result.Add(GeneralBll.CreateConfirmDto("Lokaliti/ Kategori Khas", txtLokaliti.Text)); // 1
             result.Add(GeneralBll.CreateConfirmDto("Lokasi", txtLokasi.Text));
             //result.Add(GeneralBll.CreateConfirmDto("Tujuan Lawatan", spTujuanLawatan.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("Asas Tindakan", txtAsasTindakan.Text));
-            result.Add(GeneralBll.CreateConfirmDto("Agensi Yang Terlibat", spAgensiTerlibat.SelectedItem?.ToString() ?? ""));
+            //result.Add(GeneralBll.CreateConfirmDto("Agensi Yang Terlibat", spAgensiTerlibat.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("No. Aduan", txtNoAduan.Text));
             result.Add(GeneralBll.CreateConfirmDto("No. Rujukan ATR", txtNoRujukanAtr.Text));
             result.Add(GeneralBll.CreateConfirmDto("Catatan Lawatan", txtCatatanLawatan.Text));
@@ -2846,9 +2877,10 @@ namespace IEMSApps.Fragments
 
             result.Add(GeneralBll.CreateConfirmDto("Penerima", "", true));
             result.Add(GeneralBll.CreateConfirmDto("Nama", txtNamaPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Jenis Kad", spJenisKad.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("No. K/P", txtNoKpPenerima.Text));
             result.Add(GeneralBll.CreateConfirmDto("Jawatan", txtJawatanPenerima.Text));
-            result.Add(GeneralBll.CreateConfirmDto("Kewarganegaraan", spKewarganegaraan.SelectedItem?.ToString() ?? ""));
+            //result.Add(GeneralBll.CreateConfirmDto("Kewarganegaraan", spKewarganegaraan.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("No. Telefon", txtNoTelefonPenerima.Text));
             result.Add(GeneralBll.CreateConfirmDto("Email", txtEmailPenerima.Text));
             result.Add(GeneralBll.CreateConfirmDto("Negeri", spNegeriPenerima.SelectedItem?.ToString() ?? ""));

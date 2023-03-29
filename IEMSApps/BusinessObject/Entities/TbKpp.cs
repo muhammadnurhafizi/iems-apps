@@ -145,11 +145,11 @@ namespace IEMSApps.BusinessObject.Entities
         public int IsSkipIzin { get; set; }
 
         //new add : Penerima
-        [MaxLength(30)]
-        public string Kewarganegaraan { get; set; }
+        //[MaxLength(30)]
+        //public string Kewarganegaraan { get; set; }
 
-        [MaxLength(15)]
-        public string NegaraAsal { get; set; }
+        //[MaxLength(15)]
+        //public string NegaraAsal { get; set; }
 
         [MaxLength(15)]
         public string notelpenerima { get; set; }
@@ -172,23 +172,23 @@ namespace IEMSApps.BusinessObject.Entities
         [MaxLength(2)]
         public int jeniskad { get; set; }
 
-        [MaxLength(1)] 
-        public int npmb { get; set; } //notis pengesahan maklumat barang
+        //[MaxLength(1)] 
+        //public int npmb { get; set; } //notis pengesahan maklumat barang
         
-        [MaxLength(1)]
-        public int nb { get; set; }   //nama barang
+        //[MaxLength(1)]
+        //public int nb { get; set; }   //nama barang
 
         //new add - lawatan
-        [MaxLength(2)]
-        public int lokalitikategorikhas { get; set; } //1-Pulau, 2-Sempadan, 3-Kawasan Peridustrian, 4-pemborong berlesen, 5-Pemegang permit biasa, 6-aktiviti bunkering 
+        //[MaxLength(2)]
+        //public int lokalitikategorikhas { get; set; } //1-Pulau, 2-Sempadan, 3-Kawasan Peridustrian, 4-pemborong berlesen, 5-Pemegang permit biasa, 6-aktiviti bunkering 
 
-        [MaxLength(10)]
-        public string kodagensiterlibat { get; set; }
+        //[MaxLength(10)]
+        //public string kodagensiterlibat { get; set; }
 
-        [MaxLength(2)]
-        public int kodkategoriperniagaan { get; set; }
+        //[MaxLength(2)]
+        //public int kodkategoriperniagaan { get; set; }
 
-        [MaxLength(2)]
-        public int kodstesenminyak { get; set; }
+        //[MaxLength(2)]
+        //public int kodstesenminyak { get; set; }
     }
 }

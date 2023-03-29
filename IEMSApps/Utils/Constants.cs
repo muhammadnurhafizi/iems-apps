@@ -132,7 +132,7 @@ namespace IEMSApps.Utils
             public const int Kots = 1;
             public const int SiasatLanjutan = 2;
             public const int SiasatUlangan = 3;
-            public const int SerahanNotis = 4;
+            //public const int SerahanNotis = 4;
         }
 
         public static class JenisTrans
@@ -311,18 +311,18 @@ namespace IEMSApps.Utils
             public const string KOTS = "KOTS";
             public const string SiasatLanjut = "Kes Baru dihasilkan (untuk siasatan)";
             public const string SiasatUlangan = "Siasatan Ulangan";
-            public const string SerahanNotis = "Serahan Notis";
+            //public const string SerahanNotis = "Serahan Notis";
         }
 
-        public static class JenisKad 
-        {
-            public const string MyKad = "MyKAD";
-            public const string MyKas = "MyKAS";
-            public const string MyPR = "MyPR";
-            public const string Passport = "Passport";
-            public const string Others = "Lain-lain";
+        //public static class JenisKad 
+        //{
+        //    public const string MyKad = "MyKAD";
+        //    public const string MyKas = "MyKAS";
+        //    public const string MyPR = "MyPR";
+        //    public const string Passport = "Passport";
+        //    public const string Others = "Lain-lain";
         
-        }
+        //}
 
         public const string FWCODE = "1202T1";
 

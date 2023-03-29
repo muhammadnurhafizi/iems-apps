@@ -394,7 +394,7 @@ namespace IEMSApps.BLL
             result.Add("1", Constants.TindakanName.KOTS);
             result.Add("2", Constants.TindakanName.SiasatLanjut);
             result.Add("3", Constants.TindakanName.SiasatUlangan);
-            result.Add("4", Constants.TindakanName.SerahanNotis);
+            //result.Add("4", Constants.TindakanName.SerahanNotis);
 
             return result;
         }
@@ -404,13 +404,17 @@ namespace IEMSApps.BLL
             var result = new Dictionary<string, string>();
             if (isAddDefault)
             {
-                result.Add("-", "");
+                result.Add("0", "");
             }
-            result.Add("1", Constants.JenisKad.MyKad);
-            result.Add("2", Constants.JenisKad.MyKas);
-            result.Add("3", Constants.JenisKad.MyPR);
-            result.Add("4", Constants.JenisKad.Passport);
-            result.Add("5", Constants.JenisKad.Others);
+            var listData = DataAccessQuery<ip_identiti_pelanggans>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var identitiPelanggan in list)
+                {
+                    result.Add(identitiPelanggan.id.ToString(), identitiPelanggan.jenis_identiti);
+                }
+            }
 
             return result;
         }
