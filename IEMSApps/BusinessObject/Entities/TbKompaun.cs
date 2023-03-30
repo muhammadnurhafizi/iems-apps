@@ -66,7 +66,7 @@ namespace IEMSApps.BusinessObject.Entities
         public string ButirSalah { get; set; }
 
         [MaxLength(1)]
-        public string IsArahanSemasa { get; set; } 
+        public string IsArahanSemasa { get; set; }
 
         public int TempohTawaran { get; set; }
 
@@ -122,5 +122,27 @@ namespace IEMSApps.BusinessObject.Entities
 
         [MaxLength(300)]
         public string BarangKompaun { get; set; }
+
+        [MaxLength(2)]
+        public int jeniskad { get; set; }
+
+        [MaxLength(5)]
+        public string poskodpenerima_akuan { get; set; }
+
+        [MaxLength(35)]
+        public string bandarpenerima_akuan { get; set; }
+
+        [MaxLength(2)]
+        public string negeripenerima_akuan { get; set; }
+
+        [MaxLength(2)]
+        public string negarapenerima_akuan { get; set; }
+
+        [MaxLength(15)]
+        public string notelpenerima_akuan { get; set; }
+
+        [MaxLength(100)]
+        public string emelpenerima_akuan { get; set; }
+
     }
 }

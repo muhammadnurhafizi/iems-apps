@@ -42,12 +42,12 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Kewarganegaraan : "
+			android:text="Jenis Kad : "
 			android:textColor="#FF0000"
 			android:textAppearance="?android:attr/textAppearanceSmall"/>
 		<Spinner
 			android:layout_width="match_parent"
-			android:id="@+id/spKewarganegaraan" 
+			android:id="@+id/spJenisKad" 
 			android:spinnerMode="dropdown"
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
@@ -100,7 +100,7 @@
 			<EditText
 				android:layout_width="match_parent"
 				android:layout_height="35dp"
-				android:id="@+id/txtNoTelefon"
+				android:id="@+id/txtNoTelefonPenerima"
 				android:background="@drawable/edittext_bg"
 				android:paddingLeft="5dp"
 				android:hint="No. Telefon"
@@ -121,7 +121,7 @@
 			<EditText
 				android:layout_width="match_parent"
 				android:layout_height="35dp"
-				android:id="@+id/txtEmail"
+				android:id="@+id/txtEmailPenerima"
 				android:background="@drawable/edittext_bg"
 				android:paddingLeft="5dp"
 				android:hint="Email"
@@ -174,7 +174,7 @@
 						<EditText
 							android:layout_width="match_parent"
 							android:layout_height="35dp"
-							android:id="@+id/txtBandar"
+							android:id="@+id/txtBandarPenerima"
 							android:background="@drawable/edittext_bg"
 							android:paddingLeft="5dp"
 							android:paddingRight="35dp"
@@ -183,7 +183,7 @@
 							android:singleLine="true"/>	
 					</android.support.design.widget.TextInputLayout>
 					<Button
-						android:id="@+id/btnBandar"
+						android:id="@+id/btnBandarPenerima"
 						android:layout_marginRight="5dp"
 						android:layout_width="30dp"
 						android:layout_marginTop="14dp"
@@ -204,7 +204,7 @@
 						<EditText
 							android:layout_width="match_parent"
 							android:layout_height="35dp"
-							android:id="@+id/txtPoskod"
+							android:id="@+id/txtPoskodPenerima"
 							android:background="@drawable/edittext_bg"
 							android:paddingLeft="5dp"
 							android:hint="Poskod"

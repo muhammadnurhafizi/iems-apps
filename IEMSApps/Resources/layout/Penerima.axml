@@ -245,6 +245,7 @@
 							android:paddingLeft="5dp"
 							android:paddingRight="35dp"
 							android:hint="Bandar"
+							android:enabled="false"
 							android:singleLine="true"/>	
 					</android.support.design.widget.TextInputLayout>
 					<Button

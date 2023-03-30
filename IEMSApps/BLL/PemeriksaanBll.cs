@@ -399,26 +399,6 @@ namespace IEMSApps.BLL
             return result;
         }
 
-        public static Dictionary<string, string> GetJenisKad(bool isAddDefault = true)
-        {
-            var result = new Dictionary<string, string>();
-            if (isAddDefault)
-            {
-                result.Add("0", "");
-            }
-            var listData = DataAccessQuery<ip_identiti_pelanggans>.GetAll();
-            if (listData.Success)
-            {
-                var list = listData.Datas.ToList();
-                foreach (var identitiPelanggan in list)
-                {
-                    result.Add(identitiPelanggan.id.ToString(), identitiPelanggan.jenis_identiti);
-                }
-            }
-
-            return result;
-        }
-
         public static Dictionary<string, string> GetKewarganegaraan(bool isAddDefault = true) 
         {
             var result = new Dictionary<string, string>();

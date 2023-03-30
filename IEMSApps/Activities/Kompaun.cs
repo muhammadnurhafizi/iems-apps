@@ -54,6 +54,11 @@ namespace IEMSApps.Activities
         private ImageView btnImageNamaPenerima;
         private CheckBox chkAmaran;
 
+        //new add ipayment
+        private Spinner spJenisKad,spNegeriPenerima;
+        private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima;
+        private Button btnBandarPenerima;
+
         private Button btnOk, btnCamera, btnPrint, btnAkuan, btnTarikh, btnMasa, btnSearchJpn, btnSearchJpnPenerima;
         private TextView lblBtnOk, lblBtnAkuan;
 
@@ -195,6 +200,17 @@ namespace IEMSApps.Activities
                 txtAmaunTawaran.Enabled = false;
                 chkArahan.Enabled = false;
                 txtTempohTawaran.Enabled = false;
+                txtBandarPenerima.Enabled = true;
+
+                //new add
+                var positionJenisKad = PasukanBll.GetPositionSelected(ListJenisKad, kpp.jeniskad.ToString());
+                spJenisKad.SetSelection(positionJenisKad);
+                txtNoTelefonPenerima.Text = kpp.notelpenerima;
+                txtEmailPenerima.Text = kpp.emelpenerima;
+                var positionNegeriPenerima = PasukanBll.GetPositionSelected(ListNegeri, kpp.negeripenerima);
+                spNegeriPenerima.SetSelection(positionNegeriPenerima);
+                txtBandarPenerima.Text = kpp.bandarpenerima;
+                txtPoskodPenerima.Text = kpp.poskodpenerima;
 
                 SetPrintButton();
             }
@@ -310,13 +326,25 @@ namespace IEMSApps.Activities
 
             txtNamaPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowFilter });
             txtNoKpPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(50), allowFilterWithoutSingleQuote });
-            txtAlamatPenerima1.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowFilter });
-            txtAlamatPenerima2.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowFilter });
-            txtAlamatPenerima3.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowFilter });
+            txtAlamatPenerima1.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(Constants.AllowAddressCharacter), allowFilter });
+            txtAlamatPenerima2.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(Constants.AllowAddressCharacter), allowFilter });
+            txtAlamatPenerima3.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(Constants.AllowAddressCharacter), allowFilter });
             btnSearchJpnPenerima = FindViewById<Button>(Resource.Id.btnSearchJpnPenerima);
             btnSearchJpnPenerima.Click += btnSearchJpnPenerima_Click;
 
             txtNoKpPenerima.Text = _noKpPenerimaKpp;
+
+            //new add
+            spJenisKad = FindViewById<Spinner>(Resource.Id.spJenisKad);
+            txtNoTelefonPenerima = FindViewById<EditText>(Resource.Id.txtNoTelefonPenerima);
+            txtEmailPenerima = FindViewById<EditText>(Resource.Id.txtEmailPenerima);
+            spNegeriPenerima = FindViewById<Spinner>(Resource.Id.spNegeriPenerima);
+            txtBandarPenerima = FindViewById<EditText>(Resource.Id.txtBandarPenerima);
+            btnBandarPenerima = FindViewById<Button>(Resource.Id.btnBandarPenerima);
+            btnBandarPenerima.Click += btnBandarPenerima_Click;
+
+            txtPoskodPenerima = FindViewById<EditText>(Resource.Id.txtPoskodPenerima);
+            txtPoskodPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(5), allowFilter });
 
             #endregion
 
@@ -384,6 +412,74 @@ namespace IEMSApps.Activities
 
 
 
+        }
+
+        private void btnBandarPenerima_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowBandarPenerima();
+            }
+            catch (Exception ex)
+            {
+
+                GeneralAndroidClass.LogData(LayoutName, "btnBandarPenerima", ex.Message, Enums.LogType.Error);
+            }
+        }
+
+        List<BandarDto> listOfBandar;
+        private void ShowBandarPenerima()
+        {
+            var selectedNegeri = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
+
+            listOfBandar = MasterDataBll.GetBandarByNegeri(selectedNegeri);
+
+
+            var listOfBandarFiltered = listOfBandar;
+
+
+            var builder = new AlertDialog.Builder(this).Create();
+            var view = this.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Bandar";
+
+            listView.Adapter = new CarianBandarAdapter(this, listOfBandar);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listOfBandarFiltered = listOfBandar
+                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                listView.Adapter = new CarianBandarAdapter(this, listOfBandarFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                txtBandarPenerima.Text = listOfBandarFiltered[args.Position]?.Prgn;
+
+                var negeriName = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(selectedNegeri));
+                var kodBandar = listOfBandarFiltered[args.Position] != null
+                    ? listOfBandarFiltered[args.Position].KodBandar
+                    : 0;
+
+                var bandarName = MasterDataBll.GetBandarNameByNegeri(GeneralBll.ConvertStringToInt(selectedNegeri), kodBandar);
+
+                txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
+
+                builder.Dismiss();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                builder.Dismiss();
+            };
+
+            builder.Show();
         }
 
         private void LoadDataExisting(TbKompaun kompaun)
@@ -912,7 +1008,7 @@ namespace IEMSApps.Activities
         }
 
 
-        private Dictionary<string, string> ListAkta;
+        private Dictionary<string, string> ListAkta, ListJenisKad, ListNegeri;
 
         private void LoadDataDropdown()
         {
@@ -922,6 +1018,12 @@ namespace IEMSApps.Activities
 
             //spAkta.ItemSelected += SpAkta_ItemSelected;
 
+            ListJenisKad = MasterDataBll.GetJenisKad();
+            spJenisKad.Adapter = new ArrayAdapter<string>(this, Resource.Layout.support_simple_spinner_dropdown_item, ListJenisKad.Select(c => c.Value).ToList());
+
+            ListNegeri = MasterDataBll.GetAllNegeri();
+            spNegeriPenerima.Adapter = new ArrayAdapter<string>(this,
+                Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
         }
 
         private void SpKesalahan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -1119,6 +1221,12 @@ namespace IEMSApps.Activities
 
             data.NamaPenerima = txtNamaPenerima.Text;
             data.NoKpPenerima = txtNoKpPenerima.Text;
+            data.jeniskad = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? ""));
+            data.notelpenerima_akuan = txtNoTelefonPenerima.Text;
+            data.emelpenerima_akuan = txtEmailPenerima.Text;
+            data.negeripenerima_akuan = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
+            data.bandarpenerima_akuan = txtBandarPenerima.Text;
+            data.poskodpenerima_akuan = txtPoskodPenerima.Text;
             data.AlamatPenerima1 = txtAlamatPenerima1.Text;
             data.AlamatPenerima2 = txtAlamatPenerima2.Text;
             data.AlamatPenerima3 = txtAlamatPenerima3.Text;
@@ -1219,6 +1327,14 @@ namespace IEMSApps.Activities
             chkAmaran.Enabled = blValue;
             txtNoIP.Enabled = blValue;
             txtNoKp.Enabled = blValue;
+
+            spJenisKad.Enabled = blValue;
+            txtNoTelefonPenerima.Enabled = blValue; 
+            txtEmailPenerima.Enabled= blValue;
+            spNegeriPenerima.Enabled = blValue;
+            txtBandarPenerima.Enabled= blValue;
+            btnBandarPenerima.Enabled = blValue;
+            txtPoskodPenerima.Enabled = blValue;
             #endregion
 
             btnImageNama.Enabled = blValue;
@@ -1272,6 +1388,13 @@ namespace IEMSApps.Activities
 
                 txtNoIP.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtNoKp.SetBackgroundResource(Resource.Drawable.editText_bg);
+
+                spJenisKad.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                txtNoTelefonPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+                txtEmailPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+                spNegeriPenerima.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                txtBandarPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+                txtPoskodPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
                 #endregion
             }
             else
@@ -1318,6 +1441,13 @@ namespace IEMSApps.Activities
                 txtAlamatPenerima3.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoIP.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoKp.SetBackgroundResource(Resource.Drawable.textView_bg);
+
+                spJenisKad.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtNoTelefonPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtEmailPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                spNegeriPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtBandarPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtPoskodPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
             }
 
@@ -1543,6 +1673,14 @@ namespace IEMSApps.Activities
             result.Add(GeneralBll.CreateConfirmDto("Penerima", "", true));
             result.Add(GeneralBll.CreateConfirmDto("Nama", txtNamaPenerima.Text));
             result.Add(GeneralBll.CreateConfirmDto("No. K/P", txtNoKpPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Jenis Kad", spJenisKad.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("No. K/P", txtNoKpPenerima.Text));
+            //result.Add(GeneralBll.CreateConfirmDto("Kewarganegaraan", spKewarganegaraan.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("No. Telefon", txtNoTelefonPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Email", txtEmailPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Negeri", spNegeriPenerima.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("Bandar", txtBandarPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Poskod", txtPoskodPenerima.Text));
 
             alamat =
                 GeneralBll.GettOneAlamat(txtAlamatPenerima1.Text, txtAlamatPenerima2.Text, txtAlamatPenerima3.Text);

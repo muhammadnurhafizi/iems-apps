@@ -394,8 +394,60 @@ namespace IEMSApps.Activities
             }
             else
             {
-                GeneralAndroidClass.ShowToast("Tidak ada data KOTS");
+                // GeneralAndroidClass.ShowToast("Tidak ada data KOTS");
+
+                var message = "Tidak ada data KOTS pada data sebelum ini, ingin menyambung KOTS ?";
+                var ad = GeneralAndroidClass.GetDialogCustom(this);
+                ad.SetMessage(message);
+                ad.SetButton(Constants.Messages.No, (s, ev) => { });
+                ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
+                {
+                    var checkKompaunIzin = PemeriksaanBll.CheckKompaunIzin(lblNoKpp.Text);
+                    if (checkKompaunIzin == null)
+                    {
+                        GeneralAndroidClass.ShowModalMessage(this, "Tiada Izin Kompaun");
+                    }
+                    else
+                    {
+                        ShowKompaun(checkKompaunIzin.Datas.Catatan);
+                    }
+
+                });
+                ad.Show();
             }
+        }
+
+        private void ShowKompaun(string catatan)
+        {
+            var message = string.Format(Constants.Messages.KompaunIzinApproved, catatan);
+
+            var ad = GeneralAndroidClass.GetDialogCustom(this);
+
+            ad.SetMessage(Html.FromHtml(message));
+            ad.DismissEvent += Ad_DismissEvent;
+            ad.SetButton2("OK", (s, ev) =>
+            {
+
+            });
+            ad.Show();
+
+        }
+
+        private void Ad_DismissEvent(object sender, EventArgs e)
+        {
+            KompaunPage();
+        }
+
+        private void KompaunPage()
+        {
+            var data = PemeriksaanBll.GetPemeriksaanByRujukan(_noRujukan);
+            // _isTindakanClick = true;
+            //_activeForm = Enums.ActiveForm.Kompaun;
+            var intent = new Intent(this, typeof(Kompaun));
+            intent.PutExtra("JenisKmp", ((int)Enums.JenisKompaun.KOTS).ToString());
+            intent.PutExtra("NoRujukanKpp", _noRujukan);
+            intent.PutExtra("NoKpPenerima", data.NoKpPenerima);
+            StartActivity(intent);
         }
 
         private void ShowSiasatPage()

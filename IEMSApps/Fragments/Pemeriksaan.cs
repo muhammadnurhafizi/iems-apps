@@ -1384,7 +1384,7 @@ namespace IEMSApps.Fragments
             spKewarganegaraan.SetSelection(0);
             spKewarganegaraan.ItemSelected += spKewarganegaraan_ItemSelected;
 
-            ListJenisKad = PemeriksaanBll.GetJenisKad();
+            ListJenisKad = MasterDataBll.GetJenisKad();
             spJenisKad.Adapter = new ArrayAdapter<string>(this.Activity, Resource.Layout.support_simple_spinner_dropdown_item, ListJenisKad.Select(c => c.Value).ToList());
 
             ListKategoriPerniagaan = MasterDataBll.GetAllKategoriPerniagaan();
