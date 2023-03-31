@@ -1221,12 +1221,12 @@ namespace IEMSApps.Activities
 
             data.NamaPenerima = txtNamaPenerima.Text;
             data.NoKpPenerima = txtNoKpPenerima.Text;
-            data.jeniskad = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? ""));
-            data.notelpenerima_akuan = txtNoTelefonPenerima.Text;
-            data.emelpenerima_akuan = txtEmailPenerima.Text;
-            data.negeripenerima_akuan = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
-            data.bandarpenerima_akuan = txtBandarPenerima.Text;
-            data.poskodpenerima_akuan = txtPoskodPenerima.Text;
+            data.ip_identiti_pelanggan_id = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? ""));
+            data.notelpenerima = txtNoTelefonPenerima.Text;
+            data.emelpenerima = txtEmailPenerima.Text;
+            data.negeripenerima = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
+            data.bandarpenerima = txtBandarPenerima.Text;
+            data.poskodpenerima = txtPoskodPenerima.Text;
             data.AlamatPenerima1 = txtAlamatPenerima1.Text;
             data.AlamatPenerima2 = txtAlamatPenerima2.Text;
             data.AlamatPenerima3 = txtAlamatPenerima3.Text;

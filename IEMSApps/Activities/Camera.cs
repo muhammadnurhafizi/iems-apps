@@ -111,7 +111,7 @@ namespace IEMSApps.Activities
             }
         }
 
-        private void BtnCamera_Click(object sender, EventArgs e)
+        private async void BtnCamera_Click(object sender, EventArgs e)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace IEMSApps.Activities
                 }
                 else
                 {
-                    TakeAPictureUsePlugin(_dirImagePath + GetFileName());
+                    await TakeAPictureUsePlugin(_dirImagePath + GetFileName());
                 }
             }
             catch (Exception ex)

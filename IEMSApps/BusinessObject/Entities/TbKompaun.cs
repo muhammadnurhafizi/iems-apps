@@ -123,8 +123,25 @@ namespace IEMSApps.BusinessObject.Entities
         [MaxLength(300)]
         public string BarangKompaun { get; set; }
 
+        public int ip_identiti_pelanggan_id { get; set; }
+
+        [MaxLength(5)]
+        public string poskodpenerima { get; set; }
+
+        [MaxLength(35)]
+        public string bandarpenerima { get; set; }
+
         [MaxLength(2)]
-        public int jeniskad { get; set; }
+        public string negeripenerima { get; set; }
+
+        [MaxLength(2)]
+        public string negarapenerima { get; set; }
+
+        [MaxLength(15)]
+        public string notelpenerima { get; set; }
+
+        [MaxLength(100)]
+        public string emelpenerima { get; set; }
 
         [MaxLength(5)]
         public string poskodpenerima_akuan { get; set; }

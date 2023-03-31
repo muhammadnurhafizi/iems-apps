@@ -55,13 +55,14 @@
 		<Button
 			android:layout_width="35dip"
 			android:layout_height="35dip"
-			android:id="@+id/btnPrint"
-			android:background="@drawable/print_icon"/>
+			android:id="@id/btnCamera"
+			android:enabled="false"
+			android:background="@drawable/camera_disable"/>
 		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Cetak"
-			android:id="@+id/lblBtnPrint"
+			android:text="Kamera"
+			android:id="@id/lblBtnCamera"
 			android:textColor="@color/black"
 			android:gravity="center"
 			android:textAppearance="?android:attr/textAppearanceSmall"/>
@@ -75,13 +76,13 @@
 		<Button
 			android:layout_width="35dip"
 			android:layout_height="35dip"
-			android:id="@id/btnCamera"
-			android:background="@drawable/camera_icon"/>
+			android:id="@+id/btnPrint"
+			android:background="@drawable/print_icon"/>
 		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Kamera"
-			android:id="@id/lblBtnCamera"
+			android:text="Cetak"
+			android:id="@+id/lblBtnPrint"
 			android:textColor="@color/black"
 			android:gravity="center"
 			android:textAppearance="?android:attr/textAppearanceSmall"/>

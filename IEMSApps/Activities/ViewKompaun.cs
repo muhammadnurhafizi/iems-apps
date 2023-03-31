@@ -22,6 +22,7 @@ using IEMSApps.Services;
 using IEMSApps.Utils;
 using Plugin.BxlMpXamarinSDK;
 using Plugin.BxlMpXamarinSDK.Abstractions;
+using static IEMSApps.Utils.Enums;
 
 namespace IEMSApps.Activities
 {
@@ -296,7 +297,7 @@ namespace IEMSApps.Activities
             var tbKompaun = data.Datas;
             var resit = tbKompaun != null ? tbKompaun.NoResit : "";
 
-            if (data.Success && tbKompaun != null & !string.IsNullOrEmpty(resit))
+            if (data.Success && tbKompaun != null & !string.IsNullOrEmpty(resit)) //check again this logic
             {
                 var intent = new Intent(this, typeof(ViewAkuan));
                 intent.PutExtra("NoRujukan", lblNoKpp.Text);
@@ -304,7 +305,21 @@ namespace IEMSApps.Activities
             }
             else
             {
-                GeneralAndroidClass.ShowToast("Tidak ada data Akuan");
+                //GeneralAndroidClass.ShowToast("Tidak ada data Akuan");
+                
+                var message = "Tidak ada Data Akuan, hasilkan semula Data Akuan ?";
+
+                var ad = GeneralAndroidClass.GetDialogCustom(this);
+                ad.SetMessage(message);
+                ad.SetButton(Constants.Messages.No, (s, ev) => { });
+                ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
+                {
+                    var intent = new Intent(this, typeof(Akuan));
+                    intent.PutExtra("NoRujukan", lblNoKpp.Text);
+                    StartActivity(intent);
+                });
+                ad.Show();
+
             }
             _hourGlass?.StopMessage();
         }

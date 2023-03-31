@@ -6,6 +6,20 @@
 
         public string NamaPenerima { get; set; }
 
+        public string jeniskad { get; set; }
+
+        public string poskodpenerima { get; set; }
+        
+        public string bandarpenerima { get; set; }
+
+        public string negeripenerima { get; set; }
+
+        public string negarapenerima { get; set; }
+
+        public string notelpenerima { get; set; }
+
+        public string emelpenerima { get; set; }
+
         public string NoKpPenerima { get; set; }
 
         public string AlamatPenerima1 { get; set; }

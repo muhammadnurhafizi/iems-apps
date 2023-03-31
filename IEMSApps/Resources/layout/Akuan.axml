@@ -362,16 +362,16 @@
 						android:paddingTop="10dp"
 						android:paddingRight="10dp"
 						android:paddingBottom="10dp">
-						<CheckBox
-							android:layout_width="wrap_content"
-							android:layout_height="30dp"
-							android:id="@+id/chkAmaran"
-							android:background="@drawable/edittext_bg"/>	
 						<TextView
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
-							android:text="Pembayaran telah dibuat melaui Ipayment : "
+							android:text="Bayaran dibuat secara manual : "
 							android:textAppearance="?android:attr/textAppearanceSmall"/>
+						<CheckBox
+							android:layout_width="wrap_content"
+							android:layout_height="30dp"
+							android:id="@+id/chkBayarIpayment"
+							android:background="@drawable/edittext_bg"/>
 					</LinearLayout>
 
 				</LinearLayout>
