@@ -153,6 +153,9 @@
     <Compile Include="BusinessObject\DTOs\SearchDto.cs" />
     <Compile Include="BusinessObject\DTOs\VersionDto.cs" />
     <Compile Include="BusinessObject\Entities\BaseEntities.cs" />
+    <Compile Include="BusinessObject\Entities\ip_negeri.cs" />
+    <Compile Include="BusinessObject\Entities\ip_poskod.cs" />
+    <Compile Include="BusinessObject\Entities\ip_bandar.cs" />
     <Compile Include="BusinessObject\Entities\ip_identiti_pelanggans.cs" />
     <Compile Include="BusinessObject\Entities\TbAgensiSerahan.cs" />
     <Compile Include="BusinessObject\Entities\TbError.cs" />

@@ -231,14 +231,37 @@ namespace IEMSApps.Activities
             txtNamaPenerima.Text = data.NamaPenerima;
             SetDisableEditText(txtNamaPenerima);
 
+            var txtJenisKad = FindViewById<EditText>(Resource.Id.txtJenisKad);
+            txtJenisKad.Text = MasterDataBll.GetJenisKadByKod(data.ip_identiti_pelanggan_id);
+            SetDisableEditText(txtJenisKad);
+
             var txtNoKpPenerima = FindViewById<EditText>(Resource.Id.txtNoKpPenerima);
             txtNoKpPenerima.Text = data.NoKpPenerima;
             SetDisableEditText(txtNoKpPenerima);
+
+            var txtNoTelefonPenerima = FindViewById<EditText>(Resource.Id.txtNoTelefonPenerima);
+            txtNoTelefonPenerima.Text = data.notelpenerima;
+            SetDisableEditText(txtNoTelefonPenerima);
+
+            var txtEmailPenerima = FindViewById<EditText>(Resource.Id.txtEmailPenerima);
+            txtEmailPenerima.Text = data.emelpenerima;
+            SetDisableEditText(txtEmailPenerima);
 
             var txtJawatanPenerima = FindViewById<EditText>(Resource.Id.txtJawatanPenerima);
             txtJawatanPenerima.Text = data.Jawatanpenerima;
             SetDisableEditText(txtJawatanPenerima);
 
+            var txtNegeriPenerima = FindViewById<EditText>(Resource.Id.txtNegeriPenerima);
+            txtNegeriPenerima.Text = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(data.negeripenerima));
+            SetDisableEditText(txtNegeriPenerima);
+
+            var txtBandarPenerima = FindViewById<EditText>(Resource.Id.txtBandarPenerima);
+            txtBandarPenerima.Text = data.bandarpenerima;
+            SetDisableEditText(txtBandarPenerima);
+
+            var txtPoskodPenerima = FindViewById<EditText>(Resource.Id.txtPoskodPenerima);
+            txtPoskodPenerima.Text = data.poskodpenerima;
+            SetDisableEditText(txtPoskodPenerima);
 
             var txtAlamatPenerima1 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima1);
             txtAlamatPenerima1.Text = data.AlamatPenerima1;
@@ -274,7 +297,7 @@ namespace IEMSApps.Activities
             //    rdSiasatanLanjut.Checked = true;
             //}
             var linearSiasatUlangan = FindViewById<LinearLayout>(Resource.Id.linearSiasatUlangan);
-            linearSiasatUlangan.Visibility = ViewStates.Invisible;
+            linearSiasatUlangan.Visibility = ViewStates.Gone;
 
             var txtTindakan = FindViewById<EditText>(Resource.Id.txtTindakan);
             if (data.Tindakan == Constants.Tindakan.TiadaKes)

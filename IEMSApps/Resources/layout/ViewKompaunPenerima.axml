@@ -27,6 +27,7 @@
 		</android.support.design.widget.TextInputLayout>
 		
 	</RelativeLayout>	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -46,6 +47,129 @@
 				android:singleLine="true"/>	
 		</android.support.design.widget.TextInputLayout>
 	</LinearLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
+		android:orientation="vertical">	
+			<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabel"
+			android:layout_alignParentLeft="true">	
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="35dp"
+				android:id="@+id/txtNoTelefonPenerima"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="No. Telefon"
+				android:singleLine="true"/>	
+		</android.support.design.widget.TextInputLayout>
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
+		android:orientation="vertical">	
+			<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabel"
+			android:layout_alignParentLeft="true">	
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="35dp"
+				android:id="@+id/txtEmailPenerima"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="Email"
+				android:singleLine="true"/>	
+		</android.support.design.widget.TextInputLayout>
+	</RelativeLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingLeft="0dp"
+		android:paddingRight="0dp"
+		android:paddingBottom="5dp">
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:layout_weight="1"
+				android:paddingTop="2dp">
+				<android.support.design.widget.TextInputLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:theme="@style/TextLabelRequired"
+						android:layout_alignParentLeft="true">
+					<EditText
+						android:layout_width="match_parent"
+						android:layout_height="35dp"
+						android:id="@+id/txtNegeriPenerima"
+						android:background="@drawable/edittext_bg"
+						android:paddingLeft="5dp"
+						android:hint="Negeri"
+						android:layout_marginRight="0dp"
+						android:singleLine="true" />	
+				</android.support.design.widget.TextInputLayout>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"	
+			android:weightSum="2">
+
+				<RelativeLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"	
+					android:layout_weight="1"
+					android:orientation="vertical">
+					<android.support.design.widget.TextInputLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:theme="@style/TextLabelRequired"
+							android:layout_alignParentLeft="true">
+						<EditText
+							android:layout_width="match_parent"
+							android:layout_height="35dp"
+							android:id="@+id/txtBandarPenerima"
+							android:background="@drawable/edittext_bg"
+							android:paddingLeft="5dp"
+							android:hint="Bandar"
+							android:layout_marginRight="0dp"
+							android:singleLine="true" />	
+					</android.support.design.widget.TextInputLayout>
+				</RelativeLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:orientation="vertical">
+					 <android.support.design.widget.TextInputLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:theme="@style/TextLabelRequired">
+						<EditText
+							android:layout_width="match_parent"
+							android:layout_height="35dp"
+							android:id="@+id/txtPoskodPenerima"
+							android:background="@drawable/edittext_bg"
+							android:paddingLeft="5dp"
+							android:hint="Poskod"
+							android:singleLine="true"/>	
+					</android.support.design.widget.TextInputLayout>
+				</LinearLayout>
+
+		</LinearLayout>
+	</LinearLayout>
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using IEMSApps.BusinessObject.DTOs;
@@ -542,6 +543,26 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static Dictionary<string, string> GetAllNegeriNew(bool isAddDefault = true)
+        {
+            var result = new Dictionary<string, string>();
+            if (isAddDefault)
+            {
+                result.Add("0", "");
+            }
+            var listData = DataAccessQuery<ip_negeri>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var negeri in list)
+                {
+                    result.Add(negeri.id.ToString(), negeri.name);
+                }
+            }
+
+            return result;
+        }
+
         public static Dictionary<string,string> GetAgensiSerahan(bool isAddDefault = true)
         {
             var result = new Dictionary<string, string>();
@@ -654,6 +675,20 @@ namespace IEMSApps.BLL
             if (data.Success && data.Datas != null)
             {
                 return data.Datas;
+            }
+
+
+            return null;
+        }
+
+        public static string GetJenisKadByKod(int kodjeniskad)
+        {
+
+            var data = DataAccessQuery<ip_identiti_pelanggans>.Get(c => c.id == kodjeniskad);
+
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas.jenis_identiti;
             }
 
 

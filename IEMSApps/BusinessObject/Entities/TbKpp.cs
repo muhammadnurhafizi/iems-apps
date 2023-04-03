@@ -169,8 +169,7 @@ namespace IEMSApps.BusinessObject.Entities
         [MaxLength(2)]
         public string negarapenerima { get; set; }
 
-        [MaxLength(2)]
-        public int jeniskad { get; set; }
+        public int ip_identiti_pelanggan_id { get; set; }
 
         //[MaxLength(1)] 
         //public int npmb { get; set; } //notis pengesahan maklumat barang

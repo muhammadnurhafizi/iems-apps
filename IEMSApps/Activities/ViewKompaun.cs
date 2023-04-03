@@ -235,6 +235,25 @@ namespace IEMSApps.Activities
             txtNoKpPenerima.Text = data.NoKpPenerima;
             SetDisableEditText(txtNoKpPenerima);
 
+            var txtNoTelefonPenerima = FindViewById<EditText>(Resource.Id.txtNoTelefonPenerima);
+            txtNoTelefonPenerima.Text = data.notelpenerima;
+            SetDisableEditText(txtNoTelefonPenerima);
+
+            var txtEmailPenerima = FindViewById<EditText>(Resource.Id.txtEmailPenerima);
+            txtEmailPenerima.Text = data.emelpenerima;
+            SetDisableEditText(txtEmailPenerima);
+
+            var txtNegeriPenerima = FindViewById<EditText>(Resource.Id.txtNegeriPenerima);
+            txtNegeriPenerima.Text = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(data.negeripenerima));
+            SetDisableEditText(txtNegeriPenerima);
+
+            var txtBandarPenerima = FindViewById<EditText>(Resource.Id.txtBandarPenerima);
+            txtBandarPenerima.Text = data.bandarpenerima;
+            SetDisableEditText(txtBandarPenerima);
+
+            var txtPoskodPenerima = FindViewById<EditText>(Resource.Id.txtPoskodPenerima);
+            txtPoskodPenerima.Text = data.poskodpenerima;
+            SetDisableEditText(txtPoskodPenerima);
 
             var txtAlamatPenerima1 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima1);
             txtAlamatPenerima1.Text = data.AlamatPenerima1;

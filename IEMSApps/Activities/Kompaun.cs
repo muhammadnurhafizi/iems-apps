@@ -203,7 +203,7 @@ namespace IEMSApps.Activities
                 txtBandarPenerima.Enabled = true;
 
                 //new add
-                var positionJenisKad = PasukanBll.GetPositionSelected(ListJenisKad, kpp.jeniskad.ToString());
+                var positionJenisKad = PasukanBll.GetPositionSelected(ListJenisKad, kpp.ip_identiti_pelanggan_id.ToString());
                 spJenisKad.SetSelection(positionJenisKad);
                 txtNoTelefonPenerima.Text = kpp.notelpenerima;
                 txtEmailPenerima.Text = kpp.emelpenerima;

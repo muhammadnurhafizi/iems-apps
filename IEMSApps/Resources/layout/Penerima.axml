@@ -274,7 +274,15 @@
 							android:background="@drawable/edittext_bg"
 							android:paddingLeft="5dp"
 							android:hint="Poskod"
-							android:singleLine="true"/>	
+							android:singleLine="true"/>
+						<Button
+							android:id="@+id/btnPoskodPenerima"
+							android:layout_marginRight="5dp"
+							android:layout_width="30dp"
+							android:layout_marginTop="14dp"
+							android:layout_height="30dp"
+							android:layout_alignParentRight="true"
+							android:background="@drawable/question_mark"/>
 					</android.support.design.widget.TextInputLayout>
 				</LinearLayout>
 
