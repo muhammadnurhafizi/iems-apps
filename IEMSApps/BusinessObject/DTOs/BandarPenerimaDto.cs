@@ -1,13 +1,10 @@
-﻿using SQLite.Net.Attributes;
-
-namespace IEMSApps.BusinessObject.Entities
+﻿
+namespace IEMSApps.BusinessObject.DTOs
 {
-    [Table("ip_bandar")]
-    public class ip_bandar
+    public class BandarPenerimaDto
     {
         public int id { get; set; }
         public string name { get; set; }
         public int ip_negeri_id { get; set; }
-
     }
 }

@@ -1,14 +1,10 @@
-﻿using SQLite.Net.Attributes;
-
-namespace IEMSApps.BusinessObject.Entities
+﻿
+namespace IEMSApps.BusinessObject.DTOs
 {
-    [Table("ip_poskod")]
-    public class ip_poskod
+    public class PoskodPenerimaDto
     {
         public int id { get; set; }
         public string name { get; set; }
         public int ip_bandar_id { get; set; }
-
-
     }
 }

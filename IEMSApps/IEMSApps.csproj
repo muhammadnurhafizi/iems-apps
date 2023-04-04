@@ -99,6 +99,8 @@
     <Compile Include="Activities\ViewSiasatLanjut.cs" />
     <Compile Include="Adapters\CarianAsasTindakanAdapter.cs" />
     <Compile Include="Adapters\CarianAsasTindakanMultipleAdapter.cs" />
+    <Compile Include="Adapters\CarianPoskodPenerimaAdapter.cs" />
+    <Compile Include="Adapters\CarianBandarPenerimaAdapter.cs" />
     <Compile Include="Adapters\CarianBandarAdapter.cs" />
     <Compile Include="Adapters\CarianJenamaStesenMinyakAdapter.cs" />
     <Compile Include="Adapters\CarianJenisNiagaAdapter.cs" />
@@ -133,6 +135,8 @@
     <Compile Include="BLL\SendOnlineBll.cs" />
     <Compile Include="BusinessObject\BaseResult.cs" />
     <Compile Include="BusinessObject\DTOs\AsasTindakanDto.cs" />
+    <Compile Include="BusinessObject\DTOs\PoskodPenerimaDto.cs" />
+    <Compile Include="BusinessObject\DTOs\BandarPenerimaDto.cs" />
     <Compile Include="BusinessObject\DTOs\BandarDto.cs" />
     <Compile Include="BusinessObject\DTOs\CardInfoDto.cs" />
     <Compile Include="BusinessObject\DTOs\CardInfoDto2.cs" />
@@ -909,6 +913,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Login.axml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ReceiptIpayment.axml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

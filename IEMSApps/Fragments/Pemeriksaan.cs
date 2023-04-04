@@ -660,14 +660,15 @@ namespace IEMSApps.Fragments
         //private int _asasTindakan;
         private List<AsasTindakanDto> _kodAsasSelected;
 
+        List<BandarPenerimaDto> listOfBandarPenerima;
         private void ShowBandarPenerima()
         {
             var selectedNegeri = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
 
-            listOfBandar = MasterDataBll.GetBandarByNegeri(selectedNegeri);
+            listOfBandarPenerima = MasterDataBll.GetBandarPenerimaByNegeri(selectedNegeri);
 
 
-            var listOfBandarFiltered = listOfBandar;
+            var listOfBandarFiltered = listOfBandarPenerima;
 
 
             var builder = new AlertDialog.Builder(this.Activity).Create();
@@ -679,28 +680,28 @@ namespace IEMSApps.Fragments
             var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
             lblTitleCarian.Text = "Bandar";
 
-            listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandar);
+            listView.Adapter = new CarianBandarPenerimaAdapter(this.Activity, listOfBandarPenerima);
 
             txtCarian.TextChanged += (send, args) =>
             {
-                listOfBandarFiltered = listOfBandar
-                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+                listOfBandarFiltered = listOfBandarPenerima
+                    .Where(m => m.name.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
 
-                listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandarFiltered);
+                listView.Adapter = new CarianBandarPenerimaAdapter(this.Activity, listOfBandarFiltered);
             };
 
             listView.ItemClick += (send, args) =>
             {
-                txtBandarPenerima.Text = listOfBandarFiltered[args.Position]?.Prgn;
+                txtBandarPenerima.Text = listOfBandarFiltered[args.Position]?.name;
 
                 var negeriName = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(selectedNegeri));
                 var kodBandar = listOfBandarFiltered[args.Position] != null
-                    ? listOfBandarFiltered[args.Position].KodBandar
+                    ? listOfBandarFiltered[args.Position].ip_negeri_id
                     : 0;
 
                 var bandarName = MasterDataBll.GetBandarNameByNegeri(GeneralBll.ConvertStringToInt(selectedNegeri), kodBandar);
 
-                txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
+                //txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
 
                 builder.Dismiss();
             };
@@ -714,17 +715,23 @@ namespace IEMSApps.Fragments
             builder.Show();
         }
 
+        List<PoskodPenerimaDto> listOfPoskod;
         public void ShowPoskodPenerima() 
         {
+            string selectedBandar = txtBandarPenerima.Text;
 
-            var selectedNegeri = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
-
-            listOfBandar = MasterDataBll.GetBandarByNegeri(selectedNegeri);
-
-
-            var listOfBandarFiltered = listOfBandar;
-
-
+            var listOfPoskodFiltered = new List<PoskodPenerimaDto>();
+            if (selectedBandar == "")
+            {
+                listOfPoskod = MasterDataBll.GetAllPoskod();
+                listOfPoskodFiltered = listOfPoskod;
+            }
+            else {
+                listOfPoskod = MasterDataBll.GetPoskodByBandar(selectedBandar);
+                listOfPoskodFiltered = listOfPoskod;
+            }
+            
+         
             var builder = new AlertDialog.Builder(this.Activity).Create();
             var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
             builder.SetView(view);
@@ -732,31 +739,31 @@ namespace IEMSApps.Fragments
             txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
             listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
             var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
-            lblTitleCarian.Text = "Bandar";
+            lblTitleCarian.Text = "Poskod";
 
-            listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandar);
+            listView.Adapter = new CarianPoskodPenerimaAdapter(this.Activity, listOfPoskod);
 
             txtCarian.TextChanged += (send, args) =>
             {
-                listOfBandarFiltered = listOfBandar
-                    .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+                listOfPoskodFiltered = listOfPoskod
+                    .Where(m => m.name.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
 
-                listView.Adapter = new CarianBandarAdapter(this.Activity, listOfBandarFiltered);
+                listView.Adapter = new CarianPoskodPenerimaAdapter(this.Activity, listOfPoskodFiltered);
             };
 
             listView.ItemClick += (send, args) =>
             {
-                txtBandarPenerima.Text = listOfBandarFiltered[args.Position]?.Prgn;
+                txtPoskodPenerima.Text = listOfPoskodFiltered[args.Position]?.name;
 
-                var negeriName = MasterDataBll.GetNegeriName(GeneralBll.ConvertStringToInt(selectedNegeri));
-                var kodBandar = listOfBandarFiltered[args.Position] != null
-                    ? listOfBandarFiltered[args.Position].KodBandar
+                var kodBandar = listOfPoskodFiltered[args.Position] != null
+                    ? listOfPoskodFiltered[args.Position].ip_bandar_id
                     : 0;
 
-                var bandarName = MasterDataBll.GetBandarNameByNegeri(GeneralBll.ConvertStringToInt(selectedNegeri), kodBandar);
+                txtBandarPenerima.Text = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
 
-                txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
-
+                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
+                spNegeriPenerima.SetSelection(IdNegeri);
+                
                 builder.Dismiss();
             };
 
@@ -1451,6 +1458,8 @@ namespace IEMSApps.Fragments
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this.Activity,
                Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
 
+            spNegeriPenerima.ItemSelected += SpNegeriPenerima_ItemSelected;
+
             ListKewarganegaraan = PemeriksaanBll.GetKewarganegaraan();
             spKewarganegaraan.Adapter = new ArrayAdapter<string>(this.Activity,
                Resource.Layout.support_simple_spinner_dropdown_item, ListKewarganegaraan.Select(c => c.Value).ToList());
@@ -1464,6 +1473,20 @@ namespace IEMSApps.Fragments
             spKategoriPerniagaan.Adapter = new ArrayAdapter<string>(this.Activity,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListKategoriPerniagaan.Select(c => c.Value).ToList());
 
+        }
+
+        private void SpNegeriPenerima_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            try
+            {
+                txtBandarPenerima.Text = "";
+                txtPoskodPenerima.Text = "";
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData("Pemeriksaan", "SpNegeriPenerima_ItemSelected", ex.Message,
+                    Enums.LogType.Error);
+            }
         }
 
         private void spKewarganegaraan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e) {

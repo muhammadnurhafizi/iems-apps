@@ -607,6 +607,30 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static List<BandarPenerimaDto> GetBandarPenerimaByNegeri(string id_negeri)
+        {
+            var result = new List<BandarPenerimaDto>();
+
+            var listData = DataAccessQuery<ip_bandar>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.Where(c => c.ip_negeri_id.ToString() == id_negeri).ToList();
+                foreach (var tbBandar in list)
+                {
+                    var data = new BandarPenerimaDto
+                    {
+                        id = tbBandar.id,
+                        name = tbBandar.name,
+                        ip_negeri_id = GeneralBll.ConvertStringToInt(id_negeri),
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+        }
+
         public static string GetBandarNameByNegeri(int kodNegeri, int kodBandar)
         {
             var kodNegeri1 = kodNegeri.ToString();
@@ -694,6 +718,89 @@ namespace IEMSApps.BLL
 
             return null;
         }
+
+        public static List<PoskodPenerimaDto> GetPoskodByBandar(string bandarname) {
+
+            var result = new List<PoskodPenerimaDto>();
+
+            var listData = DataAccessQuery<ip_poskod>.GetAll();
+            if (listData.Success)
+            {
+                var Bandar = DataAccessQuery<ip_bandar>.Get(c => c.name == bandarname);
+                var list = listData.Datas.Where(c => c.ip_bandar_id == Bandar.Datas.id).ToList();
+
+                foreach (var poskod in list)
+                {
+                    var data = new PoskodPenerimaDto
+                    {
+                        id = poskod.id,
+                        name = poskod.name,
+                        ip_bandar_id = Bandar.Datas.id,
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+
+        }
+
+        public static List<PoskodPenerimaDto> GetAllPoskod()
+        {
+            var result = new List<PoskodPenerimaDto>();
+
+            var listData = DataAccessQuery<ip_poskod>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var poskod in list)
+                {
+                    var data = new PoskodPenerimaDto
+                    {
+                        id = poskod.id,
+                        name = poskod.name,
+                        ip_bandar_id = poskod.ip_bandar_id
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+        }
+
+        public static string GetBandarPenerimaByPoskod(string poskod) 
+        {
+
+            var poskodData = DataAccessQuery<ip_poskod>.Get(c => c.name == poskod);
+
+            var data = DataAccessQuery<ip_bandar>.Get(c => c.id == poskodData.Datas.ip_bandar_id);
+
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas.name;
+            }
+
+            return "";
+
+        }
+
+        public static int GetNegeriPenerimaByBandar(string negeri) 
+        {
+
+            var BandarData = DataAccessQuery<ip_bandar>.Get(c => c.name == negeri);
+
+            var data = DataAccessQuery<ip_negeri>.Get(c => c.id == BandarData.Datas.ip_negeri_id);
+
+            if (data.Success && data.Datas != null) 
+            {
+                return data.Datas.id;
+            }
+
+            return 0;
+        }
+
 
     }
 }

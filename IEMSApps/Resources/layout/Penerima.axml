@@ -258,7 +258,7 @@
 						android:background="@drawable/question_mark"/>
 				</RelativeLayout>
 
-				<LinearLayout
+				<RelativeLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
@@ -273,8 +273,10 @@
 							android:id="@+id/txtPoskodPenerima"
 							android:background="@drawable/edittext_bg"
 							android:paddingLeft="5dp"
+							android:enabled="false"
 							android:hint="Poskod"
 							android:singleLine="true"/>
+					</android.support.design.widget.TextInputLayout>
 						<Button
 							android:id="@+id/btnPoskodPenerima"
 							android:layout_marginRight="5dp"
@@ -283,8 +285,7 @@
 							android:layout_height="30dp"
 							android:layout_alignParentRight="true"
 							android:background="@drawable/question_mark"/>
-					</android.support.design.widget.TextInputLayout>
-				</LinearLayout>
+				</RelativeLayout>
 
 		</LinearLayout>
 	</LinearLayout>

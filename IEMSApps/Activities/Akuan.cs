@@ -321,12 +321,35 @@ namespace IEMSApps.Activities
 
             try
             {
-                var ad = GeneralAndroidClass.GetReceiptDetail(this);
+                // Inflate the receipt layout
+                View dialogView = LayoutInflater.Inflate(Resource.Layout.ReceiptIpayment, null);
 
-                ad.SetMessage("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n");
+                // Find the TextViews in the layout and set their texts
+                TextView receiptIdTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_id_text_view);
+                receiptIdTextView.Text = "Receipt ID: 12345";
 
-                ad.SetButton("Tutup", (s, ev) => { });
-                ad.Show();
+                TextView receiptDateTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_date_text_view);
+                receiptDateTextView.Text = "Date: 01/01/2023";
+
+                TextView receiptAmountTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_amount_text_view);
+                receiptAmountTextView.Text = "Amount: $10.00";
+
+                TextView receiptDescriptionTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_description_text_view);
+                receiptDescriptionTextView.Text = "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+
+                // Create the AlertDialog
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+                alertDialogBuilder.SetView(dialogView);
+                // Show the AlertDialog
+                AlertDialog alertDialog = alertDialogBuilder.Create();
+                // Add cancel button
+                Button closeButton = dialogView.FindViewById<Button>(Resource.Id.close_button);
+                closeButton.Click += (sender, args) =>
+                {
+                    alertDialog.Dismiss();
+                };
+
+                alertDialog.Show();
 
             }
             catch (Exception ex)
