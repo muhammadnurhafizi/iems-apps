@@ -1,348 +1,329 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="10dp">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:p4="http://xamarin.com/mono/android/designer"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px"
+    android:id="@+id/scrollView1">
 
-    <TableRow
-        android:background="#607D8B"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Bil" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Keterangan" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="No Rujukan" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Kod Akaun" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Jumlah (RM)" />
-    </TableRow>
-
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=" 1. " />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Android Lollipop" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="21" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="12345" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RM 30.50" />
-    </TableRow>
-
-    <LinearLayout
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#ECEFF1"
-        android:padding="5dp"
-        android:id="@+id/linearLayout1" >
-        <TextView
-            android:text="Penambahan Amaun / Nota debit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/textView1" />
-    </LinearLayout>
+        android:showDividers="middle"
+        android:divider="@drawable/table_divider"
+        android:dividerPadding="10dp"
+        android:layout_marginTop="10dp">
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="5.0" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Android Lollipop" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="21" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="12345" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="RM 23.50" />
-    </TableRow>
+        <TableRow
+            android:background="#607D8B"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Bil" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Keterangan" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="No Rujukan" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kod Akaun" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jumlah (RM)" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:background="#ECEFF1"
-        android:padding="5dp"
-        android:id="@+id/linearLayout1" >
-        <TextView
-            android:text="Pengurangan Amaun / Nota Kredit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/textView1" />
-    </LinearLayout>
+        </TableRow>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:background="#ECEFF1"
-        android:padding="5dp"
-        android:id="@+id/linearLayout10" >
-        
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:minWidth="1px"
+            android:minHeight="5px"
+            android:background="@color/black"
+            android:id="@+id/linearLayout1" />
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Amaun" 
-            android:textAlignment="textEnd"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text=" " />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView2" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView3" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView4" />
-    </TableRow>
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" 1. " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kompaun 1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="21" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="12345" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM 30.50" />
+        </TableRow>
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Diskaun (%)" 
-            android:textAlignment="textEnd"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text=" " />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView5" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView6" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView7" />
-    </TableRow>
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" 2. " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kompaun 2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2323" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="7324" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Amaun Dengan Diskaun " 
-            android:textAlignment="textEnd"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text=" " />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView8" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView9" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView10" />
-    </TableRow>
+            android:orientation="horizontal"
+            android:background="@color/buttongrey"
+            android:padding="5dp"
+            android:id="@+id/linearLayout2">
+            <TextView
+                android:text="Penambahan Amaun / Nota debit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/textView1" />
+        </LinearLayout>
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Amaun Cukai (%)" 
-            android:textAlignment="textEnd"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView11" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView12" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView13" />
-    </TableRow>
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" 1. " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kompaun 1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="21" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="12345" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM 30.50" />
+        </TableRow>
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Amaun Dengan Cukai" 
-            android:textAlignment="textEnd"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView14" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView15" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView16" />
-    </TableRow>
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" 2. " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kompaun 2" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2323" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="7324" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Pelarasan Pengenapan" 
-            android:textAlignment="textEnd"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView17" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView18" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView19" />
-    </TableRow>
+            android:orientation="horizontal"
+            android:background="@color/buttongrey"
+            android:padding="5dp"
+            android:id="@+id/linearLayout3">
+            <TextView
+                android:text="Penambahan Amaun / Nota debit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/textView2" />
+        </LinearLayout>
 
-    <TableRow
-        android:background="#ECEFF1"
-        android:padding="5dp">
-        <TextView
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Jumlah Bayaran" 
-            android:textAlignment="textEnd"/>
-        <TextView
-            android:layout_width="wrap_content"
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_span="4"
+                android:textAlignment="textEnd"
+                android:text="Amaun   : " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:text="" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView20" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView21" />
-        <TextView
-            android:minWidth="30px"
-            android:minHeight="30px"
-            xmlns="http://schemas.android.com/apk/res/android"
-            android:id="@+id/textView22" />
-    </TableRow>
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_span="4"
+                android:textAlignment="textEnd"
+                android:text="Jumlah Perlu Dibayar   : " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_span="4"
+                android:textAlignment="textEnd"
+                android:text="Amaun   : " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_span="4"
+                android:textAlignment="textEnd"
+                android:text="Jumlah Perlu Dibayar   : " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_span="4"
+                android:textAlignment="textEnd"
+                android:text="Amaun   : " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/buttongrey"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_span="4"
+                android:textAlignment="textEnd"
+                android:text="Jumlah Perlu Dibayar   : " />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="RM1000" />
+        </TableRow>
 
-</TableLayout>
+    </TableLayout>
+
+</ScrollView>
