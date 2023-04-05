@@ -1,194 +1,192 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?> 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-    <ImageView
-        android:src="@drawable/logoicon"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView1" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayoutmain">
-
-        <TextView
-        android:id="@+id/kerajaan_malaysia"
-        android:text="KERAJAAN MALAYSIA"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2" >
-
-        <TextView
-        android:id="@+id/receipt_id_text_view"
-        android:text="KPDN"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/ResitRasmi" >
-
-        <TextView
-        android:id="@+id/receipt_id_ResitRasmi"
-        android:text="RESIT RASMI"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    </LinearLayout>
-
-    <RelativeLayout 
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:weightSum="2"
-        android:paddingTop="10dp"
-		android:id="@+id/linearHeader">
-        
-        
-		
-	</RelativeLayout>
-
-    <RelativeLayout
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:paddingTop="10px"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/relativeLayout1" >
-
-            
-
-    </RelativeLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="3"
-        android:id="@+id/linearLayout3" >
-
-            <LinearLayout
-                android:minWidth="25px"
-                android:minHeight="25px"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/relativeLayout3" >
-                <TextView
-                    android:text="Ringgit Malaysia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:id="@+id/textView1" />
-                <TextView
-                    android:text="Pusat Terimaan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:id="@+id/textView2" />
-                <TextView
-                    android:text="Petugas Kaunter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:id="@+id/textView3" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:minWidth="25px"
-                android:minHeight="25px"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:id="@+id/relativeLayout4" >
-                <TextView
-                    android:text=" : "
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            
-                
-            </LinearLayout>
-
-            <LinearLayout
-                    android:minWidth="25px"
-                    android:minHeight="25px"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:id="@+id/relativeLayout5" >
-                    
-                    <ImageView
-                        android:src="@drawable/logo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/imageView2" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:scrollbars="vertical|horizontal"
+    android:fillViewport="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
         <LinearLayout
-            android:orientation="horizontal"
-            android:minWidth="25px"
-            android:minHeight="25px"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:id="@+id/linearLayout4" >
+            android:id="@+id/main" >
             
-            <TextView
-                android:text="Text"
+            <ImageView
+                android:src="@drawable/logoicon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView4" />
+                android:id="@+id/imageView1" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayoutmain">
+
+                <TextView
+                android:id="@+id/kerajaan_malaysia"
+                android:text="KERAJAAN MALAYSIA"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout2" >
+
+                <TextView
+                android:id="@+id/receipt_id_text_view"
+                android:text="KPDN"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ResitRasmi" >
+
+                <TextView
+                android:id="@+id/receipt_id_ResitRasmi"
+                android:text="RESIT RASMI"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <RelativeLayout 
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:weightSum="2"
+                android:paddingTop="10dp"
+		        android:id="@+id/linearHeader">
+                    <include
+                        layout="@layout/receiptheadertable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+        
+	        </RelativeLayout>
+
+            <RelativeLayout
+                android:paddingTop="10px"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayout1" >
+                    <include
+                        layout="@layout/receipttable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <LinearLayout         
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3"
+                android:id="@+id/linearLayout3" >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/relativeLayout3" >
+                        <TextView
+                            android:text="Ringgit Malaysia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:id="@+id/textView1" />
+                        <TextView
+                            android:text="Pusat Terimaan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:id="@+id/textView2" />
+                        <TextView
+                            android:text="Petugas Kaunter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:id="@+id/textView3" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:id="@+id/relativeLayout4" >
+                        <TextView
+                            android:text=" : "
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+            
+                
+                    </LinearLayout>
+
+                    <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:id="@+id/relativeLayout5" >
+                    
+                            <ImageView
+                                android:src="@drawable/kod_qr"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/imageView2" />
+
+                    </LinearLayout>
+
+            </LinearLayout>
+
+        
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:id="@+id/linearLayout4" >
+            
+                <TextView
+                    android:text="Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/close_button"
+                android:text="Close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"/>
+
 
         </LinearLayout>
-
-    
-
-    <Button
-        android:id="@+id/close_button"
-        android:text="Close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"/>
-
-
-</LinearLayout>
+</ScrollView >
