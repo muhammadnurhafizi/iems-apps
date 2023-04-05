@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp">
+
+    <TableRow
+        android:background="#607D8B"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Bil" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Keterangan" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="No Rujukan" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Kod Akaun" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Jumlah (RM)" />
+    </TableRow>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=" 1. " />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Android Lollipop" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="21" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="12345" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RM 30.50" />
+    </TableRow>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:background="#ECEFF1"
+        android:padding="5dp"
+        android:id="@+id/linearLayout1" >
+        <TextView
+            android:text="Penambahan Amaun / Nota debit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/textView1" />
+    </LinearLayout>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="5.0" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Android Lollipop" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="21" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="12345" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="RM 23.50" />
+    </TableRow>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:background="#ECEFF1"
+        android:padding="5dp"
+        android:id="@+id/linearLayout1" >
+        <TextView
+            android:text="Pengurangan Amaun / Nota Kredit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/textView1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="#ECEFF1"
+        android:padding="5dp"
+        android:id="@+id/linearLayout10" >
+        
+    </LinearLayout>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Amaun" 
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text=" " />
+    </TableRow>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Diskaun (%)" 
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text=" " />
+    </TableRow>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Amaun Dengan Diskaun " 
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text=" " />
+    </TableRow>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Amaun Cukai (%)" 
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="" />
+    </TableRow>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Amaun Dengan Cukai" 
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="" />
+    </TableRow>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Pelarasan Pengenapan" 
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="" />
+    </TableRow>
+
+    <TableRow
+        android:background="#ECEFF1"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:text="Jumlah Bayaran" 
+            android:textAlignment="textEnd"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="" />
+    </TableRow>
+
+</TableLayout>

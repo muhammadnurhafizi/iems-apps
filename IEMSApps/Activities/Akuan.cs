@@ -325,17 +325,17 @@ namespace IEMSApps.Activities
                 View dialogView = LayoutInflater.Inflate(Resource.Layout.ReceiptIpayment, null);
 
                 // Find the TextViews in the layout and set their texts
-                TextView receiptIdTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_id_text_view);
-                receiptIdTextView.Text = "Receipt ID: 12345";
+                //TextView receiptIdTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_id_text_view);
+                //receiptIdTextView.Text = "Receipt ID: 12345";
 
-                TextView receiptDateTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_date_text_view);
-                receiptDateTextView.Text = "Date: 01/01/2023";
+                //TextView receiptDateTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_date_text_view);
+                //receiptDateTextView.Text = "Date: 01/01/2023";
 
-                TextView receiptAmountTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_amount_text_view);
-                receiptAmountTextView.Text = "Amount: $10.00";
+                //TextView receiptAmountTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_amount_text_view);
+                //receiptAmountTextView.Text = "Amount: $10.00";
 
-                TextView receiptDescriptionTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_description_text_view);
-                receiptDescriptionTextView.Text = "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+                //TextView receiptDescriptionTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_description_text_view);
+                //receiptDescriptionTextView.Text = "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
                 // Create the AlertDialog
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
