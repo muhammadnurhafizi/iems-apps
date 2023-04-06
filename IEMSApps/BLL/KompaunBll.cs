@@ -834,6 +834,7 @@ namespace IEMSApps.BLL
                     data.Datas.NoResit = input.NoResit;
                     data.Datas.AmnByr = input.AmountByr;
                     data.Datas.TrkhPenerima_Akuan = input.TrkhPenerima;
+                    data.Datas.isbayarmanual= input.isbayarmanual;
 
                     if (!insAccess.UpdateTrx(data.Datas))
                     {
@@ -860,7 +861,7 @@ namespace IEMSApps.BLL
                         {
                             dataKes.KodStatusKes_Det = "BS01";
                         }
-
+                            
                         if (!insAccess.UpdateTrx(dataKes))
                         {
                             insAccess.RollBackTrx();

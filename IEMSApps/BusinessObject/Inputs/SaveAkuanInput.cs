@@ -33,5 +33,7 @@
         public decimal AmountByr { get; set; }
 
         public string TrkhPenerima { get; set; }
+
+        public int isbayarmanual { get; set; }
     }
 }

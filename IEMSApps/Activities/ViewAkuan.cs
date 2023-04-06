@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Widget;
@@ -120,6 +121,13 @@ namespace IEMSApps.Activities
             txtAmounBayaran.Text = data.AmnByr.ToString(Constants.DecimalFormat);
             SetDisableEditText(txtAmounBayaran);
 
+            var chkBayarIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarIpayment);
+            if (data.isbayarmanual == Constants.isBayarManual.Yes) 
+            {
+                chkBayarIpayment.Checked = true;
+            }
+            chkBayarIpayment.Enabled = false;
+
             var btnOk = FindViewById<Button>(Resource.Id.btnOk);
             btnOk.Click += BtnOk_Click;
 
@@ -129,6 +137,42 @@ namespace IEMSApps.Activities
             var btnReceipt = FindViewById<Button>(Resource.Id.btnReceipt);
             btnReceipt.Click += BtnReceipt_Click;
 
+            var btnCamera = FindViewById<Button>(Resource.Id.btnCamera);
+            btnCamera.Click += BtnCamera_Click;
+        }
+
+        private void BtnCamera_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _hourGlass?.StartMessage(this, OnCamera);
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData(LayoutName, "BtnCamera_Click", ex.Message, Enums.LogType.Error);
+            }
+        }
+
+        private void OnCamera()
+        {
+            string resit = "IPRESIT";
+            
+            var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
+            if (string.IsNullOrEmpty(kompaun.Datas.NoRujukanKpp)) 
+            {
+                GeneralAndroidClass.ShowModalMessage(this, "Tiada Gambar IP Resit");
+                return;
+            }
+
+            var _noResit = resit + kompaun.Datas.NoRujukanKpp;
+            var intent = new Intent(this, typeof(Camera));
+            intent.PutExtra("filename", _noResit);
+            intent.PutExtra("allowtakepicture", false);
+            intent.PutExtra("allowreplace", false);
+
+            StartActivity(intent);
+
+            _hourGlass?.StopMessage();
         }
 
         private void BtnReceipt_Click(object sender, EventArgs e) {
@@ -136,8 +180,6 @@ namespace IEMSApps.Activities
             try {
 
                 var ad = GeneralAndroidClass.GetReceiptDetail(this);
-
-                ad.SetMessage("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n");
 
                 ad.SetButton("Tutup", (s, ev) => { });
                 ad.Show();

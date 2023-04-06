@@ -86,10 +86,15 @@ namespace IEMSApps.Classes
         public static AlertDialog GetReceiptDetail(Context context) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(context, Resource.Style.CustomDialogAlert);
+            // Inflate the receipt layout
+            LayoutInflater inflater= LayoutInflater.FromContext(context);
+            View dialogLayout = inflater.Inflate(Resource.Layout.ReceiptIpayment, null);
+            builder.SetView(dialogLayout);
 
             AlertDialog ad = builder.Create();
             ad.SetTitle("Resit Ipayment");
             ad.SetIcon(Resource.Drawable.logoicon);
+            
             return ad;
         }
 

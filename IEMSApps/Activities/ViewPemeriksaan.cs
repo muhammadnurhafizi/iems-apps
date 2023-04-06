@@ -426,7 +426,7 @@ namespace IEMSApps.Activities
                 ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
                 {
                     var checkKompaunIzin = PemeriksaanBll.CheckKompaunIzin(lblNoKpp.Text);
-                    if (checkKompaunIzin == null)
+                    if (checkKompaunIzin.Datas == null)
                     {
                         GeneralAndroidClass.ShowModalMessage(this, "Tiada Izin Kompaun");
                     }

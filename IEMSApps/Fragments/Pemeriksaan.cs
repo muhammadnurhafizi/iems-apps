@@ -759,7 +759,8 @@ namespace IEMSApps.Fragments
                     ? listOfPoskodFiltered[args.Position].ip_bandar_id
                     : 0;
 
-                txtBandarPenerima.Text = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
+                var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
+                txtBandarPenerima.Text = bandarPenerima;
 
                 var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
                 spNegeriPenerima.SetSelection(IdNegeri);

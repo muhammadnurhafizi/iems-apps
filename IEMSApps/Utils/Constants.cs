@@ -175,6 +175,14 @@ namespace IEMSApps.Utils
         
         }
 
+        public static class isBayarManual 
+        {
+
+            public const int Yes = 1;
+            public const int No = 0;   
+        
+        }
+
         public static class NPMB
         {
             public const int Yes = 1;

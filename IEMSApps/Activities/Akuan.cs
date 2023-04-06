@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static IEMSApps.Utils.Constants;
+using static IEMSApps.Utils.Enums;
 
 namespace IEMSApps.Activities
 {
@@ -209,15 +211,32 @@ namespace IEMSApps.Activities
 
         private void btnCamera_Click(object sender, EventArgs e)
         {
+            
+            string resit = "IPRESIT";
+              
             try
             {
+                var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
 
-                GeneralAndroidClass.ShowToast("memasuki camera");
+                if (string.IsNullOrEmpty(kompaun.Datas.NoRujukanKpp))
+                {
+                    GeneralAndroidClass.ShowModalMessage(this, "No Rujukan Kosong");
+                    return;
+                }
+                var _noResit = resit + kompaun.Datas.NoRujukanKpp;
+                var intent = new Intent(this, typeof(Camera));
+                intent.PutExtra("filename", _noResit);
+                if (_isSaved)
+                {
+                    intent.PutExtra("allowtakepicture", false);
+                    intent.PutExtra("allowreplace", false);
+                }
 
+                StartActivity(intent);
             }
             catch (Exception ex)
             {
-                GeneralAndroidClass.LogData(LayoutName, "btnCamera_Click", ex.Message, Enums.LogType.Error);
+                GeneralAndroidClass.LogData(LayoutName, "BtnCamera_Click", ex.Message, Enums.LogType.Error);
             }
         }
 
@@ -321,36 +340,10 @@ namespace IEMSApps.Activities
 
             try
             {
-                // Inflate the receipt layout
-                View dialogView = LayoutInflater.Inflate(Resource.Layout.ReceiptIpayment, null);
+                var ad = GeneralAndroidClass.GetReceiptDetail(this);
 
-                // Find the TextViews in the layout and set their texts
-                //TextView receiptIdTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_id_text_view);
-                //receiptIdTextView.Text = "Receipt ID: 12345";
-
-                //TextView receiptDateTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_date_text_view);
-                //receiptDateTextView.Text = "Date: 01/01/2023";
-
-                //TextView receiptAmountTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_amount_text_view);
-                //receiptAmountTextView.Text = "Amount: $10.00";
-
-                //TextView receiptDescriptionTextView = dialogView.FindViewById<TextView>(Resource.Id.receipt_description_text_view);
-                //receiptDescriptionTextView.Text = "Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-
-                // Create the AlertDialog
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-                alertDialogBuilder.SetView(dialogView);
-                // Show the AlertDialog
-                AlertDialog alertDialog = alertDialogBuilder.Create();
-                // Add cancel button
-                Button closeButton = dialogView.FindViewById<Button>(Resource.Id.close_button);
-                closeButton.Click += (sender, args) =>
-                {
-                    alertDialog.Dismiss();
-                };
-
-                alertDialog.Show();
-
+                ad.SetButton("Tutup", (s, ev) => { });
+                ad.Show();
             }
             catch (Exception ex)
             {
@@ -591,7 +584,8 @@ namespace IEMSApps.Activities
                 AlamatPenerima3 = txtAlamatPenerima3.Text,
                 NoResit = txtNoResit.Text,
                 AmountByr = GeneralBll.ConvertStringToDecimal(txtAmounBayaran.Text),
-                TrkhPenerima = _trkhPenerima
+                TrkhPenerima = _trkhPenerima,
+                isbayarmanual = chkBayarIpayment.Checked ? Constants.isBayarManual.Yes : Constants.isBayarManual.No,
             };
 
             if (KompaunBll.SaveDataAkuanTrx(input))

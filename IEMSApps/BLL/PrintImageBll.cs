@@ -1674,6 +1674,10 @@ namespace IEMSApps.BLL
 
             lastPositionY += addLine;
             listData.Add(CreateText("", positionX, lastPositionY));
+
+            lastPositionY += addLine;
+            listData.Add(CreateText("Nota : Pembayaran Kompaun Telah Dibuat Melalui Portal iPayment.", positionX, lastPositionY));
+
             lastPositionY += addLine;
             listData.Add(CreateText("", positionX, lastPositionY));
             lastPositionY += addLine;
