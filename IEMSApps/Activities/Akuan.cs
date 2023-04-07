@@ -340,10 +340,14 @@ namespace IEMSApps.Activities
 
             try
             {
-                var ad = GeneralAndroidClass.GetReceiptDetail(this);
+                //var ad = GeneralAndroidClass.GetReceiptDetail(this);
 
-                ad.SetButton("Tutup", (s, ev) => { });
-                ad.Show();
+                //ad.SetButton("Tutup", (s, ev) => { });
+                //ad.Show();
+
+                var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
+                StartActivity(intent);
+
             }
             catch (Exception ex)
             {

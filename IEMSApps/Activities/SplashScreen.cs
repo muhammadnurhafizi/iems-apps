@@ -87,14 +87,15 @@ namespace IEMSApps.Activities
 
                         var result = DatabaseBll.CreateDefaultDatabase();
 
-                        //GeneralAndroidClass.ShowToast("result : " + result);
+                        GeneralAndroidClass.ShowToast("result Create : " + result);
 
                         //var data = DataAccessQuery<TbPasukanHeader>.ExecuteSelectSql("select * from tbpasukan_header");
                         //GeneralAndroidClass.ShowToast("Data : " + data.Count);
                     }
                     else
                     {
-                        DatabaseBll.AlterDatabase();
+                        var result = DatabaseBll.AlterDatabase();
+                        GeneralAndroidClass.ShowToast("result Alter : " + result);
                     }
 
                     CheckVersion();

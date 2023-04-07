@@ -89,7 +89,11 @@ namespace IEMSApps.Classes
             // Inflate the receipt layout
             LayoutInflater inflater= LayoutInflater.FromContext(context);
             View dialogLayout = inflater.Inflate(Resource.Layout.ReceiptIpayment, null);
-            builder.SetView(dialogLayout);
+            //builder.SetView(dialogLayout);
+
+            ScrollView scrollview = new ScrollView(context);
+            scrollview.AddView(dialogLayout);
+            builder.SetView(scrollview);
 
             AlertDialog ad = builder.Create();
             ad.SetTitle("Resit Ipayment");

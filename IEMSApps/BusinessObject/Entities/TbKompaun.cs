@@ -163,5 +163,7 @@ namespace IEMSApps.BusinessObject.Entities
 
         [MaxLength(2)]
         public int isbayarmanual { get; set; }
+
+        public string gambarbuktibayaran { get; set; }
     }
 }

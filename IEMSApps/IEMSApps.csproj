@@ -91,6 +91,7 @@
     <Compile Include="Activities\LoadingActivity.cs" />
     <Compile Include="Activities\Login.cs" />
     <Compile Include="Activities\PasukanForm.cs" />
+    <Compile Include="Activities\ReceiptIpayment.cs" />
     <Compile Include="Activities\SiasatLanjutan.cs" />
     <Compile Include="Activities\SplashScreen.cs" />
     <Compile Include="Activities\ViewAkuan.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="BusinessObject\DTOs\SearchDto.cs" />
     <Compile Include="BusinessObject\DTOs\VersionDto.cs" />
     <Compile Include="BusinessObject\Entities\BaseEntities.cs" />
+    <Compile Include="BusinessObject\Entities\ip_resits.cs" />
     <Compile Include="BusinessObject\Entities\ip_negeri.cs" />
     <Compile Include="BusinessObject\Entities\ip_poskod.cs" />
     <Compile Include="BusinessObject\Entities\ip_bandar.cs" />

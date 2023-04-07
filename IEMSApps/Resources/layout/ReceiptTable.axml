@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:p4="http://xamarin.com/mono/android/designer"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:minWidth="25px"
-    android:minHeight="25px"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:scrollbars="vertical|horizontal"
     android:id="@+id/scrollView1">
 
     <TableLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:stretchColumns="*"
+        android:shrinkColumns="*"
         android:showDividers="middle"
         android:divider="@drawable/table_divider"
         android:dividerPadding="10dp"

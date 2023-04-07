@@ -74,7 +74,7 @@
 
                 </LinearLayout>
 
-                <RelativeLayout 
+                <LinearLayout 
 		            android:layout_width="match_parent"
 		            android:layout_height="wrap_content"
 		            android:weightSum="2"
@@ -85,19 +85,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
-	            </RelativeLayout>
+	            </LinearLayout>
 
-                <LinearLayout 
-                    android:paddingTop="10px"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/relativeLayout1" >
                 <include
                     layout="@layout/receipttable"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp" />
-                </LinearLayout>
             
                 <LinearLayout         
                     android:orientation="horizontal"
@@ -127,15 +121,6 @@
                         android:id="@+id/textView4" />
 
                 </LinearLayout>
-
-                <Button
-                    android:id="@+id/close_button"
-                    android:text="Close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="16dp"/>
-
 
             </LinearLayout>
 
