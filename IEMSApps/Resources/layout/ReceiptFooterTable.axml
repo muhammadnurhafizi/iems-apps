@@ -9,7 +9,7 @@
         android:orientation="horizontal"
         android:minWidth="25px"
         android:minHeight="25px"
-        android:weightSum="4"
+        android:weightSum="3"
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -84,24 +84,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
             </LinearLayout>
+    </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:minWidth="25px"
-                android:minHeight="25px"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/linearLayout89">
-                <ImageView
-                    android:src="@drawable/new_qr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:id="@+id/imageView1" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:id="@+id/linearLayout89">
+        <ImageView
+            android:src="@drawable/new_qr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/imageView1" />
  
-            </LinearLayout>
-            
-
     </LinearLayout>
     
 </TableLayout>

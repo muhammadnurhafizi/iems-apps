@@ -345,8 +345,16 @@ namespace IEMSApps.Activities
                 //ad.SetButton("Tutup", (s, ev) => { });
                 //ad.Show();
 
-                var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
-                StartActivity(intent);
+                if (_isSaved) 
+                {
+                    _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.WaitingPlease);
+                    new Thread(() =>
+                    {
+
+                        Thread.Sleep(1000);
+                        this.RunOnUiThread(CheckReceiptOnline);
+                    }).Start();
+                }
 
             }
             catch (Exception ex)
@@ -354,6 +362,58 @@ namespace IEMSApps.Activities
                 GeneralAndroidClass.LogData(LayoutName, "BtnReceipt_Click", ex.Message, Enums.LogType.Error);
             }
 
+        }
+
+        private void CheckReceiptOnline()
+        {
+            var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
+            var norujukan = kompaun.Datas.NoRujukanKpp;
+
+            var data = AkuanBll.CheckIpResitsData(norujukan);
+
+            if (data.Success)
+            {
+                if (data.Datas == null)
+                {
+                    GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.CheckResit);
+                    var service = AkuanBll.CheckServiceReceiptIP(norujukan, this);
+
+                }
+                else
+                { 
+                    //GeneralAndroidClass.ShowModalMessage(this, "Bayaran telah dibuat");
+                    var message = "Bayaran telah dibuat";
+
+                    var ad = GeneralAndroidClass.GetDialogCustom(this);
+
+                    ad.SetMessage(Html.FromHtml(message));
+                    ad.DismissEvent += Ad_DismissEvent;
+                    ad.SetButton2("OK", (s, ev) =>
+                    {
+
+                    });
+                    ad.Show();   
+                }
+            }
+            //else
+            //{
+            //    if (GeneralBll.IsSkipControl() && IsKompaunIzinWaitingSkip())
+            //    {
+            //        ShowSkipMessage(string.Format(Constants.Messages.SkipMessage,
+            //            Constants.MaxSkipWaitingInMinute));
+            //    }
+            //    else
+            //    {
+            //        GeneralAndroidClass.ShowModalMessage(this.Activity, "Error " + service.Mesage);
+            //    }
+
+            //}
+        }
+
+        private void Ad_DismissEvent(object sender, EventArgs e)
+        {
+            var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
+            StartActivity(intent);
         }
 
         private void BtnOk_Click(object sender, EventArgs e)

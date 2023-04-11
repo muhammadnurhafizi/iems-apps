@@ -238,6 +238,8 @@ namespace IEMSApps.Utils
             public const string ConnectionToBluetooth = "Proses capaian sambungan";
             public const string GenerateBitmap = "Cetakan..";
             public const string FaildSendData = "Gagal hantar data.";
+
+            public const string CheckResit = "Resit sedang disemak";
         }
 
         public const string InstallText = "Install";

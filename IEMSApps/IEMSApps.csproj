@@ -122,6 +122,7 @@
     <Compile Include="BLL\GeneralBll.cs" />
     <Compile Include="BLL\GpsLogBll.cs" />
     <Compile Include="BLL\HandheldBll.cs" />
+    <Compile Include="BLL\AkuanBll.cs" />
     <Compile Include="BLL\KompaunBll.cs" />
     <Compile Include="BLL\LoginBll.cs" />
     <Compile Include="BLL\MasterDataBll.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="BusinessObject\Inputs\SaveAkuanInput.cs" />
     <Compile Include="BusinessObject\Inputs\SearchDataInput.cs" />
     <Compile Include="BusinessObject\Response.cs" />
+    <Compile Include="BusinessObject\Responses\CheckIPResitsResponse.cs" />
     <Compile Include="BusinessObject\Responses\CheckKompaunIzinResponse.cs" />
     <Compile Include="BusinessObject\Responses\CountDataResponse.cs" />
     <Compile Include="BusinessObject\Responses\DataSsmReponse.cs" />
@@ -941,6 +943,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\new_qr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\Jata.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

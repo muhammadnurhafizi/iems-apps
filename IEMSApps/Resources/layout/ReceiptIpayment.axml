@@ -12,7 +12,7 @@
                 android:id="@+id/main" >
             
                 <ImageView
-                    android:src="@drawable/logoicon"
+                    android:src="@drawable/jata"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/imageView1" />
@@ -28,6 +28,7 @@
 
                     <TextView
                     android:id="@+id/kerajaan_malaysia"
+                    android:textColor="@color/black"
                     android:text="KERAJAAN MALAYSIA"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -47,6 +48,7 @@
 
                     <TextView
                     android:id="@+id/receipt_id_text_view"
+                    android:textColor="@color/black"
                     android:text="KPDN"
                     android:textSize="15sp"
                     android:textStyle="bold"
@@ -66,26 +68,21 @@
 
                     <TextView
                     android:id="@+id/receipt_id_ResitRasmi"
+                    android:textColor="@color/black"
                     android:text="RESIT RASMI"
                     android:textSize="15sp"
                     android:textStyle="bold"
+                    android:paddingBottom="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 </LinearLayout>
 
-                <LinearLayout 
-		            android:layout_width="match_parent"
-		            android:layout_height="wrap_content"
-		            android:weightSum="2"
-                    android:paddingTop="10dp"
-		            android:id="@+id/linearHeader">
-                        <include
-                        layout="@layout/receiptheadertable"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-	            </LinearLayout>
+                <include
+                    layout="@layout/receiptheadertable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp" />
 
                 <include
                     layout="@layout/receipttable"
@@ -112,15 +109,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:id="@+id/linearLayout4" >
+                    android:id="@+id/noteLayout" >
             
                     <TextView
-                        android:text="Text"
+                        android:text="Nota : Bayaran ini dikenakan caj transaksi yang perlu ditanggung oleh Pelanggan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/textView4" />
+                        android:id="@+id/note" />
 
                 </LinearLayout>
+
+                <TextView
+                    android:text="Ini adalah cetakan komputer dan tidak perlu ditandangani"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                />
+
+                <TextView
+                    android:text="Resit ini dijana oleh Sistem Terimaan Eletronik Kerajaan Persekutuan (iPayment), Jabatan Akauantan Negara Malaysia.\nNo. Kelulusan Perbendaharaan : "
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:id="@+id/textView1" />
+
 
             </LinearLayout>
 

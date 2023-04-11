@@ -284,6 +284,79 @@ namespace IEMSApps.Services
             return result;
         }
 
+        public static async Task<Response<CheckIPResitsResponse>> CheckReceiptOnServer(string noRujukan)
+        {
+            var result = new Response<CheckIPResitsResponse>()
+            {
+                Success = false,
+                Mesage = "Ralat"
+            };
+
+            try
+            {
+                var query = $"Select * from ip_resits where no_rujukan_ipayment = '{noRujukan}'";
+                var encodedQuery = BLL.GeneralBll.Base64Encode(query);
+
+                using (HttpClient client = GenerateHttpClient())
+                {
+#if !DEBUG
+                    var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+#endif
+
+#if DEBUG
+                   var url = $"http://mhdamn.me/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+#endif
+                    var req = new HttpRequestMessage(HttpMethod.Get, url);
+                    var response = await client.SendAsync(req);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+
+                        var stringJson = await response.Content.ReadAsStringAsync();
+
+                        var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
+
+                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result.Replace("\"", ""));
+                        var jsonDataResult = jsonData.Substring(jsonData.IndexOf('{')).Replace("]", "");
+
+                        result.Result = JsonConvert.DeserializeObject<CheckIPResitsResponse>(jsonDataResult);
+                        result.Success = true;
+                        result.Mesage = string.Empty;
+
+
+                    }
+                    else if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        result.Mesage = Constants.ErrorMessages.NotFound;
+                        result.Success = false;
+
+                        Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", $"No Rujukan : {noRujukan} Not Found", Enums.LogType.Error);
+                        Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", query, Enums.LogType.Error);
+                    }
+                }
+            }
+            catch (TimeoutException ex)
+            {
+                Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+                result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                result.Success = false;
+            }
+            catch (System.Exception ex)
+            {
+                Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+                if (ex.Message.Contains("Unable to resolve host"))
+                    result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                else
+                    result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
+                result.Success = false;
+            }
+
+            return result;
+        }
+
         public static async Task<Response<string>> ExecuteQuery(string query, Android.Content.Context context = null)
         {
 #if DEBUG
