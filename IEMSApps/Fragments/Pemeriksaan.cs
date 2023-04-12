@@ -119,7 +119,7 @@ namespace IEMSApps.Fragments
         private LinearLayout linearSiasatUlangan, linearButtonKesalahan, linearSerahanNotis;
         private RelativeLayout relativeStesenMinyak, relativeNegaraAsal;
 
-        private CheckBox chkNPMB, chkNB;
+        private CheckBox chkNPMB, chkNB; 
 
         private bool _isSkip;
 

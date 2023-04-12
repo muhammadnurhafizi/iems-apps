@@ -9,12 +9,11 @@
 		android:layout_weight="1"
 		android:gravity="center"
 		android:id="@+id/linearBtnBack"
-		android:background="@color/buttongrey"
 		android:orientation="vertical">
 		<Button
 			android:layout_width="35dip"
 			android:layout_height="35dip"
-			android:id="@+id/btnBtnBack"
+			android:id="@+id/btnBack"
 			android:background="@drawable/backblue"/>
 		<TextView
 			android:layout_width="match_parent"

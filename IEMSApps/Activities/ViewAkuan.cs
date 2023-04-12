@@ -211,8 +211,7 @@ namespace IEMSApps.Activities
                 }
                 else
                 {
-                    //GeneralAndroidClass.ShowModalMessage(this, "Bayaran telah dibuat");
-                    var message = "Bayaran telah dibuat";
+                    var message = "Pembayaran Melalui iPayment telah Dijana.";
 
                     var ad = GeneralAndroidClass.GetDialogCustom(this);
 
@@ -225,19 +224,6 @@ namespace IEMSApps.Activities
                     ad.Show();
                 }
             }
-            //else
-            //{
-            //    if (GeneralBll.IsSkipControl() && IsKompaunIzinWaitingSkip())
-            //    {
-            //        ShowSkipMessage(string.Format(Constants.Messages.SkipMessage,
-            //            Constants.MaxSkipWaitingInMinute));
-            //    }
-            //    else
-            //    {
-            //        GeneralAndroidClass.ShowModalMessage(this.Activity, "Error " + service.Mesage);
-            //    }
-
-            //}
         }
 
         private void Ad_DismissEvent(object sender, EventArgs e)

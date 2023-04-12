@@ -340,11 +340,6 @@ namespace IEMSApps.Activities
 
             try
             {
-                //var ad = GeneralAndroidClass.GetReceiptDetail(this);
-
-                //ad.SetButton("Tutup", (s, ev) => { });
-                //ad.Show();
-
                 if (_isSaved) 
                 {
                     _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.WaitingPlease);
@@ -395,19 +390,6 @@ namespace IEMSApps.Activities
                     ad.Show();   
                 }
             }
-            //else
-            //{
-            //    if (GeneralBll.IsSkipControl() && IsKompaunIzinWaitingSkip())
-            //    {
-            //        ShowSkipMessage(string.Format(Constants.Messages.SkipMessage,
-            //            Constants.MaxSkipWaitingInMinute));
-            //    }
-            //    else
-            //    {
-            //        GeneralAndroidClass.ShowModalMessage(this.Activity, "Error " + service.Mesage);
-            //    }
-
-            //}
         }
 
         private void Ad_DismissEvent(object sender, EventArgs e)

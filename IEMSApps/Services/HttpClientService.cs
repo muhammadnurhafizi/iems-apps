@@ -304,7 +304,7 @@ namespace IEMSApps.Services
 #endif
 
 #if DEBUG
-                   var url = $"http://mhdamn.me/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+                   var url = $"{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
 #endif
                     var req = new HttpRequestMessage(HttpMethod.Get, url);
                     var response = await client.SendAsync(req);
