@@ -113,15 +113,14 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-	android:background="#DEEAF6"
 	android:padding="5dp">
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 		<LinearLayout
-			android:layout_width="0dp"
+			android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
-			android:orientation="vertical"			
+			android:orientation="vertical"
 			android:paddingBottom="5dp">
 			<LinearLayout 
 			    android:layout_width="match_parent"
@@ -134,7 +133,8 @@
 					android:id="@+id/lblRinggitMalaysia"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="4"
+					android:layout_weight="5"
+                    android:textColor="@color/black"
 					android:text="Ringgit Malaysia"/>
 				<TextView
 					android:layout_width="0dp"
@@ -146,7 +146,7 @@
 					android:id="@+id/txtRinggitMalaysia"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="11"
+					android:layout_weight="10"
 					android:text="Lokasi A Lokasi ALokasi ALokasi"/>
 			</LinearLayout>
 			<LinearLayout 
@@ -160,7 +160,8 @@
 					android:id="@+id/lblPusatTerimaan"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="4"
+					android:layout_weight="5"
+                    android:textColor="@color/black"
 					android:text="Pusat Terimaan"/>
 				<TextView
 					android:layout_width="0dp"
@@ -172,7 +173,7 @@
 					android:id="@+id/txtPusatTerimaan"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="11"
+					android:layout_weight="10"
 					android:text="Lokasi A Lokasi ALokasi ALokasi"/>
 			</LinearLayout>
 			<LinearLayout 
@@ -186,8 +187,9 @@
 					android:id="@+id/lblPetugasKaunter"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="4"
-					android:text="Petugas Kaunter"/>
+					android:layout_weight="5"
+					android:text="Petugas Kaunter"
+                    android:textColor="@color/black"/>
 				<TextView
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
@@ -198,7 +200,7 @@
 					android:id="@+id/txtPetugasKaunter"
 					android:layout_width="0dp"
 					android:layout_height="wrap_content"
-					android:layout_weight="11"
+					android:layout_weight="10"
 					android:text="Lokasi B Lokasi B Lokasi Lokasi"/>
 			</LinearLayout>
 		</LinearLayout>
