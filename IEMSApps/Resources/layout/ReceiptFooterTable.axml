@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!--
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -104,3 +106,101 @@
     </LinearLayout>
     
 </TableLayout>
+-->
+
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+	android:background="#DEEAF6"
+	android:padding="5dp">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+		<LinearLayout
+			android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+			android:orientation="vertical"			
+			android:paddingBottom="5dp">
+			<LinearLayout 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+                android:weightSum="15"
+				android:paddingTop="5dp"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp">
+				<TextView
+					android:id="@+id/lblRinggitMalaysia"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="4"
+					android:text="Ringgit Malaysia"/>
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text=" : "/>
+				<TextView
+					android:id="@+id/txtRinggitMalaysia"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="11"
+					android:text="Lokasi A Lokasi ALokasi ALokasi"/>
+			</LinearLayout>
+			<LinearLayout 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+                android:weightSum="15"
+				android:paddingTop="5dp"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp">
+				<TextView
+					android:id="@+id/lblPusatTerimaan"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="4"
+					android:text="Pusat Terimaan"/>
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text=" : "/>
+				<TextView
+					android:id="@+id/txtPusatTerimaan"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="11"
+					android:text="Lokasi A Lokasi ALokasi ALokasi"/>
+			</LinearLayout>
+			<LinearLayout 
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+                android:weightSum="15"
+				android:paddingTop="5dp"
+				android:paddingLeft="5dp"
+				android:paddingRight="5dp">
+				<TextView
+					android:id="@+id/lblPetugasKaunter"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="4"
+					android:text="Petugas Kaunter"/>
+				<TextView
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:gravity="center"
+					android:text=" : "/>
+				<TextView
+					android:id="@+id/txtPetugasKaunter"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="11"
+					android:text="Lokasi B Lokasi B Lokasi Lokasi"/>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
