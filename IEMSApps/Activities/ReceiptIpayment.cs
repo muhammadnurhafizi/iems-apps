@@ -154,6 +154,8 @@ namespace IEMSApps.Activities
             try
             {
                 Finish();
+
+                _hourGlass?.StopMessage();
             }
             catch (Exception ex)
             {

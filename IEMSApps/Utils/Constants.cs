@@ -175,7 +175,7 @@ namespace IEMSApps.Utils
         
         }
 
-        public static class isBayarManual 
+        public static class GambarBayaran 
         {
 
             public const int Yes = 1;

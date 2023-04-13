@@ -59,8 +59,8 @@ namespace IEMSApps.Activities
 
         private Spinner spJenisKad, spNegeriPenerima;
         private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima;
-        private Button btnBandarPenerima;
-        private CheckBox chkBayarIpayment;
+        private Button btnBandarPenerima, btnPoskodPenerima;
+        private CheckBox chkGambarBayaran, chkBayarGunaIpayment;
 
         private AlertDialog _dialog;
         private bool _isSaved = false;
@@ -96,12 +96,15 @@ namespace IEMSApps.Activities
                 btnBandarPenerima = FindViewById<Button>(Resource.Id.btnBandarPenerima);
                 btnBandarPenerima.Click += BtnBandarPenerima_Click;
                 txtPoskodPenerima = FindViewById<EditText>(Resource.Id.txtPoskodPenerima);
+                btnPoskodPenerima = FindViewById<Button>(Resource.Id.btnPoskodPenerima);
+                btnPoskodPenerima.Click += BtnPoskodPenerima_Click;
 
                 txtAlamatPenerima1 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima1);
                 txtAlamatPenerima2 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima2);
                 txtAlamatPenerima3 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima3);
 
-                chkBayarIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarIpayment);
+                chkGambarBayaran = FindViewById<CheckBox>(Resource.Id.chkGambarBayaran);
+                chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
 
                 txtNoResit = FindViewById<EditText>(Resource.Id.txtNoResit);
                 txtAmounBayaran = FindViewById<EditText>(Resource.Id.txtAmounBayaran);
@@ -121,7 +124,8 @@ namespace IEMSApps.Activities
                 btnCamera = FindViewById<Button>(Resource.Id.btnCamera);
                 btnCamera.Click += btnCamera_Click;
 
-                chkBayarIpayment.CheckedChange += chkBayarIpayment_Check; 
+                chkGambarBayaran.CheckedChange += chkGambarBayaran_Click;
+                chkBayarGunaIpayment.CheckedChange += chkBayarGunaIpayment_Click;
 
                 btnNamaPenerima.Click += BtnNamaPenerima_Click;
 
@@ -186,7 +190,42 @@ namespace IEMSApps.Activities
             _hourGlass?.StopMessage();
         }
 
-        private void chkBayarIpayment_Check(object sender, CompoundButton.CheckedChangeEventArgs e)
+        private void chkBayarGunaIpayment_Click(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            try
+            {
+                if (e.IsChecked)
+                {
+                    btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon_enable);
+                    btnReceipt.Enabled = true;
+                }
+                else
+                {
+                    btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon);
+                    btnReceipt.Enabled = false;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData(LayoutName, "chkBayarGunaIpayment_Click", ex.Message, Enums.LogType.Error);
+            }
+        }
+
+        private void BtnPoskodPenerima_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowPoskodPenerima();
+            }
+            catch (Exception ex)
+            {
+
+                GeneralAndroidClass.LogData(LayoutName, "BtnPoskodPenerima_Click", ex.Message, Enums.LogType.Error);
+            }
+        }
+
+        private void chkGambarBayaran_Click(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             try
             {
@@ -204,7 +243,7 @@ namespace IEMSApps.Activities
             }
             catch (Exception ex)
             {
-                GeneralAndroidClass.LogData(LayoutName, "chkBayarIpayment_Check", ex.Message, Enums.LogType.Error);
+                GeneralAndroidClass.LogData(LayoutName, "chkGambarBayaran_Check", ex.Message, Enums.LogType.Error);
             }
 
         }
@@ -246,7 +285,8 @@ namespace IEMSApps.Activities
             ListJenisKad = MasterDataBll.GetJenisKad();
             spJenisKad.Adapter = new ArrayAdapter<string>(this, Resource.Layout.support_simple_spinner_dropdown_item, ListJenisKad.Select(c => c.Value).ToList());
 
-            ListNegeri = MasterDataBll.GetAllNegeri();
+            //ListNegeri = MasterDataBll.GetAllNegeri();
+            ListNegeri = MasterDataBll.GetAllNegeriNew();
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
 
@@ -263,6 +303,70 @@ namespace IEMSApps.Activities
 
                 GeneralAndroidClass.LogData(LayoutName, "BtnBandarPenerima_Click", ex.Message, Enums.LogType.Error);
             }
+        }
+
+        List<PoskodPenerimaDto> listOfPoskod;
+        public void ShowPoskodPenerima()
+        {
+            string selectedBandar = txtBandarPenerima.Text;
+
+            var listOfPoskodFiltered = new List<PoskodPenerimaDto>();
+            if (selectedBandar == "")
+            {
+                listOfPoskod = MasterDataBll.GetAllPoskod();
+                listOfPoskodFiltered = listOfPoskod;
+            }
+            else
+            {
+                listOfPoskod = MasterDataBll.GetPoskodByBandar(selectedBandar);
+                listOfPoskodFiltered = listOfPoskod;
+            }
+
+
+            var builder = new AlertDialog.Builder(this).Create();
+            var view = this.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Poskod";
+
+            listView.Adapter = new CarianPoskodPenerimaAdapter(this, listOfPoskod);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listOfPoskodFiltered = listOfPoskod
+                    .Where(m => m.name.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                listView.Adapter = new CarianPoskodPenerimaAdapter(this, listOfPoskodFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                txtPoskodPenerima.Text = listOfPoskodFiltered[args.Position]?.name;
+
+                var kodBandar = listOfPoskodFiltered[args.Position] != null
+                    ? listOfPoskodFiltered[args.Position].ip_bandar_id
+                    : 0;
+
+                var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
+                txtBandarPenerima.Text = bandarPenerima;
+
+                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
+                spNegeriPenerima.SetSelection(IdNegeri);
+
+                builder.Dismiss();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                builder.Dismiss();
+            };
+
+            builder.Show();
+
         }
 
         EditText txtCarian;
@@ -335,22 +439,19 @@ namespace IEMSApps.Activities
             btnPrint.Enabled = true;
         }
 
+        [Obsolete]
         private void BtnReceipt_Click(object sender, EventArgs e)
         {
 
             try
             {
-                if (_isSaved) 
+                _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.WaitingPlease);
+                new Thread(() =>
                 {
-                    _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.WaitingPlease);
-                    new Thread(() =>
-                    {
 
-                        Thread.Sleep(1000);
-                        this.RunOnUiThread(CheckReceiptOnline);
-                    }).Start();
-                }
-
+                    Thread.Sleep(1000);
+                    this.RunOnUiThread(CheckReceiptOnline);
+                }).Start();
             }
             catch (Exception ex)
             {
@@ -359,6 +460,7 @@ namespace IEMSApps.Activities
 
         }
 
+        [Obsolete]
         private void CheckReceiptOnline()
         {
             var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
@@ -372,30 +474,51 @@ namespace IEMSApps.Activities
                 {
                     GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.CheckResit);
                     var service = AkuanBll.CheckServiceReceiptIP(norujukan, this);
+                    if (service.Success) 
+                    {
+                        txtNoResit.Text = service.Result.no_resit;
 
+                        var message = "Bayaran telah Dibuat dan Resit dijana";
+                        var ad = GeneralAndroidClass.GetDialogCustom(this);
+                        ad.SetMessage(Html.FromHtml(message));
+                        ad.SetButton("Kembali", (s, ev) => { });
+                        ad.SetButton2("Lihat Resit", (s, ev) =>
+                        {
+                            _hourGlass.StartMessage(this, ShowReceipt);
+                        });
+                        ad.Show();
+                    }
                 }
                 else
                 { 
-                    //GeneralAndroidClass.ShowModalMessage(this, "Bayaran telah dibuat");
-                    var message = "Bayaran telah dibuat";
+                    var message = "Resit telah Dijana";
 
                     var ad = GeneralAndroidClass.GetDialogCustom(this);
-
                     ad.SetMessage(Html.FromHtml(message));
-                    ad.DismissEvent += Ad_DismissEvent;
                     ad.SetButton2("OK", (s, ev) =>
                     {
+                        _hourGlass.StartMessage(this, ShowReceipt);
 
+                        _hourGlass.StopMessage();
                     });
-                    ad.Show();   
+                    ad.Show();
                 }
             }
         }
 
-        private void Ad_DismissEvent(object sender, EventArgs e)
+        private void ShowReceipt()
         {
+            var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
+            var norujukan = kompaun.Datas.NoRujukanKpp;
+
+            var data = AkuanBll.CheckIpResitsData(norujukan);
+            txtNoResit.Text = data.Datas.no_resit;
+
             var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
+            intent.PutExtra("NoRujukanKpp", norujukan);
             StartActivity(intent);
+
+            _hourGlass.StopMessage();
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
@@ -631,7 +754,7 @@ namespace IEMSApps.Activities
                 NoResit = txtNoResit.Text,
                 AmountByr = GeneralBll.ConvertStringToDecimal(txtAmounBayaran.Text),
                 TrkhPenerima = _trkhPenerima,
-                isbayarmanual = chkBayarIpayment.Checked ? Constants.isBayarManual.Yes : Constants.isBayarManual.No,
+                isbayarmanual = chkGambarBayaran.Checked ? Constants.GambarBayaran.Yes : Constants.GambarBayaran.No,
             };
 
             if (KompaunBll.SaveDataAkuanTrx(input))
@@ -775,7 +898,8 @@ namespace IEMSApps.Activities
 
             result.Add(GeneralBll.CreateConfirmDto("No. Resit", txtNoResit.Text));
             result.Add(GeneralBll.CreateConfirmDto("Amaun Bayar", txtAmounBayaran.Text));
-            result.Add(GeneralBll.CreateConfirmDto("Pembayaran Dibuat Secara Manual", chkBayarIpayment.Checked ? "Ya" : "Tidak"));
+            result.Add(GeneralBll.CreateConfirmDto("Bayar Menggunakan Ipayment ? ", chkBayarGunaIpayment.Checked ? "Ya" : "Tidak"));
+            result.Add(GeneralBll.CreateConfirmDto("Ambil Gambar Pembayaran Secara Manual", chkGambarBayaran.Checked ? "Ya" : "Tidak"));
 
             return result;
         }
@@ -1229,7 +1353,7 @@ namespace IEMSApps.Activities
             spNegeriPenerima.Enabled = blValue;
             txtBandarPenerima.Enabled = blValue;
             txtPoskodPenerima.Enabled = blValue;
-            chkBayarIpayment.Enabled = blValue;
+            chkGambarBayaran.Enabled = blValue;
             txtAlamatPenerima1.Enabled = blValue;
             txtAlamatPenerima2.Enabled = blValue;
             txtAlamatPenerima3.Enabled = blValue;
@@ -1256,7 +1380,7 @@ namespace IEMSApps.Activities
 
                 txtNoResit.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtAmounBayaran.SetBackgroundResource(Resource.Drawable.editText_bg);
-                chkBayarIpayment.SetBackgroundResource(@Resource.Drawable.editText_bg);
+                chkGambarBayaran.SetBackgroundResource(@Resource.Drawable.editText_bg);
             }
             else
             {
@@ -1274,7 +1398,7 @@ namespace IEMSApps.Activities
 
                 txtNoResit.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtAmounBayaran.SetBackgroundResource(Resource.Drawable.textView_bg);
-                chkBayarIpayment.SetBackgroundResource(Resource.Drawable.textView_bg);
+                chkGambarBayaran.SetBackgroundResource(Resource.Drawable.textView_bg);
             }
         }
 

@@ -93,6 +93,19 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static string GetKPPonResit(string nokpp)
+        {
+
+            var data = DataAccessQuery<ip_resits>.Get(c => c.no_rujukan_ipayment == nokpp);
+
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas.no_rujukan_ipayment;
+            }
+
+            return "";
+        }
+
         public static string GetKatPremisName(int kodKatPremis)
         {
 

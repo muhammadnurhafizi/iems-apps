@@ -36,7 +36,8 @@
 			android:layout_width="35dip"
 			android:layout_height="35dip"
 			android:id="@+id/btnReceipt"
-			android:background="@drawable/add"/>
+			android:enabled="false"
+			android:background="@drawable/receipt_icon"/>
 		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

@@ -57,7 +57,7 @@ namespace IEMSApps.Activities
         //new add ipayment
         private Spinner spJenisKad,spNegeriPenerima;
         private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima;
-        private Button btnBandarPenerima;
+        private Button btnBandarPenerima, btnPoskodPenerima;
 
         private Button btnOk, btnCamera, btnPrint, btnAkuan, btnTarikh, btnMasa, btnSearchJpn, btnSearchJpnPenerima;
         private TextView lblBtnOk, lblBtnAkuan;
@@ -343,6 +343,9 @@ namespace IEMSApps.Activities
             btnBandarPenerima = FindViewById<Button>(Resource.Id.btnBandarPenerima);
             btnBandarPenerima.Click += btnBandarPenerima_Click;
 
+            btnPoskodPenerima = FindViewById<Button>(Resource.Id.btnPoskodPenerima);
+            btnPoskodPenerima.Click += btnPoskodPenerima_Click; 
+
             txtPoskodPenerima = FindViewById<EditText>(Resource.Id.txtPoskodPenerima);
             txtPoskodPenerima.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(5), allowFilter });
 
@@ -414,6 +417,19 @@ namespace IEMSApps.Activities
 
         }
 
+        private void btnPoskodPenerima_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowPoskodPenerima();
+            }
+            catch (Exception ex)
+            {
+
+                GeneralAndroidClass.LogData(LayoutName, "BtnPoskodPenerima_Click", ex.Message, Enums.LogType.Error);
+            }
+        }
+
         private void btnBandarPenerima_Click(object sender, EventArgs e)
         {
             try
@@ -425,6 +441,70 @@ namespace IEMSApps.Activities
 
                 GeneralAndroidClass.LogData(LayoutName, "btnBandarPenerima", ex.Message, Enums.LogType.Error);
             }
+        }
+
+        List<PoskodPenerimaDto> listOfPoskod;
+        public void ShowPoskodPenerima()
+        {
+            string selectedBandar = txtBandarPenerima.Text;
+
+            var listOfPoskodFiltered = new List<PoskodPenerimaDto>();
+            if (selectedBandar == "")
+            {
+                listOfPoskod = MasterDataBll.GetAllPoskod();
+                listOfPoskodFiltered = listOfPoskod;
+            }
+            else
+            {
+                listOfPoskod = MasterDataBll.GetPoskodByBandar(selectedBandar);
+                listOfPoskodFiltered = listOfPoskod;
+            }
+
+
+            var builder = new AlertDialog.Builder(this).Create();
+            var view = this.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Poskod";
+
+            listView.Adapter = new CarianPoskodPenerimaAdapter(this, listOfPoskod);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listOfPoskodFiltered = listOfPoskod
+                    .Where(m => m.name.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                listView.Adapter = new CarianPoskodPenerimaAdapter(this, listOfPoskodFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                txtPoskodPenerima.Text = listOfPoskodFiltered[args.Position]?.name;
+
+                var kodBandar = listOfPoskodFiltered[args.Position] != null
+                    ? listOfPoskodFiltered[args.Position].ip_bandar_id
+                    : 0;
+
+                var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
+                txtBandarPenerima.Text = bandarPenerima;
+
+                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
+                spNegeriPenerima.SetSelection(IdNegeri);
+
+                builder.Dismiss();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                builder.Dismiss();
+            };
+
+            builder.Show();
+
         }
 
         List<BandarDto> listOfBandar;
@@ -468,7 +548,7 @@ namespace IEMSApps.Activities
 
                 var bandarName = MasterDataBll.GetBandarNameByNegeri(GeneralBll.ConvertStringToInt(selectedNegeri), kodBandar);
 
-                txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
+                //txtAlamatPenerima3.Text = $"{bandarName} {negeriName}";
 
                 builder.Dismiss();
             };
@@ -1021,7 +1101,8 @@ namespace IEMSApps.Activities
             ListJenisKad = MasterDataBll.GetJenisKad();
             spJenisKad.Adapter = new ArrayAdapter<string>(this, Resource.Layout.support_simple_spinner_dropdown_item, ListJenisKad.Select(c => c.Value).ToList());
 
-            ListNegeri = MasterDataBll.GetAllNegeri();
+            //ListNegeri = MasterDataBll.GetAllNegeri();
+            ListNegeri = MasterDataBll.GetAllNegeriNew();
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
         }
@@ -1335,6 +1416,7 @@ namespace IEMSApps.Activities
             txtBandarPenerima.Enabled= blValue;
             btnBandarPenerima.Enabled = blValue;
             txtPoskodPenerima.Enabled = blValue;
+            btnPoskodPenerima.Enabled = blValue;
             #endregion
 
             btnImageNama.Enabled = blValue;
@@ -1395,6 +1477,7 @@ namespace IEMSApps.Activities
                 spNegeriPenerima.SetBackgroundResource(Resource.Drawable.spiner_bg);
                 txtBandarPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtPoskodPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+
                 #endregion
             }
             else

@@ -56,6 +56,8 @@ namespace IEMSApps.Activities
                 var txtHhId = FindViewById<TextView>(Resource.Id.txtHhId);
                 txtHhId.Text = GeneralBll.GetUserHandheld();
 
+                
+
                 _noRujukan = Intent.GetStringExtra("NoRujukan") ?? "";
 
                 var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
@@ -75,6 +77,7 @@ namespace IEMSApps.Activities
 
         private void LoadData(TbKompaun data)
         {
+            Button btnReceipt = FindViewById<Button>(Resource.Id.btnReceipt);
 
             var txtNamaPenerima = FindViewById<EditText>(Resource.Id.txtNamaPenerima);
             txtNamaPenerima.Text = data.NamaPenerima_Akuan;
@@ -124,12 +127,26 @@ namespace IEMSApps.Activities
             txtAmounBayaran.Text = data.AmnByr.ToString(Constants.DecimalFormat);
             SetDisableEditText(txtAmounBayaran);
 
-            var chkBayarIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarIpayment);
-            if (data.isbayarmanual == Constants.isBayarManual.Yes) 
+            var chkGambarBayaran = FindViewById<CheckBox>(Resource.Id.chkGambarBayaran);
+            if (data.isbayarmanual == Constants.GambarBayaran.Yes) 
             {
-                chkBayarIpayment.Checked = true;
+                chkGambarBayaran.Checked = true;
             }
-            chkBayarIpayment.Enabled = false;
+            chkGambarBayaran.Enabled = false;
+
+            var chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
+            var haveKPPOnResit = MasterDataBll.GetKPPonResit(data.NoRujukanKpp);
+            chkBayarGunaIpayment.Enabled = false;
+            if (haveKPPOnResit == "") 
+            {
+                chkBayarGunaIpayment.Checked = false;
+                btnReceipt.Enabled = false;
+            } else 
+            {
+                btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon_enable);
+                chkBayarGunaIpayment.Checked = true;
+            }
+            
 
             #region button
             var btnOk = FindViewById<Button>(Resource.Id.btnOk);
@@ -138,7 +155,6 @@ namespace IEMSApps.Activities
             var btnPrint = FindViewById<Button>(Resource.Id.btnPrint);
             btnPrint.Click += BtnPrint_Click;
 
-            var btnReceipt = FindViewById<Button>(Resource.Id.btnReceipt);
             btnReceipt.Click += BtnReceipt_Click;
 
             var btnCamera = FindViewById<Button>(Resource.Id.btnCamera);
@@ -194,6 +210,7 @@ namespace IEMSApps.Activities
 
         }
 
+        [Obsolete]
         private void CheckReceiptOnline()
         {
             var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
@@ -206,27 +223,24 @@ namespace IEMSApps.Activities
                 if (data.Datas == null)
                 {
                     GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.CheckResit);
-                    var service = AkuanBll.CheckServiceReceiptIP(norujukan, this);
-
+                    //var service = AkuanBll.CheckServiceReceiptIP(norujukan, this);
                 }
                 else
                 {
-                    var message = "Pembayaran Melalui iPayment telah Dijana.";
+                    var message = "Resit telah Dijana";
 
                     var ad = GeneralAndroidClass.GetDialogCustom(this);
-
                     ad.SetMessage(Html.FromHtml(message));
-                    ad.DismissEvent += Ad_DismissEvent;
                     ad.SetButton2("OK", (s, ev) =>
                     {
-
+                        _hourGlass.StartMessage(this, ShowReceipt);
                     });
                     ad.Show();
                 }
             }
         }
 
-        private void Ad_DismissEvent(object sender, EventArgs e)
+        private void ShowReceipt()
         {
             var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
             var norujukan = kompaun.Datas.NoRujukanKpp;
@@ -234,6 +248,8 @@ namespace IEMSApps.Activities
             var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
             intent.PutExtra("NoRujukanKpp", norujukan);
             StartActivity(intent);
+
+            _hourGlass.StopMessage();
         }
 
         private void BtnPrint_Click(object sender, EventArgs e)

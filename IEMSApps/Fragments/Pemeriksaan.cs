@@ -718,15 +718,23 @@ namespace IEMSApps.Fragments
         List<PoskodPenerimaDto> listOfPoskod;
         public void ShowPoskodPenerima() 
         {
+            var selectedNegeri = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
             string selectedBandar = txtBandarPenerima.Text;
 
             var listOfPoskodFiltered = new List<PoskodPenerimaDto>();
-            if (selectedBandar == "")
+            
+            if (selectedNegeri != "0" && selectedBandar == "") 
+            {
+                GeneralAndroidClass.ShowToast("Sila Pilih Bandar");
+                return;
+            }
+            else if (selectedBandar == "")
             {
                 listOfPoskod = MasterDataBll.GetAllPoskod();
                 listOfPoskodFiltered = listOfPoskod;
             }
-            else {
+            else
+            {
                 listOfPoskod = MasterDataBll.GetPoskodByBandar(selectedBandar);
                 listOfPoskodFiltered = listOfPoskod;
             }
@@ -760,10 +768,10 @@ namespace IEMSApps.Fragments
                     : 0;
 
                 var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
-                txtBandarPenerima.Text = bandarPenerima;
-
-                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
+                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(bandarPenerima);
+                
                 spNegeriPenerima.SetSelection(IdNegeri);
+                txtBandarPenerima.Text = bandarPenerima;
                 
                 builder.Dismiss();
             };
@@ -1336,7 +1344,6 @@ namespace IEMSApps.Fragments
                         ad.SetMessage(Constants.Messages.DialogRePrint);
                         // Positive
 
-                        ad.SetButton("Tidak", (s, ev) => { });
                         ad.SetButton2("Ya", (s, ev) =>
                         {
                             _reprint = true;

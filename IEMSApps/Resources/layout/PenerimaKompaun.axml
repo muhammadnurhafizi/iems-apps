@@ -175,7 +175,7 @@
 							android:layout_width="match_parent"
 							android:layout_height="35dp"
 							android:id="@+id/txtBandarPenerima"
-							android:background="@drawable/edittext_bg"
+							android:background="@drawable/textView_bg"
 							android:paddingLeft="5dp"
 							android:paddingRight="35dp"
 							android:hint="Bandar"
@@ -192,7 +192,7 @@
 						android:background="@drawable/question_mark"/>
 				</RelativeLayout>
 
-				<LinearLayout
+				<RelativeLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_weight="1"
@@ -205,12 +205,20 @@
 							android:layout_width="match_parent"
 							android:layout_height="35dp"
 							android:id="@+id/txtPoskodPenerima"
-							android:background="@drawable/edittext_bg"
+							android:background="@drawable/textView_bg"
 							android:paddingLeft="5dp"
 							android:hint="Poskod"
 							android:singleLine="true"/>	
 					</android.support.design.widget.TextInputLayout>
-				</LinearLayout>
+						<Button
+							android:id="@+id/btnPoskodPenerima"
+							android:layout_marginRight="5dp"
+							android:layout_width="30dp"
+							android:layout_marginTop="14dp"
+							android:layout_height="30dp"
+							android:layout_alignParentRight="true"
+							android:background="@drawable/question_mark"/>
+				</RelativeLayout>
 
 		</LinearLayout>
 
