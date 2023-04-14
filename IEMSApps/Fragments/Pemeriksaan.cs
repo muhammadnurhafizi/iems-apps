@@ -3141,6 +3141,12 @@ namespace IEMSApps.Fragments
             txtAlamatPenerima1.Text = "";
             txtAlamatPenerima2.Text = "";
             txtAlamatPenerima3.Text = "";
+
+            //new
+            spJenisKad.SetSelection(0);
+            spNegeriPenerima.SetSelection(0);
+            txtBandarPenerima.Text = "";
+            txtPoskodPenerima.Text = "";
         }
 
         private void SetMyCard(CardInfoDto cardDto)
@@ -3155,6 +3161,8 @@ namespace IEMSApps.Fragments
             var address = $"{cardDto.address1} {cardDto.address2}";
             var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
 
+            txtBandarPenerima.Text = cardDto.city;
+            txtPoskodPenerima.Text = cardDto.postcode;
 
             if (string.IsNullOrEmpty(cardDto.address3))
             {

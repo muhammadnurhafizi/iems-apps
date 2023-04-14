@@ -56,8 +56,6 @@ namespace IEMSApps.Activities
                 var txtHhId = FindViewById<TextView>(Resource.Id.txtHhId);
                 txtHhId.Text = GeneralBll.GetUserHandheld();
 
-                
-
                 _noRujukan = Intent.GetStringExtra("NoRujukan") ?? "";
 
                 var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
@@ -222,16 +220,15 @@ namespace IEMSApps.Activities
             {
                 if (data.Datas == null)
                 {
-                    GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.CheckResit);
-                    //var service = AkuanBll.CheckServiceReceiptIP(norujukan, this);
+                    GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.NoReceipt);
                 }
                 else
                 {
-                    var message = "Resit telah Dijana";
+                    var message = Constants.Messages.haveReceipt;
 
                     var ad = GeneralAndroidClass.GetDialogCustom(this);
                     ad.SetMessage(Html.FromHtml(message));
-                    ad.SetButton2("OK", (s, ev) =>
+                    ad.SetButton2(Constants.ViewResit, (s, ev) =>
                     {
                         _hourGlass.StartMessage(this, ShowReceipt);
                     });

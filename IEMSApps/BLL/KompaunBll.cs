@@ -825,7 +825,7 @@ namespace IEMSApps.BLL
                     data.Datas.NoKpPenerima_Akuan = input.NoKpPenerima;
                     data.Datas.notelpenerima_akuan = input.notelpenerima;
                     data.Datas.emelpenerima_akuan = input.emelpenerima;
-                    data.Datas.negarapenerima_akuan = input.negeripenerima;
+                    data.Datas.negeripenerima_akuan = input.negeripenerima;
                     data.Datas.bandarpenerima_akuan = input.bandarpenerima;
                     data.Datas.poskodpenerima_akuan = input.poskodpenerima;
                     data.Datas.AlamatPenerima1_Akuan = input.AlamatPenerima1;

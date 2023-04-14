@@ -445,10 +445,9 @@ namespace IEMSApps.Activities
 
             try
             {
-                _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.WaitingPlease);
+                _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.CheckResit);
                 new Thread(() =>
                 {
-
                     Thread.Sleep(1000);
                     this.RunOnUiThread(CheckReceiptOnline);
                 }).Start();
@@ -472,22 +471,29 @@ namespace IEMSApps.Activities
             {
                 if (data.Datas == null)
                 {
-                    GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.CheckResit);
                     var service = AkuanBll.CheckServiceReceiptIP(norujukan, this);
                     if (service.Success) 
                     {
                         txtNoResit.Text = service.Result.no_resit;
 
-                        var message = "Bayaran telah Dibuat dan Resit dijana";
+                        var message = Constants.Messages.BayarBerjaya;
                         var ad = GeneralAndroidClass.GetDialogCustom(this);
                         ad.SetMessage(Html.FromHtml(message));
-                        ad.SetButton("Kembali", (s, ev) => { });
-                        ad.SetButton2("Lihat Resit", (s, ev) =>
+                        ad.SetButton(Constants.Close, (s, ev) => { }) ;
+                        ad.SetButton2(Constants.ViewResit, (s, ev) =>
                         {
                             _hourGlass.StartMessage(this, ShowReceipt);
                         });
                         ad.Show();
+                    } else
+                    {
+                        var message = Constants.Messages.NoReceiptOnServer;
+                        var ad = GeneralAndroidClass.GetDialogCustom(this);
+                        ad.SetMessage(Html.FromHtml(message));
+                        ad.SetButton("Tutup", (s, ev) => { });
+                        ad.Show();
                     }
+                    
                 }
                 else
                 { 
@@ -504,6 +510,7 @@ namespace IEMSApps.Activities
                     ad.Show();
                 }
             }
+            _dialog.Dismiss();
         }
 
         private void ShowReceipt()
@@ -512,8 +519,17 @@ namespace IEMSApps.Activities
             var norujukan = kompaun.Datas.NoRujukanKpp;
 
             var data = AkuanBll.CheckIpResitsData(norujukan);
-            txtNoResit.Text = data.Datas.no_resit;
+            if (data.Datas == null) 
+            {
+                GeneralAndroidClass.ShowModalMessage(this, "Gagal memaparkan resit dari Database Gajet");
 
+                _hourGlass.StopMessage();
+                return;
+            } else 
+            {
+                txtNoResit.Text = data.Datas.no_resit;
+            }
+            
             var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
             intent.PutExtra("NoRujukanKpp", norujukan);
             StartActivity(intent);

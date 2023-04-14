@@ -13,87 +13,107 @@
 		    android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:paddingBottom="5dp">
-			<LinearLayout 
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:weightSum="15"
-				android:paddingTop="5dp"
-				android:paddingLeft="5dp"
-				android:paddingRight="5dp">
-				<TextView
-					android:id="@+id/lblRinggitMalaysia"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="5"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblRinggitMalaysia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
                     android:textColor="@color/black"
-					android:text="Ringgit Malaysia"/>
-				<TextView
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:gravity="center"
-					android:text=" : "/>
-				<TextView
-					android:id="@+id/txtRinggitMalaysia"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="10"
-					android:text="Lokasi A Lokasi ALokasi ALokasi"/>
-			</LinearLayout>
-			<LinearLayout 
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
+                    android:text="Ringgit Malaysia"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text=" : "/>
+                <TextView
+                    android:id="@+id/txtRinggitMalaysia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:text="Lokasi A Lokasi ALokasi ALokasi"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:weightSum="15"
-				android:paddingTop="5dp"
-				android:paddingLeft="5dp"
-				android:paddingRight="5dp">
-				<TextView
-					android:id="@+id/lblPusatTerimaan"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="5"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblPusatTerimaan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
                     android:textColor="@color/black"
-					android:text="Pusat Terimaan"/>
-				<TextView
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:gravity="center"
-					android:text=" : "/>
-				<TextView
-					android:id="@+id/txtPusatTerimaan"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="10"
-					android:text="Lokasi A Lokasi ALokasi ALokasi"/>
-			</LinearLayout>
-			<LinearLayout 
-			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"
+                    android:text="Pusat Terimaan"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text=" : "/>
+                <TextView
+                    android:id="@+id/txtPusatTerimaan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:text="Lokasi A Lokasi ALokasi ALokasi"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:weightSum="15"
-				android:paddingTop="5dp"
-				android:paddingLeft="5dp"
-				android:paddingRight="5dp">
-				<TextView
-					android:id="@+id/lblPetugasKaunter"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="5"
-					android:text="Petugas Kaunter"
+                android:paddingTop="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/lblPetugasKaunter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5"
+                    android:text="Petugas Kaunter"
                     android:textColor="@color/black"/>
-				<TextView
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="1"
-					android:gravity="center"
-					android:text=" : "/>
-				<TextView
-					android:id="@+id/txtPetugasKaunter"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					android:layout_weight="10"
-					android:text="Lokasi B Lokasi B Lokasi Lokasi"/>
-			</LinearLayout>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text=" : "/>
+                <TextView
+                    android:id="@+id/txtPetugasKaunter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:text="Lokasi B Lokasi B Lokasi Lokasi"/>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="vertical"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:paddingTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/linearLayout1" >
+
+                <ImageView
+                    android:src="@drawable/qr_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:id="@+id/imageView1"
+                    android:contentDescription="Scan Me" />
+            </LinearLayout>
+
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

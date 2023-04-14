@@ -239,8 +239,15 @@ namespace IEMSApps.Utils
             public const string GenerateBitmap = "Cetakan..";
             public const string FaildSendData = "Gagal hantar data.";
 
-            public const string CheckResit = "Resit sedang disemak";
+            public const string CheckResit = "Menyemak Data Resit Di Sistem IEMS";
+            public const string BayarBerjaya = "Pembayaran Kompaun telah berjaya dibuat";
+            public const string NoReceiptOnServer = "Tiada Data Resit di Sistem IEMS, Sila Cuba Sebentar lagi"; 
+            public const string NoReceipt = "Tiada Data Resit di Sistem IEMS";
+            public const string haveReceipt = "Resit Dijumpai";
         }
+
+        public const string Close = "Tutup";
+        public const string ViewResit = "Lihat Resit";
 
         public const string InstallText = "Install";
         public const string SkipText = "Skip";

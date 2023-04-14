@@ -15,6 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using IEMSApps.Classes;
+using System.Diagnostics.CodeAnalysis;
 
 namespace IEMSApps.Services
 {
@@ -294,7 +295,9 @@ namespace IEMSApps.Services
 
             try
             {
-                var query = $"Select * from ip_resits where no_rujukan_ipayment = '{noRujukan}'";
+                //var query = $"Select * from ip_resits where no_rujukan_ipayment = '{noRujukan}'";
+                //noRujukan = "KPPHQR0062300002";
+                var query = $"Select * from tbkompaun where NoRujukanKpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
                 using (HttpClient client = GenerateHttpClient())
@@ -304,7 +307,7 @@ namespace IEMSApps.Services
 #endif
 
 #if DEBUG
-                   var url = $"{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+                    var url = $"http://iemsstag.kpdnhep.gov.my/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
 #endif
                     var req = new HttpRequestMessage(HttpMethod.Get, url);
                     var response = await client.SendAsync(req);

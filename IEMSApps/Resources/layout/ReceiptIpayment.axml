@@ -115,19 +115,43 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:textStyle="bold"
             android:textAlignment="textStart"
+            android:background="@drawable/rectangle_border"
             android:padding="10dp" />
 
-        <TextView
-            android:text="Resit ini dijana oleh Sistem Terimaan Eletronik Kerajaan Persekutuan (iPayment), Jabatan Akauantan Negara Malaysia.\nNo. Kelulusan Perbendaharaan : "
-            android:textAppearance="?android:attr/textAppearanceSmall"
+        <LinearLayout
+            android:orientation="vertical"
+            android:minWidth="25px"
+            android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:id="@+id/textView100" />
+            android:padding="8dp"
+            android:id="@+id/linearLayout3" >
+            <TextView
+                android:text="Resit ini dijana oleh Sistem Terimaan Eletronik Kerajaan Persekutuan (iPayment), "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView100" />
 
-        
+            <TextView
+                android:text="Jabatan Akauantan Negara Malaysia."
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView101" />
+
+            <TextView
+                android:text="No. Kelulusan Perbendaharaan : "
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView102" />
+
+         </LinearLayout>
+
         <LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="0dip"
