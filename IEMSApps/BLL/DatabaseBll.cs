@@ -159,6 +159,7 @@ namespace IEMSApps.BLL
 
             //new add
             AlterTbKpp();
+            AlterTbKpp2();
             AlterTbKompaun();
             CreateIpIdentitiPelanggan();
             CreateIpBandar();
@@ -869,6 +870,18 @@ namespace IEMSApps.BLL
                 query = "ALTER TABLE tbkpp ADD COLUMN AmnKmp float";
                 DataAccessQuery<TbKompaunIzin>.ExecuteSql(query);
 
+                return true;
+            }
+            return false;
+        }
+
+        private static bool AlterTbKpp2()
+        {
+            var query = "SELECT ip_identiti_pelanggan_id FROM tbkpp";
+            var result = DataAccessQuery<TbKpp>.ExecuteCheckSelectSql(query);
+
+            if (!result)
+            {
                 query = "ALTER TABLE tbkpp ADD COLUMN ip_identiti_pelanggan_id int";
                 DataAccessQuery<TbKpp>.ExecuteSql(query);
 
@@ -897,7 +910,7 @@ namespace IEMSApps.BLL
 
         private static bool AlterTbKompaun()
         {
-            var query = "SELECT ip_identiti_pelanggan FROM tbkompaun";
+            var query = "SELECT ip_identiti_pelanggan_id FROM tbkompaun";
             var result = DataAccessQuery<TbKompaun>.ExecuteCheckSelectSql(query);
 
             if (!result)
