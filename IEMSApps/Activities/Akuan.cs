@@ -474,24 +474,30 @@ namespace IEMSApps.Activities
                     var service = AkuanBll.CheckServiceReceiptIP(norujukan, this);
                     if (service.Success) 
                     {
-                        txtNoResit.Text = service.Result.no_resit;
-
-                        var message = Constants.Messages.BayarBerjaya;
-                        var ad = GeneralAndroidClass.GetDialogCustom(this);
-                        ad.SetMessage(Html.FromHtml(message));
-                        ad.SetButton(Constants.Close, (s, ev) => { }) ;
-                        ad.SetButton2(Constants.ViewResit, (s, ev) =>
+                        if (service.Result != null) 
                         {
-                            _hourGlass.StartMessage(this, ShowReceipt);
-                        });
-                        ad.Show();
+                            txtNoResit.Text = service.Result.no_resit;
+
+                            var message = Constants.Messages.BayarBerjaya;
+                            var ad = GeneralAndroidClass.GetDialogCustom(this);
+                            ad.SetMessage(Html.FromHtml(message));
+                            ad.SetButton(Constants.Close, (s, ev) => { });
+                            ad.SetButton2(Constants.ViewResit, (s, ev) =>
+                            {
+                                _hourGlass.StartMessage(this, ShowReceipt);
+                            });
+                            ad.Show();
+                        } else
+                        {
+                            var message = Constants.Messages.NoReceiptOnServer;
+                            var ad = GeneralAndroidClass.GetDialogCustom(this);
+                            ad.SetMessage(Html.FromHtml(message));
+                            ad.SetButton("Tutup", (s, ev) => { });
+                            ad.Show();
+                        }
                     } else
                     {
-                        var message = Constants.Messages.NoReceiptOnServer;
-                        var ad = GeneralAndroidClass.GetDialogCustom(this);
-                        ad.SetMessage(Html.FromHtml(message));
-                        ad.SetButton("Tutup", (s, ev) => { });
-                        ad.Show();
+                        GeneralAndroidClass.ShowToast(service.Mesage);
                     }
                     
                 }

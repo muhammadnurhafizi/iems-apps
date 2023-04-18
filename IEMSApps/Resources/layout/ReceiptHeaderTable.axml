@@ -15,6 +15,36 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="No Rujukan KPP "
+            android:textStyle="bold"
+            android:layout_weight="6"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text=" : "/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtNoRujukanKPP"
+            android:layout_weight="9"
+            android:ellipsize="end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="15">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="Diterima Daripada "
             android:textStyle="bold"
             android:layout_weight="6"
@@ -127,19 +157,12 @@
             android:gravity="center"
             android:textStyle="bold"
             android:text=" : "/>
-
-        <HorizontalScrollView
-            android:layout_weight="11"
+    
+        <TextView
+            android:layout_weight="10"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:id="@+id/horizontalScrollView1" >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtAlamat"
-                android:singleLine="true"
-                android:ellipsize="end" />
-        </HorizontalScrollView>
+            android:layout_height="40dp"
+            android:id="@+id/txtAlamat"/>
         
     </LinearLayout>
 

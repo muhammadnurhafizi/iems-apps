@@ -16,7 +16,7 @@ namespace IEMSApps.Activities
     {
         private const string LayoutName = "ReceiptIpayment";
         string _noRujukanKpp;
-        TextView txtDiterimaDaripada, txtBayaranBgiPihak, txtNoIdentiti, txtAlamat, txtEmel, txtNoRujukanIpayment, txtPerihalBayaran,
+        TextView txtNoRujukanKPP, txtDiterimaDaripada, txtBayaranBgiPihak, txtNoIdentiti, txtAlamat, txtEmel, txtNoRujukanIpayment, txtPerihalBayaran,
                  txtNoResit, txtTarikh, txtModBayaran, txtRangkaian, txtNoTransaksiIpayment, txtNoTransaksiRMA;
         TextView txtBil, txtKeterangan, txtNoRujukan, txtKodAkaun, txtJumlah, txtAmaun, txtDiskaun, txtAmaunDgnDiskaun, 
                  txtAmaunCukaiPercent, txtAmaunCukai, txtPelarasan, txtJumlahBayaran;
@@ -50,6 +50,9 @@ namespace IEMSApps.Activities
                 var IpResit = AkuanBll.GetIpResitsByKPP(_noRujukanKpp);
 
                 #region Header
+                txtNoRujukanKPP = FindViewById<TextView>(Resource.Id.txtNoRujukanKPP);
+                txtNoRujukanKPP.Text = IpResit.norujukankpp;
+
                 txtDiterimaDaripada = FindViewById<TextView>(Resource.Id.txtDiterimaDaripada);
                 txtDiterimaDaripada.Text = IpResit.diterima_drpd;
 

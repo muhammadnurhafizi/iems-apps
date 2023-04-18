@@ -4,6 +4,8 @@ namespace IEMSApps.BusinessObject.Responses
 {
     public class CheckIPResitsResponse
     {
+        public string norujukankpp { get; set; }
+
         public string diterima_drpd { get; set; }
 
         public string byrn_bg_pihak { get; set; }

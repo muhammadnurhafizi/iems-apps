@@ -6,6 +6,8 @@ namespace IEMSApps.BusinessObject.Entities
     [Table("ip_resits")]
     public class ip_resits
     {
+        public string norujukankpp { get; set; }
+
         public string diterima_drpd { get; set; }
 
         public string byrn_bg_pihak { get; set; }

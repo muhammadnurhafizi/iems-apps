@@ -56,14 +56,14 @@ namespace IEMSApps.BLL
 
         public static Result<ip_resits> CheckIpResitsData(string noRujukan)
         {
-            var data = DataAccessQuery<ip_resits>.Get(c => c.no_rujukan_ipayment == noRujukan);
+            var data = DataAccessQuery<ip_resits>.Get(c => c.norujukankpp == noRujukan);
             return data;
         }
 
         public static ip_resits GetIpResitsByKPP (string noRujukan)
         {
             Result<ip_resits> data;
-            data = DataAccessQuery<ip_resits>.Get(c => c.no_rujukan_ipayment == noRujukan);
+            data = DataAccessQuery<ip_resits>.Get(c => c.norujukankpp == noRujukan);
             return data.Datas;
         }
     }
