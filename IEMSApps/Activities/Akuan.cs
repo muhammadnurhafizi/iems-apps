@@ -531,6 +531,7 @@ namespace IEMSApps.Activities
 
                 _hourGlass.StopMessage();
                 return;
+                //check logic here, jika data gagal masuk dalam db gajet jadi tiada data, jika dah masuk tapi tak boleh nk display , lain masalah.
             } else 
             {
                 txtNoResit.Text = data.Datas.no_resit;

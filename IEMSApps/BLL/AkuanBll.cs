@@ -7,6 +7,7 @@ using IEMSApps.BusinessObject.Entities;
 using IEMSApps.BusinessObject.Inputs;
 using IEMSApps.BusinessObject.Responses;
 using IEMSApps.Classes;
+using IEMSApps.Fragments;
 using IEMSApps.Services;
 using IEMSApps.Utils;
 using Java.Lang;
@@ -47,10 +48,48 @@ namespace IEMSApps.BLL
 
         public static void InsertIpResits(string noRujukan, CheckIPResitsResponse result)
         {
-            var data = DataAccessQuery<ip_resits>.Get(c => c.no_rujukan_ipayment == noRujukan);
+            var dataResponse = new ip_resits 
+            {
+                norujukankpp = result.norujukankpp,
+                diterima_drpd = result.diterima_drpd,
+                byrn_bg_pihak = result.byrn_bg_pihak,
+                no_identiti = result.no_identiti,
+                alamat_1 = result.alamat_1,
+                alamat_2 = result.alamat_2,
+                alamat_3 = result.alamat_3,
+                poskod = result.poskod,
+                bandar = result.bandar,
+                negeri = result.negeri,     
+                emel   = result.emel,
+                no_rujukan_ipayment = result.emel,
+                perihal = result.perihal, 
+                no_resit = result.no_resit,
+                //tarikh_bayaran = result.t
+                mod_pembayaran = result.mod_pembayaran,
+                rangkaian = result.rangkaian,
+                no_transaksi_ipayment = result.no_transaksi_ipayment,
+                no_transaksi_rma = result.no_transaksi_rma,
+                amaun = result.amaun,
+                diskaun = result.diskaun,
+                amaun_dgn_diskaun = result.amaun_dgn_diskaun,
+                amaun_cukai = result.amaun_cukai,
+                amaun_dgn_cukai = result.amaun_dgn_cukai,
+                pelarasan_penggenapan = result.pelarasan_penggenapan,
+                jumlah_bayaran = result.jumlah_bayaran,
+                keterangan = result.keterangan,
+                no_rujukan = result.no_rujukan,
+                kod_penjenisan = result.kod_penjenisan,
+                kod_akaun  = result.kod_akaun,
+                jumlah = result.jumlah,
+                pusat_terimaan = result.pusat_terimaan,
+                petugas = result.petugas
+
+            };
+
+            var data = DataAccessQuery<ip_resits>.Get(c => c.norujukankpp == noRujukan);
             if (data.Success && data.Datas == null)
             {
-                DataAccessQuery<ip_resits>.Insert(data.Datas);
+                DataAccessQuery<ip_resits>.Insert(dataResponse);
             }
         }
 

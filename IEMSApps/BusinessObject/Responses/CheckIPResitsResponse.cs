@@ -32,7 +32,7 @@ namespace IEMSApps.BusinessObject.Responses
 
         public string no_resit { get; set; }
 
-        public DateTime tarikh_bayaran { get; set; }
+        //public int tarikh_bayaran { get; set; }
 
         public string mod_pembayaran { get; set; }
 
