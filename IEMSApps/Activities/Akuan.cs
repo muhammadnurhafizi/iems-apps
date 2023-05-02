@@ -251,7 +251,7 @@ namespace IEMSApps.Activities
         private void btnCamera_Click(object sender, EventArgs e)
         {
             
-            string resit = "IPRESIT";
+            //string resit = "IPRESIT";
               
             try
             {
@@ -262,7 +262,7 @@ namespace IEMSApps.Activities
                     GeneralAndroidClass.ShowModalMessage(this, "No Rujukan Kosong");
                     return;
                 }
-                var _noResit = resit + kompaun.Datas.NoRujukanKpp;
+                var _noResit = Constants.Receipt + kompaun.Datas.NoRujukanKpp;
                 var intent = new Intent(this, typeof(Camera));
                 intent.PutExtra("filename", _noResit);
                 if (_isSaved)

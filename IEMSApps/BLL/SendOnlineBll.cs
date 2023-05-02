@@ -65,6 +65,36 @@ namespace IEMSApps.BLL
             return true;
         }
 
+        public static bool InsertImagesDataOnlineReceipt(string noRujukan, DataAccessQueryTrx insAccess = null)
+        {
+            var listPhotos = GeneralBll.GetReceiptPhotoNameByRujukan(noRujukan);
+            foreach (var photo in listPhotos)
+            {
+                var data = new TbSendOnlineGambar
+                {
+                    Name = photo,
+                    NoRujukan = noRujukan,
+                    Status = Enums.StatusOnline.New,
+                    CreatedDate = GeneralBll.GetLocalDateTime().ToString(Constants.DatabaseDateFormat)
+                };
+
+                if (insAccess != null)
+                {
+                    if (!insAccess.InsertTrx(data))
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    DataAccessQuery<TbSendOnlineGambar>.Insert(data);
+                }
+
+            }
+
+            return true;
+        }
+
         public static void SetStatusDataOnline(string noRujukan, Enums.TableType type, Enums.StatusOnline status)
         {
             var data = DataAccessQuery<TbSendOnlineData>.Get(m => m.NoRujukan == noRujukan && m.Type == type);

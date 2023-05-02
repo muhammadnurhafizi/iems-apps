@@ -620,6 +620,21 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static List<string> GetReceiptPhotoNameByRujukan(string noRujukan)
+        {
+            var dirImagePath = GetInternalImagePath();
+            DirectoryInfo di = new DirectoryInfo(dirImagePath);
+            FileInfo[] rgFiles = di.GetFiles(Constants.Receipt + noRujukan + "*.*");
+
+            var result = new List<string>();
+            foreach (var fileInfo in rgFiles)
+            {
+                result.Add(fileInfo.Name);
+            }
+
+            return result;
+        }
+
         public static int GetPositionSelected(List<string> listData, string data)
         {
             int index = 0;

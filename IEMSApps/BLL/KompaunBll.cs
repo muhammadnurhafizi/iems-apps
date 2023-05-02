@@ -912,6 +912,11 @@ namespace IEMSApps.BLL
                             return false;
                         }
 
+                        if (!SendOnlineBll.InsertImagesDataOnlineReceipt(data.Datas.NoRujukanKpp, insAccess))
+                        {
+                            insAccess.RollBackTrx();
+                            return false;
+                        }
 
                     }
 

@@ -361,6 +361,8 @@ namespace IEMSApps.Utils
 
         public const int AllowAddressCharacter = 35;
 
+        public const string Receipt = "IPRESIT";
+
         public const int KompaunKots = 1;
         public const int DefaultWaitingMilisecond = 100;
         public const int DefaultWaitingConnectionToBluetooth = 3000;

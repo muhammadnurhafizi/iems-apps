@@ -653,6 +653,15 @@ namespace IEMSApps.BLL
                     item.TotalApp = DataAccessQuery<TbKategoriPerniagaan>.Count();
                 if (item.TableName == "tbbarang_jenama")
                     item.TotalApp = DataAccessQuery<TbJenama>.Count();
+                //newly add
+                if (item.TableName == "ip_negeri")
+                    item.TotalApp = DataAccessQuery<ip_negeri>.Count();
+                if (item.TableName == "ip_bandar")
+                    item.TotalApp = DataAccessQuery<ip_bandar>.Count();
+                if (item.TableName == "ip_poskod")
+                    item.TotalApp = DataAccessQuery<ip_poskod>.Count();
+                if (item.TableName == "ip_identiti_pelanggans")
+                    item.TotalApp = DataAccessQuery<ip_identiti_pelanggans>.Count();
             }
 
             return datas;
