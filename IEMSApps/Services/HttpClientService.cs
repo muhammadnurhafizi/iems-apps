@@ -295,8 +295,8 @@ namespace IEMSApps.Services
 
             try
             {
-                var query = $"Select * from tbip_resits where norujukankpp = '{noRujukan}'";
-                //noRujukan = "KPPMLKMAN2300001";
+                noRujukan = "KPPMLKMAN2300004";
+                var query = $"Select * from ip_resits where norujukankpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
                 using (HttpClient client = GenerateHttpClient())
@@ -306,8 +306,8 @@ namespace IEMSApps.Services
 #endif
 
 #if DEBUG
-                    //var url = $"http://192.168.0.6:8000/api/getrecord/" + encodedQuery;
-                    var url = $"http://iemsstag.kpdnhep.gov.my/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+                    var url = $"http://mhdamn.me/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+                    //var url = $"http://iemsstag.kpdnhep.gov.my/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
 #endif
                     var req = new HttpRequestMessage(HttpMethod.Get, url);
                     var response = await client.SendAsync(req);
