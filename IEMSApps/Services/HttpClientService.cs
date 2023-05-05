@@ -1243,9 +1243,9 @@ namespace IEMSApps.Services
 
         public static async Task<Response<CountDataResponse>> CountAync(string query)
         {
-#if DEBUG
-            return new Response<CountDataResponse>() { Success = true, Result = new CountDataResponse { Count = 0 } };
-#endif
+//#if DEBUG
+//            return new Response<CountDataResponse>() { Success = true, Result = new CountDataResponse { Count = 0 } };
+//#endif
             var result = new Response<CountDataResponse>()
             {
                 Success = false,

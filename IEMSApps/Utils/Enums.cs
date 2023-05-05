@@ -101,7 +101,9 @@
             DataKes_HH = 7,
 
             Akuan_UpdateKompaun = 8,
-            Akuan_UpdateKompaun_HH = 9
+            Akuan_UpdateKompaun_HH = 9,
+
+            IpResit_Manual = 10
         }
 
         public enum StatusOnline

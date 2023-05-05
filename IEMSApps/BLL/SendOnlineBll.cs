@@ -276,7 +276,7 @@ namespace IEMSApps.BLL
                 $" '{tbKompaun.NamaPenerima.ReplaceSingleQuote()}' ,'{tbKompaun.NoKpPenerima}' ,'{tbKompaun.AlamatPenerima1.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima2.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima3.ReplaceSingleQuote()}' , '{trkhPenerima}' ,'{tbKompaun.IsCetakAkuan}' ,'{tbKompaun.NamaPenerima_Akuan.ReplaceSingleQuote()}', " +
                 $" '{tbKompaun.NoKpPenerima_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima1_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima2_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima3_Akuan.ReplaceSingleQuote()}' , NULL ,'0', " +
                 $" '{tbKompaun.Status}' ,'{tbKompaun.PgnDaftar}' ,UNIX_TIMESTAMP('{tbKompaun.TrkhDaftar}') ,'{tbKompaun.PgnAkhir}' ,UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), '{tbKompaun.BarangKompaun.ReplaceSingleQuote()}', " +
-                $" '{tbKompaun.ip_identiti_pelanggan_id}', '{tbKompaun.poskodpenerima}', '{tbKompaun.bandarpenerima}', '{tbKompaun.negeripenerima}', '{tbKompaun.negeripenerima}', '{tbKompaun.negarapenerima}', '{tbKompaun.notelpenerima}', '{tbKompaun.emelpenerima}', " +
+                $" '{tbKompaun.ip_identiti_pelanggan_id}', '{tbKompaun.poskodpenerima}', '{tbKompaun.bandarpenerima}', '{tbKompaun.negeripenerima}', '{tbKompaun.negarapenerima}', '{tbKompaun.notelpenerima}', '{tbKompaun.emelpenerima}', " +
                 $" '{tbKompaun.poskodpenerima_akuan}', '{tbKompaun.bandarpenerima_akuan}', '{tbKompaun.negeripenerima_akuan}', '{tbKompaun.negarapenerima_akuan}', '{tbKompaun.notelpenerima_akuan}', '{tbKompaun.emelpenerima_akuan}', '{tbKompaun.isbayarmanual}', '{tbKompaun.gambarbuktibayaran}' )";
         }
 
@@ -1381,6 +1381,10 @@ namespace IEMSApps.BLL
                     response.Success = responseDataKesPesalahKesalahan.Success;
 
                 var responseDataKesTindakan = await InsertTbDataKesTindakan(data.NoKes);
+
+                var responseImage = await SendImageOnline(noRujukan, data.KodCawangan, data.Status, data.PgnDaftar.ToString(), data.TrkhDaftar, data.PgnAkhir.ToString(), data.TrkhAkhir, 1);
+                if (!responseImage.Success)
+                    response.Success = false;
 
                 var responseImage = await SendImageOnline(noRujukan, data.KodCawangan, data.Status, data.PgnDaftar.ToString(), data.TrkhDaftar, data.PgnAkhir.ToString(), data.TrkhAkhir, 1);
                 if (!responseImage.Success)

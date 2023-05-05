@@ -729,6 +729,16 @@ namespace IEMSApps.Fragments
                                 data.PgnDaftar.ToString(), data.TrkhDaftar, data.PgnAkhir.ToString(),
                                 data.TrkhAkhir, 3);
                         }
+                    } 
+                    else if (item.value.Type == Enums.TableType.IpResit_Manual) 
+                    {
+                        //kategori 4 = ipresit diambil manual di gajet.
+                        var rujukan = PemeriksaanBll.GetPemeriksaanByRujukan(item.value.NoRujukan);
+                        if (rujukan != null)
+                        {
+                            await SendOnlineBll.SendImageOnline(item.value.NoRujukan, rujukan.KodCawangan, rujukan.Status, rujukan.PgnDaftar.ToString(), rujukan.TrkhDaftar,
+                                rujukan.PgnAkhir.ToString(), rujukan.TrkhAkhir, 4);
+                        }
                     }
 
                     UpdateInfo($"Sila Tunggu...", totalDatas, totalDatas);

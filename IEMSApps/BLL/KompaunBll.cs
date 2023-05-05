@@ -918,6 +918,15 @@ namespace IEMSApps.BLL
                             return false;
                         }
 
+                        if(input.isbayarmanual == 1) 
+                        {
+                            if (!SendOnlineBll.InserDataOnline(data.Datas.NoRujukanKpp, Enums.TableType.IpResit_Manual, insAccess))
+                            {
+                                insAccess.RollBackTrx();
+                                return false;
+                            }
+                        }
+
                     }
 
                     return insAccess.CommitTrx();
