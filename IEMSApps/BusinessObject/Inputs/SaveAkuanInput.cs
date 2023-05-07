@@ -35,5 +35,7 @@
         public string TrkhPenerima { get; set; }
 
         public int isbayarmanual { get; set; }
+
+        public string gambarbuktibayaran { get; set; }
     }
 }

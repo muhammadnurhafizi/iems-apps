@@ -701,6 +701,15 @@ namespace IEMSApps.BLL
             return rgFiles.Select(file => file.FullName).ToList();
         }
 
+        public static List<string> GetListPathPhotoReceiptNameByRujukan(string noRujukan)
+        {
+            var dirImagePath = GetInternalImagePath();
+            DirectoryInfo di = new DirectoryInfo(dirImagePath);
+            FileInfo[] rgFiles = di.GetFiles(Constants.Receipt + noRujukan + "*.*", SearchOption.AllDirectories);
+
+            return rgFiles.Select(file => file.FullName).ToList();
+        }
+
         public static string GetBase64FromImagePath(string path)
         {
             var result = string.Empty;

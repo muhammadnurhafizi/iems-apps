@@ -671,6 +671,10 @@ namespace IEMSApps.Fragments
                     {
                         type = TableType.Akuan_UpdateKompaun;
                     }
+                    //else if (item.value.Type == Enums.TableType.IpResit_Manual)
+                    //{
+                    //    type = TableType.IpResit_Manual;
+                    //}
 
                     var response = await SendOnlineBll.SendDataOnlineAsync(item.value.NoRujukan, type, this.Context);
                     if (response.Mesage.Contains("Socket closed") || response.Mesage.Contains("Connection reset") || response.Mesage.Contains("Tiada Sambungan Internet"))
@@ -733,11 +737,11 @@ namespace IEMSApps.Fragments
                     else if (item.value.Type == Enums.TableType.IpResit_Manual) 
                     {
                         //kategori 4 = ipresit diambil manual di gajet.
-                        var rujukan = PemeriksaanBll.GetPemeriksaanByRujukan(item.value.NoRujukan);
-                        if (rujukan != null)
+                        var data = PemeriksaanBll.GetPemeriksaanByRujukan(item.value.NoRujukan);
+                        if (data != null)
                         {
-                            await SendOnlineBll.SendImageOnline(item.value.NoRujukan, rujukan.KodCawangan, rujukan.Status, rujukan.PgnDaftar.ToString(), rujukan.TrkhDaftar,
-                                rujukan.PgnAkhir.ToString(), rujukan.TrkhAkhir, 4);
+                            await SendOnlineBll.SendReceiptManualImageOnline(item.value.NoRujukan, data.KodCawangan, data.Status, data.PgnDaftar.ToString(), data.TrkhDaftar,
+                                data.PgnAkhir.ToString(), data.TrkhAkhir, 4);
                         }
                     }
 

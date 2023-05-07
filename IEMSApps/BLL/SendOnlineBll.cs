@@ -10,6 +10,7 @@ using IEMSApps.Classes;
 using IEMSApps.Services;
 using IEMSApps.Utils;
 using Newtonsoft.Json;
+using static Android.Content.ClipData;
 
 namespace IEMSApps.BLL
 {
@@ -93,6 +94,17 @@ namespace IEMSApps.BLL
             }
 
             return true;
+        }
+
+        public static string InsertImagesReceiptNameOnKPP(string noRujukan)
+        {
+            var listPhotos = GeneralBll.GetReceiptPhotoNameByRujukan(noRujukan);
+            foreach (var photo in listPhotos)
+            {
+                return photo;
+            }
+
+            return null;
         }
 
         public static void SetStatusDataOnline(string noRujukan, Enums.TableType type, Enums.StatusOnline status)
@@ -215,6 +227,19 @@ namespace IEMSApps.BLL
                     }
                     return new Response<string>() { Success = allDatasIsSended, Mesage = errorMessage };
                 }
+                //else if (type == Enums.TableType.IpResit_Manual)
+                //{
+                //    foreach (var item in datas.Datas.Where(m => m.Type == Enums.TableType.IpResit_Manual))
+                //    {
+                //        var respose = await SendAkuanAsync(noRujukan, item.Type, context);
+                //        if (!respose.Success)
+                //        {
+                //            allDatasIsSended = false;
+                //            errorMessage = respose.Mesage;
+                //        }
+                //    }
+                //    return new Response<string>() { Success = allDatasIsSended, Mesage = errorMessage };
+                //}
 
             }
             return new Response<string>() { Success = false, Mesage = "Ralat" };
@@ -602,6 +627,75 @@ namespace IEMSApps.BLL
             return new Response<string> { Success = allDataSent, Mesage = message };
         }
 
+        public static async Task<Response<string>> SendReceiptManualImageOnline(string noKmp, string kodCawangan, string status, string pgndaftar, string trkhdaftar, string pgnakhir, string trkhakhir, int kategori, bool saveFileName = false)
+        {
+
+            var allDataSent = true;
+            var message = "";
+
+            var listOfImage = GeneralBll.GetListPathPhotoReceiptNameByRujukan(noKmp);
+            var list = DataAccessQuery<TbSendOnlineGambar>.GetAll();
+
+            //if listOfImage is 0 (or the image is not exists on IMGS Folder) will set the status to Sent            
+            if (!listOfImage.Any())
+            {
+                var imagesIsNotExist = list.Datas.Where(m => m.NoRujukan == noKmp && m.Status != Enums.StatusOnline.Sent);
+                foreach (var item in imagesIsNotExist)
+                {
+                    item.Status = Enums.StatusOnline.Sent;
+                    item.UpdateDate = GeneralBll.GetLocalDateTimeForDatabase();
+
+                    DataAccessQuery<TbSendOnlineGambar>.Update(item);
+                }
+            }
+
+            var imagesSended = new List<string>();
+            if (list.Success)
+            {
+                imagesSended = list.Datas.Where(mbox => mbox.NoRujukan == noKmp && mbox.Status == Enums.StatusOnline.New).Select(m => m.Name).ToList();
+            }
+
+            foreach (var path in listOfImage)
+            {
+                if (imagesSended.Any(m => m == Path.GetFileName(path)))
+                    continue;
+
+                var imageBase64 = GeneralBll.GetBase64FromImagePath(path);
+
+                var tarikhDafterInt = GeneralBll.StringDatetimeToInt(trkhdaftar);
+                var tarikhAkhirInt = GeneralBll.StringDatetimeToInt(trkhakhir);
+
+                var options = new
+                {
+                    nokmp = noKmp,
+                    kodcawangan = kodCawangan,
+                    namagambar = Path.GetFileName(path),
+                    status = status,
+                    pgndaftar = pgndaftar,
+                    trkhdaftar = tarikhDafterInt,
+                    pgnakhir = pgnakhir,
+                    trkhakhir = tarikhAkhirInt,
+                    images = $"data:image/jpeg;base64,{imageBase64}",
+                    kategori = kategori
+                };
+                var jsonParam = JsonConvert.SerializeObject(options);
+
+                var response = await HttpClientService.UploadImage(jsonParam);
+                SetStatusImagesDataOnline(noKmp, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error, Path.GetFileName(path));
+                if (!response.Success)
+                {
+                    allDataSent = false;
+                    message = response.Mesage;
+                    if (saveFileName)
+                    {
+                        Log.WriteErrorRecords($"Faild to Upload Image.\rNo Rujukan : {noKmp}, \rFile Name: {Path.GetFileName(path)}, \rPath : {path}");
+                    }
+                }
+            }
+
+            return new Response<string> { Success = allDataSent, Mesage = message };
+        }
+
         public static async Task<Response<string>> SendImageOnlinePath(string path, string noKmp, string kodCawangan, string status, string pgndaftar, string trkhdaftar, string pgnakhir, string trkhakhir, int kategori, bool saveFileName = false)
         {
             var result = new Response<string> { Success = true };
@@ -881,6 +975,27 @@ namespace IEMSApps.BLL
                 var responseAsasTindakan = await SendKppAsasTindakan(noRujukan, context, saveScriptToFile);
                 if (!responseAsasTindakan.Success)
                     response.Success = false;
+            }
+
+            return response;
+        }
+
+        public static async Task<Response<string>> SendIPResitOnlineAsyncV1(string noRujukan, Enums.TableType tableType, Android.Content.Context context, bool saveScriptToFile = false)
+        {
+            var response = new Response<string>() { Success = true, Mesage = "Ralat" };
+            var query = "";
+            //Send TbKPP
+            var tbKpp = PemeriksaanBll.GetPemeriksaanByRujukan(noRujukan);
+            if (tbKpp != null)
+            {
+                if (tableType == Enums.TableType.KPP)
+                {
+                    //Send Images
+                    var responseImage = await SendOnlineBll.SendImageOnline(noRujukan, tbKpp.KodCawangan, tbKpp.Status, tbKpp.PgnDaftar.ToString(), tbKpp.TrkhDaftar, tbKpp.PgnAkhir.ToString(), tbKpp.TrkhAkhir, 4, saveScriptToFile);
+                    //var responseImage = await SendImageOnline(noRujukan, tbKpp.KodCawangan, tbKpp.Status, tbKpp.PgnDaftar.ToString(), tbKpp.TrkhDaftar, tbKpp.PgnAkhir.ToString(), tbKpp.TrkhAkhir, 2, saveScriptToFile);
+                    if (!responseImage.Success)
+                        response.Success = false;
+                }
             }
 
             return response;
@@ -1256,11 +1371,17 @@ namespace IEMSApps.BLL
                                     {
                                         var sqlQuery = $" update tbkompaun set namapenerima_akuan = '{kompaun.Datas.NamaPenerima_Akuan.ReplaceSingleQuote()}', nokppenerima1_Akuan = '{kompaun.Datas.NoKpPenerima_Akuan.ReplaceSingleQuote()}', alamatpenerima1_akuan = '{kompaun.Datas.AlamatPenerima1_Akuan.ReplaceSingleQuote()}', " +
                                                    $" alamatpenerima2_akuan = '{kompaun.Datas.AlamatPenerima2_Akuan.ReplaceSingleQuote()}', alamatpenerima3_akuan = '{kompaun.Datas.AlamatPenerima3_Akuan.ReplaceSingleQuote()}', trkhpenerima_akuan = '{trkhBayar}', amnbyr = '{kompaun.Datas.AmnByr}', " +
-                                                   $" noresit ='{kompaun.Datas.NoResit.ReplaceSingleQuote()}', trkhakhir = unix_timestamp('{GeneralBll.GetLocalDateTimeForDatabase()}'), status = 3 where nokmp = '{noRujukan}' and iscetakakuan = 1 ";
+                                                   $" noresit ='{kompaun.Datas.NoResit.ReplaceSingleQuote()}', trkhakhir = unix_timestamp('{GeneralBll.GetLocalDateTimeForDatabase()}'), status = 3, " +
+                                                   $" poskodpenerima_akuan ='{kompaun.Datas.poskodpenerima_akuan}', bandarpenerima_akuan='{kompaun.Datas.bandarpenerima_akuan}', negeripenerima_akuan='{kompaun.Datas.negeripenerima_akuan}', negarapenerima_akuan='{kompaun.Datas.negarapenerima_akuan}', notelpenerima_akuan='{kompaun.Datas.notelpenerima_akuan}', emelpenerima_akuan='{kompaun.Datas.emelpenerima_akuan}', " +
+                                                   $" isbayarmanual='{kompaun.Datas.isbayarmanual}', gambarbuktibayaran='{kompaun.Datas.gambarbuktibayaran}' " +
+                                                   $" where nokmp = '{noRujukan}' and iscetakakuan = 1 ";
                                         //Send Kompaun Bayaran
                                         response = await HttpClientService.ExecuteQuery(sqlQuery, context);
                                         //Set Data online for Kompaun Bayaran
                                         SetStatusDataOnline(noRujukan, Enums.TableType.Akuan_UpdateKompaun, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+                                        //Set Data name resit send
+                                        SetStatusDataOnline(noRujukan, Enums.TableType.IpResit_Manual, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+
                                         //Save the script if have error when send api
                                         if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(sqlQuery);
                                     }
@@ -1272,13 +1393,19 @@ namespace IEMSApps.BLL
                                     {
                                         var sqlQuery = $" update tbkompaun_hh set namapenerima_akuan = '{kompaun.Datas.NamaPenerima_Akuan.ReplaceSingleQuote()}', nokppenerima1_Akuan = '{kompaun.Datas.NoKpPenerima_Akuan.ReplaceSingleQuote()}', alamatpenerima1_akuan = '{kompaun.Datas.AlamatPenerima1_Akuan.ReplaceSingleQuote()}', " +
                                                    $" alamatpenerima2_akuan = '{kompaun.Datas.AlamatPenerima2_Akuan.ReplaceSingleQuote()}', alamatpenerima3_akuan = '{kompaun.Datas.AlamatPenerima3_Akuan.ReplaceSingleQuote()}', trkhpenerima_akuan = '{trkhBayar}', amnbyr = '{kompaun.Datas.AmnByr}', " +
-                                                   $" noresit ='{kompaun.Datas.NoResit.ReplaceSingleQuote()}', trkhakhir = unix_timestamp('{GeneralBll.GetLocalDateTimeForDatabase()}'), status = 3 where nokmp = '{noRujukan}' and iscetakakuan = 1 ";
+                                                   $" noresit ='{kompaun.Datas.NoResit.ReplaceSingleQuote()}', trkhakhir = unix_timestamp('{GeneralBll.GetLocalDateTimeForDatabase()}'), status = 3, " +
+                                                   $" poskodpenerima_akuan ='{kompaun.Datas.poskodpenerima_akuan}', bandarpenerima_akuan='{kompaun.Datas.bandarpenerima_akuan}', negeripenerima_akuan='{kompaun.Datas.negeripenerima_akuan}', negarapenerima_akuan='{kompaun.Datas.negarapenerima_akuan}', notelpenerima_akuan='{kompaun.Datas.notelpenerima_akuan}', emelpenerima_akuan='{kompaun.Datas.emelpenerima_akuan}', " +
+                                                   $" isbayarmanual='{kompaun.Datas.isbayarmanual}', gambarbuktibayaran='{kompaun.Datas.gambarbuktibayaran}' " +
+                                                   $" where nokmp = '{noRujukan}' and iscetakakuan = 1 ";
+                                                   
                                         //Send Kompaun Bayaran
                                         response = await HttpClientService.ExecuteQuery(sqlQuery, context);
                                         //Set Data online for Kompaun Bayaran
                                         //Save the script if have error when send api
                                         if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(sqlQuery);
                                         SetStatusDataOnline(noRujukan, Enums.TableType.Akuan_UpdateKompaun_HH, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+                                        //Set Data name resit send
+                                        SetStatusDataOnline(noRujukan, Enums.TableType.IpResit_Manual, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
                                     }
                                 }
                             }
@@ -1386,9 +1513,9 @@ namespace IEMSApps.BLL
                 if (!responseImage.Success)
                     response.Success = false;
 
-                var responseImage = await SendImageOnline(noRujukan, data.KodCawangan, data.Status, data.PgnDaftar.ToString(), data.TrkhDaftar, data.PgnAkhir.ToString(), data.TrkhAkhir, 1);
-                if (!responseImage.Success)
-                    response.Success = false;
+                //var responseImage = await SendImageOnline(noRujukan, data.KodCawangan, data.Status, data.PgnDaftar.ToString(), data.TrkhDaftar, data.PgnAkhir.ToString(), data.TrkhAkhir, 1);
+                //if (!responseImage.Success)
+                //    response.Success = false;
 
             }
             return response;

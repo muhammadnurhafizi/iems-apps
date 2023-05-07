@@ -819,6 +819,7 @@ namespace IEMSApps.BLL
             if (insAccess.BeginTrx())
             {
                 var data = GetKompaunByRujukan(input.NoRujukan);
+                var photoName = SendOnlineBll.InsertImagesReceiptNameOnKPP(data.Datas.NoRujukanKpp);
                 if (data.Success && data.Datas != null)
                 {
                     data.Datas.NamaPenerima_Akuan = input.NamaPenerima;
@@ -834,8 +835,8 @@ namespace IEMSApps.BLL
                     data.Datas.NoResit = input.NoResit;
                     data.Datas.AmnByr = input.AmountByr;
                     data.Datas.TrkhPenerima_Akuan = input.TrkhPenerima;
-                    data.Datas.isbayarmanual= input.isbayarmanual;
-
+                    data.Datas.isbayarmanual = input.isbayarmanual;
+                    data.Datas.gambarbuktibayaran = photoName;
                     if (!insAccess.UpdateTrx(data.Datas))
                     {
                         insAccess.RollBackTrx();
@@ -912,19 +913,24 @@ namespace IEMSApps.BLL
                             return false;
                         }
 
-                        if (!SendOnlineBll.InsertImagesDataOnlineReceipt(data.Datas.NoRujukanKpp, insAccess))
+                        //new add.
+                        if (data.Datas.isbayarmanual == 1)
                         {
-                            insAccess.RollBackTrx();
-                            return false;
-                        }
-
-                        if(input.isbayarmanual == 1) 
-                        {
+                            if (!SendOnlineBll.InsertImagesDataOnlineReceipt(data.Datas.NoRujukanKpp, insAccess))
+                            {
+                                insAccess.RollBackTrx();
+                                return false;
+                            }
                             if (!SendOnlineBll.InserDataOnline(data.Datas.NoRujukanKpp, Enums.TableType.IpResit_Manual, insAccess))
                             {
                                 insAccess.RollBackTrx();
                                 return false;
                             }
+                            //if (!SendOnlineBll.InsertImagesReceiptNameOnKPP(data.Datas.NoRujukanKpp, insAccess))
+                            //{
+                            //    insAccess.RollBackTrx();
+                            //    return false;
+                            //}
                         }
 
                     }

@@ -2175,8 +2175,8 @@ namespace IEMSApps.Fragments
                 txtNoTelefonPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtEmailPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
                 spNegeriPenerima.SetBackgroundResource(Resource.Drawable.spiner_bg);
-                txtBandarPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
-                txtPoskodPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
+                txtBandarPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtPoskodPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
 
@@ -2333,6 +2333,10 @@ namespace IEMSApps.Fragments
             txtNoRujukanAtr.Text = "";
             txtCatatanLawatan.Text = "";
             txtHasilLawatan.Text = "";
+            if (ListKategoriKawasan.Count > 0)
+                spKategoryKawasan.SetSelection(0);
+            txtLokasi.Text = "";
+            txtAsasTindakan.Text = "";
 
             var localDate = GeneralBll.GetLocalDateTime().ToString(Constants.DateFormatDisplay);
             var localTime = GeneralBll.GetLocalDateTime().ToString(Constants.TimeFormatDisplay);

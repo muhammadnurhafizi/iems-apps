@@ -87,7 +87,7 @@ namespace IEMSApps.Activities
 
                         var result = DatabaseBll.CreateDefaultDatabase();
 
-                        GeneralAndroidClass.ShowToast("result Create : " + result);
+                        //GeneralAndroidClass.ShowToast("result Create : " + result);
 
                         //var data = DataAccessQuery<TbPasukanHeader>.ExecuteSelectSql("select * from tbpasukan_header");
                         //GeneralAndroidClass.ShowToast("Data : " + data.Count);
@@ -95,7 +95,7 @@ namespace IEMSApps.Activities
                     else
                     {
                         var result = DatabaseBll.AlterDatabase();
-                        GeneralAndroidClass.ShowToast("result Alter : " + result);
+                        //GeneralAndroidClass.ShowToast("result Alter : " + result);
                     }
 
                     CheckVersion();
