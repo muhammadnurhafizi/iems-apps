@@ -636,6 +636,64 @@ namespace IEMSApps.Services
             return result;
         }
 
+        public static async Task<Response<List<KawasanDto>>> GetKawasan(string param)
+        {
+            var result = new Response<List<KawasanDto>>()
+            {
+                Success = false,
+                Mesage = "Ralat"
+            };
+
+            try
+            {
+                var encodedQuery = BLL.GeneralBll.Base64Encode(param);
+
+                using (HttpClient client = GenerateHttpClient())
+                {
+                    var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.GetKawasan}" + encodedQuery;
+                    var req = new HttpRequestMessage(HttpMethod.Get, url);
+                    var response = await client.SendAsync(req);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var stringJson = await response.Content.ReadAsStringAsync();
+                        var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
+
+                        result.Mesage = resultObject.Mesage;
+                        result.Success = resultObject.Success;
+
+                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result);
+                        result.Result = JsonConvert.DeserializeObject<List<KawasanDto>>(jsonData.Substring(jsonData.IndexOf('[')));
+                    }
+                    else
+                    {
+                        result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
+                        result.Success = false;
+                    }
+                }
+            }
+            catch (TimeoutException ex)
+            {
+                Log.WriteLogFile("HttpClientService", "GetKPPAsync", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+                result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                result.Success = false;
+            }
+            catch (System.Exception ex)
+            {
+                Log.WriteLogFile("HttpClientService", "GetKPPAsync", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+                if (ex.Message.Contains("Unable to resolve host"))
+                    result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                else
+                    result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
+                result.Success = false;
+            }
+
+            return result;
+        }
+
         public static async Task<Response<string>> CheckData(string query)
         {
             var result = new Response<string>()

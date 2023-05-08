@@ -208,6 +208,7 @@
 							android:background="@drawable/textView_bg"
 							android:paddingLeft="5dp"
 							android:hint="Poskod"
+							android:enabled="false"
 							android:singleLine="true"/>	
 					</android.support.design.widget.TextInputLayout>
 						<Button

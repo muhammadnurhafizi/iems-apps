@@ -231,7 +231,7 @@ namespace IEMSApps.BLL
                 //{
                 //    foreach (var item in datas.Datas.Where(m => m.Type == Enums.TableType.IpResit_Manual))
                 //    {
-                //        var respose = await SendAkuanAsync(noRujukan, item.Type, context);
+                //        var respose = await SendIPResitOnlineAsyncV1(noRujukan, item.Type, context);
                 //        if (!respose.Success)
                 //        {
                 //            allDatasIsSended = false;
@@ -652,7 +652,7 @@ namespace IEMSApps.BLL
             var imagesSended = new List<string>();
             if (list.Success)
             {
-                imagesSended = list.Datas.Where(mbox => mbox.NoRujukan == noKmp && mbox.Status == Enums.StatusOnline.New).Select(m => m.Name).ToList();
+                imagesSended = list.Datas.Where(mbox => mbox.NoRujukan == noKmp && mbox.Status == Enums.StatusOnline.Sent).Select(m => m.Name).ToList();
             }
 
             foreach (var path in listOfImage)
@@ -682,6 +682,8 @@ namespace IEMSApps.BLL
 
                 var response = await HttpClientService.UploadImage(jsonParam);
                 SetStatusImagesDataOnline(noKmp, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error, Path.GetFileName(path));
+                //Set Data name resit send
+                SetStatusDataOnline(noKmp, Enums.TableType.IpResit_Manual, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
                 if (!response.Success)
                 {
                     allDataSent = false;
@@ -980,26 +982,27 @@ namespace IEMSApps.BLL
             return response;
         }
 
-        public static async Task<Response<string>> SendIPResitOnlineAsyncV1(string noRujukan, Enums.TableType tableType, Android.Content.Context context, bool saveScriptToFile = false)
-        {
-            var response = new Response<string>() { Success = true, Mesage = "Ralat" };
-            var query = "";
-            //Send TbKPP
-            var tbKpp = PemeriksaanBll.GetPemeriksaanByRujukan(noRujukan);
-            if (tbKpp != null)
-            {
-                if (tableType == Enums.TableType.KPP)
-                {
-                    //Send Images
-                    var responseImage = await SendOnlineBll.SendImageOnline(noRujukan, tbKpp.KodCawangan, tbKpp.Status, tbKpp.PgnDaftar.ToString(), tbKpp.TrkhDaftar, tbKpp.PgnAkhir.ToString(), tbKpp.TrkhAkhir, 4, saveScriptToFile);
-                    //var responseImage = await SendImageOnline(noRujukan, tbKpp.KodCawangan, tbKpp.Status, tbKpp.PgnDaftar.ToString(), tbKpp.TrkhDaftar, tbKpp.PgnAkhir.ToString(), tbKpp.TrkhAkhir, 2, saveScriptToFile);
-                    if (!responseImage.Success)
-                        response.Success = false;
-                }
-            }
+        //public static async Task<Response<string>> SendIPResitOnlineAsyncV1(string noRujukan, Enums.TableType tableType, Android.Content.Context context, bool saveScriptToFile = false)
+        //{
+        //    var response = new Response<string>() { Success = true, Mesage = "Ralat" };
+        //    var query = "";
+        //    //Send TbKPP
+        //    var tbKpp = PemeriksaanBll.GetPemeriksaanByRujukan(noRujukan);
+        //    if (tbKpp != null)
+        //    {
+        //        if (tableType == Enums.TableType.IpResit_Manual)
+        //        {
+        //            //Set Data name resit send
+        //            SetStatusDataOnline(noRujukan, Enums.TableType.IpResit_Manual, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+        //            if (response.Success) 
+        //            {
+        //                return response = true ;
+        //            }
+        //        }
+        //    }
 
-            return response;
-        }
+        //    return response;
+        //}
 
         public static string GenerateScriptAsasTindakan(TbKppAsasTindakan tindakan, string query)
         {

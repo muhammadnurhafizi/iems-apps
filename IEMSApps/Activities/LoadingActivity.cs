@@ -19,6 +19,7 @@ using IEMSApps.BLL;
 using IEMSApps.BusinessObject;
 using IEMSApps.BusinessObject.Entities;
 using IEMSApps.Classes;
+using IEMSApps.Services;
 using IEMSApps.Utils;
 
 namespace IEMSApps.Activities
@@ -115,7 +116,7 @@ namespace IEMSApps.Activities
                 _progressBar1.Progress = 100;
                 UpdateCountAndPercentage(0, 0);
 
-                for (int i = 1; i <= 16; i++)
+                for (int i = 1; i <= 17; i++)
                 {
                     switch (i)
                     {
@@ -216,6 +217,10 @@ namespace IEMSApps.Activities
                         case 16:
                             totalData = InsertJenama(result);
                             break;
+                        case 17:
+                            totalData = GetKawasan();
+                            break;
+
                     }
                     Thread.Sleep(500);
                 }
@@ -257,6 +262,51 @@ namespace IEMSApps.Activities
                     _alertDialog.Show()
                 );
             }
+        }
+
+        private int GetKawasan()
+        {
+            int totalData;
+            UpdateInfo("Menyemak Ip Bandar, Ip Poskod dan Ip Negeri");
+
+            bool bandar = false, negeri = false, poskod = false, jeniskad = false;
+
+            var TableCreated = DataAccessQuery<ip_bandar>.GetAll();
+            if (TableCreated.Success)
+            {
+                var resultIpBandar = DataAccessQuery<ip_bandar>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_bandar) SELECT 1 ELSE SELECT 0");
+                var resultIpNegeri = DataAccessQuery<ip_negeri>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_negeri) SELECT 1 ELSE SELECT 0");
+                var resultIpPoskod = DataAccessQuery<ip_poskod>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_poskod) SELECT 1 ELSE SELECT 0");
+                var resultJenisKad = DataAccessQuery<ip_identiti_pelanggans>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_identiti_pelanggans) SELECT 1 ELSE SELECT 0");
+
+
+                if (resultIpBandar == 1) 
+                {
+                    bandar = true;
+                }
+                else if(resultIpNegeri == 1) 
+                {
+                    negeri = true;
+                }
+                else if (resultIpPoskod == 1)
+                {
+                    poskod = true;
+                }
+                else if (resultJenisKad == 1)
+                {
+                    jeniskad = true;
+                }
+
+            }
+
+            //var api = $" 'ip_negeri': {negeri}, 'ip_bandar': {bandar}, 'ip_poskod': {poskod}, 'ip_identiti_pelanggans': {jeniskad}' ";
+            var api = $"{{'ip_negeri': {negeri}, 'ip_bandar': {bandar}, 'ip_poskod': {poskod}, 'ip_identiti_pelanggans': {jeniskad}}}";
+
+            var result = Task.Run(async () => await HttpClientService.GetKawasan(api)).Result;
+
+            totalData = 50;
+
+            return totalData;
         }
 
         private int InsertJenama(Response<DownloadDataResponse> result)

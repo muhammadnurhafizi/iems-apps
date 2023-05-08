@@ -1415,8 +1415,6 @@ namespace IEMSApps.Activities
             spNegeriPenerima.Enabled = blValue;
             txtBandarPenerima.Enabled= blValue;
             btnBandarPenerima.Enabled = blValue;
-            txtPoskodPenerima.Enabled = blValue;
-            btnPoskodPenerima.Enabled = blValue;
             #endregion
 
             btnImageNama.Enabled = blValue;
