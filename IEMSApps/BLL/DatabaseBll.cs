@@ -63,7 +63,8 @@ namespace IEMSApps.BLL
             CreateIpBandar();
             CreateIpNegeri();
             CreateIpPoskod();
-            CreateIpResits();
+            CreateIpResits(); 
+            CreateIpChargeline();
             return true;
 
             //if (!CreateTbAkta()) return false;
@@ -166,7 +167,7 @@ namespace IEMSApps.BLL
             CreateIpNegeri();
             CreateIpPoskod();
             CreateIpResits();
-
+            CreateIpChargeline();
             return true;
 
             //if (!CreateTbKompaunIzin()) return false;
@@ -1471,6 +1472,19 @@ namespace IEMSApps.BLL
             if (result == Constants.Error)
             {
                 DataAccessQuery<ip_resits>.CreateTable();
+                return true;
+            }
+            return false;
+
+        }
+
+        private static bool CreateIpChargeline()
+        {
+            string sQuery = "SELECT * FROM ip_chargelines";
+            var result = DataAccessQuery<ip_resits>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<ip_chargelines>.CreateTable();
                 return true;
             }
             return false;

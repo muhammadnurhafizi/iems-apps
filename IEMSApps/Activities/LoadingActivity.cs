@@ -116,7 +116,7 @@ namespace IEMSApps.Activities
                 _progressBar1.Progress = 100;
                 UpdateCountAndPercentage(0, 0);
 
-                for (int i = 1; i <= 17; i++)
+                for (int i = 1; i <= 16; i++)
                 {
                     switch (i)
                     {
@@ -157,18 +157,7 @@ namespace IEMSApps.Activities
                             InsertCawangan(result.Result.TbcawanganTemp);
                             break;
                         case 4:
-                            //DataAccessQuery<TbPengguna>.DeleteAll();
-                            //UpdateInfo(Constants.Messages.InsertData + " Pengguna");
-
-                            //totalData = result.Result.Tbpengguna.Count;
-                            //_progressBar1.Max = totalData;
-
-                            //foreach (var item in result.Result.Tbpengguna.Select((value, index) => new { index, value }))
-                            //{
-                            //    UpdateCountAndPercentage(item.index, totalData);
-                            //    DataAccessQuery<TbPengguna>.ExecuteSql(item.value.Value);
-                            //}
-                            //UpdateCountAndPercentage(totalData, totalData);
+                            GetKawasan();
                             break;
                         case 5:
                             totalData = InsertTujuanLawatan(result);
@@ -217,9 +206,6 @@ namespace IEMSApps.Activities
                         case 16:
                             totalData = InsertJenama(result);
                             break;
-                        case 17:
-                            totalData = GetKawasan();
-                            break;
 
                     }
                     Thread.Sleep(500);
@@ -264,49 +250,89 @@ namespace IEMSApps.Activities
             }
         }
 
-        private int GetKawasan()
+        public void GetKawasan()
         {
             int totalData;
-            UpdateInfo("Menyemak Ip Bandar, Ip Poskod dan Ip Negeri");
+            UpdateInfo("Menyemak Ip Negeri, Ip Bandar , Ip Poskod, Jenis Kad");
 
-            bool bandar = false, negeri = false, poskod = false, jeniskad = false;
+            var negeri = GetKawasanBll.CheckIpNegeri();
+            var bandar = GetKawasanBll.CheckIpBandar();
+            var poskod = GetKawasanBll.CheckIpPoskod();
+            var jeniskad = GetKawasanBll.CheckIpIdentitiPelanggan();
+            var chargeline = GetKawasanBll.CheckIpChargeline();
 
-            var TableCreated = DataAccessQuery<ip_bandar>.GetAll();
-            if (TableCreated.Success)
+            var result = Task.Run(async () => await HttpClientService.GetKawasan(negeri, bandar, poskod, jeniskad, chargeline)).Result;
+            if (result.Success) 
             {
-                var resultIpBandar = DataAccessQuery<ip_bandar>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_bandar) SELECT 1 ELSE SELECT 0");
-                var resultIpNegeri = DataAccessQuery<ip_negeri>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_negeri) SELECT 1 ELSE SELECT 0");
-                var resultIpPoskod = DataAccessQuery<ip_poskod>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_poskod) SELECT 1 ELSE SELECT 0");
-                var resultJenisKad = DataAccessQuery<ip_identiti_pelanggans>.ExecuteSql("IF EXISTS (SELECT 1 FROM ip_identiti_pelanggans) SELECT 1 ELSE SELECT 0");
+                if (negeri) 
+                {
+                    UpdateInfo(Constants.Messages.InsertData + " Ip Negeri ");
+                    totalData = result.Result.ip_negeri.Count;
+                    _progressBar1.Max = totalData;
 
+                    foreach (var item in result.Result.ip_negeri.Select((value, index) => new { index, value }))
+                    {
+                        UpdateCountAndPercentage(item.index, totalData);
+                        DataAccessQuery<ip_negeri>.ExecuteSql(item.value.Value);
+                    }
+                    UpdateCountAndPercentage(totalData, totalData);
+                }
+                if (bandar)
+                {
+                    UpdateInfo(Constants.Messages.InsertData + " Ip Bandar ");
+                    totalData = result.Result.ip_bandar.Count;
+                    _progressBar1.Max = totalData;
 
-                if (resultIpBandar == 1) 
-                {
-                    bandar = true;
+                    foreach (var item in result.Result.ip_bandar.Select((value, index) => new { index, value }))
+                    {
+                        UpdateCountAndPercentage(item.index, totalData);
+                        DataAccessQuery<ip_bandar>.ExecuteSql(item.value.Value);
+                    }
+                    UpdateCountAndPercentage(totalData, totalData);
                 }
-                else if(resultIpNegeri == 1) 
+                if (poskod)
                 {
-                    negeri = true;
+                    UpdateInfo(Constants.Messages.InsertData + " Ip Poskod ");
+                    totalData = result.Result.ip_poskod.Count;
+                    _progressBar1.Max = totalData;
+
+                    foreach (var item in result.Result.ip_poskod.Select((value, index) => new { index, value }))
+                    {
+                        UpdateCountAndPercentage(item.index, totalData);
+                        DataAccessQuery<ip_poskod>.ExecuteSql(item.value.Value);
+                    }
+                    UpdateCountAndPercentage(totalData, totalData);
                 }
-                else if (resultIpPoskod == 1)
+                if (jeniskad)
                 {
-                    poskod = true;
+                    UpdateInfo(Constants.Messages.InsertData + " Ip Negeri ");
+                    totalData = result.Result.ip_identiti_pelanggans.Count;
+                    _progressBar1.Max = totalData;
+
+                    foreach (var item in result.Result.ip_identiti_pelanggans.Select((value, index) => new { index, value }))
+                    {
+                        UpdateCountAndPercentage(item.index, totalData);
+                        DataAccessQuery<ip_identiti_pelanggans>.ExecuteSql(item.value.Value);
+                    }
+                    UpdateCountAndPercentage(totalData, totalData);
                 }
-                else if (resultJenisKad == 1)
+                if (chargeline)
                 {
-                    jeniskad = true;
+                    UpdateInfo(Constants.Messages.InsertData + " Ip Negeri ");
+                    totalData = result.Result.ip_chargelines.Count;
+                    _progressBar1.Max = totalData;
+
+                    foreach (var item in result.Result.ip_chargelines.Select((value, index) => new { index, value }))
+                    {
+                        UpdateCountAndPercentage(item.index, totalData);
+                        DataAccessQuery<ip_chargelines>.ExecuteSql(item.value.Value);
+                    }
+                    UpdateCountAndPercentage(totalData, totalData);
                 }
 
             }
+            UpdateInfo("Data Ip Sudah Ada");
 
-            //var api = $" 'ip_negeri': {negeri}, 'ip_bandar': {bandar}, 'ip_poskod': {poskod}, 'ip_identiti_pelanggans': {jeniskad}' ";
-            var api = $"{{'ip_negeri': {negeri}, 'ip_bandar': {bandar}, 'ip_poskod': {poskod}, 'ip_identiti_pelanggans': {jeniskad}}}";
-
-            var result = Task.Run(async () => await HttpClientService.GetKawasan(api)).Result;
-
-            totalData = 50;
-
-            return totalData;
         }
 
         private int InsertJenama(Response<DownloadDataResponse> result)

@@ -38,7 +38,7 @@ namespace IEMSApps.BLL
             {
                 if (result.Mesage == Constants.ErrorMessages.NotFound)
                 {
-                    result.Mesage = Constants.ErrorMessages.NotFound;
+                    result.Mesage = Constants.Messages.NoReceiptOnServer;
                     result.Success = false;
                 }
             }

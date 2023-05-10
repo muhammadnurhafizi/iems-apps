@@ -39,6 +39,15 @@ namespace IEMSApps.BusinessObject
         public List<ValueResponse> Tbbarang_jenamaTemp { get; set; }
     }
 
+    public class DownloadDataKawasan 
+    {
+        public List<ValueResponse> ip_bandar { get; set; }
+        public List<ValueResponse> ip_poskod { get; set; }
+        public List<ValueResponse> ip_negeri { get; set; }
+        public List<ValueResponse> ip_identiti_pelanggans { get; set; }
+        public List<ValueResponse> ip_chargelines { get; set; }
+    }
+
     //public class DownloadDataFreshResponse
     //{
     //    public List<ValueResponse> Tbnegeri { get; set; }

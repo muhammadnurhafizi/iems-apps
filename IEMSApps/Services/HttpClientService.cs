@@ -16,6 +16,10 @@ using System.IO;
 using System.Threading;
 using IEMSApps.Classes;
 using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json.Serialization;
+using Org.Json;
+using Newtonsoft.Json.Linq;
+using static Android.OS.Build;
 
 namespace IEMSApps.Services
 {
@@ -152,68 +156,140 @@ namespace IEMSApps.Services
 
             return result;
         }
+        public static async Task<Response<DownloadDataKawasan>> GetKawasan(bool negeri, bool bandar, bool poskod, bool jeniskad, bool chargeline)
+        {
+            var result = new Response<DownloadDataKawasan>()
+            {
+                Success = false,
+                Mesage = "Data Telah Ada"
+            };
 
-//        public static async Task<Response<DownloadDataFreshResponse>> PrepareDownloadFreshDatas(string IdPeranti)
-//        {
-//            var result = new Response<DownloadDataFreshResponse>()
-//            {
-//                Success = false,
-//                Mesage = $"ID Peranti {IdPeranti} belum mempunyai Pasukan. Sila hubungi Pejabat"
-//            };
+            try
+            {
 
-//            try
-//            {
-//                //var encodedIdPiranti = BLL.GeneralBll.Base64Encode($"SAL002|2020-01-27 07:00:00");
-//                var encodedIdPiranti = BLL.GeneralBll.Base64Encode($"{IdPeranti}");
-//#if DEBUG
-//                encodedIdPiranti = BLL.GeneralBll.Base64Encode($"SAL002");
-//#endif
-//                using (HttpClient client = GenerateHttpClient())
-//                {
-//                    ///var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.PrepareDownloadData}" + encodedIdPiranti;
-//                    var url = $"{GeneralBll.GetWebServicUrl()}API_IEMS/api/preparedownloaddataFresh/" + encodedIdPiranti;
-//                    var req = new HttpRequestMessage(HttpMethod.Get, url);
-//                    var response = await client.SendAsync(req);
-//                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-//                    {
-//                        var stringJson = await response.Content.ReadAsStringAsync();
+                string ip_negeri = "ip_negeri";
+                string ip_bandar = "ip_bandar";
+                string ip_poskod = "ip_poskod";
+                string ip_identiti_pelanggans = "ip_identiti_pelanggans";
+                string ip_chargelines = "ip_chargelines";
 
-//                        var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
+                string inputString = $"{{\"{ip_negeri}\":{negeri.ToString().ToLower()},\"{ip_bandar}\":{bandar.ToString().ToLower()},\"{ip_poskod}\":{poskod.ToString().ToLower()},\"{ip_identiti_pelanggans}\":{jeniskad.ToString().ToLower()},\"{ip_chargelines}\":{chargeline.ToString().ToLower()}}}";
 
-//                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result.Replace("\"", ""));
-//                        result.Result = JsonConvert.DeserializeObject<DownloadDataFreshResponse>(jsonData.Substring(jsonData.IndexOf('{')));
-//                        result.Success = true;
-//                        result.Mesage = string.Empty;
-//                    }
-//                    else
-//                    {
-//                        result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
-//                        result.Success = false;
-//                    }
-//                }
-//            }
-//            catch (TimeoutException ex)
-//            {
-//                Log.WriteLogFile("HttpClientService", "PrepareDownloadDatas", ex.Message, Enums.LogType.Error);
-//                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+                var encodedGetKawasan = BLL.GeneralBll.Base64Encode(inputString);
+#if DEBUG
+                //var api = $"{{'ip_negeri': {negeri}, 'ip_bandar': {bandar}, 'ip_poskod': {poskod}, 'ip_identiti_pelanggans': {jeniskad}}}";
+#endif
 
-//                result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
-//                result.Success = false;
-//            }
-//            catch (System.Exception ex)
-//            {
-//                Log.WriteLogFile("HttpClientService", "PrepareDownloadDatas", ex.Message, Enums.LogType.Error);
-//                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+                using (HttpClient client = GenerateHttpClient())
+                {
+                    ///var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.PrepareDownloadData}" + encodedIdPiranti;
+                    var url = $"{GeneralBll.GetWebServicUrl()}API_IEMS/api/getKawasan/" + encodedGetKawasan;
+                    var req = new HttpRequestMessage(HttpMethod.Get, url);
+                    var response = await client.SendAsync(req);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var stringJson = await response.Content.ReadAsStringAsync();
 
-//                if (ex.Message.Contains("Unable to resolve host"))
-//                    result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
-//                else
-//                    result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
-//                result.Success = false;
-//            }
+                        var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
 
-//            return result;
-//        }
+                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result.Replace("\"", ""));
+                        var jsonFetch = jsonData.Substring(jsonData.IndexOf('{'));
+                        result.Result = JsonConvert.DeserializeObject<DownloadDataKawasan>(jsonFetch);
+                        result.Success = true;
+                        result.Mesage = string.Empty;
+                    }
+                    else
+                    {
+                        result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
+                        result.Success = false;
+                    }
+                }
+            }
+            catch (TimeoutException ex)
+            {
+                Log.WriteLogFile("HttpClientService", "GetKawasan", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+                result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                result.Success = false;
+            }
+            catch (System.Exception ex)
+            {
+                Log.WriteLogFile("HttpClientService", "GetKawasan", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+                if (ex.Message.Contains("Unable to resolve host"))
+                    result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                else
+                    result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
+                result.Success = false;
+            }
+
+            return result;
+        }
+
+
+        //        public static async Task<Response<DownloadDataFreshResponse>> PrepareDownloadFreshDatas(string IdPeranti)
+        //        {
+        //            var result = new Response<DownloadDataFreshResponse>()
+        //            {
+        //                Success = false,
+        //                Mesage = $"ID Peranti {IdPeranti} belum mempunyai Pasukan. Sila hubungi Pejabat"
+        //            };
+
+        //            try
+        //            {
+        //                //var encodedIdPiranti = BLL.GeneralBll.Base64Encode($"SAL002|2020-01-27 07:00:00");
+        //                var encodedIdPiranti = BLL.GeneralBll.Base64Encode($"{IdPeranti}");
+        //#if DEBUG
+        //                encodedIdPiranti = BLL.GeneralBll.Base64Encode($"SAL002");
+        //#endif
+        //                using (HttpClient client = GenerateHttpClient())
+        //                {
+        //                    ///var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.PrepareDownloadData}" + encodedIdPiranti;
+        //                    var url = $"{GeneralBll.GetWebServicUrl()}API_IEMS/api/preparedownloaddataFresh/" + encodedIdPiranti;
+        //                    var req = new HttpRequestMessage(HttpMethod.Get, url);
+        //                    var response = await client.SendAsync(req);
+        //                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        //                    {
+        //                        var stringJson = await response.Content.ReadAsStringAsync();
+
+        //                        var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
+
+        //                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result.Replace("\"", ""));
+        //                        result.Result = JsonConvert.DeserializeObject<DownloadDataFreshResponse>(jsonData.Substring(jsonData.IndexOf('{')));
+        //                        result.Success = true;
+        //                        result.Mesage = string.Empty;
+        //                    }
+        //                    else
+        //                    {
+        //                        result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
+        //                        result.Success = false;
+        //                    }
+        //                }
+        //            }
+        //            catch (TimeoutException ex)
+        //            {
+        //                Log.WriteLogFile("HttpClientService", "PrepareDownloadDatas", ex.Message, Enums.LogType.Error);
+        //                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+        //                result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+        //                result.Success = false;
+        //            }
+        //            catch (System.Exception ex)
+        //            {
+        //                Log.WriteLogFile("HttpClientService", "PrepareDownloadDatas", ex.Message, Enums.LogType.Error);
+        //                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+
+        //                if (ex.Message.Contains("Unable to resolve host"))
+        //                    result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+        //                else
+        //                    result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
+        //                result.Success = false;
+        //            }
+
+        //            return result;
+        //        }
 
         public static async Task<Response<CheckKompaunIzinResponse>> CheckKompaunIzin(string noRujukan)
         {
@@ -605,64 +681,6 @@ namespace IEMSApps.Services
 
                         var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result);
                         result.Result = JsonConvert.DeserializeObject<List<KppDto>>(jsonData.Substring(jsonData.IndexOf('[')));
-                    }
-                    else
-                    {
-                        result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
-                        result.Success = false;
-                    }
-                }
-            }
-            catch (TimeoutException ex)
-            {
-                Log.WriteLogFile("HttpClientService", "GetKPPAsync", ex.Message, Enums.LogType.Error);
-                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
-
-                result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
-                result.Success = false;
-            }
-            catch (System.Exception ex)
-            {
-                Log.WriteLogFile("HttpClientService", "GetKPPAsync", ex.Message, Enums.LogType.Error);
-                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
-
-                if (ex.Message.Contains("Unable to resolve host"))
-                    result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
-                else
-                    result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
-                result.Success = false;
-            }
-
-            return result;
-        }
-
-        public static async Task<Response<List<KawasanDto>>> GetKawasan(string param)
-        {
-            var result = new Response<List<KawasanDto>>()
-            {
-                Success = false,
-                Mesage = "Ralat"
-            };
-
-            try
-            {
-                var encodedQuery = BLL.GeneralBll.Base64Encode(param);
-
-                using (HttpClient client = GenerateHttpClient())
-                {
-                    var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.GetKawasan}" + encodedQuery;
-                    var req = new HttpRequestMessage(HttpMethod.Get, url);
-                    var response = await client.SendAsync(req);
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        var stringJson = await response.Content.ReadAsStringAsync();
-                        var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
-
-                        result.Mesage = resultObject.Mesage;
-                        result.Success = resultObject.Success;
-
-                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result);
-                        result.Result = JsonConvert.DeserializeObject<List<KawasanDto>>(jsonData.Substring(jsonData.IndexOf('[')));
                     }
                     else
                     {

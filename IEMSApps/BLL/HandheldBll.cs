@@ -4,6 +4,7 @@ using IEMSApps.BusinessObject.Responses;
 using IEMSApps.Classes;
 using IEMSApps.Services;
 using IEMSApps.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -235,6 +236,34 @@ namespace IEMSApps.BLL
                 for (int i = 1; i <= Constants.MaxCallAPIRetry; i++)
                 {
                     result = Task.Run(async () => await HttpClientService.PrepareDownloadDatas(IdPeranti, tbHandheld.Datas.TrkhHhCheckin)).Result;
+
+                    if (result.Success)
+                    {
+                        return result;
+                    }
+
+                    Thread.Sleep(Constants.SleepRetryActiveParking);
+                }
+            }
+
+            return result;
+        }
+
+        public static Response<DownloadDataKawasan> GetKawasanResponse(bool negeri, bool bandar, bool poskod, bool jeniskad, bool chargeline)
+        {
+            
+            var result = new Response<DownloadDataKawasan>();
+            if (!GeneralAndroidClass.IsOnline())
+            {
+                return new Response<DownloadDataKawasan> { Success = false, Mesage = "Tiada Sambungan Internet" };
+            }
+            else
+            {
+                for (int i = 1; i <= Constants.MaxCallAPIRetry; i++)
+                {
+
+
+                    result = Task.Run(async () => await HttpClientService.GetKawasan(negeri, bandar, poskod, jeniskad,chargeline)).Result;
 
                     if (result.Success)
                     {

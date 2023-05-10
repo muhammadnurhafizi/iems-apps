@@ -129,6 +129,7 @@
     <Compile Include="Adapters\TableSummaryAdapter.cs" />
     <Compile Include="BLL\CawanganBll.cs" />
     <Compile Include="BLL\DatabaseBll.cs" />
+    <Compile Include="BLL\GetKawasanBll.cs" />
     <Compile Include="BLL\GeneralBll.cs" />
     <Compile Include="BLL\GpsLogBll.cs" />
     <Compile Include="BLL\HandheldBll.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="BusinessObject\DTOs\SearchDto.cs" />
     <Compile Include="BusinessObject\DTOs\VersionDto.cs" />
     <Compile Include="BusinessObject\Entities\BaseEntities.cs" />
+    <Compile Include="BusinessObject\Entities\ip_chargelines.cs" />
     <Compile Include="BusinessObject\Entities\ip_resits.cs" />
     <Compile Include="BusinessObject\Entities\ip_negeri.cs" />
     <Compile Include="BusinessObject\Entities\ip_poskod.cs" />

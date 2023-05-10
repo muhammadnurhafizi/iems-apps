@@ -489,15 +489,21 @@ namespace IEMSApps.Activities
                             ad.Show();
                         } else
                         {
-                            var message = Constants.Messages.NoReceiptOnServer;
+                            var message = "Gagal Mendapatkan Data Dari Sistem IEMS";
                             var ad = GeneralAndroidClass.GetDialogCustom(this);
                             ad.SetMessage(Html.FromHtml(message));
                             ad.SetButton("Tutup", (s, ev) => { });
                             ad.Show();
                         }
-                    } else
+                    } 
+                    else
                     {
-                        GeneralAndroidClass.ShowToast(service.Mesage);
+                        //GeneralAndroidClass.ShowToast(service.Mesage);
+                        var message = Constants.Messages.NoReceiptOnServer;
+                        var ad = GeneralAndroidClass.GetDialogCustom(this);
+                        ad.SetMessage(Html.FromHtml(message));
+                        ad.SetButton("Tutup", (s, ev) => { });
+                        ad.Show();
                     }
                     
                 }
