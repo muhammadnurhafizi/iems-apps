@@ -704,6 +704,26 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static Dictionary<string, string> GetMaklumatChargeline(bool isAddDefault = true)
+        {
+            var result = new Dictionary<string, string>();
+            if (isAddDefault)
+            {
+                result.Add("0", "");
+            }
+            var listData = DataAccessQuery<ip_chargelines>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var identitiPelanggan in list)
+                {
+                    result.Add(identitiPelanggan.id.ToString(), identitiPelanggan.pejabat);
+                }
+            }
+
+            return result;
+        }
+
         public static ip_identiti_pelanggans GetJenisKad(int kodjeniskad)
         {
 

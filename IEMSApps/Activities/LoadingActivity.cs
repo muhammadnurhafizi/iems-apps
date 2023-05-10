@@ -253,7 +253,7 @@ namespace IEMSApps.Activities
         public void GetKawasan()
         {
             int totalData;
-            UpdateInfo("Menyemak Ip Negeri, Ip Bandar , Ip Poskod, Jenis Kad");
+            UpdateInfo("Menyemak Ip Data");
 
             var negeri = GetKawasanBll.CheckIpNegeri();
             var bandar = GetKawasanBll.CheckIpBandar();
@@ -318,7 +318,7 @@ namespace IEMSApps.Activities
                 }
                 if (chargeline)
                 {
-                    UpdateInfo(Constants.Messages.InsertData + " Ip Negeri ");
+                    UpdateInfo(Constants.Messages.InsertData + " Ip Chargeline ");
                     totalData = result.Result.ip_chargelines.Count;
                     _progressBar1.Max = totalData;
 
@@ -331,7 +331,6 @@ namespace IEMSApps.Activities
                 }
 
             }
-            UpdateInfo("Data Ip Sudah Ada");
 
         }
 

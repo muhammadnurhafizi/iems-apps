@@ -57,7 +57,7 @@ namespace IEMSApps.Activities
         private TextView txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
         private Button btnOk, btnCamera, btnPrint, btnAkuan, btnSearchJpnPenerima, btnReceipt;
 
-        private Spinner spJenisKad, spNegeriPenerima;
+        private Spinner spJenisKad, spNegeriPenerima, spPusatTerimaan;
         private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima;
         private Button btnBandarPenerima, btnPoskodPenerima;
         private CheckBox chkGambarBayaran, chkBayarGunaIpayment;
@@ -102,6 +102,8 @@ namespace IEMSApps.Activities
                 txtAlamatPenerima1 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima1);
                 txtAlamatPenerima2 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima2);
                 txtAlamatPenerima3 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima3);
+
+                spPusatTerimaan = FindViewById<Spinner>(Resource.Id.spPusatTerimaan);
 
                 chkGambarBayaran = FindViewById<CheckBox>(Resource.Id.chkGambarBayaran);
                 chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
@@ -279,7 +281,7 @@ namespace IEMSApps.Activities
             }
         }
 
-        private Dictionary<string, string> ListJenisKad, ListNegeri;
+        private Dictionary<string, string> ListJenisKad, ListNegeri, ListPusatTerimaan;
         private void loadDropdownData() {
 
             ListJenisKad = MasterDataBll.GetJenisKad();
@@ -290,6 +292,10 @@ namespace IEMSApps.Activities
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
 
+            //List Pusat Terimaan
+            ListPusatTerimaan = MasterDataBll.GetMaklumatChargeline();
+            spPusatTerimaan.Adapter = new ArrayAdapter<string>(this,
+                Resource.Layout.support_simple_spinner_dropdown_item, ListPusatTerimaan.Select(c => c.Value).ToList());
         }
 
         private void BtnBandarPenerima_Click(object sender, EventArgs e)
@@ -758,6 +764,11 @@ namespace IEMSApps.Activities
             if (string.IsNullOrEmpty(txtBandarPenerima.Text))
             {
                 GeneralAndroidClass.ShowModalMessage(this, "Poskod Penerima Kosong.");
+                return false;
+            }
+            if (spPusatTerimaan.SelectedItem == null)
+            {
+                GeneralAndroidClass.ShowModalMessage(this, "Pusat Terimaan Kosong.");
                 return false;
             }
 
