@@ -2241,6 +2241,7 @@ namespace IEMSApps.Fragments
             txtBandarPenerima.Enabled = blValue;
             btnBandarPenerima.Enabled = blValue;
             txtPoskodPenerima.Enabled = blValue;
+            btnPoskodPenerima.Enabled = blValue;
             #endregion
 
 

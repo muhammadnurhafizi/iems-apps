@@ -1411,10 +1411,11 @@ namespace IEMSApps.Activities
 
             spJenisKad.Enabled = blValue;
             txtNoTelefonPenerima.Enabled = blValue; 
-            txtEmailPenerima.Enabled= blValue;
+            txtEmailPenerima.Enabled = blValue;
             spNegeriPenerima.Enabled = blValue;
-            txtBandarPenerima.Enabled= blValue;
+            txtBandarPenerima.Enabled = blValue;
             btnBandarPenerima.Enabled = blValue;
+            btnPoskodPenerima.Enabled = blValue;
             #endregion
 
             btnImageNama.Enabled = blValue;

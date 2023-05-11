@@ -892,7 +892,7 @@ namespace IEMSApps.BLL
                         Log.WriteLogFile("KompaundBll - SaveDataAkuanTrx", "UpdateDataKesAfterPaid", "Finish...", Enums.LogType.Debug);
                     }
 
-                    AkuanBll.SavePusatTerimaanTrx(input);
+                    AkuanBll.SavePusatTerimaanTrx(input, insAccess);
 
                     if (data.Datas.IsCetakAkuan == Constants.CetakAkuan.Yes)
                     {

@@ -1328,7 +1328,7 @@ namespace IEMSApps.BLL
                                     var sqlQuery = " insert into tbkompaun_bayaran (kodcawangan,nokmp,trkhbyr,amnbyr,noresit,status,pgndaftar, " +
                                                    " trkhdaftar,pgnakhir,trkhakhir, pusat_terimaan) VALUES " +
                                                    $" ('{kompaun.Datas.KodCawangan}', '{kompaun.Datas.NoKmp}', '{trkhBayar}','{kompaun.Datas.AmnByr}','{kompaun.Datas.NoResit.ReplaceSingleQuote()}', '2', '{kompaun.Datas.PgnDaftar}'," +
-                                                   $" UNIX_TIMESTAMP('{kompaun.Datas.TrkhDaftar}'), '{kompaun.Datas.PgnDaftar}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}') " +
+                                                   $" UNIX_TIMESTAMP('{kompaun.Datas.TrkhDaftar}'), '{kompaun.Datas.PgnDaftar}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}') , " +
                                                    $" '{kompaunBayaran.pusat_terimaan}'); ";
                                     //Send Kompaun Bayaran
                                     response = await HttpClientService.ExecuteQuery(sqlQuery, context);

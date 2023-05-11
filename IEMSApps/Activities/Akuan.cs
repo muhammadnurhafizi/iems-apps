@@ -332,7 +332,7 @@ namespace IEMSApps.Activities
             }
         }
 
-        private Dictionary<string, string> ListJenisKad, ListNegeri, ListPusatTerimaan;
+        private Dictionary<string, string> ListJenisKad, ListNegeri;
         private void loadDropdownData() {
 
             ListJenisKad = MasterDataBll.GetJenisKad();
@@ -487,6 +487,9 @@ namespace IEMSApps.Activities
             txtAlamatPenerima3.Text = data.AlamatPenerima3_Akuan;
             txtNoResit.Text = data.NoResit;
             txtAmounBayaran.Text = data.AmnByr.ToString(Constants.DecimalFormat);
+
+            var kompaunBayaran = AkuanBll.GetKompaunBayaranByKompaun(data.NoKmp);
+            txtPusatTerimaan.Text = kompaunBayaran.pusat_terimaan ?? "";
 
             btnPrint.SetBackgroundResource(Resource.Drawable.print_icon);
             btnPrint.Enabled = true;
@@ -811,6 +814,11 @@ namespace IEMSApps.Activities
             if (string.IsNullOrEmpty(txtBandarPenerima.Text))
             {
                 GeneralAndroidClass.ShowModalMessage(this, "Poskod Penerima Kosong.");
+                return false;
+            }
+            if (string.IsNullOrEmpty(txtPusatTerimaan.Text))
+            {
+                GeneralAndroidClass.ShowModalMessage(this, "Pusat Terimaan Kosong.");
                 return false;
             }
 
@@ -1442,6 +1450,7 @@ namespace IEMSApps.Activities
             txtAlamatPenerima2.Enabled = blValue;
             txtAlamatPenerima3.Enabled = blValue;
             txtPusatTerimaan.Enabled = blValue;
+            btnPoskodPenerima.Enabled = blValue;
 
             btnNamaPenerima.Enabled = blValue;
             btnCamera.Enabled = blValue;

@@ -107,13 +107,10 @@ namespace IEMSApps.BLL
             return data.Datas;
         }
 
-        public static bool SavePusatTerimaanTrx(SaveAkuanInput input)
+        public static bool SavePusatTerimaanTrx(SaveAkuanInput input, DataAccessQueryTrx insAccess = null)
         {
             var dataKompaun = GetKompaunByRujukan(input.NoRujukan);
-            var insAccess = new DataAccessQueryTrx();
-            if (insAccess.BeginTrx())
             {
-
                 var data = new TbKompaunBayaran
                 {
                     kodcawangan = dataKompaun.KodCawangan,
@@ -121,20 +118,11 @@ namespace IEMSApps.BLL
                     amnbyr = dataKompaun.AmnKmp.ToString(),
                     pusat_terimaan = input.pusat_terimaan.ToString(),
                 };
-
                 if (insAccess != null)
                 {
-                    DataAccessQuery<TbKompaunBayaran>.Insert(data);
                     return insAccess.InsertTrx(data);
                 }
-                //if (!insAccess.InsertTrx(data))
-                //{8
-                //    insAccess.RollBackTrx();
-                //    return false;
-                //}
-
-                return insAccess.CommitTrx();
-
+                var result = DataAccessQuery<TbKompaunBayaran>.Insert(data);
             }
             return false;
         }
