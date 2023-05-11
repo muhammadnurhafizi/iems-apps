@@ -892,6 +892,7 @@ namespace IEMSApps.BLL
                         Log.WriteLogFile("KompaundBll - SaveDataAkuanTrx", "UpdateDataKesAfterPaid", "Finish...", Enums.LogType.Debug);
                     }
 
+                    AkuanBll.SavePusatTerimaanTrx(input);
 
                     if (data.Datas.IsCetakAkuan == Constants.CetakAkuan.Yes)
                     {
@@ -926,11 +927,6 @@ namespace IEMSApps.BLL
                                 insAccess.RollBackTrx();
                                 return false;
                             }
-                            //if (!SendOnlineBll.InsertImagesReceiptNameOnKPP(data.Datas.NoRujukanKpp, insAccess))
-                            //{
-                            //    insAccess.RollBackTrx();
-                            //    return false;
-                            //}
                         }
 
                     }

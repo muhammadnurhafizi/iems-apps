@@ -37,5 +37,7 @@
         public int isbayarmanual { get; set; }
 
         public string gambarbuktibayaran { get; set; }
+
+        public string pusat_terimaan { get; set; }
     }
 }

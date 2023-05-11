@@ -327,24 +327,36 @@
                             android:singleLine="true"/>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Pusat Terimaan : "
-                            android:textColor="#FF0000"
-                            android:textAppearance="?android:attr/textAppearanceSmall"/>
-                        <Spinner
-                            android:layout_width="match_parent"
-                            android:id="@+id/spPusatTerimaan"
-                            android:spinnerMode="dropdown"
-                            android:layout_height="35dp"
-                            android:background="@drawable/spiner_bg"/>
-                    </LinearLayout>
+                    <RelativeLayout
+		                android:layout_width="match_parent"
+		                android:layout_height="wrap_content"
+		                android:paddingTop="5dp"
+		                android:orientation="vertical">
+		                <android.support.design.widget.TextInputLayout
+			                        android:layout_width="match_parent"
+			                        android:layout_height="wrap_content"
+					                android:theme="@style/TextLabelRequired">
+			                <EditText
+				                android:layout_width="match_parent"
+				                android:layout_height="35dp"
+				                android:id="@id/txtPusatTerimaan"
+				                android:background="@drawable/textView_bg"
+				                android:paddingLeft="5dp"
+				                android:textSize="15sp"
+				                android:hint="Pusat Terimaan"
+				                android:paddingRight="35dp"
+				                android:enabled="false"
+				                android:singleLine="true"/>	
+		                </android.support.design.widget.TextInputLayout>
+		                <Button
+			                android:id="@+id/btnPusatTerimaan"
+			                android:layout_marginRight="5dp"
+			                android:layout_width="30dp"
+			                android:layout_marginTop="14dp"
+			                android:layout_height="30dp"
+			                android:layout_alignParentRight="true"
+			                android:background="@drawable/question_mark"/>
+	                </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

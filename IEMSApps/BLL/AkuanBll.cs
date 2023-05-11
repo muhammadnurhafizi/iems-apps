@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using IEMSApps.BusinessObject;
+using IEMSApps.BusinessObject.DTOs;
 using IEMSApps.BusinessObject.Entities;
 using IEMSApps.BusinessObject.Inputs;
 using IEMSApps.BusinessObject.Responses;
@@ -104,6 +105,60 @@ namespace IEMSApps.BLL
             Result<ip_resits> data;
             data = DataAccessQuery<ip_resits>.Get(c => c.norujukankpp == noRujukan);
             return data.Datas;
+        }
+
+        public static bool SavePusatTerimaanTrx(SaveAkuanInput input)
+        {
+            var dataKompaun = GetKompaunByRujukan(input.NoRujukan);
+            var insAccess = new DataAccessQueryTrx();
+            if (insAccess.BeginTrx())
+            {
+
+                var data = new TbKompaunBayaran
+                {
+                    kodcawangan = dataKompaun.KodCawangan,
+                    nokmp = dataKompaun.NoKmp,
+                    amnbyr = dataKompaun.AmnKmp.ToString(),
+                    pusat_terimaan = input.pusat_terimaan.ToString(),
+                };
+
+                if (insAccess != null)
+                {
+                    DataAccessQuery<TbKompaunBayaran>.Insert(data);
+                    return insAccess.InsertTrx(data);
+                }
+                //if (!insAccess.InsertTrx(data))
+                //{8
+                //    insAccess.RollBackTrx();
+                //    return false;
+                //}
+
+                return insAccess.CommitTrx();
+
+            }
+            return false;
+        }
+
+        public static TbKompaun GetKompaunByRujukan(string noRujukan)
+        {
+            var data = DataAccessQuery<TbKompaun>.Get(c => c.NoKmp == noRujukan);
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas;
+            }
+
+            return null;
+        }
+
+        public static TbKompaunBayaran GetKompaunBayaranByKompaun(string noKmp)
+        {
+            var data = DataAccessQuery<TbKompaunBayaran>.Get(c => c.nokmp == noKmp);
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas;
+            }
+
+            return null;
         }
     }
 }

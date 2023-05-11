@@ -69,8 +69,8 @@ namespace IEMSApps.Fragments
 
         private EditText txtNamaPremis, txtAlamat1, txtAlamat2, txtAlamat3;
         private EditText txtNoDaftarSyarikat, txtNoLesenBkPda, txtNoLesenMajelisPremis, txtNoTelefon, txtLainLain;
-        private EditText txtJenisNiaga, txtBandar, txtJenamaStesenMinyak;
-        private Button btnJenisNiaga, btnTarikh, btnMasa, btnTarikhMula, btnMasaMula, btnBandar, btnSearchSsm, btnJenamaStesenMinyak;
+        private EditText txtJenisNiaga, txtBandar, txtJenamaStesenMinyak, txtAgensiSerahan;
+        private Button btnJenisNiaga, btnTarikh, btnMasa, btnTarikhMula, btnMasaMula, btnBandar, btnSearchSsm, btnJenamaStesenMinyak, btnAgensiSerahan;
         private Spinner spKategoryPremis, spNegeri, spKategoriPerniagaan;
 
         private CheckBox chkAmaran;
@@ -84,10 +84,7 @@ namespace IEMSApps.Fragments
         private EditText txtAsasTindakan;
         private Button btnAsasTindakan, btnLokaliti;
 
-        private LinearLayout linearAgensiTerlibat;
-
-        private Dictionary<string,string> ListSerahanAgensi ;
-        private Spinner spAgensiTerlibat;
+        private RelativeLayout relativeAgensiSerahan;
 
         //Penerima
         private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima;
@@ -155,6 +152,7 @@ namespace IEMSApps.Fragments
 
                 _kodAsasSelected = new List<AsasTindakanDto>();
                 _lokalitiSelected = new List<LokalitiKategoriKhasDto>();
+                _agensiSerahanSelected = new List<AgensiSerahanDto>();
 
                 LoadData();
 
@@ -298,14 +296,16 @@ namespace IEMSApps.Fragments
             btnAsasTindakan.Click += BtnAsasTindakan_Click;
 
             txtLokaliti = View.FindViewById<EditText>(Resource.Id.txtLokaliti);
-            btnLokaliti = View.FindViewById<Button>(Resource.Id.btnLokaliti);
 
+            btnLokaliti = View.FindViewById<Button>(Resource.Id.btnLokaliti);
             btnLokaliti.Click += BtnLokaliti_Click;
 
-            linearAgensiTerlibat = View.FindViewById<LinearLayout>(Resource.Id.linearAgensiTerlibat);
-            linearAgensiTerlibat.Visibility = ViewStates.Gone;
-            spAgensiTerlibat = View.FindViewById<Spinner>(Resource.Id.spAgensiTerlibat);
+            relativeAgensiSerahan = View.FindViewById<RelativeLayout>(Resource.Id.relativeAgensiSerahan);
+            relativeAgensiSerahan.Visibility = ViewStates.Gone;
+            txtAgensiSerahan = View.FindViewById<EditText>(Resource.Id.txtAgensiSerahan);
 
+            btnAgensiSerahan = View.FindViewById<Button>(Resource.Id.btnAgensiSerahan);
+            btnAgensiSerahan.Click += BtnAgensiSerahan_Click;
             #endregion
 
             #region Penerima
@@ -433,13 +433,142 @@ namespace IEMSApps.Fragments
             #endregion
         }
 
+        private void BtnAgensiSerahan_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowAgensiTerlibat();
+            }
+            catch (Exception ex)
+            {
+
+                GeneralAndroidClass.LogData(LayoutName, "BtnAgensiSerahan_Click", ex.Message, Enums.LogType.Error);
+
+            }
+        }
+
+        List<AgensiSerahanDto> listagensiserahan;
+        private List<AgensiSerahanDto> _agensiSerahanSelected;
+
+        private void ShowAgensiTerlibat()
+        {
+            listagensiserahan = MasterDataBll.GetAgensiSerahan();
+            var agensiSerahanSelected = new List<AgensiSerahanDto>();
+            var newlokalitiSelected = new List<AgensiSerahanDto>();
+
+            if (_agensiSerahanSelected.Any())
+            {
+                foreach (var item in listagensiserahan)
+                {
+                    item.IsSelected = _agensiSerahanSelected.Any(m => m.kodserahagensi == item.kodserahagensi && m.prgn == item.prgn);
+                    if (item.IsSelected)
+                    {
+                        agensiSerahanSelected.Add(item);
+                    }
+                }
+            }
+
+            var listFiltered = listagensiserahan;
+
+
+            var builder = new AlertDialog.Builder(this.Activity).Create();
+            var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+            builder.SetCancelable(false);
+            builder.SetButton2(Constants.Messages.Yes, (c, ev) =>
+            {
+                if (agensiSerahanSelected.Any())
+                {
+                    txtAgensiSerahan.Text = string.Join(", ",
+                        listagensiserahan.Where(m => agensiSerahanSelected.Any(x => m.kodserahagensi == x.kodserahagensi && m.prgn== x.prgn)).Select(m => m.prgn)
+                            .ToArray());
+                }
+                else
+                {
+                    txtAgensiSerahan.Text = "";
+                }
+
+
+
+                _agensiSerahanSelected = new List<AgensiSerahanDto>();
+                foreach (var i in agensiSerahanSelected)
+                {
+                    _agensiSerahanSelected.Add(i);
+                }
+
+                SetPrintButton();
+
+                builder.Dismiss();
+            });
+            builder.SetButton(Constants.Messages.No, (c, ev) =>
+            {
+
+                agensiSerahanSelected = new List<AgensiSerahanDto>();
+                foreach (var i in _agensiSerahanSelected)
+                {
+                    agensiSerahanSelected.Add(i);
+                }
+                SetPrintButton();
+                builder.Dismiss();
+            });
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Agensi Serahan Terlibat";
+
+            listView.Adapter = new CarianAgensiSerahanMultipleAdapter(this.Activity, listagensiserahan);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listFiltered = listagensiserahan
+                    .Where(m => m.prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                if (agensiSerahanSelected.Any())
+                {
+                    foreach (var item in listFiltered)
+                    {
+                        item.IsSelected = agensiSerahanSelected.Any(m => m.kodserahagensi == item.kodserahagensi && m.prgn == item.prgn);
+                    }
+                }
+
+                listView.Adapter = new CarianAgensiSerahanMultipleAdapter(this.Activity, listFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                listFiltered[args.Position].IsSelected = !listFiltered[args.Position].IsSelected;
+
+                if (agensiSerahanSelected.Any(m => m.kodserahagensi == listFiltered[args.Position].kodserahagensi && m.prgn == listFiltered[args.Position].prgn))
+                {
+                    agensiSerahanSelected.Remove(listFiltered[args.Position]);
+                    if (newlokalitiSelected.Any(c => c.kodserahagensi == listFiltered[args.Position].kodserahagensi && c.prgn == listFiltered[args.Position].prgn))
+                    {
+                        newlokalitiSelected.Remove(listFiltered[args.Position]);
+                    }
+                }
+                else
+                {
+                    agensiSerahanSelected.Add(listFiltered[args.Position]);
+                    newlokalitiSelected.Add(listFiltered[args.Position]);
+                }
+
+                listView.InvalidateViews();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                builder.Dismiss();
+            };
+
+            builder.Show();
+        }
+
         private void BtnJenamaStesenMinyak_Click(object sender, EventArgs e)
         {
             try 
             {
-
                 ShowJenamaStesenMinyak();
-
             } 
             catch (Exception ex)
             {
@@ -820,7 +949,7 @@ namespace IEMSApps.Fragments
                         listOfAsasTindakan.Where(m => kodAsasSelected.Any(x => m.KodAsas == x.KodAsas && m.KodTujuan == x.KodTujuan)).Select(m => m.Prgn)
                             .ToArray());
 
-                        //ShowAgensiTerlibat(txtAsasTindakan.Text);    
+                    ShowAgensiTerlibat(txtAsasTindakan.Text);    
                 }
                 else
                 {
@@ -1078,17 +1207,12 @@ namespace IEMSApps.Fragments
 
         private void ShowAgensiTerlibat(string show) {
 
-            ListSerahanAgensi = MasterDataBll.GetAgensiSerahan();
-
             if (show.Contains("OPERASI BERSEPADU BERSAMA AGENSI")) {
 
-                linearAgensiTerlibat.Visibility = ViewStates.Visible;
-
-                spAgensiTerlibat.Adapter = new ArrayAdapter<string>(this.Activity,
-                    Resource.Layout.support_simple_spinner_dropdown_item, ListSerahanAgensi.Select(c => c.Key).ToList());
+                relativeAgensiSerahan.Visibility = ViewStates.Visible;
 
             } else {
-                linearAgensiTerlibat.Visibility = ViewStates.Gone;
+                relativeAgensiSerahan.Visibility = ViewStates.Gone;
             }
             
         }
@@ -2062,7 +2186,7 @@ namespace IEMSApps.Fragments
             btnAsasTindakan.Enabled = blValue;
             btnLokasi.Enabled = blValue;
 
-            spAgensiTerlibat.Enabled = blValue;
+            btnAgensiSerahan.Enabled = blValue;
             btnLokaliti.Enabled = blValue;
             #endregion
 
@@ -2131,7 +2255,6 @@ namespace IEMSApps.Fragments
                 txtNoRujukanAtr.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtCatatanLawatan.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtHasilLawatan.SetBackgroundResource(Resource.Drawable.editText_bg);
-                spAgensiTerlibat.SetBackgroundResource(Resource.Drawable.spiner_bg);
                 #endregion
 
                 #region Premis
@@ -2192,7 +2315,7 @@ namespace IEMSApps.Fragments
                 txtNoRujukanAtr.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtCatatanLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtHasilLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
-                spAgensiTerlibat.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtAgensiSerahan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
                 #region Premis

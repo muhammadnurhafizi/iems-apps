@@ -227,19 +227,6 @@ namespace IEMSApps.BLL
                     }
                     return new Response<string>() { Success = allDatasIsSended, Mesage = errorMessage };
                 }
-                //else if (type == Enums.TableType.IpResit_Manual)
-                //{
-                //    foreach (var item in datas.Datas.Where(m => m.Type == Enums.TableType.IpResit_Manual))
-                //    {
-                //        var respose = await SendIPResitOnlineAsyncV1(noRujukan, item.Type, context);
-                //        if (!respose.Success)
-                //        {
-                //            allDatasIsSended = false;
-                //            errorMessage = respose.Mesage;
-                //        }
-                //    }
-                //    return new Response<string>() { Success = allDatasIsSended, Mesage = errorMessage };
-                //}
 
             }
             return new Response<string>() { Success = false, Mesage = "Ralat" };
@@ -1334,13 +1321,15 @@ namespace IEMSApps.BLL
                                 else
                                 {
                                     var trkhBayar = DateTime.Now.ToString(Constants.DatabaseDateFormat);
+                                    var kompaunBayaran = AkuanBll.GetKompaunBayaranByKompaun(kompaun.Datas.NoKmp);
                                     if (!string.IsNullOrEmpty(kompaun.Datas.TrkhPenerima_Akuan))
                                         trkhBayar = kompaun.Datas.TrkhPenerima_Akuan;
 
                                     var sqlQuery = " insert into tbkompaun_bayaran (kodcawangan,nokmp,trkhbyr,amnbyr,noresit,status,pgndaftar, " +
-                                                   " trkhdaftar,pgnakhir,trkhakhir) VALUES " +
+                                                   " trkhdaftar,pgnakhir,trkhakhir, pusat_terimaan) VALUES " +
                                                    $" ('{kompaun.Datas.KodCawangan}', '{kompaun.Datas.NoKmp}', '{trkhBayar}','{kompaun.Datas.AmnByr}','{kompaun.Datas.NoResit.ReplaceSingleQuote()}', '2', '{kompaun.Datas.PgnDaftar}'," +
-                                                   $" UNIX_TIMESTAMP('{kompaun.Datas.TrkhDaftar}'), '{kompaun.Datas.PgnDaftar}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}')); ";
+                                                   $" UNIX_TIMESTAMP('{kompaun.Datas.TrkhDaftar}'), '{kompaun.Datas.PgnDaftar}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}') " +
+                                                   $" '{kompaunBayaran.pusat_terimaan}'); ";
                                     //Send Kompaun Bayaran
                                     response = await HttpClientService.ExecuteQuery(sqlQuery, context);
                                     //Set Data online for Kompaun Bayaran

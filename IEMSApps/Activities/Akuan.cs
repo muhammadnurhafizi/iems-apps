@@ -57,9 +57,9 @@ namespace IEMSApps.Activities
         private TextView txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
         private Button btnOk, btnCamera, btnPrint, btnAkuan, btnSearchJpnPenerima, btnReceipt;
 
-        private Spinner spJenisKad, spNegeriPenerima, spPusatTerimaan;
-        private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima;
-        private Button btnBandarPenerima, btnPoskodPenerima;
+        private Spinner spJenisKad, spNegeriPenerima;
+        private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima, txtPusatTerimaan;
+        private Button btnBandarPenerima, btnPoskodPenerima, btnPusatTerimaan;
         private CheckBox chkGambarBayaran, chkBayarGunaIpayment;
 
         private AlertDialog _dialog;
@@ -103,7 +103,9 @@ namespace IEMSApps.Activities
                 txtAlamatPenerima2 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima2);
                 txtAlamatPenerima3 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima3);
 
-                spPusatTerimaan = FindViewById<Spinner>(Resource.Id.spPusatTerimaan);
+                txtPusatTerimaan = FindViewById<EditText>(Resource.Id.txtPusatTerimaan);
+                btnPusatTerimaan = FindViewById<Button>(Resource.Id.btnPusatTerimaan);
+                btnPusatTerimaan.Click += BtnPusatTerimaan_Click;
 
                 chkGambarBayaran = FindViewById<CheckBox>(Resource.Id.chkGambarBayaran);
                 chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
@@ -190,6 +192,55 @@ namespace IEMSApps.Activities
                 GeneralAndroidClass.LogData(LayoutName, "SetInit", ex.Message, Enums.LogType.Error);
             }
             _hourGlass?.StopMessage();
+        }
+
+        List<MaklumatChargelineDto> listPusatTerimaan;
+        private int _pusatterimaan;
+        private void BtnPusatTerimaan_Click(object sender, EventArgs e)
+        {
+            if (listPusatTerimaan == null)
+                listPusatTerimaan = MasterDataBll.GetMaklumatChargeline();
+
+            var listPusatTerimaanFiltered = listPusatTerimaan;
+
+
+            var builder = new AlertDialog.Builder(this).Create();
+            var view = this.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
+            builder.SetView(view);
+
+            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
+            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
+            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
+            lblTitleCarian.Text = "Pusat Terimaan";
+
+            listView.Adapter = new CarianMaklumatChargelineAdapter(this, listPusatTerimaan);
+
+            txtCarian.TextChanged += (send, args) =>
+            {
+                listPusatTerimaanFiltered = listPusatTerimaan
+                    .Where(m => m.pejabat.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
+
+                listView.Adapter = new CarianMaklumatChargelineAdapter(this, listPusatTerimaanFiltered);
+            };
+
+            listView.ItemClick += (send, args) =>
+            {
+                txtPusatTerimaan.Text = listPusatTerimaanFiltered[args.Position]?.pejabat;
+                _pusatterimaan = listPusatTerimaanFiltered[args.Position] != null
+                    ? listPusatTerimaanFiltered[args.Position].id
+                    : 0;
+                SetPrintButton();
+                builder.Dismiss();
+            };
+
+            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
+            close_button.Click += (send, args) =>
+            {
+                SetPrintButton();
+                builder.Dismiss();
+            };
+
+            builder.Show();
         }
 
         private void chkBayarGunaIpayment_Click(object sender, CompoundButton.CheckedChangeEventArgs e)
@@ -291,11 +342,7 @@ namespace IEMSApps.Activities
             ListNegeri = MasterDataBll.GetAllNegeriNew();
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
-
-            //List Pusat Terimaan
-            ListPusatTerimaan = MasterDataBll.GetMaklumatChargeline();
-            spPusatTerimaan.Adapter = new ArrayAdapter<string>(this,
-                Resource.Layout.support_simple_spinner_dropdown_item, ListPusatTerimaan.Select(c => c.Value).ToList());
+            
         }
 
         private void BtnBandarPenerima_Click(object sender, EventArgs e)
@@ -766,11 +813,6 @@ namespace IEMSApps.Activities
                 GeneralAndroidClass.ShowModalMessage(this, "Poskod Penerima Kosong.");
                 return false;
             }
-            if (spPusatTerimaan.SelectedItem == null)
-            {
-                GeneralAndroidClass.ShowModalMessage(this, "Pusat Terimaan Kosong.");
-                return false;
-            }
 
             return true;
         }
@@ -795,6 +837,7 @@ namespace IEMSApps.Activities
                 AmountByr = GeneralBll.ConvertStringToDecimal(txtAmounBayaran.Text),
                 TrkhPenerima = _trkhPenerima,
                 isbayarmanual = chkGambarBayaran.Checked ? Constants.GambarBayaran.Yes : Constants.GambarBayaran.No,
+                pusat_terimaan = _pusatterimaan.ToString()
             };
 
             if (KompaunBll.SaveDataAkuanTrx(input))
@@ -936,6 +979,7 @@ namespace IEMSApps.Activities
                 txtAlamatPenerima3.Text);
             result.Add(GeneralBll.CreateConfirmDto("Alamat", alamat));
 
+            result.Add(GeneralBll.CreateConfirmDto("Pusat Terimaan", txtPusatTerimaan.Text));
             result.Add(GeneralBll.CreateConfirmDto("No. Resit", txtNoResit.Text));
             result.Add(GeneralBll.CreateConfirmDto("Amaun Bayar", txtAmounBayaran.Text));
             result.Add(GeneralBll.CreateConfirmDto("Bayar Menggunakan Ipayment ? ", chkBayarGunaIpayment.Checked ? "Ya" : "Tidak"));
@@ -1397,6 +1441,7 @@ namespace IEMSApps.Activities
             txtAlamatPenerima1.Enabled = blValue;
             txtAlamatPenerima2.Enabled = blValue;
             txtAlamatPenerima3.Enabled = blValue;
+            txtPusatTerimaan.Enabled = blValue;
 
             btnNamaPenerima.Enabled = blValue;
             btnCamera.Enabled = blValue;

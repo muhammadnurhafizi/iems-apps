@@ -173,7 +173,7 @@ namespace IEMSApps.BusinessObject.Entities
 
         //[MaxLength(1)] 
         //public int npmb { get; set; } //notis pengesahan maklumat barang
-        
+
         //[MaxLength(1)]
         //public int nb { get; set; }   //nama barang
 
@@ -184,8 +184,8 @@ namespace IEMSApps.BusinessObject.Entities
         //[MaxLength(10)]
         //public string kodagensiterlibat { get; set; }
 
-        //[MaxLength(2)]
-        //public int kodkategoriperniagaan { get; set; }
+        [MaxLength(2)]
+        public int kodkategoriperniagaan { get; set; }
 
         //[MaxLength(2)]
         //public int kodstesenminyak { get; set; }

@@ -58,13 +58,20 @@ namespace IEMSApps.BLL
             CreateTbKategoryPerniagaanTemp();
             CreateTbBarangJenamaTemp();
 
-            //new add
+            //new add ipayment
             CreateIpIdentitiPelanggan();
             CreateIpBandar();
             CreateIpNegeri();
             CreateIpPoskod();
             CreateIpResits(); 
             CreateIpChargeline();
+            CreateTbKompaunBayaran(); //new to add because pusat_terimaan
+
+            //new add CR
+            CreateTbLokalitiKategoriKhas();
+            CreateTbKppLokalitiKategoriKhas();
+            CreateTbAgensiSerahan();
+            CreateTbKppAgensiSerahan();
             return true;
 
             //if (!CreateTbAkta()) return false;
@@ -153,6 +160,9 @@ namespace IEMSApps.BLL
                 CreateTbAktaTemp();
                 CreateTbKesalahanTemp();
             }
+            //new
+            AlterKodKatPerniagaanOnTbKpp();
+
             AlterTbKompaunBarangKompaun();
             CreateTbDataKesPesalahKesalahan();
             DropTbDataKesPesalahKesalahan();
@@ -168,6 +178,14 @@ namespace IEMSApps.BLL
             CreateIpPoskod();
             CreateIpResits();
             CreateIpChargeline();
+            CreateTbKompaunBayaran(); //new add
+
+            //new add CR
+            AlterKodKatPerniagaanOnTbKpp();
+            CreateTbLokalitiKategoriKhas();
+            CreateTbKppLokalitiKategoriKhas();
+            CreateTbAgensiSerahan();
+            CreateTbKppAgensiSerahan();
             return true;
 
             //if (!CreateTbKompaunIzin()) return false;
@@ -206,13 +224,6 @@ namespace IEMSApps.BLL
             {
                 DataAccessQuery<ip_identiti_pelanggans>.CreateTable();
 
-                //if (WithDefaultData)
-                //{
-                //    var script =
-                //        "INSERT INTO `tbasastindakan` VALUES (1,1,'ADUAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(1,2,'ADUAN ONLINE','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,1,'ALAT TIMBANG SUKAT (GETAH)','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,2,'ALAT TIMBANG SUKAT DAN TANDA HARGA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,3,'BARANG TIRUAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,4,'BARCODE','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,5,'BATERI PRIMER','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,6,'BEKALAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,7,'BEKALAN AYAM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,8,'BENGKEL KENDERAAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,9,'BERSEPADU APMM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,10,'BERSEPADU ATM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,11,'BERSEPADU CAWANGAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,12,'BERSEPADU FAMA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,13,'BERSEPADU IMIGRESEN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,14,'BERSEPADU KASTAM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,15,'BERSEPADU NEGERI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,16,'BERSEPADU PDRM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,17,'BERSEPADU PGA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,18,'BERSEPADU PGM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,19,'BERSEPADU RELA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,20,'BERSEPADU SPRM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,21,'BERSEPADU UPP','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,22,'BONGKAR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,23,'CETAK ROMPAK (GGCR)','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,24,'CROSS BORDER','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,25,'CROSS DISTRICT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,26,'DATA PROFILING','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,27,'DDR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,28,'GMT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,29,'HALAL','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,30,'HARGA TERANGKUM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,31,'JUALAN KREDIT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,32,'JUALAN LANGSUNG','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,33,'JUALAN MURAH','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,34,'LESEN CSA/PERMIT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,35,'LPG','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,36,'NACCOL','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,37,'OPERASI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,38,'OPERASI BERSAMA KESIHATAN BAHAGIAN PENGURUSAN HALAL JHEAIPP','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,39,'OPS BANJIR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,40,'OPS BAZAR RAMADHAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,41,'OPS BEKALAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,42,'OPS BERJADUAL','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,43,'OPS BONGKAR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,44,'OPS BUNGKUS (CETAK ROMPAK)','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,45,'OPS CARGAS','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,46,'OPS CATUT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,47,'OPS GASAK','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,48,'OPS GORES 2','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,49,'OPS HARGA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,50,'OPS IGAK','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,51,'OPS LPG','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,52,'OPS PAKAIAN RAYA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,53,'OPS PDRM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,54,'OPS SURI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,55,'OPS TAUKE','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,56,'OPS TOTAL ENFORCEMENT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,57,'PASCA BANJIR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,58,'PEMATUHAN AKHAP','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,59,'PEMATUHAN STANDARD BREK PAD','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,60,'PEMATUHAN STANDARD MAINAN KANAK-KANAK','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,61,'PEMATUHAN STANDARD TAYAR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,62,'PEMATUHAN TOPI KELEDAR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,63,'PEMBAIK ALAT TIMBANG','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,64,'PERNIAGAAN ATAS TALIAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,65,'PRE PACKAGE','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,66,'SEWA BELI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,67,'SHMMP-DEEPAVALI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,68,'SHMMP-HARI RAYA PUASA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,69,'SHMMP-KEAMATAN/GAWAI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,70,'SHMMP-KRISMAS','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,71,'SHMMP-TBC','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,72,'SK-ALAT TIMBANG GANDAR DI JPJ','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,73,'SK-BATERI PRIMER','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,74,'SK-BENGKEL KENDERAAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,75,'SK-HALAL','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,76,'SK-JUALAN MURAH','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,77,'SK-KACA KESELAMATAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,78,'SK-KONTRAK PERKHIDMATAN HADAPAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,79,'SK-MAINAN KANAK-KANAK','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,80,'SK-MESIN PENIMBANG KENDERAAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,81,'SK-OMNIPRESENCE-EVENT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,82,'SK-OMNIPRESENCE-HYPERMARKET','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,83,'SK-OMNIPRESENCE-PASAR MALAM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,84,'SK-OMNIPRESENCE-PASAR PAGI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,85,'SK-OMNIPRESENCE-SHOPINGMALL','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,86,'SK-OMNIPRESENCE-SUPERMARKET','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,87,'SK-PAM DISPENSER DI BENGKEL KENDERAAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,88,'SK-PASAR DALAM TALIAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,89,'SK-PEJABAT MCM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,90,'SK-PELAPIK BREK','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,91,'SK-PEMBAIK ALAT TIMBANG SUKAT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,92,'SK-PENJUAL ALAT TIMBANG SUKAT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,93,'SK-PUSPAKOM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,94,'SK-STAMPING POINT/SCR BERSAMA MCM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,100,'SK-STOKIS & SYARIKAT JUALAN LANGSUNG BERLESEN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,101,'SK-TAYAR CELUP','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,102,'SK-TAYAR PNEUMATIK','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,103,'SK-TOPI KELEDAR','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,104,'SK-URUSAN JUALAN KREDIT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,105,'SK-URUSAN SEWABELI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,106,'STAMPING POINT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,107,'STESEN MINYAK','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,108,'TANDA HARGA DAN JUALAN MURAH','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,109,'TIMBANG TEPAT HARGA JELAS (TTHJ)','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,110,'TOPENG MUKA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(2,111,'ZPT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,1,'BIASA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,2,'PEMERIKSAAN BERKALA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,3,'PEMERIKSAAN BIASA','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,4,'PEMERIKSAAN CILI MERAH','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,5,'PEMERIKSAAN GHOST SMOKE','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,6,'PEMERIKSAAN KANTIN SEKOLAH','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,7,'PEMERIKSAAN MINUMAN HEINEKEN ZERO ALKOHOL','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(3,8,'PREMIT BARANG KAWALAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(4,1,'NAZIRAN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(4,2,'NAZIRAN AKB','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(4,3,'NAZIRAN LESEN','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(4,4,'NAZIRAN MCM','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(4,5,'NAZIRAN PERMIT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(4,6,'NAZIRAN SURATKUASA/PERMIT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(5,1,'0% DEPOSIT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(5,2,'SERAHAN AGENSI','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(5,3,'SERAHAN KES','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00'),(5,4,'SIASATAN LANJUT','1','admin','2019-09-12 00:00:00','admin','2019-09-12 00:00:00');";
-                //    result = DataAccessQuery<TbAsasTindakan>.ExecuteSql(script);
-                //    if (result == Constants.Error) return false;
-                //}
                 return true;
             }
             return false;
@@ -256,6 +267,59 @@ namespace IEMSApps.BLL
             }
             return false;
         }
+
+        public static bool CreateTbLokalitiKategoriKhas() 
+        {
+            string sQuery = "SELECT * FROM tblokaliti_kategori_khas";
+            var result = DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbLokalitiKategoriKhas>.CreateTable();
+
+                return true;
+            }
+            return false;
+        }
+
+        public static bool CreateTbKppLokalitiKategoriKhas() 
+        {
+            string sQuery = "SELECT * FROM tbkpp_lokaliti_kategori_khas";
+            var result = DataAccessQuery<TbKppLokalitiKategoriKhas>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbKppLokalitiKategoriKhas>.CreateTable();
+
+                return true;
+            }
+            return false;
+        }
+
+        public static bool CreateTbAgensiSerahan()
+        {
+            string sQuery = "SELECT * FROM tbagensiserahan";
+            var result = DataAccessQuery<TbAgensiSerahan>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbAgensiSerahan>.CreateTable();
+
+                return true;
+            }
+            return false;
+        }
+
+        public static bool CreateTbKppAgensiSerahan() 
+        {
+            string sQuery = "SELECT * FROM tbkpp_agensi_serahan";
+            var result = DataAccessQuery<TbKppAgensiSerahan>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbKppAgensiSerahan>.CreateTable();
+
+                return true;
+            }
+            return false;
+        }
+
 
         public static bool CreateTbAkta()
         {
@@ -909,6 +973,21 @@ namespace IEMSApps.BLL
             return false;
         }
 
+        private static bool AlterKodKatPerniagaanOnTbKpp()
+        {
+            var query = "SELECT kodkategoriperniagaan FROM tbkpp";
+            var result = DataAccessQuery<TbKpp>.ExecuteCheckSelectSql(query);
+
+            if (!result)
+            {
+                query = "ALTER TABLE tbkpp ADD COLUMN kodkategoriperniagaan int";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                return true;
+            }
+            return false;
+        }
+
         private static bool AlterTbKompaun()
         {
             var query = "SELECT ip_identiti_pelanggan_id FROM tbkompaun";
@@ -1485,6 +1564,19 @@ namespace IEMSApps.BLL
             if (result == Constants.Error)
             {
                 DataAccessQuery<ip_chargelines>.CreateTable();
+                return true;
+            }
+            return false;
+
+        }
+
+        private static bool CreateTbKompaunBayaran()
+        {
+            string sQuery = "SELECT * FROM tbkompaun_bayaran";
+            var result = DataAccessQuery<TbKompaunBayaran>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbKompaunBayaran>.CreateTable();
                 return true;
             }
             return false;

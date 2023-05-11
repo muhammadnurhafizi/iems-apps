@@ -327,6 +327,28 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static List<MaklumatChargelineDto> GetMaklumatChargeline()
+        {
+            var result = new List<MaklumatChargelineDto>();
+            var listData = DataAccessQuery<ip_chargelines>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var chargelines in list)
+                {
+                    var data = new MaklumatChargelineDto
+                    {
+                        id = chargelines.id,
+                        pejabat = chargelines.pejabat 
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+        }
+
         public static List<JenamaStesenMinyakDto> GetAllJenamaStesenMinyak()
         {
             var result = new List<JenamaStesenMinyakDto>();
@@ -576,24 +598,29 @@ namespace IEMSApps.BLL
             return result;
         }
 
-        public static Dictionary<string,string> GetAgensiSerahan(bool isAddDefault = true)
+        public static List<AgensiSerahanDto> GetAgensiSerahan()
         {
-            var result = new Dictionary<string, string>();
-            if (isAddDefault)
-            {
-                result.Add(" ", "");
-            }
+
+            var result = new List<AgensiSerahanDto>();
+
             var listData = DataAccessQuery<TbAgensiSerahan>.GetAll();
             if (listData.Success)
             {
-                var list = listData.Datas.ToList();
+                var list = listData.Datas.OrderBy(m => m.prgn);
                 foreach (var tbagensiserahan in list)
                 {
-                    result.Add(tbagensiserahan.kodserahagensi.ToString(), tbagensiserahan.prgn);
+                    var data = new AgensiSerahanDto
+                    {
+                        kodserahagensi = tbagensiserahan.kodserahagensi,
+                        prgn = tbagensiserahan.prgn
+                    };
+
+                    result.Add(data);
                 }
             }
 
             return result;
+
         }
 
         public static List<BandarDto> GetBandarByNegeri(string kodNegeri)
@@ -698,26 +725,6 @@ namespace IEMSApps.BLL
                 foreach (var identitiPelanggan in list)
                 {
                     result.Add(identitiPelanggan.id.ToString(), identitiPelanggan.jenis_identiti);
-                }
-            }
-
-            return result;
-        }
-
-        public static Dictionary<string, string> GetMaklumatChargeline(bool isAddDefault = true)
-        {
-            var result = new Dictionary<string, string>();
-            if (isAddDefault)
-            {
-                result.Add("0", "");
-            }
-            var listData = DataAccessQuery<ip_chargelines>.GetAll();
-            if (listData.Success)
-            {
-                var list = listData.Datas.ToList();
-                foreach (var identitiPelanggan in list)
-                {
-                    result.Add(identitiPelanggan.id.ToString(), identitiPelanggan.pejabat);
                 }
             }
 

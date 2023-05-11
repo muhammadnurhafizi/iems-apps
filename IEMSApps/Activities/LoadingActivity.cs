@@ -253,7 +253,7 @@ namespace IEMSApps.Activities
         public void GetKawasan()
         {
             int totalData;
-            UpdateInfo("Menyemak Ip Data");
+            UpdateInfo("Menyemak Data Ip");
 
             var negeri = GetKawasanBll.CheckIpNegeri();
             var bandar = GetKawasanBll.CheckIpBandar();
