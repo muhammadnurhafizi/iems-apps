@@ -342,8 +342,21 @@ namespace IEMSApps.Activities
             ListNegeri = MasterDataBll.GetAllNegeriNew();
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
-            
+            //spNegeriPenerima.ItemSelected += SpNegeriPenerima_ItemSelected;
         }
+
+        //private void SpNegeriPenerima_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        txtBandarPenerima.Text = "";
+        //        txtPoskodPenerima.Text = "";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        GeneralAndroidClass.LogData("Akuan", "SpNegeriPenerima_ItemSelected", ex.Message, Enums.LogType.Error);
+        //    }
+        //}
 
         private void BtnBandarPenerima_Click(object sender, EventArgs e)
         {
@@ -403,11 +416,11 @@ namespace IEMSApps.Activities
                     ? listOfPoskodFiltered[args.Position].ip_bandar_id
                     : 0;
 
-                var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
-                txtBandarPenerima.Text = bandarPenerima;
+                //var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
+                //txtBandarPenerima.Text = bandarPenerima;
 
-                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
-                spNegeriPenerima.SetSelection(IdNegeri);
+                //var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
+                //spNegeriPenerima.SetSelection(IdNegeri);
 
                 builder.Dismiss();
             };
@@ -489,7 +502,8 @@ namespace IEMSApps.Activities
             txtAmounBayaran.Text = data.AmnByr.ToString(Constants.DecimalFormat);
 
             var kompaunBayaran = AkuanBll.GetKompaunBayaranByKompaun(data.NoKmp);
-            txtPusatTerimaan.Text = kompaunBayaran.pusat_terimaan ?? "";
+            var chargelines = AkuanBll.GetPejabatByKompaun(GeneralBll.ConvertStringToInt(kompaunBayaran.pusat_terimaan));
+            txtPusatTerimaan.Text = chargelines.pejabat ?? "";
 
             btnPrint.SetBackgroundResource(Resource.Drawable.print_icon);
             btnPrint.Enabled = true;
@@ -533,6 +547,7 @@ namespace IEMSApps.Activities
                         if (service.Result != null) 
                         {
                             txtNoResit.Text = service.Result.no_resit;
+                            txtPusatTerimaan.Text = service.Result.pusat_terimaan;
 
                             var message = Constants.Messages.BayarBerjaya;
                             var ad = GeneralAndroidClass.GetDialogCustom(this);

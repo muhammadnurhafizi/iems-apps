@@ -896,12 +896,11 @@ namespace IEMSApps.Fragments
                     ? listOfPoskodFiltered[args.Position].ip_bandar_id
                     : 0;
 
-                var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
-                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(bandarPenerima);
-                
-                spNegeriPenerima.SetSelection(IdNegeri);
-                txtBandarPenerima.Text = bandarPenerima;
-                
+                //var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
+                //var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(bandarPenerima);
+                //spNegeriPenerima.SetSelection(IdNegeri);
+                //txtBandarPenerima.Text = bandarPenerima;
+
                 builder.Dismiss();
             };
 
@@ -1610,7 +1609,7 @@ namespace IEMSApps.Fragments
         private void SpNegeriPenerima_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             try
-            {
+            { 
                 txtBandarPenerima.Text = "";
                 txtPoskodPenerima.Text = "";
             }
@@ -3373,7 +3372,7 @@ namespace IEMSApps.Fragments
             }
         }
 
-        private void CheckKompaunIzin()
+        public void CheckKompaunIzin()
         {
             var data = PemeriksaanBll.CheckKompaunIzin(lblNoKpp.Text);
 

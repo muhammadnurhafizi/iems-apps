@@ -68,10 +68,10 @@ namespace IEMSApps.BLL
             CreateTbKompaunBayaran(); //new to add because pusat_terimaan
 
             //new add CR
-            CreateTbLokalitiKategoriKhas();
-            CreateTbKppLokalitiKategoriKhas();
-            CreateTbAgensiSerahan();
-            CreateTbKppAgensiSerahan();
+            //CreateTbLokalitiKategoriKhas();
+            //CreateTbKppLokalitiKategoriKhas();
+            //CreateTbAgensiSerahan();
+            //CreateTbKppAgensiSerahan();
             return true;
 
             //if (!CreateTbAkta()) return false;
@@ -181,11 +181,11 @@ namespace IEMSApps.BLL
             CreateTbKompaunBayaran(); //new add
 
             //new add CR
-            AlterKodKatPerniagaanOnTbKpp();
-            CreateTbLokalitiKategoriKhas();
-            CreateTbKppLokalitiKategoriKhas();
-            CreateTbAgensiSerahan();
-            CreateTbKppAgensiSerahan();
+            //AlterKodKatPerniagaanOnTbKpp();
+            //CreateTbLokalitiKategoriKhas();
+            //CreateTbKppLokalitiKategoriKhas();
+            //CreateTbAgensiSerahan();
+            //CreateTbKppAgensiSerahan();
             return true;
 
             //if (!CreateTbKompaunIzin()) return false;

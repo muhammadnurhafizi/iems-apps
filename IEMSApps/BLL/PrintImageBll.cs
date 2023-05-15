@@ -1674,9 +1674,16 @@ namespace IEMSApps.BLL
 
             lastPositionY += addLine;
             listData.Add(CreateText("", positionX, lastPositionY));
-
+            
+            if(kompaun.isbayarmanual == 1)
+            SetFontBold(true);
             lastPositionY += addLine;
-            listData.Add(CreateText("Nota : Pembayaran Kompaun Telah Dibuat Melalui Portal iPayment.", positionX, lastPositionY));
+            listData.Add(CreateText("Pembayaran Kompaun ini telah dibuat melalui Sistem Terimaan Eletronik Kerajaan Persekutuan (iPayment)", positionX, lastPositionY));
+            SetFontBold(false);
+            lastPositionY += addLine;
+            listData.Add(CreateText("No Resit: " + kompaun.NoResit, positionX, lastPositionY));
+            lastPositionY += addLine;
+            listData.Add(CreateText(GeneralBll.GetLocalDateTime().ToString(), positionX, lastPositionY));
 
             lastPositionY += addLine;
             listData.Add(CreateText("", positionX, lastPositionY));

@@ -200,7 +200,6 @@ namespace IEMSApps.Activities
                 txtAmaunTawaran.Enabled = false;
                 chkArahan.Enabled = false;
                 txtTempohTawaran.Enabled = false;
-                txtBandarPenerima.Enabled = true;
 
                 //new add
                 var positionJenisKad = PasukanBll.GetPositionSelected(ListJenisKad, kpp.ip_identiti_pelanggan_id.ToString());
@@ -488,11 +487,11 @@ namespace IEMSApps.Activities
                     ? listOfPoskodFiltered[args.Position].ip_bandar_id
                     : 0;
 
-                var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
-                txtBandarPenerima.Text = bandarPenerima;
+                //var bandarPenerima = MasterDataBll.GetBandarPenerimaByPoskod(txtPoskodPenerima.Text);
+                //txtBandarPenerima.Text = bandarPenerima;
 
-                var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
-                spNegeriPenerima.SetSelection(IdNegeri);
+                //var IdNegeri = MasterDataBll.GetNegeriPenerimaByBandar(txtBandarPenerima.Text);
+                //spNegeriPenerima.SetSelection(IdNegeri);
 
                 builder.Dismiss();
             };
@@ -1105,7 +1104,22 @@ namespace IEMSApps.Activities
             ListNegeri = MasterDataBll.GetAllNegeriNew();
             spNegeriPenerima.Adapter = new ArrayAdapter<string>(this,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListNegeri.Select(c => c.Value).ToList());
+            //spNegeriPenerima.ItemSelected += SpNegeriPenerima_ItemSelected;
         }
+
+        //private void SpNegeriPenerima_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if () { }
+        //        txtBandarPenerima.Text = "";
+        //        txtPoskodPenerima.Text = "";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        GeneralAndroidClass.LogData("Kompaun", "SpNegeriPenerima_ItemSelected", ex.Message, Enums.LogType.Error);
+        //    }
+        //}
 
         private void SpKesalahan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
