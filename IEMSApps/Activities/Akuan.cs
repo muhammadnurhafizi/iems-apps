@@ -831,7 +831,7 @@ namespace IEMSApps.Activities
             {
                 NoRujukan = _noRujukan,
                 NamaPenerima = txtNamaPenerima.Text,
-                jeniskad = GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? ""),
+                jeniskad = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? "")),
                 NoKpPenerima = txtNoKpPenerima.Text,
                 notelpenerima = txtNoTelefonPenerima.Text,
                 emelpenerima = txtEmailPenerima.Text,
@@ -1454,6 +1454,7 @@ namespace IEMSApps.Activities
 
             btnNamaPenerima.Enabled = blValue;
             btnCamera.Enabled = blValue;
+            chkBayarGunaIpayment.Enabled = blValue;
 
             txtNoResit.Enabled = blValue;
             txtAmounBayaran.Enabled = blValue;
@@ -1474,6 +1475,7 @@ namespace IEMSApps.Activities
 
                 txtNoResit.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtAmounBayaran.SetBackgroundResource(Resource.Drawable.editText_bg);
+                chkBayarGunaIpayment.SetBackgroundResource(@Resource.Drawable.editText_bg);
                 chkGambarBayaran.SetBackgroundResource(@Resource.Drawable.editText_bg);
             }
             else
@@ -1492,6 +1494,7 @@ namespace IEMSApps.Activities
 
                 txtNoResit.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtAmounBayaran.SetBackgroundResource(Resource.Drawable.textView_bg);
+                chkBayarGunaIpayment.SetBackgroundResource(@Resource.Drawable.textView_bg);
                 chkGambarBayaran.SetBackgroundResource(Resource.Drawable.textView_bg);
             }
         }

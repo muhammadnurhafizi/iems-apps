@@ -823,6 +823,7 @@ namespace IEMSApps.BLL
                 if (data.Success && data.Datas != null)
                 {
                     data.Datas.NamaPenerima_Akuan = input.NamaPenerima;
+                    data.Datas.ip_identiti_pelanggan_id_akuan = input.jeniskad;
                     data.Datas.NoKpPenerima_Akuan = input.NoKpPenerima;
                     data.Datas.notelpenerima_akuan = input.notelpenerima;
                     data.Datas.emelpenerima_akuan = input.emelpenerima;

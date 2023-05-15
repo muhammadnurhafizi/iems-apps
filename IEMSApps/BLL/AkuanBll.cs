@@ -148,5 +148,16 @@ namespace IEMSApps.BLL
 
             return null;
         }
+
+        public static ip_chargelines GetPejabatByKompaun(int idPusatTerimaan)
+        {
+            var data = DataAccessQuery<ip_chargelines>.Get(c => c.id == idPusatTerimaan);
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas;
+            }
+
+            return null;
+        }
     }
 }

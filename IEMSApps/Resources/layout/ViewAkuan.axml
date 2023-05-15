@@ -271,6 +271,29 @@
 							android:textSize="15sp"
 							android:singleLine="true"/>	
 					</LinearLayout>
+
+					<RelativeLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:paddingTop="2dp"
+						android:orientation="vertical">	
+							<android.support.design.widget.TextInputLayout
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:theme="@style/TextLabel"
+							android:layout_alignParentLeft="true">	
+							<EditText
+								android:layout_width="match_parent"
+								android:layout_height="35dp"
+								android:id="@id/txtPusatTerimaan"
+								android:background="@drawable/textview_bg"
+								android:paddingLeft="5dp"
+								android:hint="Pusat Terimaan"
+								android:enabled="false"
+								android:singleLine="true"/>	
+						</android.support.design.widget.TextInputLayout>
+					</RelativeLayout>
+
 					<LinearLayout
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"

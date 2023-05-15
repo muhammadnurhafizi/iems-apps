@@ -144,7 +144,11 @@ namespace IEMSApps.Activities
                 btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon_enable);
                 chkBayarGunaIpayment.Checked = true;
             }
-            
+
+            var txtPusatTerimaan = FindViewById<EditText>(Resource.Id.txtPusatTerimaan);
+            var kompaunBayaran = AkuanBll.GetKompaunBayaranByKompaun(data.NoKmp);
+            var chargelines = AkuanBll.GetPejabatByKompaun(GeneralBll.ConvertStringToInt(kompaunBayaran.pusat_terimaan));
+            txtPusatTerimaan.Text = chargelines.pejabat ?? "";
 
             #region button
             var btnOk = FindViewById<Button>(Resource.Id.btnOk);

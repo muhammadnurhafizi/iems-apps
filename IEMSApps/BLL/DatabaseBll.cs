@@ -1034,6 +1034,9 @@ namespace IEMSApps.BLL
                 query = "ALTER TABLE tbkompaun ADD COLUMN negarapenerima_akuan varchar(2)";
                 DataAccessQuery<TbKompaun>.ExecuteSql(query);
 
+                query = "ALTER TABLE tbkompaun ADD COLUMN ip_identiti_pelanggan_id_akuan varchar";
+                DataAccessQuery<TbKompaun>.ExecuteSql(query);
+
                 query = "ALTER TABLE tbkompaun ADD COLUMN isbayarmanual int";
                 DataAccessQuery<TbKompaun>.ExecuteSql(query);
 

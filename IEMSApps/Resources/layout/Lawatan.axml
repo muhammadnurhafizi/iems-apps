@@ -125,6 +125,7 @@
 		android:layout_height="wrap_content"
 		android:id="@+id/relativeLokaliti"
 		android:paddingTop="5dp"
+		android:visibility="gone"
 		android:orientation="vertical">
 		<android.support.design.widget.TextInputLayout
 			        android:layout_width="match_parent"
@@ -245,6 +246,7 @@
 		android:layout_height="wrap_content"
 		android:id="@+id/relativeAgensiSerahan"
 		android:paddingTop="5dp"
+		android:visibility="gone"
 		android:orientation="vertical">
 		<android.support.design.widget.TextInputLayout
 			android:layout_width="match_parent"

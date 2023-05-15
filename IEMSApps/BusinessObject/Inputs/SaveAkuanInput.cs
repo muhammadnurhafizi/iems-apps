@@ -6,7 +6,7 @@
 
         public string NamaPenerima { get; set; }
 
-        public string jeniskad { get; set; }
+        public int jeniskad { get; set; }
 
         public string poskodpenerima { get; set; }
         

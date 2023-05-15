@@ -253,7 +253,7 @@ namespace IEMSApps.BLL
                 " namapenerima_akuan, nokppenerima1_akuan, alamatpenerima1_akuan, alamatpenerima2_akuan, alamatpenerima3_akuan, trkhpenerima_akuan, " +
                 " ishh, tahun, status, pgndaftar, trkhdaftar, pgnakhir, trkhakhir, barangkompaun, " +
                 " ip_identiti_pelanggan_id, poskodpenerima, bandarpenerima, negeripenerima, negarapenerima, notelpenerima, emelpenerima, " +
-                " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran )" +
+                " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran, ip_identiti_pelanggan_id_akuan)" +
                 " VALUES " +
                 $"('{nokmp}', '', '{tbKompaun.IdHh}', '{tbKompaun.JenisKmp}', '{tbKompaun.KodCawangan}', '{tbKompaun.KodKatPremis}', '{tbKompaun.JenisPesalah}', '{tbKompaun.NamaOkk.ReplaceSingleQuote()}', '{tbKompaun.NoKpOkk.ReplaceSingleQuote()}','{tbKompaun.NoEp}','{tbKompaun.NoIp}', " +
                 $" '{tbKompaun.NamaPremis.ReplaceSingleQuote()}', '{tbKompaun.NoDaftarPremis.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk1.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk2.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk3.ReplaceSingleQuote()}', '{trkhKmp}', '{tbKompaun.NoLaporanPolis.ReplaceSingleQuote()}', '{tbKompaun.NoLaporanCwgn.ReplaceSingleQuote()}', '{trkhSalah}', " +
@@ -262,7 +262,7 @@ namespace IEMSApps.BLL
                 $" '{tbKompaun.NamaPenerima_Akuan.ReplaceSingleQuote()}', '{tbKompaun.NoKpPenerima_Akuan.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima1_Akuan.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima2_Akuan.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima3_Akuan.ReplaceSingleQuote()}', NULL, " +
                 $" '0', '{tahun}', '{tbKompaun.Status}', '{tbKompaun.PgnDaftar}', UNIX_TIMESTAMP('{tbKompaun.TrkhDaftar}'), '{tbKompaun.PgnAkhir}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), '{tbKompaun.BarangKompaun.ReplaceSingleQuote()}', " +
                 $" '{tbKompaun.ip_identiti_pelanggan_id}', '{tbKompaun.poskodpenerima}', '{tbKompaun.bandarpenerima}', '{tbKompaun.negeripenerima}', '{tbKompaun.negarapenerima}', '{tbKompaun.notelpenerima}', '{tbKompaun.emelpenerima}', " +
-                $" '{tbKompaun.poskodpenerima_akuan}', '{tbKompaun.bandarpenerima_akuan}', '{tbKompaun.negeripenerima_akuan}', '{tbKompaun.negarapenerima_akuan}', '{tbKompaun.notelpenerima_akuan}', '{tbKompaun.emelpenerima_akuan}', '{tbKompaun.isbayarmanual}', '{tbKompaun.gambarbuktibayaran}' )";
+                $" '{tbKompaun.poskodpenerima_akuan}', '{tbKompaun.bandarpenerima_akuan}', '{tbKompaun.negeripenerima_akuan}', '{tbKompaun.negarapenerima_akuan}', '{tbKompaun.notelpenerima_akuan}', '{tbKompaun.emelpenerima_akuan}', '{tbKompaun.isbayarmanual}', '{tbKompaun.gambarbuktibayaran}', '{tbKompaun.ip_identiti_pelanggan_id_akuan}' )";
         }
 
         private static string GenerateSQLScriptForTableKompaun(TbKompaun tbKompaun)
@@ -280,7 +280,7 @@ namespace IEMSApps.BLL
                 " nokppenerima1_akuan, alamatpenerima1_akuan, alamatpenerima2_akuan, alamatpenerima3_akuan, trkhpenerima_akuan,ishh, " +
                 " status, pgndaftar, trkhdaftar, pgnakhir, trkhakhir, barangkompaun, " +
                 " ip_identiti_pelanggan_id, poskodpenerima, bandarpenerima, negeripenerima, negarapenerima, notelpenerima, emelpenerima, " +
-                " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran )" +
+                " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran, ip_identiti_pelanggan_id_akuan)" +
                 " VALUES " +
                 $" ('{nokmp}' ,'' ,'{tbKompaun.IdHh}' ,'{tbKompaun.JenisKmp}' ,'{tbKompaun.KodCawangan}' ,'{tbKompaun.KodKatPremis}' ,'{tbKompaun.JenisPesalah}' ,'{tbKompaun.NamaOkk.ReplaceSingleQuote()}' ,'{tbKompaun.NoKpOkk}' ,'{tbKompaun.NamaPremis.ReplaceSingleQuote()}', '{tbKompaun.NoEp}','{tbKompaun.NoIp}'," +
                 $" '{tbKompaun.NoDaftarPremis.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk1.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk2.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk3.ReplaceSingleQuote()}' , '{trkhKmp}' ,'{tbKompaun.NoLaporanPolis.ReplaceSingleQuote()}' ,'{tbKompaun.NoLaporanCwgn}' , '{trkhSalah}' ,'{tbKompaun.TempatSalah.ReplaceSingleQuote()}', " +
@@ -289,7 +289,7 @@ namespace IEMSApps.BLL
                 $" '{tbKompaun.NoKpPenerima_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima1_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima2_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima3_Akuan.ReplaceSingleQuote()}' , NULL ,'0', " +
                 $" '{tbKompaun.Status}' ,'{tbKompaun.PgnDaftar}' ,UNIX_TIMESTAMP('{tbKompaun.TrkhDaftar}') ,'{tbKompaun.PgnAkhir}' ,UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), '{tbKompaun.BarangKompaun.ReplaceSingleQuote()}', " +
                 $" '{tbKompaun.ip_identiti_pelanggan_id}', '{tbKompaun.poskodpenerima}', '{tbKompaun.bandarpenerima}', '{tbKompaun.negeripenerima}', '{tbKompaun.negarapenerima}', '{tbKompaun.notelpenerima}', '{tbKompaun.emelpenerima}', " +
-                $" '{tbKompaun.poskodpenerima_akuan}', '{tbKompaun.bandarpenerima_akuan}', '{tbKompaun.negeripenerima_akuan}', '{tbKompaun.negarapenerima_akuan}', '{tbKompaun.notelpenerima_akuan}', '{tbKompaun.emelpenerima_akuan}', '{tbKompaun.isbayarmanual}', '{tbKompaun.gambarbuktibayaran}' )";
+                $" '{tbKompaun.poskodpenerima_akuan}', '{tbKompaun.bandarpenerima_akuan}', '{tbKompaun.negeripenerima_akuan}', '{tbKompaun.negarapenerima_akuan}', '{tbKompaun.notelpenerima_akuan}', '{tbKompaun.emelpenerima_akuan}', '{tbKompaun.isbayarmanual}', '{tbKompaun.gambarbuktibayaran}', '{tbKompaun.ip_identiti_pelanggan_id_akuan}' )";
         }
 
         //private static async Task<Response<string>> SendKompaunOnline(string noRujukan)
@@ -1365,7 +1365,7 @@ namespace IEMSApps.BLL
                                                    $" alamatpenerima2_akuan = '{kompaun.Datas.AlamatPenerima2_Akuan.ReplaceSingleQuote()}', alamatpenerima3_akuan = '{kompaun.Datas.AlamatPenerima3_Akuan.ReplaceSingleQuote()}', trkhpenerima_akuan = '{trkhBayar}', amnbyr = '{kompaun.Datas.AmnByr}', " +
                                                    $" noresit ='{kompaun.Datas.NoResit.ReplaceSingleQuote()}', trkhakhir = unix_timestamp('{GeneralBll.GetLocalDateTimeForDatabase()}'), status = 3, " +
                                                    $" poskodpenerima_akuan ='{kompaun.Datas.poskodpenerima_akuan}', bandarpenerima_akuan='{kompaun.Datas.bandarpenerima_akuan}', negeripenerima_akuan='{kompaun.Datas.negeripenerima_akuan}', negarapenerima_akuan='{kompaun.Datas.negarapenerima_akuan}', notelpenerima_akuan='{kompaun.Datas.notelpenerima_akuan}', emelpenerima_akuan='{kompaun.Datas.emelpenerima_akuan}', " +
-                                                   $" isbayarmanual='{kompaun.Datas.isbayarmanual}', gambarbuktibayaran='{kompaun.Datas.gambarbuktibayaran}' " +
+                                                   $" isbayarmanual='{kompaun.Datas.isbayarmanual}', gambarbuktibayaran='{kompaun.Datas.gambarbuktibayaran}', ip_identiti_pelanggan_id_akuan='{kompaun.Datas.ip_identiti_pelanggan_id_akuan}' " +
                                                    $" where nokmp = '{noRujukan}' and iscetakakuan = 1 ";
                                         //Send Kompaun Bayaran
                                         response = await HttpClientService.ExecuteQuery(sqlQuery, context);
@@ -1387,7 +1387,7 @@ namespace IEMSApps.BLL
                                                    $" alamatpenerima2_akuan = '{kompaun.Datas.AlamatPenerima2_Akuan.ReplaceSingleQuote()}', alamatpenerima3_akuan = '{kompaun.Datas.AlamatPenerima3_Akuan.ReplaceSingleQuote()}', trkhpenerima_akuan = '{trkhBayar}', amnbyr = '{kompaun.Datas.AmnByr}', " +
                                                    $" noresit ='{kompaun.Datas.NoResit.ReplaceSingleQuote()}', trkhakhir = unix_timestamp('{GeneralBll.GetLocalDateTimeForDatabase()}'), status = 3, " +
                                                    $" poskodpenerima_akuan ='{kompaun.Datas.poskodpenerima_akuan}', bandarpenerima_akuan='{kompaun.Datas.bandarpenerima_akuan}', negeripenerima_akuan='{kompaun.Datas.negeripenerima_akuan}', negarapenerima_akuan='{kompaun.Datas.negarapenerima_akuan}', notelpenerima_akuan='{kompaun.Datas.notelpenerima_akuan}', emelpenerima_akuan='{kompaun.Datas.emelpenerima_akuan}', " +
-                                                   $" isbayarmanual='{kompaun.Datas.isbayarmanual}', gambarbuktibayaran='{kompaun.Datas.gambarbuktibayaran}' " +
+                                                   $" isbayarmanual='{kompaun.Datas.isbayarmanual}', gambarbuktibayaran='{kompaun.Datas.gambarbuktibayaran}', ip_identiti_pelanggan_id_akuan='{kompaun.Datas.ip_identiti_pelanggan_id_akuan}' " +
                                                    $" where nokmp = '{noRujukan}' and iscetakakuan = 1 ";
                                                    
                                         //Send Kompaun Bayaran

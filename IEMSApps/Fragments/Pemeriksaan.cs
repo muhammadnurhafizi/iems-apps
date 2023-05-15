@@ -949,7 +949,7 @@ namespace IEMSApps.Fragments
                         listOfAsasTindakan.Where(m => kodAsasSelected.Any(x => m.KodAsas == x.KodAsas && m.KodTujuan == x.KodTujuan)).Select(m => m.Prgn)
                             .ToArray());
 
-                    ShowAgensiTerlibat(txtAsasTindakan.Text);    
+                    //ShowAgensiTerlibat(txtAsasTindakan.Text);    
                 }
                 else
                 {
@@ -2212,7 +2212,7 @@ namespace IEMSApps.Fragments
             spNegeri.Enabled = blValue;
             btnBandar.Enabled = blValue;
 
-            spKategoriPerniagaan.Enabled = blValue;
+            //spKategoriPerniagaan.Enabled = blValue;
             btnJenamaStesenMinyak.Enabled = blValue;
             #endregion
 
@@ -2241,7 +2241,6 @@ namespace IEMSApps.Fragments
             txtBandarPenerima.Enabled = blValue;
             btnBandarPenerima.Enabled = blValue;
             txtPoskodPenerima.Enabled = blValue;
-            btnPoskodPenerima.Enabled = blValue;
             #endregion
 
 
