@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using IEMSApps.BusinessObject.DTOs;
 using IEMSApps.BusinessObject.Entities;
+using IEMSApps.Classes;
 using IEMSApps.Utils;
 
 namespace IEMSApps.BLL
@@ -1674,16 +1675,24 @@ namespace IEMSApps.BLL
 
             lastPositionY += addLine;
             listData.Add(CreateText("", positionX, lastPositionY));
-            
-            if(kompaun.isbayarmanual == 1)
-            SetFontBold(true);
-            lastPositionY += addLine;
-            listData.Add(CreateText("Pembayaran Kompaun ini telah dibuat melalui Sistem Terimaan Eletronik Kerajaan Persekutuan (iPayment)", positionX, lastPositionY));
-            SetFontBold(false);
-            lastPositionY += addLine;
-            listData.Add(CreateText("No Resit: " + kompaun.NoResit, positionX, lastPositionY));
-            lastPositionY += addLine;
-            listData.Add(CreateText(GeneralBll.GetLocalDateTime().ToString(), positionX, lastPositionY));
+
+            var haveIP = AkuanBll.GetIpResitsByKPP(kompaun.NoRujukanKpp);
+            var yes = haveIP != null ? haveIP.norujukankpp : "";
+            //temporary solution
+            //var resit = DataAccessQuery<ip_resits>.GetAll();
+            //var count = resit.Datas.Count;
+            if (kompaun.isbayarmanual == 1 || (yes == kompaun.NoRujukanKpp))
+            {
+                SetFontBold(true);
+                lastPositionY += addLine;
+                listData.Add(CreateText("Pembayaran Kompaun ini telah dibuat melalui Sistem Terimaan Eletronik Kerajaan Persekutuan (iPayment)", positionX, lastPositionY));
+                SetFontBold(false);
+                lastPositionY += addLine20;
+                listData.Add(CreateText("No Resit: " + kompaun.NoResit, positionX, lastPositionY));
+                lastPositionY += addLine20;
+                listData.Add(CreateText("Tarikh Resit: " + GeneralBll.GetLocalDateTime().ToString(), positionX, lastPositionY));
+                lastPositionY += addLine;
+            }
 
             lastPositionY += addLine;
             listData.Add(CreateText("", positionX, lastPositionY));

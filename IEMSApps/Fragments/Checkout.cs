@@ -595,6 +595,34 @@ namespace IEMSApps.Fragments
                 UpdateInfo($"Sila Tunggu...", totalDatas, totalDatas);
             }
 
+            var tbKompaunBayaran = DataAccessQuery<TbKompaunBayaran>.GetAll();
+            if (tbKompaunBayaran.Success)
+            {
+                var kompaunBayaran = tbKompaunBayaran.Datas;
+                var totalDatas = kompaunBayaran.Count();
+                progressBar1.Max = totalDatas;
+                foreach (var item in kompaunBayaran.Select((value, index) => new { index, value }))
+                {
+                    UpdateInfo($"Bersihkan data Kompaun Bayran {item.value.nokmp}...", item.index, totalDatas);
+                    DataAccessQuery<TbKompaunBayaran>.Delete(item.value);
+                }
+                UpdateInfo($"Sila Tunggu...", totalDatas, totalDatas);
+            }
+
+            var ipResits = DataAccessQuery<ip_resits>.GetAll();
+            if (ipResits.Success)
+            {
+                var resit = ipResits.Datas;
+                var totalDatas = resit.Count();
+                progressBar1.Max = totalDatas;
+                foreach (var item in resit.Select((value, index) => new { index, value }))
+                {
+                    UpdateInfo($"Bersihkan data Resit {item.value.no_resit}...", item.index, totalDatas);
+                    DataAccessQuery<ip_resits>.Delete(item.value);
+                }
+                UpdateInfo($"Sila Tunggu...", totalDatas, totalDatas);
+            }
+
             UpdateInfo($"Update Handheld...");
             var response = HandheldBll.GetHandheldData();
             if (response.Success)

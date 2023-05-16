@@ -2237,9 +2237,8 @@ namespace IEMSApps.Fragments
             txtNoTelefonPenerima.Enabled = blValue;
             txtEmailPenerima.Enabled = blValue;
             spNegeriPenerima.Enabled = blValue;
-            txtBandarPenerima.Enabled = blValue;
             btnBandarPenerima.Enabled = blValue;
-            txtPoskodPenerima.Enabled = blValue;
+            btnPoskodPenerima.Enabled = blValue;
             #endregion
 
 
