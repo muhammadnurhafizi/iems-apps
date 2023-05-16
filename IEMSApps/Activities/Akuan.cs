@@ -1492,8 +1492,11 @@ namespace IEMSApps.Activities
             txtAlamatPenerima1.Enabled = blValue;
             txtAlamatPenerima2.Enabled = blValue;
             txtAlamatPenerima3.Enabled = blValue;
-            txtPusatTerimaan.Enabled = blValue;
+
+            btnBandarPenerima.Enabled = blValue;
             btnPoskodPenerima.Enabled = blValue;
+            btnPusatTerimaan.Enabled = blValue;
+            txtPusatTerimaan.Enabled = blValue;
 
             btnNamaPenerima.Enabled = blValue;
             btnCamera.Enabled = blValue;
