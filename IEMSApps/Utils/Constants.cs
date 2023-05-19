@@ -245,6 +245,9 @@ namespace IEMSApps.Utils
             public const string NoReceipt = "Tiada Data Resit di Sistem IEMS";
             public const string haveReceipt = "Resit Dijumpai";
             //public const string NoReceiptOnServer = "Tiada Resit Dijumpai Di Dalam Server IEMS"; 
+            public const string SambungKompaun = "<center>\r\n <b> Tiada Data Kompaun </b> \r\n</center> " +
+                                                 "<br> <br>Ingin menyambung semula kompaun ?";
+            
         }
 
         public const string Close = "Tutup";

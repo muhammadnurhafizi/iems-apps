@@ -33,6 +33,9 @@ namespace IEMSApps.Activities
 
         ServicetHandler handler;
 
+        private AlertDialog _dialog;
+        private bool _isSkip;
+
         private HourGlassClass _hourGlass = new HourGlassClass();
 
         private MPosControllerPrinter _printer;
@@ -418,22 +421,18 @@ namespace IEMSApps.Activities
             else
             {
                 // GeneralAndroidClass.ShowToast("Tidak ada data KOTS");
-
-                var message = "Tidak ada data KOTS pada data sebelum ini, ingin menyambung KOTS ?";
+                var message = string.Format(Constants.Messages.SambungKompaun);
                 var ad = GeneralAndroidClass.GetDialogCustom(this);
-                ad.SetMessage(message);
+                ad.SetMessage(Html.FromHtml(message));
                 ad.SetButton(Constants.Messages.No, (s, ev) => { });
                 ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
                 {
-                    var checkKompaunIzin = PemeriksaanBll.CheckKompaunIzin(lblNoKpp.Text);
-                    if (checkKompaunIzin.Datas == null)
+                    _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.WaitingPlease);
+                    new Thread(() =>
                     {
-                        GeneralAndroidClass.ShowModalMessage(this, "Tiada Izin Kompaun");
-                    }
-                    else
-                    {
-                        ShowKompaun(checkKompaunIzin.Datas.Catatan);
-                    }
+                        Thread.Sleep(1000);
+                        this.RunOnUiThread(CheckKompaunIzin);
+                    }).Start();
 
                 });
                 ad.Show();
@@ -459,6 +458,159 @@ namespace IEMSApps.Activities
         private void Ad_DismissEvent(object sender, EventArgs e)
         {
             KompaunPage();
+        }
+
+        public void CheckKompaunIzin()
+        {
+            var data = PemeriksaanBll.CheckKompaunIzin(lblNoKpp.Text);
+
+#if DEBUG
+            data = new BusinessObject.Result<TbKompaunIzin>
+            {
+                Success = true,
+                Datas = new TbKompaunIzin
+                {
+                    Status = Enums.StatusIzinKompaun.Approved
+                }
+            };
+            ShowKompaun(data.Datas.Catatan);
+#endif
+
+            if (data.Success)
+            {
+                if (data.Datas == null)
+                {
+                    var dataInsert = PemeriksaanBll.CreateDefaultKompaunIzin(lblNoKpp.Text, this);
+                    if (dataInsert.Success)
+                    {
+                        GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.KompaunIzinWaiting);
+                    }
+                    else
+                    {
+                        if (GeneralBll.IsSkipControl() && dataInsert.Message == Constants.ErrorMessages.NoInternetConnection)
+                        {
+                            ShowSkipMessage(Constants.ErrorMessages.SkipNoInternetConnection);
+                        }
+                        else
+                        {
+                            GeneralAndroidClass.ShowModalMessage(this, "Error " + dataInsert.Message);
+                        }
+
+
+                    }
+
+                }
+                else
+                {
+                    //check other rellated data first
+                    string message = "";
+                    switch (data.Datas.Status)
+                    {
+                        case Enums.StatusIzinKompaun.Approved:
+                            ShowKompaun(data.Datas.Catatan);
+                            break;
+                        case Enums.StatusIzinKompaun.Denied:
+                            message = string.Format(Constants.Messages.KompaunIzinDenied, data.Datas.Catatan);
+                            GeneralAndroidClass.ShowModalMessageHtml(this, message);
+                            break;
+                        default:
+                            var service = KompaunBll.CheckServiceKompaunIzin(lblNoKpp.Text, this);
+
+                            if (service.Success)
+                            {
+                                switch (service.Result.Status)
+                                {
+                                    case Enums.StatusIzinKompaun.Approved:
+                                        ShowKompaun(service.Result.Catatan);
+                                        break;
+                                    case Enums.StatusIzinKompaun.Denied:
+                                        message = string.Format(Constants.Messages.KompaunIzinDenied, service.Result.Catatan);
+                                        GeneralAndroidClass.ShowModalMessageHtml(this, message);
+                                        break;
+                                    default:
+                                        if (GeneralBll.IsSkipControl() && IsKompaunIzinWaitingSkip())
+                                        {
+                                            ShowSkipMessage(string.Format(Constants.Messages.SkipMessage,
+                                                Constants.MaxSkipWaitingInMinute));
+                                        }
+                                        else
+                                        {
+                                            GeneralAndroidClass.ShowModalMessage(this,
+                                                Constants.Messages.KompaunIzinWaiting);
+                                        }
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                if (GeneralBll.IsSkipControl() && IsKompaunIzinWaitingSkip())
+                                {
+                                    ShowSkipMessage(string.Format(Constants.Messages.SkipMessage,
+                                        Constants.MaxSkipWaitingInMinute));
+                                }
+                                else
+                                {
+                                    GeneralAndroidClass.ShowModalMessage(this, "Error " + service.Mesage);
+                                }
+
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                GeneralAndroidClass.ShowModalMessage(this, Constants.ErrorMessages.FailedCreateKompaunIzin);
+            }
+            _dialog?.Dismiss();
+
+        }
+
+        private void ShowSkipMessage(string message)
+        {
+            _isSkip = false;
+
+            var ad = GeneralAndroidClass.GetDialogCustom(this);
+            ad.DismissEvent += Ad_DismissEventSkip;
+            ad.SetMessage(message);
+            ad.SetButton("Tidak", (s, ev) =>
+            {
+
+            });
+            ad.SetButton2("Ya", (s, ev) =>
+            {
+                _isSkip = true;
+                PemeriksaanBll.UpdatePemeriksaanSkipIzin(lblNoKpp.Text, Constants.SkipIzin.Yes);
+                ShowKompaunPage();
+            });
+            ad.Show();
+
+        }
+
+        private void Ad_DismissEventSkip(object sender, EventArgs e)
+        {
+            if (!_isSkip)
+            {
+                PemeriksaanBll.UpdatePemeriksaanSkipIzin(lblNoKpp.Text, Constants.SkipIzin.No);
+            }
+        }
+
+        private bool IsKompaunIzinWaitingSkip()
+        {
+            var dtNow = GeneralBll.GetLocalDateTime();
+
+            var data = KompaunBll.GetKompaunIzinByRujukanAndStatus(lblNoKpp.Text, Enums.StatusIzinKompaun.Waiting);
+            if (data.Success && data.Datas != null)
+            {
+                var createdDate = GeneralBll.ConvertDatabaseFormatStringToDateTime(data.Datas.TrkhDaftar);
+
+                if ((dtNow - createdDate).TotalMinutes > Constants.MaxSkipWaitingInMinute)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void KompaunPage()
