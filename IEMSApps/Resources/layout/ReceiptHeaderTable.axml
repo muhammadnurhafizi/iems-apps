@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtNoRujukanKPP"
             android:layout_weight="9"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -63,6 +64,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtDiterimaDaripada"
             android:layout_weight="9"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -98,6 +100,7 @@
             android:layout_weight="10"
             android:singleLine="true"
             android:ellipsize="end"
+            android:textColor="@color/black"
             android:gravity="center_vertical"/>
     </LinearLayout>
 
@@ -131,6 +134,7 @@
             android:id="@+id/txtNoIdentiti"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -159,9 +163,10 @@
             android:text=" : "/>
     
         <TextView
-            android:layout_weight="10"
+            android:layout_weight="8"
             android:layout_width="0dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:id="@+id/txtAlamat"/>
         
     </LinearLayout>
@@ -196,6 +201,7 @@
             android:id="@+id/txtEmel"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -229,6 +235,7 @@
             android:id="@+id/txtNoRujukanIpayment"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -260,9 +267,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/txtPerihalBayaran"
-            android:layout_weight="10"
-            android:singleLine="true"
-            android:ellipsize="end" />
+            android:layout_weight="8"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <LinearLayout
@@ -295,7 +301,7 @@
             android:id="@+id/txtNoResit"
             android:layout_weight="6"
             android:singleLine="true"
-            android:ellipsize="end" />
+            android:textColor="@color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -328,6 +334,7 @@
             android:id="@id/txtTarikh"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -361,6 +368,7 @@
             android:id="@+id/txtModBayaran"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -394,6 +402,7 @@
             android:id="@+id/txtRangkaian"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -427,6 +436,7 @@
             android:id="@+id/txtNoTransaksiIpayment"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 
@@ -460,6 +470,7 @@
             android:id="@+id/txtNoTransaksiRMA"
             android:layout_weight="10"
             android:singleLine="true"
+            android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
 </LinearLayout>

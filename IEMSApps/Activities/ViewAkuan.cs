@@ -133,7 +133,8 @@ namespace IEMSApps.Activities
             chkGambarBayaran.Enabled = false;
 
             var chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
-            var haveKPPOnResit = MasterDataBll.GetKPPonResit(data.NoRujukanKpp);
+            //var haveKPPOnResit = MasterDataBll.GetKPPonResit(data.NoRujukanKpp);
+            var haveKPPOnResit = MasterDataBll.GetKPPonResit("KPPHQR0082300003");
             chkBayarGunaIpayment.Enabled = false;
             if (haveKPPOnResit == "") 
             {
@@ -217,7 +218,7 @@ namespace IEMSApps.Activities
         {
             var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
             var norujukan = kompaun.Datas.NoRujukanKpp;
-
+            norujukan = "KPPHQR0082300003";
             var data = AkuanBll.CheckIpResitsData(norujukan);
 
             if (data.Success)
@@ -243,9 +244,9 @@ namespace IEMSApps.Activities
 
         private void ShowReceipt()
         {
-            var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
+            var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);   
             var norujukan = kompaun.Datas.NoRujukanKpp;
-
+            norujukan = "KPPHQR0082300003";
             var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
             intent.PutExtra("NoRujukanKpp", norujukan);
             StartActivity(intent);

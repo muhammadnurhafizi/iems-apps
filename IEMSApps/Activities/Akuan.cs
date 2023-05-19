@@ -628,7 +628,6 @@ namespace IEMSApps.Activities
         {
             var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
             var norujukan = kompaun.Datas.NoRujukanKpp;
-
             var data = AkuanBll.CheckIpResitsData(norujukan);
             if (data.Datas == null) 
             {

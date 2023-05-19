@@ -128,19 +128,19 @@ namespace IEMSApps.Activities
                 txtPelarasan.Text = IpResit.pelarasan_penggenapan.ToString();
 
                 txtJumlahBayaran = FindViewById<TextView>(Resource.Id.txtJumlahBayaran);
-                txtJumlahBayaran.Text = IpResit.jumlah_bayaran.ToString();
+                txtJumlahBayaran.Text = IpResit.jumlah.ToString();
 
                 #endregion
 
                 #region footer
 
-                txtRinggitMalaysia = FindViewById<TextView>(Resource.Id.txtRinggitMalaysia);
+                //txtRinggitMalaysia = FindViewById<TextView>(Resource.Id.txtRinggitMalaysia);
 
-                txtPusatTerimaan = FindViewById<TextView>(Resource.Id.txtPusatTerimaan);
-                txtPusatTerimaan.Text = IpResit.pusat_terimaan;
+                //txtPusatTerimaan = FindViewById<TextView>(Resource.Id.txtPusatTerimaan);
+                //txtPusatTerimaan.Text = IpResit.pusat_terimaan;
 
-                txtPetugasKaunter = FindViewById<TextView>(Resource.Id.txtPetugasKaunter);
-                txtPetugasKaunter.Text = IpResit.petugas;
+                //txtPetugasKaunter = FindViewById<TextView>(Resource.Id.txtPetugasKaunter);
+                //txtPetugasKaunter.Text = IpResit.petugas;
 
                 #endregion
 

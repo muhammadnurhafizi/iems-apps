@@ -371,7 +371,7 @@ namespace IEMSApps.Services
 
             try
             {
-                //noRujukan = "KPPMLKMAN2300004";
+                //noRujukan = "KPPHQR0082300003";
                 var query = $"Select * from ip_resits where norujukankpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
