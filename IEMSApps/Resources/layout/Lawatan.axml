@@ -119,6 +119,43 @@
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
 	</LinearLayout>	
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/relativeLokaliti"
+		android:paddingTop="5dp"
+		android:orientation="vertical">
+		<android.support.design.widget.TextInputLayout
+			        android:layout_width="match_parent"
+			        android:layout_height="wrap_content"
+					android:theme="@style/TextLabel">
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/txtLokaliti"
+				android:background="@drawable/textView_bg"
+				android:paddingLeft="5dp"
+				android:textSize="15sp"
+				android:hint="Lokaliti/ Kategori Lokasi"
+				android:paddingRight="35dp"
+				android:enabled="false"
+				android:lines="4"
+				android:maxLines="10"
+				android:gravity="top|left"
+				android:scrollbars="vertical"
+				android:inputType="textMultiLine"/>	
+		</android.support.design.widget.TextInputLayout>
+		<Button
+			android:id="@+id/btnLokaliti"
+			android:layout_marginRight="5dp"
+			android:layout_width="30dp"
+			android:layout_marginTop="14dp"
+			android:layout_height="30dp"
+			android:layout_alignParentRight="true"
+			android:background="@drawable/question_mark"/>
+	</RelativeLayout>
+
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -202,6 +239,44 @@
 			android:layout_alignParentRight="true"
 			android:background="@drawable/question_mark"/>
 	</RelativeLayout>	
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:id="@+id/relativeAgensiSerahan"
+		android:paddingTop="5dp"
+		android:visibility="gone"
+		android:orientation="vertical">
+		<android.support.design.widget.TextInputLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:theme="@style/TextLabelRequired">
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/txtAgensiSerahan"
+				android:background="@drawable/textView_bg"
+				android:paddingLeft="5dp"
+				android:textSize="15sp"
+				android:hint="Agensi Serahan"
+				android:paddingRight="35dp"
+				android:enabled="false"
+				android:lines="4"
+				android:maxLines="10"
+				android:gravity="top|left"
+				android:scrollbars="vertical"
+				android:inputType="textMultiLine"/>	
+		</android.support.design.widget.TextInputLayout>
+		<Button
+			android:id="@+id/btnAgensiSerahan"
+			android:layout_marginRight="5dp"
+			android:layout_width="30dp"
+			android:layout_marginTop="14dp"
+			android:layout_height="30dp"
+			android:layout_alignParentRight="true"
+			android:background="@drawable/question_mark"/>
+	</RelativeLayout>	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

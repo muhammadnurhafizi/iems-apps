@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using IEMSApps.BusinessObject.DTOs;
 using IEMSApps.BusinessObject.Entities;
@@ -542,5 +543,54 @@ namespace IEMSApps.BLL
             return "";
         }
 
+        public static List<LokalitiKategoriKhasDto> GetLokalitiKategoriKhas()
+        {
+
+            var result = new List<LokalitiKategoriKhasDto>();
+
+            var listData = DataAccessQuery<TbLokalitiKategoriKhas>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.OrderBy(m => m.Prgn);
+                foreach (var tblokaliti in list)
+                {
+                    var data = new LokalitiKategoriKhasDto
+                    {
+                        Id = tblokaliti.Id,
+                        Prgn = tblokaliti.Prgn
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+
+        }
+
+        public static List<AgensiSerahanDto> GetAgensiSerahan()
+        {
+
+            var result = new List<AgensiSerahanDto>();
+
+            var listData = DataAccessQuery<TbAgensiSerahan>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.OrderBy(m => m.prgn);
+                foreach (var tbagensiserahan in list)
+                {
+                    var data = new AgensiSerahanDto
+                    {
+                        kodserahagensi = tbagensiserahan.kodserahagensi,
+                        prgn = tbagensiserahan.prgn
+                    };
+
+                    result.Add(data);
+                }
+            }
+
+            return result;
+
+        }
     }
 }

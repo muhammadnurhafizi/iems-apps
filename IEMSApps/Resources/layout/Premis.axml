@@ -25,6 +25,25 @@
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
 	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingTop="2dp">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Kategori Perniagaan : "
+			android:textColor="#FF0000"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+		<Spinner
+			android:layout_width="match_parent"
+			android:id="@+id/spKategoriPerniagaan" 
+			android:spinnerMode="dropdown"
+			android:layout_height="35dp"
+			android:background="@drawable/spiner_bg"/>
+	</LinearLayout>
 	
 	<RelativeLayout
 		android:layout_width="match_parent"

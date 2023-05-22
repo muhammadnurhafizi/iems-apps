@@ -7,8 +7,8 @@ namespace IEMSApps.Utils
     public static class Constants
     {
 
-        public const string AppVersion = "Version: 1.1.3.8";
-        public const int AppVersionValueForUpdate = 1138;
+        public const string AppVersion = "Version: 1.1.4.0";
+        public const int AppVersionValueForUpdate = 1140;
 
         public const string AppName = "IEMS";
        
@@ -258,7 +258,8 @@ namespace IEMSApps.Utils
         public const int DefaultIntervalInSecond = 30;
         public const int DefaultDistanceInMeter = 100;
         //public const string DefaultWebServiceUrl = "http://1.9.46.170:98/";
-        public const string DefaultWebServiceUrl = "http://iems.kpdn.gov.my/";
+        //public const string DefaultWebServiceUrl = "http://iems.kpdn.gov.my/";
+        public const string DefaultWebServiceUrl = "http://mhdamn.me/";
         public const int DefaultIntervalBackgroundServiceInSecond = 300;
 
         public static class PriorityUpdate

@@ -97,10 +97,12 @@
     <Compile Include="Activities\ViewKompaun.cs" />
     <Compile Include="Activities\ViewPemeriksaan.cs" />
     <Compile Include="Activities\ViewSiasatLanjut.cs" />
+    <Compile Include="Adapters\CarianAgensiSerahanMultipleAdapter.cs" />
     <Compile Include="Adapters\CarianAsasTindakanMultipleAdapter.cs" />
     <Compile Include="Adapters\CarianBandarAdapter.cs" />
     <Compile Include="Adapters\CarianJenisNiagaAdapter.cs" />
     <Compile Include="Adapters\CarianKesalahanAdapter.cs" />
+    <Compile Include="Adapters\CarianLokalitiMulitpleAdapter.cs" />
     <Compile Include="Adapters\CarianPremisAdapter.cs" />
     <Compile Include="Adapters\CarianSsmAdapter.cs" />
     <Compile Include="Adapters\ConfirmListAdapter.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="BLL\SearchBll.cs" />
     <Compile Include="BLL\SendOnlineBll.cs" />
     <Compile Include="BusinessObject\BaseResult.cs" />
+    <Compile Include="BusinessObject\DTOs\AgensiSerahanDto.cs" />
     <Compile Include="BusinessObject\DTOs\AsasTindakanDto.cs" />
     <Compile Include="BusinessObject\DTOs\BandarDto.cs" />
     <Compile Include="BusinessObject\DTOs\CardInfoDto.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="BusinessObject\DTOs\KesalahanDto.cs" />
     <Compile Include="BusinessObject\DTOs\KppDto.cs" />
     <Compile Include="BusinessObject\DTOs\LoginDto.cs" />
+    <Compile Include="BusinessObject\DTOs\LokalitiKategoriKhasDto.cs" />
     <Compile Include="BusinessObject\DTOs\MaklumatPasukanDto.cs" />
     <Compile Include="BusinessObject\DTOs\PasukanAhliDto.cs" />
     <Compile Include="BusinessObject\DTOs\PremisDto.cs" />
@@ -148,6 +152,7 @@
     <Compile Include="BusinessObject\DTOs\SearchDto.cs" />
     <Compile Include="BusinessObject\DTOs\VersionDto.cs" />
     <Compile Include="BusinessObject\Entities\BaseEntities.cs" />
+    <Compile Include="BusinessObject\Entities\TbAgensiSerahan.cs" />
     <Compile Include="BusinessObject\Entities\TbError.cs" />
     <Compile Include="BusinessObject\Entities\TbIP.cs" />
     <Compile Include="BusinessObject\Entities\MasterBaseEntities.cs" />
@@ -178,7 +183,10 @@
     <Compile Include="BusinessObject\Entities\TbKompaun.cs" />
     <Compile Include="BusinessObject\Entities\TbKompaunIzin.cs" />
     <Compile Include="BusinessObject\Entities\TbKpp.cs" />
+    <Compile Include="BusinessObject\Entities\TbKppAgensiSerahan.cs" />
     <Compile Include="BusinessObject\Entities\TbKppAsasTindakan.cs" />
+    <Compile Include="BusinessObject\Entities\TbKppLokalitiKategoriKhas.cs" />
+    <Compile Include="BusinessObject\Entities\TbLokalitiKategoriKhas.cs" />
     <Compile Include="BusinessObject\Entities\TbNegeri.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukan.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukanDetail.cs" />
