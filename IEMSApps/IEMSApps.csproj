@@ -110,15 +110,12 @@
     <Compile Include="Activities\ViewSiasatLanjut.cs" />
     <Compile Include="Adapters\CarianAsasTindakanAdapter.cs" />
     <Compile Include="Adapters\CarianAsasTindakanMultipleAdapter.cs" />
-    <Compile Include="Adapters\CarianAgensiSerahanMultipleAdapter.cs" />
     <Compile Include="Adapters\CarianMaklumatChargelineAdapter.cs" />
     <Compile Include="Adapters\CarianPoskodPenerimaAdapter.cs" />
     <Compile Include="Adapters\CarianBandarPenerimaAdapter.cs" />
     <Compile Include="Adapters\CarianBandarAdapter.cs" />
-    <Compile Include="Adapters\CarianJenamaStesenMinyakAdapter.cs" />
     <Compile Include="Adapters\CarianJenisNiagaAdapter.cs" />
     <Compile Include="Adapters\CarianKesalahanAdapter.cs" />
-    <Compile Include="Adapters\CarianLokalitiMulitpleAdapter.cs" />
     <Compile Include="Adapters\CarianPremisAdapter.cs" />
     <Compile Include="Adapters\CarianSsmAdapter.cs" />
     <Compile Include="Adapters\ConfirmListAdapter.cs" />
@@ -181,7 +178,6 @@
     <Compile Include="BusinessObject\Entities\ip_poskod.cs" />
     <Compile Include="BusinessObject\Entities\ip_bandar.cs" />
     <Compile Include="BusinessObject\Entities\ip_identiti_pelanggans.cs" />
-    <Compile Include="BusinessObject\Entities\TbAgensiSerahan.cs" />
     <Compile Include="BusinessObject\Entities\TbError.cs" />
     <Compile Include="BusinessObject\Entities\TbIP.cs" />
     <Compile Include="BusinessObject\Entities\MasterBaseEntities.cs" />
@@ -214,9 +210,6 @@
     <Compile Include="BusinessObject\Entities\TbKompaunIzin.cs" />
     <Compile Include="BusinessObject\Entities\TbKpp.cs" />
     <Compile Include="BusinessObject\Entities\TbKppAsasTindakan.cs" />
-    <Compile Include="BusinessObject\Entities\TbKppAgensiSerahan.cs" />
-    <Compile Include="BusinessObject\Entities\TbKppLokalitiKategoriKhas.cs" />
-    <Compile Include="BusinessObject\Entities\TbLokalitiKategoriKhas.cs" />
     <Compile Include="BusinessObject\Entities\TbNegeri.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukan.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukanDetail.cs" />
@@ -229,7 +222,6 @@
     <Compile Include="BusinessObject\Entities\TbSendOnline.cs" />
     <Compile Include="BusinessObject\Entities\TbSendOnlineImage.cs" />
     <Compile Include="BusinessObject\Entities\TbSkipControl.cs" />
-    <Compile Include="BusinessObject\Entities\TbStesenMinyak.cs" />
     <Compile Include="BusinessObject\Entities\TbTujuanLawatan.cs" />
     <Compile Include="BusinessObject\Inputs\PasukanAhliInput.cs" />
     <Compile Include="BusinessObject\Inputs\SaveAkuanInput.cs" />

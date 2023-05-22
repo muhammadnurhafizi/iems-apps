@@ -67,11 +67,6 @@ namespace IEMSApps.BLL
             CreateIpChargeline();
             CreateTbKompaunBayaran(); //new to add because pusat_terimaan
 
-            //new add CR
-            //CreateTbLokalitiKategoriKhas();
-            //CreateTbKppLokalitiKategoriKhas();
-            //CreateTbAgensiSerahan();
-            //CreateTbKppAgensiSerahan();
             return true;
 
             //if (!CreateTbAkta()) return false;
@@ -180,12 +175,6 @@ namespace IEMSApps.BLL
             CreateIpChargeline();
             CreateTbKompaunBayaran(); //new add
 
-            //new add CR
-            //AlterKodKatPerniagaanOnTbKpp();
-            //CreateTbLokalitiKategoriKhas();
-            //CreateTbKppLokalitiKategoriKhas();
-            //CreateTbAgensiSerahan();
-            //CreateTbKppAgensiSerahan();
             return true;
 
             //if (!CreateTbKompaunIzin()) return false;
@@ -267,59 +256,6 @@ namespace IEMSApps.BLL
             }
             return false;
         }
-
-        public static bool CreateTbLokalitiKategoriKhas() 
-        {
-            string sQuery = "SELECT * FROM tblokaliti_kategori_khas";
-            var result = DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql(sQuery);
-            if (result == Constants.Error)
-            {
-                DataAccessQuery<TbLokalitiKategoriKhas>.CreateTable();
-
-                return true;
-            }
-            return false;
-        }
-
-        public static bool CreateTbKppLokalitiKategoriKhas() 
-        {
-            string sQuery = "SELECT * FROM tbkpp_lokaliti_kategori_khas";
-            var result = DataAccessQuery<TbKppLokalitiKategoriKhas>.ExecuteSql(sQuery);
-            if (result == Constants.Error)
-            {
-                DataAccessQuery<TbKppLokalitiKategoriKhas>.CreateTable();
-
-                return true;
-            }
-            return false;
-        }
-
-        public static bool CreateTbAgensiSerahan()
-        {
-            string sQuery = "SELECT * FROM tbagensiserahan";
-            var result = DataAccessQuery<TbAgensiSerahan>.ExecuteSql(sQuery);
-            if (result == Constants.Error)
-            {
-                DataAccessQuery<TbAgensiSerahan>.CreateTable();
-
-                return true;
-            }
-            return false;
-        }
-
-        public static bool CreateTbKppAgensiSerahan() 
-        {
-            string sQuery = "SELECT * FROM tbkpp_agensi_serahan";
-            var result = DataAccessQuery<TbKppAgensiSerahan>.ExecuteSql(sQuery);
-            if (result == Constants.Error)
-            {
-                DataAccessQuery<TbKppAgensiSerahan>.CreateTable();
-
-                return true;
-            }
-            return false;
-        }
-
 
         public static bool CreateTbAkta()
         {

@@ -349,29 +349,6 @@ namespace IEMSApps.BLL
             return result;
         }
 
-        public static List<JenamaStesenMinyakDto> GetAllJenamaStesenMinyak()
-        {
-            var result = new List<JenamaStesenMinyakDto>();
-
-            var listData = DataAccessQuery<TbStesenMinyak>.GetAll();
-            if (listData.Success)
-            {
-                var list = listData.Datas.ToList();
-                foreach (var tbStesenMinyak in list)
-                {
-                    var data = new JenamaStesenMinyakDto
-                    {
-                        Id = tbStesenMinyak.Id,
-                        Prgn = tbStesenMinyak.Prgn
-                    };
-
-                    result.Add(data);
-                }
-            }
-
-            return result;
-        }
-
         public static List<AsasTindakanDto> GetAsasTindakanByTujuan()
         {
             var result = new List<AsasTindakanDto>();
@@ -598,31 +575,6 @@ namespace IEMSApps.BLL
             return result;
         }
 
-        public static List<AgensiSerahanDto> GetAgensiSerahan()
-        {
-
-            var result = new List<AgensiSerahanDto>();
-
-            var listData = DataAccessQuery<TbAgensiSerahan>.GetAll();
-            if (listData.Success)
-            {
-                var list = listData.Datas.OrderBy(m => m.prgn);
-                foreach (var tbagensiserahan in list)
-                {
-                    var data = new AgensiSerahanDto
-                    {
-                        kodserahagensi = tbagensiserahan.kodserahagensi,
-                        prgn = tbagensiserahan.prgn
-                    };
-
-                    result.Add(data);
-                }
-            }
-
-            return result;
-
-        }
-
         public static List<BandarDto> GetBandarByNegeri(string kodNegeri)
         {
             var result = new List<BandarDto>();
@@ -685,30 +637,6 @@ namespace IEMSApps.BLL
 
 
             return "";
-        }
-
-        public static List<LokalitiKategoriKhasDto> GetLokalitiKategoriKhas() {
-
-            var result = new List<LokalitiKategoriKhasDto>();
-
-            var listData = DataAccessQuery<TbLokalitiKategoriKhas>.GetAll();
-            if (listData.Success)
-            {
-                var list = listData.Datas.OrderBy(m => m.Prgn);
-                foreach (var tblokaliti in list)
-                {
-                    var data = new LokalitiKategoriKhasDto
-                    {
-                        Id = tblokaliti.Id,
-                        Prgn = tblokaliti.Prgn
-                    };
-
-                    result.Add(data);
-                }
-            }
-
-            return result;
-        
         }
 
         public static Dictionary<string, string> GetJenisKad(bool isAddDefault = true)
