@@ -1537,7 +1537,6 @@ namespace IEMSApps.Fragments
                     CatatanLawatan = txtCatatanLawatan.Text,
                     HasilLawatan = txtHasilLawatan.Text,
                     NamaPenerima = txtNamaPenerima.Text,
-                    //Kewarganegaraan = GeneralBll.GetKeySelected(ListKewarganegaraan, spKewarganegaraan.SelectedItem?.ToString() ?? ""),
                     NoKpPenerima = txtNoKpPenerima.Text,
                     notelpenerima = txtNoTelefonPenerima.Text,
                     emelpenerima = txtEmailPenerima.Text,
@@ -1554,23 +1553,10 @@ namespace IEMSApps.Fragments
                     NoEp = txtNoEP.Text,
                     NoIp = txtNoIP.Text,
 
-                    //new add
-                    //kodagensiterlibat = GeneralBll.GetKeySelected(ListSerahanAgensi, spAgensiTerlibat.SelectedItem?.ToString() ?? ""),
-                    //kodkategoriperniagaan = GeneralBll.ConvertStringToInt(
-                    //    GeneralBll.GetKeySelected(ListKategoriPerniagaan, spKategoriPerniagaan.SelectedItem?.ToString() ?? "")),
                     ip_identiti_pelanggan_id = GeneralBll.ConvertStringToInt(
                         GeneralBll.GetKeySelected(ListJenisKad, spJenisKad.SelectedItem?.ToString() ?? "")),
-                    //npmb = chkNPMB.Checked ? Constants.NPMB.Yes : Constants.NPMB.No,
-                    //nb = chkNB.Checked ? Constants.NB.Yes : Constants.NB.No,
-                    //kodstesenminyak = _jenamaStesenMinyak,
 
                 };
-                //if (_lokalitiSelected != null && _lokalitiSelected.Count > 0) {
-
-                //    data.lokalitikategorikhas = _lokalitiSelected.FirstOrDefault()?.Id ?? 0;
-                
-                //}
-
                 if (_kodAsasSelected != null && _kodAsasSelected.Count > 0)
                 {
                     data.KodAsas = _kodAsasSelected.FirstOrDefault()?.KodAsas ?? 0;
@@ -1845,7 +1831,6 @@ namespace IEMSApps.Fragments
                 txtNoEP.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtNoIP.SetBackgroundResource(Resource.Drawable.editText_bg);
 
-                txtNegaraAsal.SetBackgroundResource(Resource.Drawable.editText_bg);
                 spJenisKad.SetBackgroundResource(Resource.Drawable.spiner_bg);
                 txtNoTelefonPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtEmailPenerima.SetBackgroundResource(Resource.Drawable.editText_bg);
@@ -1867,7 +1852,6 @@ namespace IEMSApps.Fragments
                 txtNoRujukanAtr.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtCatatanLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtHasilLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
-                txtAgensiSerahan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
                 #region Premis
@@ -1901,7 +1885,6 @@ namespace IEMSApps.Fragments
                 txtNoEP.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoIP.SetBackgroundResource(Resource.Drawable.textView_bg);
 
-                txtNegaraAsal.SetBackgroundResource(Resource.Drawable.textView_bg);
                 spJenisKad.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoTelefonPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtEmailPenerima.SetBackgroundResource(Resource.Drawable.textView_bg);
@@ -2076,7 +2059,6 @@ namespace IEMSApps.Fragments
             txtNoEP.Text = "";
             txtNoIP.Text = "";
             linearSiasatUlangan.Visibility = ViewStates.Gone;
-            linearSerahanNotis.Visibility = ViewStates.Gone;
 
             SetPrintButton();
         }
