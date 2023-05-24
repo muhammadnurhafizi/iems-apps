@@ -1794,6 +1794,9 @@ namespace IEMSApps.Fragments
             btnAsasTindakan.Enabled = blValue;
             btnLokasi.Enabled = blValue;
 
+            //cr
+            btnAgensiSerahan.Enabled = blValue;
+            btnLokaliti.Enabled = blValue;
             #endregion
 
             #region Premis
@@ -1817,7 +1820,7 @@ namespace IEMSApps.Fragments
 
             spNegeri.Enabled = blValue;
             btnBandar.Enabled = blValue;
-
+          
             #endregion
 
             #region Penerima
@@ -1851,6 +1854,9 @@ namespace IEMSApps.Fragments
                 txtCatatanLawatan.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtHasilLawatan.SetBackgroundResource(Resource.Drawable.editText_bg);
 
+                //cr
+                txtLokaliti.SetBackgroundResource(Resource.Drawable.editText_bg);
+                txtAgensiSerahan.SetBackgroundResource(Resource.Drawable.editText_bg);
                 #endregion
 
                 #region Premis
@@ -1870,6 +1876,8 @@ namespace IEMSApps.Fragments
 
                 spNegeri.SetBackgroundResource(Resource.Drawable.spiner_bg);
 
+                //cr
+                spKategoriPerniagaan.SetBackgroundResource(Resource.Drawable.spiner_bg);
                 #endregion
 
                 #region Penerima
@@ -1902,6 +1910,9 @@ namespace IEMSApps.Fragments
                 txtCatatanLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtHasilLawatan.SetBackgroundResource(Resource.Drawable.textView_bg);
 
+                //cr
+                txtLokaliti.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtAgensiSerahan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
                 #region Premis
@@ -1921,6 +1932,8 @@ namespace IEMSApps.Fragments
 
                 spNegeri.SetBackgroundResource(Resource.Drawable.textView_bg);
 
+                //cr
+                spKategoriPerniagaan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
                 #region Penerima
@@ -2043,6 +2056,9 @@ namespace IEMSApps.Fragments
             btnTarikh.Text = localDate;
             btnMasa.Text = localTime;
 
+            //cr
+            txtLokaliti.Text = "";
+            txtAgensiSerahan.Text = "";
             #endregion
 
             #region Premis
@@ -2063,7 +2079,8 @@ namespace IEMSApps.Fragments
             //_jenisNiaga = 0;
             txtJenisNiaga.Text = "";
 
-
+            //cr
+            spKategoriPerniagaan.SetSelection(0);
             #endregion
 
             #region Penerima

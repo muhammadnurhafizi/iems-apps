@@ -144,6 +144,11 @@ namespace IEMSApps.BusinessObject.Entities
 
         public int IsSkipIzin { get; set; }
 
+        //cr
+        public int lokalitikategorikhas { get; set; }
       
+        public string kodagensiterlibat { get; set; }
+
+        public int kodkategoriperniagaan { get; set; }
     }
 }
