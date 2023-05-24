@@ -325,11 +325,9 @@ namespace IEMSApps.Activities
             else
             {
                 //GeneralAndroidClass.ShowToast("Tidak ada data Akuan");
-                
-                var message = "Tidak ada Data Akuan, hasilkan semula Data Akuan ?";
-
+                var message = string.Format(Constants.Messages.SambungAkuan);
                 var ad = GeneralAndroidClass.GetDialogCustom(this);
-                ad.SetMessage(message);
+                ad.SetMessage(Html.FromHtml(message));
                 ad.SetButton(Constants.Messages.No, (s, ev) => { });
                 ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
                 {
@@ -338,7 +336,6 @@ namespace IEMSApps.Activities
                     StartActivity(intent);
                 });
                 ad.Show();
-
             }
             _hourGlass?.StopMessage();
         }
