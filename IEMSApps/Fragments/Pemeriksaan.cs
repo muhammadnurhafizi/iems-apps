@@ -113,6 +113,7 @@ namespace IEMSApps.Fragments
         private LinearLayout linearSiasatUlangan, linearButtonKesalahan, linearSerahanNotis;
 
         private bool _isSkip;
+        private bool isFromIdReader = false;
 
         private MPosControllerPrinter _printer;
         MposConnectionInformation _connectionInfo;
@@ -1201,9 +1202,17 @@ namespace IEMSApps.Fragments
         private void SpNegeriPenerima_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             try
-            { 
-                txtBandarPenerima.Text = "";
-                txtPoskodPenerima.Text = "";
+            {
+                var check = isFromIdReader;
+                Log.WriteLogFile("isFromIdReader", check.ToString(), Enums.LogType.Info);
+                if (!isFromIdReader) 
+                {
+                    txtBandarPenerima.Text = "";
+                    txtPoskodPenerima.Text = "";
+                }
+
+                //set isFromIdReader to false
+                isFromIdReader = false;
             }
             catch (Exception ex)
             {
@@ -2714,9 +2723,9 @@ namespace IEMSApps.Fragments
             {      
                 var model = Android.OS.Build.Model;
                 Log.WriteLogFile( "\nModel: " + model, Enums.LogType.Info);
-//#if DEBUG
-//                model = "SM-A536E";
-//#endif
+#if DEBUG
+                model = "SM-A536E";
+#endif
                 if (model == "SM-A536E")
                 {
                     var ad = GeneralAndroidClass.GetDialogCustom(this.Activity);
@@ -2868,41 +2877,52 @@ namespace IEMSApps.Fragments
             txtNamaPenerima.Text = fullName;
             txtNoKpPenerima.Text = cardDto.icNo;
 
-            var address = $"{cardDto.address1} {cardDto.address2}";
-            var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
+            //var address = $"{cardDto.address1} {cardDto.address2}";
+            //var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
+            spJenisKad.SetSelection(1);
 
+            var positionNegeriPenerima = PasukanBll.GetPositionSelectedByValue(ListNegeri, cardDto.pob);
+            spNegeriPenerima.SetSelection(positionNegeriPenerima);
+            isFromIdReader = true;
+            
+            txtBandarPenerima.Text = cardDto.city;
+            txtPoskodPenerima.Text = cardDto.postcode;
 
-            if (string.IsNullOrEmpty(cardDto.address3))
-            {
-                listAddress = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
-                txtAlamatPenerima1.Text = listAddress[0];
-                if (string.IsNullOrEmpty(listAddress[1]))
-                    txtAlamatPenerima2.Text = addressPostCodeCity;
-                else
-                {
-                    txtAlamatPenerima2.Text = listAddress[1];
-                    txtAlamatPenerima3.Text = addressPostCodeCity;
-                }
-            }
-            else
-            {
-                if (address.Length <= 80)
-                {
-                    txtAlamatPenerima1.Text = address;
-                    txtAlamatPenerima2.Text = cardDto.address3;
-                    txtAlamatPenerima3.Text = addressPostCodeCity;
-                }
-                else
-                {
-                    address = string.Format("{0} {1} {2}", cardDto.address1, cardDto.address2, cardDto.address3);
+            txtAlamatPenerima1.Text = cardDto.address1;
+            txtAlamatPenerima2.Text = cardDto.address2;
+            txtAlamatPenerima3.Text = cardDto.address3;
 
-                    var listString = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
-                    txtAlamatPenerima1.Text = listString[0].Trim();
-                    txtAlamatPenerima2.Text = listString[1].Trim();
-                    txtAlamatPenerima3.Text = addressPostCodeCity;
-                }
+            //if (string.IsNullOrEmpty(cardDto.address3))
+            //{
+            //    listAddress = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+            //    txtAlamatPenerima1.Text = listAddress[0];
+            //    if (string.IsNullOrEmpty(listAddress[1]))
+            //        txtAlamatPenerima2.Text = addressPostCodeCity;
+            //    else
+            //    {
+            //        txtAlamatPenerima2.Text = listAddress[1];
+            //        txtAlamatPenerima3.Text = addressPostCodeCity;
+            //    }
+            //}
+            //else
+            //{
+            //    if (address.Length <= 80)
+            //    {
+            //        txtAlamatPenerima1.Text = address;
+            //        txtAlamatPenerima2.Text = cardDto.address3;
+            //        txtAlamatPenerima3.Text = addressPostCodeCity;
+            //    }
+            //    else
+            //    {
+            //        address = string.Format("{0} {1} {2}", cardDto.address1, cardDto.address2, cardDto.address3);
 
-            }
+            //        var listString = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+            //        txtAlamatPenerima1.Text = listString[0].Trim();
+            //        txtAlamatPenerima2.Text = listString[1].Trim();
+            //        txtAlamatPenerima3.Text = addressPostCodeCity;
+            //    }
+
+            //}
         }
 
         public void CheckKompaunIzin()

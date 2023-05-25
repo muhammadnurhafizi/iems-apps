@@ -196,6 +196,18 @@ namespace IEMSApps.BLL
             return 0;
         }
 
+        public static int GetPositionSelectedByValue(Dictionary<string, string> listData, string sValue)
+        {
+            int index = 0;
+            foreach (var data in listData)
+            {
+                if (data.Value.ToLower() == sValue.ToLower()) return index;
+                index++;
+            }
+
+            return 0;
+        }
+
         public static int GetPositionNegeriSelected(Dictionary<string, string> listData, string sValue)
         {
             var negeri = GeneralBll.ConvertStringToInt(sValue);

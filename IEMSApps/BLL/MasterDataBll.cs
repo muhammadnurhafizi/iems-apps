@@ -694,7 +694,7 @@ namespace IEMSApps.BLL
             var listData = DataAccessQuery<ip_poskod>.GetAll();
             if (listData.Success)
             {
-                var Bandar = DataAccessQuery<ip_bandar>.Get(c => c.name == bandarname);
+                var Bandar = DataAccessQuery<ip_bandar>.Get(c => c.name.ToLower() == bandarname.ToLower());
                 var list = listData.Datas.Where(c => c.ip_bandar_id == Bandar.Datas.id).ToList();
 
                 foreach (var poskod in list)
