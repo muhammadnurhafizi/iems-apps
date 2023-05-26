@@ -83,9 +83,6 @@ namespace IEMSApps.Activities
                 txtModBayaran = FindViewById<TextView>(Resource.Id.txtModBayaran);
                 txtModBayaran.Text = IpResit.mod_pembayaran;
 
-                txtRangkaian = FindViewById<TextView>(Resource.Id.txtRangkaian);
-                txtRangkaian.Text = IpResit.rangkaian;
-
                 txtNoTransaksiIpayment = FindViewById<TextView>(Resource.Id.txtNoTransaksiIpayment);
                 txtNoTransaksiIpayment.Text = IpResit.no_transaksi_ipayment;
 
@@ -109,38 +106,8 @@ namespace IEMSApps.Activities
                 txtJumlah = FindViewById<TextView>(Resource.Id.txtJumlah);
                 txtJumlah.Text = IpResit.jumlah;
 
-                txtAmaun = FindViewById<TextView>(Resource.Id.txtAmaun);
-                txtAmaun.Text = IpResit.amaun.ToString();
-
-                txtDiskaun = FindViewById<TextView>(Resource.Id.txtDiskaun);
-                txtDiskaun.Text = IpResit.diskaun;
-
-                txtAmaunDgnDiskaun = FindViewById<TextView>(Resource.Id.txtAmaunDgnDiskaun);
-                txtAmaunDgnDiskaun.Text = IpResit.amaun_dgn_diskaun.ToString();
-
-                txtAmaunCukaiPercent = FindViewById<TextView>(Resource.Id.txtAmaunCukaiPercent);
-                txtAmaunCukaiPercent.Text = IpResit.amaun_dgn_cukai.ToString(); 
-
-                txtAmaunCukai = FindViewById<TextView>(Resource.Id.txtAmaunCukai);
-                txtAmaunCukai.Text = IpResit.amaun_cukai.ToString();
-
-                txtPelarasan = FindViewById<TextView>(Resource.Id.txtPelarasan);
-                txtPelarasan.Text = IpResit.pelarasan_penggenapan.ToString();
-
                 txtJumlahBayaran = FindViewById<TextView>(Resource.Id.txtJumlahBayaran);
                 txtJumlahBayaran.Text = IpResit.jumlah.ToString();
-
-                #endregion
-
-                #region footer
-
-                //txtRinggitMalaysia = FindViewById<TextView>(Resource.Id.txtRinggitMalaysia);
-
-                //txtPusatTerimaan = FindViewById<TextView>(Resource.Id.txtPusatTerimaan);
-                //txtPusatTerimaan.Text = IpResit.pusat_terimaan;
-
-                //txtPetugasKaunter = FindViewById<TextView>(Resource.Id.txtPetugasKaunter);
-                //txtPetugasKaunter.Text = IpResit.petugas;
 
                 #endregion
 

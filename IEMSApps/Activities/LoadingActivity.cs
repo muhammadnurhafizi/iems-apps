@@ -121,37 +121,10 @@ namespace IEMSApps.Activities
                     switch (i)
                     {
                         case 1:
-                            //DataAccessQuery<TbPasukanHh>.DeleteAll();
-                            //UpdateInfo(Constants.Messages.InsertData + " Pasukan");
-
-                            //totalData = result.Result.Tbpasukan_hh.Count;
-                            //_progressBar1.Max = totalData;
-
-                            //foreach (var item in result.Result.Tbpasukan_hh.Select((value, index) => new { index, value }))
-                            //{
-                            //    UpdateCountAndPercentage(item.index, totalData);
-                            //    DataAccessQuery<TbPasukanHh>.ExecuteSql(item.value.Value);
-                            //}
-
-                            //UpdateCountAndPercentage(totalData, totalData
                             deleteTbGpsLogs();
                             break;
                         case 2:
-
                             totalData = InsertNegeri(result);
-
-                            //DataAccessQuery<TbNegeri>.DeleteAll();
-                            //UpdateInfo(Constants.Messages.InsertData + " Negeri");
-                            //
-                            //totalData = result.Result.Tbnegeri.Count;
-                            //_progressBar1.Max = totalData;
-                            //
-                            //foreach (var item in result.Result.Tbnegeri.Select((value, index) => new { index, value }))
-                            //{
-                            //    UpdateCountAndPercentage(item.index, totalData);
-                            //    DataAccessQuery<TbNegeri>.ExecuteSql(item.value.Value);
-                            //}
-                            //UpdateCountAndPercentage(totalData, totalData);
                             break;
                         case 3:
                             InsertCawangan(result.Result.TbcawanganTemp);

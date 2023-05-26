@@ -8,7 +8,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="8dp"
         android:background="@drawable/rectangle_border"
         android:id="@+id/main">
 
@@ -112,7 +112,7 @@
         </LinearLayout>
 
         <TextView
-            android:text="Ini adalah cetakan komputer dan tidak perlu ditandangani"
+            android:text="Ini adalah cetakan komputer dan tidak perlu ditandatangan"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                 android:id="@+id/textView100" />
 
             <TextView
-                android:text="Jabatan Akauantan Negara Malaysia."
+                android:text="Jabatan Akauntan Negara Malaysia."
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

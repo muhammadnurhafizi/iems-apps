@@ -327,37 +327,6 @@
                             android:singleLine="true"/>
                     </LinearLayout>
 
-                    <RelativeLayout
-		                android:layout_width="match_parent"
-		                android:layout_height="wrap_content"
-		                android:paddingTop="5dp"
-		                android:orientation="vertical">
-		                <android.support.design.widget.TextInputLayout
-			                        android:layout_width="match_parent"
-			                        android:layout_height="wrap_content"
-					                android:theme="@style/TextLabelRequired">
-			                <EditText
-				                android:layout_width="match_parent"
-				                android:layout_height="35dp"
-				                android:id="@id/txtPusatTerimaan"
-				                android:background="@drawable/textView_bg"
-				                android:paddingLeft="5dp"
-				                android:textSize="15sp"
-				                android:hint="Pusat Terimaan"
-				                android:paddingRight="35dp"
-				                android:enabled="false"
-				                android:singleLine="true"/>	
-		                </android.support.design.widget.TextInputLayout>
-		                <Button
-			                android:id="@+id/btnPusatTerimaan"
-			                android:layout_marginRight="5dp"
-			                android:layout_width="30dp"
-			                android:layout_marginTop="14dp"
-			                android:layout_height="30dp"
-			                android:layout_alignParentRight="true"
-			                android:background="@drawable/question_mark"/>
-	                </RelativeLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -399,30 +368,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="10dp"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/black"
-                            android:text="Bayaran menggunakan iPayment : "
-                            android:textAppearance="?android:attr/textAppearanceSmall"/>
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="30dp"
-                            android:id="@+id/chkBayarGunaIpayment"
-                            android:background="@drawable/edittext_bg"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="10dp"
+                        android:padding="10dp"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"

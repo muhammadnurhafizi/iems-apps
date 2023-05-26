@@ -634,9 +634,14 @@ namespace IEMSApps.Activities
 
         private void LoadDataPenerima(TbKompaun data)
         {
-
             txtNamaPenerima.Text = data.NamaPenerima;
+            spJenisKad.SetSelection(data.ip_identiti_pelanggan_id);
             txtNoKpPenerima.Text = data.NoKpPenerima;
+            txtNoTelefonPenerima.Text = data.notelpenerima;
+            txtEmailPenerima.Text = data.emelpenerima;
+            spNegeriPenerima.SetSelection(GeneralBll.ConvertStringToInt(data.negeripenerima));
+            txtBandarPenerima.Text = data.bandarpenerima;
+            txtPoskodPenerima.Text = data.poskodpenerima;
             txtAlamatPenerima1.Text = data.AlamatPenerima1;
             txtAlamatPenerima2.Text = data.AlamatPenerima2;
             txtAlamatPenerima3.Text = data.AlamatPenerima3;

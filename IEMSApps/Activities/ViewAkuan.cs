@@ -132,25 +132,6 @@ namespace IEMSApps.Activities
             }
             chkGambarBayaran.Enabled = false;
 
-            var chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
-            //var haveKPPOnResit = MasterDataBll.GetKPPonResit(data.NoRujukanKpp);
-            var haveKPPOnResit = MasterDataBll.GetKPPonResit("KPPHQR0082300003");
-            chkBayarGunaIpayment.Enabled = false;
-            if (haveKPPOnResit == "") 
-            {
-                chkBayarGunaIpayment.Checked = false;
-                btnReceipt.Enabled = false;
-            } else 
-            {
-                btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon_enable);
-                chkBayarGunaIpayment.Checked = true;
-            }
-
-            var txtPusatTerimaan = FindViewById<EditText>(Resource.Id.txtPusatTerimaan);
-            var kompaunBayaran = AkuanBll.GetKompaunBayaranByKompaun(data.NoKmp);
-            var chargelines = AkuanBll.GetPejabatByKompaun(GeneralBll.ConvertStringToInt(kompaunBayaran.pusat_terimaan));
-            txtPusatTerimaan.Text = chargelines.pejabat ?? "";
-
             #region button
             var btnOk = FindViewById<Button>(Resource.Id.btnOk);
             btnOk.Click += BtnOk_Click;

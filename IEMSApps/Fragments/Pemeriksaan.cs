@@ -2723,9 +2723,9 @@ namespace IEMSApps.Fragments
             {      
                 var model = Android.OS.Build.Model;
                 Log.WriteLogFile( "\nModel: " + model, Enums.LogType.Info);
-#if DEBUG
-                model = "SM-A536E";
-#endif
+//#if DEBUG
+//                model = "SM-A536E";
+//#endif
                 if (model == "SM-A536E")
                 {
                     var ad = GeneralAndroidClass.GetDialogCustom(this.Activity);
@@ -2823,46 +2823,58 @@ namespace IEMSApps.Fragments
 
             var listAddress = new List<string>();
 
-            txtNamaPenerima.Text = cardDto.originalName;
+            var fullName = cardDto.GMPCName;
+            fullName = string.Join(" ", fullName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+
+            txtNamaPenerima.Text = fullName;
             txtNoKpPenerima.Text = cardDto.idNum;
 
-            var address = $"{cardDto.address1} {cardDto.address2}";
-            var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
+            spJenisKad.SetSelection(1);
+
+            var positionNegeriPenerima = PasukanBll.GetPositionSelectedByValue(ListNegeri, cardDto.state);
+            spNegeriPenerima.SetSelection(positionNegeriPenerima);
+            isFromIdReader = true;
 
             txtBandarPenerima.Text = cardDto.city;
             txtPoskodPenerima.Text = cardDto.postcode;
 
-            if (string.IsNullOrEmpty(cardDto.address3))
-            {
-                listAddress = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
-                txtAlamatPenerima1.Text = listAddress[0];
-                if (string.IsNullOrEmpty(listAddress[1]))
-                    txtAlamatPenerima2.Text = addressPostCodeCity;
-                else
-                {
-                    txtAlamatPenerima2.Text = listAddress[1];
-                    txtAlamatPenerima3.Text = addressPostCodeCity;
-                }
-            }
-            else
-            {
-                if (address.Length <= 80)
-                {
-                    txtAlamatPenerima1.Text = address;
-                    txtAlamatPenerima2.Text = cardDto.address3;
-                    txtAlamatPenerima3.Text = addressPostCodeCity;
-                }
-                else
-                {
-                    address = string.Format("{0} {1} {2}", cardDto.address1, cardDto.address2, cardDto.address3);
+            txtAlamatPenerima1.Text = cardDto.address1;
+            txtAlamatPenerima2.Text = cardDto.address2;
+            txtAlamatPenerima3.Text = cardDto.address3;
 
-                    var listString = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
-                    txtAlamatPenerima1.Text = listString[0].Trim();
-                    txtAlamatPenerima2.Text = listString[1].Trim();
-                    txtAlamatPenerima3.Text = addressPostCodeCity;
-                }
+            //var address = $"{cardDto.address1} {cardDto.address2}";
+            //var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
+            //if (string.IsNullOrEmpty(cardDto.address3))
+            //{
+            //    listAddress = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+            //    txtAlamatPenerima1.Text = listAddress[0];
+            //    if (string.IsNullOrEmpty(listAddress[1]))
+            //        txtAlamatPenerima2.Text = addressPostCodeCity;
+            //    else
+            //    {
+            //        txtAlamatPenerima2.Text = listAddress[1];
+            //        txtAlamatPenerima3.Text = addressPostCodeCity;
+            //    }
+            //}
+            //else
+            //{
+            //    if (address.Length <= 80)
+            //    {
+            //        txtAlamatPenerima1.Text = address;
+            //        txtAlamatPenerima2.Text = cardDto.address3;
+            //        txtAlamatPenerima3.Text = addressPostCodeCity;
+            //    }
+            //    else
+            //    {
+            //        address = string.Format("{0} {1} {2}", cardDto.address1, cardDto.address2, cardDto.address3);
 
-            }
+            //        var listString = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);
+            //        txtAlamatPenerima1.Text = listString[0].Trim();
+            //        txtAlamatPenerima2.Text = listString[1].Trim();
+            //        txtAlamatPenerima3.Text = addressPostCodeCity;
+            //    }
+
+            //}
         }
 
         private void SetMyCard2(CardInfoDto2 cardDto)
@@ -2877,8 +2889,6 @@ namespace IEMSApps.Fragments
             txtNamaPenerima.Text = fullName;
             txtNoKpPenerima.Text = cardDto.icNo;
 
-            //var address = $"{cardDto.address1} {cardDto.address2}";
-            //var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
             spJenisKad.SetSelection(1);
 
             var positionNegeriPenerima = PasukanBll.GetPositionSelectedByValue(ListNegeri, cardDto.pob);
@@ -2892,6 +2902,8 @@ namespace IEMSApps.Fragments
             txtAlamatPenerima2.Text = cardDto.address2;
             txtAlamatPenerima3.Text = cardDto.address3;
 
+            //var address = $"{cardDto.address1} {cardDto.address2}";
+            //var addressPostCodeCity = $"{cardDto.postcode} {cardDto.city} {cardDto.state}";
             //if (string.IsNullOrEmpty(cardDto.address3))
             //{
             //    listAddress = GeneralBll.SeparateText(address, 2, Constants.MaxLengthAddress);

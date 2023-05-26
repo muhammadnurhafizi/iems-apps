@@ -60,13 +60,14 @@ namespace IEMSApps.Activities
         private Spinner spJenisKad, spNegeriPenerima;
         private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima, txtPusatTerimaan;
         private Button btnBandarPenerima, btnPoskodPenerima, btnPusatTerimaan;
-        private CheckBox chkGambarBayaran, chkBayarGunaIpayment;
+        private CheckBox chkGambarBayaran;
 
         private AlertDialog _dialog;
         private bool _isSaved = false;
         private bool _reprint;
         private string _noRujukan;
         private string _trkhPenerima = "";
+        private int _pusatTerimaan;
 
         ServicetHandler handler;
 
@@ -103,13 +104,6 @@ namespace IEMSApps.Activities
                 txtAlamatPenerima2 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima2);
                 txtAlamatPenerima3 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima3);
 
-                txtPusatTerimaan = FindViewById<EditText>(Resource.Id.txtPusatTerimaan);
-                btnPusatTerimaan = FindViewById<Button>(Resource.Id.btnPusatTerimaan);
-                btnPusatTerimaan.Click += BtnPusatTerimaan_Click;
-
-                chkGambarBayaran = FindViewById<CheckBox>(Resource.Id.chkGambarBayaran);
-                chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
-
                 txtNoResit = FindViewById<EditText>(Resource.Id.txtNoResit);
                 txtAmounBayaran = FindViewById<EditText>(Resource.Id.txtAmounBayaran);
 
@@ -128,8 +122,8 @@ namespace IEMSApps.Activities
                 btnCamera = FindViewById<Button>(Resource.Id.btnCamera);
                 btnCamera.Click += btnCamera_Click;
 
+                chkGambarBayaran = FindViewById<CheckBox>(Resource.Id.chkGambarBayaran);
                 chkGambarBayaran.CheckedChange += chkGambarBayaran_Click;
-                chkBayarGunaIpayment.CheckedChange += chkBayarGunaIpayment_Click;
 
                 btnNamaPenerima.Click += BtnNamaPenerima_Click;
 
@@ -194,55 +188,6 @@ namespace IEMSApps.Activities
             _hourGlass?.StopMessage();
         }
 
-        List<MaklumatChargelineDto> listPusatTerimaan;
-        private int _pusatterimaan;
-        private void BtnPusatTerimaan_Click(object sender, EventArgs e)
-        {
-            if (listPusatTerimaan == null)
-                listPusatTerimaan = MasterDataBll.GetMaklumatChargeline();
-
-            var listPusatTerimaanFiltered = listPusatTerimaan;
-
-
-            var builder = new AlertDialog.Builder(this).Create();
-            var view = this.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
-            builder.SetView(view);
-
-            txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
-            listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
-            var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
-            lblTitleCarian.Text = "Pusat Terimaan";
-
-            listView.Adapter = new CarianMaklumatChargelineAdapter(this, listPusatTerimaan);
-
-            txtCarian.TextChanged += (send, args) =>
-            {
-                listPusatTerimaanFiltered = listPusatTerimaan
-                    .Where(m => m.pejabat.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
-
-                listView.Adapter = new CarianMaklumatChargelineAdapter(this, listPusatTerimaanFiltered);
-            };
-
-            listView.ItemClick += (send, args) =>
-            {
-                txtPusatTerimaan.Text = listPusatTerimaanFiltered[args.Position]?.pejabat;
-                _pusatterimaan = listPusatTerimaanFiltered[args.Position] != null
-                    ? listPusatTerimaanFiltered[args.Position].id
-                    : 0;
-                SetPrintButton();
-                builder.Dismiss();
-            };
-
-            var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
-            close_button.Click += (send, args) =>
-            {
-                SetPrintButton();
-                builder.Dismiss();
-            };
-
-            builder.Show();
-        }
-
         private void chkBayarGunaIpayment_Click(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             try
@@ -284,15 +229,22 @@ namespace IEMSApps.Activities
             {
                 if (e.IsChecked)
                 {
+                    //enable camera and receipt icon
                     btnCamera.SetBackgroundResource(Resource.Drawable.camera_icon);
                     btnCamera.Enabled = true;
-                } 
-                else 
+
+                    btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon_enable);
+                    btnReceipt.Enabled = true;
+                }
+                else
                 {
+                    //disble camera and receipt icon
                     btnCamera.SetBackgroundResource(Resource.Drawable.camera_disable);
                     btnCamera.Enabled = false;
-                }
 
+                    btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon);
+                    btnReceipt.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
@@ -508,9 +460,8 @@ namespace IEMSApps.Activities
             txtNoResit.Text = data.NoResit;
             txtAmounBayaran.Text = data.AmnByr.ToString(Constants.DecimalFormat);
 
-            var kompaunBayaran = AkuanBll.GetKompaunBayaranByKompaun(data.NoKmp);
-            var chargelines = AkuanBll.GetPejabatByKompaun(GeneralBll.ConvertStringToInt(kompaunBayaran.pusat_terimaan));
-            txtPusatTerimaan.Text = chargelines.pejabat ?? "";
+            var chargelinesDatas = AkuanBll.GetIdByKodCawangan(data.KodCawangan);
+            _pusatTerimaan = chargelinesDatas.id;
 
             var chkGambarBayaran = FindViewById<CheckBox>(Resource.Id.chkGambarBayaran);
             if (data.isbayarmanual == Constants.GambarBayaran.Yes)
@@ -518,20 +469,6 @@ namespace IEMSApps.Activities
                 chkGambarBayaran.Checked = true;
             }
             chkGambarBayaran.Enabled = false;
-
-            var chkBayarGunaIpayment = FindViewById<CheckBox>(Resource.Id.chkBayarGunaIpayment);
-            var haveKPPOnResit = MasterDataBll.GetKPPonResit(data.NoRujukanKpp);
-            chkBayarGunaIpayment.Enabled = false;
-            if (haveKPPOnResit == "")
-            {
-                chkBayarGunaIpayment.Checked = false;
-                btnReceipt.Enabled = false;
-            }
-            else
-            {
-                btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon_enable);
-                chkBayarGunaIpayment.Checked = true;
-            }
 
             btnPrint.SetBackgroundResource(Resource.Drawable.print_icon);
             btnPrint.Enabled = true;
@@ -575,7 +512,6 @@ namespace IEMSApps.Activities
                         if (service.Result != null) 
                         {
                             txtNoResit.Text = service.Result.no_resit;
-                            txtPusatTerimaan.Text = service.Result.pusat_terimaan;
 
                             var message = Constants.Messages.BayarBerjaya;
                             var ad = GeneralAndroidClass.GetDialogCustom(this);
@@ -608,10 +544,9 @@ namespace IEMSApps.Activities
                 }
                 else
                 { 
-                    var message = "Resit telah Dijana";
 
                     var ad = GeneralAndroidClass.GetDialogCustom(this);
-                    ad.SetMessage(Html.FromHtml(message));
+                    ad.SetMessage(Html.FromHtml(Constants.Messages.FoundReceipt));
                     ad.SetButton2("OK", (s, ev) =>
                     {
                         _hourGlass.StartMessage(this, ShowReceipt);
@@ -858,11 +793,6 @@ namespace IEMSApps.Activities
                 GeneralAndroidClass.ShowModalMessage(this, "Poskod Penerima Kosong.");
                 return false;
             }
-            if (string.IsNullOrEmpty(txtPusatTerimaan.Text))
-            {
-                GeneralAndroidClass.ShowModalMessage(this, "Pusat Terimaan Kosong.");
-                return false;
-            }
 
             return true;
         }
@@ -887,7 +817,7 @@ namespace IEMSApps.Activities
                 AmountByr = GeneralBll.ConvertStringToDecimal(txtAmounBayaran.Text),
                 TrkhPenerima = _trkhPenerima,
                 isbayarmanual = chkGambarBayaran.Checked ? Constants.GambarBayaran.Yes : Constants.GambarBayaran.No,
-                pusat_terimaan = _pusatterimaan.ToString()
+                pusat_terimaan = _pusatTerimaan.ToString()
             };
 
             if (KompaunBll.SaveDataAkuanTrx(input))
@@ -1029,10 +959,8 @@ namespace IEMSApps.Activities
                 txtAlamatPenerima3.Text);
             result.Add(GeneralBll.CreateConfirmDto("Alamat", alamat));
 
-            result.Add(GeneralBll.CreateConfirmDto("Pusat Terimaan", txtPusatTerimaan.Text));
             result.Add(GeneralBll.CreateConfirmDto("No. Resit", txtNoResit.Text));
             result.Add(GeneralBll.CreateConfirmDto("Amaun Bayar", txtAmounBayaran.Text));
-            result.Add(GeneralBll.CreateConfirmDto("Bayar Menggunakan Ipayment ? ", chkBayarGunaIpayment.Checked ? "Ya" : "Tidak"));
             result.Add(GeneralBll.CreateConfirmDto("Ambil Gambar Pembayaran Secara Manual", chkGambarBayaran.Checked ? "Ya" : "Tidak"));
 
             return result;
@@ -1499,7 +1427,6 @@ namespace IEMSApps.Activities
 
             btnNamaPenerima.Enabled = blValue;
             btnCamera.Enabled = blValue;
-            chkBayarGunaIpayment.Enabled = blValue;
 
             txtNoResit.Enabled = blValue;
             txtAmounBayaran.Enabled = blValue;
@@ -1520,7 +1447,6 @@ namespace IEMSApps.Activities
 
                 txtNoResit.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtAmounBayaran.SetBackgroundResource(Resource.Drawable.editText_bg);
-                chkBayarGunaIpayment.SetBackgroundResource(@Resource.Drawable.editText_bg);
                 chkGambarBayaran.SetBackgroundResource(@Resource.Drawable.editText_bg);
             }
             else
@@ -1539,7 +1465,6 @@ namespace IEMSApps.Activities
 
                 txtNoResit.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtAmounBayaran.SetBackgroundResource(Resource.Drawable.textView_bg);
-                chkBayarGunaIpayment.SetBackgroundResource(@Resource.Drawable.textView_bg);
                 chkGambarBayaran.SetBackgroundResource(Resource.Drawable.textView_bg);
             }
         }

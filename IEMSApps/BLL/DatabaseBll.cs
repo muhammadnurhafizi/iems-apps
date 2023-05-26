@@ -167,13 +167,17 @@ namespace IEMSApps.BLL
             AlterTbKpp();
             AlterTbKpp2();
             AlterTbKompaun();
-            CreateIpIdentitiPelanggan();
-            CreateIpBandar();
-            CreateIpNegeri();
-            CreateIpPoskod();
-            CreateIpResits();
-            CreateIpChargeline();
-            CreateTbKompaunBayaran(); //new add
+            if(CheckTableIpaymentExist()) 
+            {
+                CreateIpIdentitiPelanggan();
+                CreateIpBandar();
+                CreateIpNegeri();
+                CreateIpPoskod();
+                CreateIpResits();
+                CreateIpChargeline();
+                CreateTbKompaunBayaran(); //new add
+            }
+            
 
             return true;
 
@@ -203,6 +207,16 @@ namespace IEMSApps.BLL
             //if (!AlterTbKompaunIzinCatatan()) return false;
 
             //return true;
+        }
+
+        private static bool CheckTableIpaymentExist()
+        {
+            var result = DataAccessQuery<ip_identiti_pelanggans>.Count(c => c.jenis_identiti != "");
+            if (result < 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public static bool CreateIpIdentitiPelanggan()

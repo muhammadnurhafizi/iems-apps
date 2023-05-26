@@ -240,11 +240,11 @@ namespace IEMSApps.Utils
             public const string FaildSendData = "Gagal hantar data.";
 
             public const string CheckResit = "Menyemak Data Resit Di Sistem IEMS";
-            public const string BayarBerjaya = "<b> Pembayaran Kompaun telah berjaya dibuat Di Ipayment </b>";
+            public const string BayarBerjaya = "<div style='text-align:center' > <br> <b> Pembayaran Telah Berjaya Dibuat </b> </div>";
             public const string NoReceiptOnServer = "Tiada Data Resit di Sistem IEMS, Sila Cuba Sebentar lagi"; 
             public const string NoReceipt = "Tiada Data Resit di Sistem IEMS";
             public const string haveReceipt = "Resit Dijumpai";
-            //public const string NoReceiptOnServer = "Tiada Resit Dijumpai Di Dalam Server IEMS"; 
+            public const string FoundReceipt = "<div style='text-align:center' > <br> <b> Resit Telah Dijana </b> </div>";
             public const string SambungAkuan = "<div style='text-align:center' ><b> Tiada Data Akuan </b> <br>" +
                                                   "<br> Hasilkan semula Akuan ? </div>";
             public const string SambungKompaun = "<div style='text-align:center' ><b> Tiada Data Kompaun </b> <br>" +
