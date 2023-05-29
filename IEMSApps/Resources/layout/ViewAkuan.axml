@@ -318,7 +318,7 @@
 							android:layout_width="wrap_content"
 							android:layout_height="wrap_content"
 							android:textColor="@color/black"
-							android:text="Ambil gambar bayaran dibuat secara manual : "
+							android:text="Bayaran Melalui iPayment : "
 							android:textAppearance="?android:attr/textAppearanceSmall"/>
 						<CheckBox
 							android:layout_width="wrap_content"

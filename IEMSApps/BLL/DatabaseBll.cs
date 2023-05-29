@@ -67,6 +67,8 @@ namespace IEMSApps.BLL
             CreateIpChargeline();
             CreateTbKompaunBayaran(); //new to add because pusat_terimaan
 
+            CreateIpNegeriTemp();
+
             return true;
 
             //if (!CreateTbAkta()) return false;
@@ -176,6 +178,8 @@ namespace IEMSApps.BLL
                 CreateIpResits();
                 CreateIpChargeline();
                 CreateTbKompaunBayaran(); //new add
+
+                CreateIpNegeriTemp();
             }
             
 
@@ -214,6 +218,19 @@ namespace IEMSApps.BLL
             var result = DataAccessQuery<ip_identiti_pelanggans>.Count(c => c.jenis_identiti != "");
             if (result < 0)
             {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool CreateIpNegeriTemp()
+        {
+            string sQuery = "SELECT * FROM ip_negeri_temp";
+            var result = DataAccessQuery<ip_negeri_temp>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<ip_negeri_temp>.CreateTable();
+
                 return true;
             }
             return false;

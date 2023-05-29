@@ -173,6 +173,7 @@
     <Compile Include="BusinessObject\DTOs\VersionDto.cs" />
     <Compile Include="BusinessObject\Entities\BaseEntities.cs" />
     <Compile Include="BusinessObject\Entities\ip_chargelines.cs" />
+    <Compile Include="BusinessObject\Entities\ip_negeri_temp.cs" />
     <Compile Include="BusinessObject\Entities\ip_resits.cs" />
     <Compile Include="BusinessObject\Entities\ip_negeri.cs" />
     <Compile Include="BusinessObject\Entities\ip_poskod.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="Classes\GeneralAndroidClass.cs" />
     <Compile Include="Classes\GlobalClass.cs" />
     <Compile Include="Classes\HourGlassClass.cs" />
+    <Compile Include="Classes\IntegerToWordConverter.cs" />
     <Compile Include="Classes\SharedPreferences.cs" />
     <Compile Include="Classes\SharedPreferencesKeys.cs" />
     <Compile Include="Classes\TimePickerFragment.cs" />

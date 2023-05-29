@@ -49,7 +49,7 @@ namespace IEMSApps.BLL
 
         public static void InsertIpResits(string noRujukan, CheckIPResitsResponse result)
         {
-            var dataResponse = new ip_resits 
+            var dataResponse = new ip_resits
             {
                 norujukankpp = result.norujukankpp,
                 diterima_drpd = result.diterima_drpd,
@@ -63,16 +63,16 @@ namespace IEMSApps.BLL
                 alamat_3 = result.alamat_3,
                 poskod = result.poskod,
                 bandar = result.bandar,
-                negeri = result.negeri,     
-                emel   = result.emel,
+                negeri = result.negeri,
+                emel = result.emel,
                 no_transaksi_ipayment = result.no_transaksi_ipayment,
                 no_rujukan_ipayment = result.no_rujukan_ipayment,
                 no_transaksi_rma = result.no_transaksi_rma,
                 perihal = result.perihal,
-                keterangan = result.keterangan,
                 no_rujukan = result.no_rujukan,
-                kod_akaun  = result.kod_akaun,
+                kod_akaun = result.kod_akaun,
                 jumlah = result.jumlah,
+                jumlah_bayaran = result.jumlah_bayaran
 
             };
             var data = DataAccessQuery<ip_resits>.Get(c => c.norujukankpp == noRujukan);

@@ -252,7 +252,7 @@ namespace IEMSApps.BLL
                 " norujukankpp, namapenerima, nokppenerima, alamatpenerima1, alamatpenerima2, alamatpenerima3, trkhpenerima, iscetakakuan, " +
                 " namapenerima_akuan, nokppenerima1_akuan, alamatpenerima1_akuan, alamatpenerima2_akuan, alamatpenerima3_akuan, trkhpenerima_akuan, " +
                 " ishh, tahun, status, pgndaftar, trkhdaftar, pgnakhir, trkhakhir, barangkompaun, " +
-                " ip_identiti_pelanggan_id, poskodpenerima, bandarpenerima, negeripenerima, negarapenerima, notelpenerima, emelpenerima, " +
+                " ip_identiti_pelanggan_id_penerima, poskodpenerima, bandarpenerima, negeripenerima, negarapenerima, notelpenerima, emelpenerima, " +
                 " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran, ip_identiti_pelanggan_id_akuan)" +
                 " VALUES " +
                 $"('{nokmp}', '', '{tbKompaun.IdHh}', '{tbKompaun.JenisKmp}', '{tbKompaun.KodCawangan}', '{tbKompaun.KodKatPremis}', '{tbKompaun.JenisPesalah}', '{tbKompaun.NamaOkk.ReplaceSingleQuote()}', '{tbKompaun.NoKpOkk.ReplaceSingleQuote()}','{tbKompaun.NoEp}','{tbKompaun.NoIp}', " +
@@ -279,7 +279,7 @@ namespace IEMSApps.BLL
                 " namapenerima, nokppenerima, alamatpenerima1, alamatpenerima2, alamatpenerima3, trkhpenerima, iscetakakuan, namapenerima_akuan, " +
                 " nokppenerima1_akuan, alamatpenerima1_akuan, alamatpenerima2_akuan, alamatpenerima3_akuan, trkhpenerima_akuan,ishh, " +
                 " status, pgndaftar, trkhdaftar, pgnakhir, trkhakhir, barangkompaun, " +
-                " ip_identiti_pelanggan_id, poskodpenerima, bandarpenerima, negeripenerima, negarapenerima, notelpenerima, emelpenerima, " +
+                " ip_identiti_pelanggan_id_penerima, poskodpenerima, bandarpenerima, negeripenerima, negarapenerima, notelpenerima, emelpenerima, " +
                 " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran, ip_identiti_pelanggan_id_akuan)" +
                 " VALUES " +
                 $" ('{nokmp}' ,'' ,'{tbKompaun.IdHh}' ,'{tbKompaun.JenisKmp}' ,'{tbKompaun.KodCawangan}' ,'{tbKompaun.KodKatPremis}' ,'{tbKompaun.JenisPesalah}' ,'{tbKompaun.NamaOkk.ReplaceSingleQuote()}' ,'{tbKompaun.NoKpOkk}' ,'{tbKompaun.NamaPremis.ReplaceSingleQuote()}', '{tbKompaun.NoEp}','{tbKompaun.NoIp}'," +
@@ -1373,6 +1373,9 @@ namespace IEMSApps.BLL
                                         SetStatusDataOnline(noRujukan, Enums.TableType.Akuan_UpdateKompaun, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
                                         //Set Data name resit send
                                         SetStatusDataOnline(noRujukan, Enums.TableType.IpResit_Manual, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+
+                                        //trigger maklumat pembayaran if isBayarManual is 0
+                                        //http://localhost:8000/api/ipayment/maklumatpembayaran/KPPMLKMAN2300001/1
 
                                         //Save the script if have error when send api
                                         if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(sqlQuery);

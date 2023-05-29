@@ -31,21 +31,6 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1"
-                android:background="@color/MaklumatGrey"
-                android:gravity="center"
-                android:text=" Keterangan "
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,20 +98,6 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView
-                android:id="@+id/txtKeterangan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text=" Ini Adalah test data menggunakan table"
-                android:textColor="@color/black"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-
-            <TextView
                 android:id="@+id/txtNoRujukan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -188,7 +159,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textAlignment="textEnd"
-                android:layout_span="4"
+                android:layout_span="3"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <TextView

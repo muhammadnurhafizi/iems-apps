@@ -58,8 +58,8 @@ namespace IEMSApps.Activities
         private Button btnOk, btnCamera, btnPrint, btnAkuan, btnSearchJpnPenerima, btnReceipt;
 
         private Spinner spJenisKad, spNegeriPenerima;
-        private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima, txtPusatTerimaan;
-        private Button btnBandarPenerima, btnPoskodPenerima, btnPusatTerimaan;
+        private EditText txtNoTelefonPenerima, txtEmailPenerima, txtBandarPenerima, txtPoskodPenerima;
+        private Button btnBandarPenerima, btnPoskodPenerima;
         private CheckBox chkGambarBayaran;
 
         private AlertDialog _dialog;
@@ -153,6 +153,7 @@ namespace IEMSApps.Activities
                 {
                     var positionJenisKad = PasukanBll.GetPositionSelected(ListJenisKad, kompaun.Datas.ip_identiti_pelanggan_id.ToString());
                     var positionNegeriPenerima = PasukanBll.GetPositionSelected(ListNegeri, kompaun.Datas.negeripenerima);
+                    var chargelinesDatas = AkuanBll.GetIdByKodCawangan(kompaun.Datas.KodCawangan);
 
                     txtNamaPenerima.Text = kompaun.Datas.NamaPenerima;
                     txtNoKpPenerima.Text = kompaun.Datas.NoKpPenerima;
@@ -167,6 +168,7 @@ namespace IEMSApps.Activities
                     txtAlamatPenerima3.Text = kompaun.Datas.AlamatPenerima3;
                     _trkhPenerima = kompaun.Datas.TrkhPenerima;
                     txtAmounBayaran.Text = kompaun.Datas.AmnKmp.ToString(Constants.DecimalFormatZero);
+                    _pusatTerimaan = chargelinesDatas.id;
 
                     if (!string.IsNullOrEmpty(kompaun.Datas.NoResit))
                     {
@@ -961,7 +963,7 @@ namespace IEMSApps.Activities
 
             result.Add(GeneralBll.CreateConfirmDto("No. Resit", txtNoResit.Text));
             result.Add(GeneralBll.CreateConfirmDto("Amaun Bayar", txtAmounBayaran.Text));
-            result.Add(GeneralBll.CreateConfirmDto("Ambil Gambar Pembayaran Secara Manual", chkGambarBayaran.Checked ? "Ya" : "Tidak"));
+            result.Add(GeneralBll.CreateConfirmDto("Bayar Melalui iPayment", chkGambarBayaran.Checked ? "Ya" : "Tidak"));
 
             return result;
         }
@@ -1422,8 +1424,6 @@ namespace IEMSApps.Activities
 
             btnBandarPenerima.Enabled = blValue;
             btnPoskodPenerima.Enabled = blValue;
-            btnPusatTerimaan.Enabled = blValue;
-            txtPusatTerimaan.Enabled = blValue;
 
             btnNamaPenerima.Enabled = blValue;
             btnCamera.Enabled = blValue;

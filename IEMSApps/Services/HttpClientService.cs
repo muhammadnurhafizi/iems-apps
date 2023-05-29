@@ -371,8 +371,8 @@ namespace IEMSApps.Services
 
             try
             {
-                //var query = $"Select * from ip_resits where norujukankpp = '{noRujukan}'";
-                var query = $"Select * from tbtest_resits where norujukankpp = '{noRujukan}'";
+                var query = $"Select * from ip_resits where norujukankpp = '{noRujukan}'";
+                //var query = $"Select * from tbtest_resits where norujukankpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
                 using (HttpClient client = GenerateHttpClient())
@@ -1382,6 +1382,97 @@ namespace IEMSApps.Services
                     result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
                 result.Success = false;
             }
+
+            return result;
+        }
+
+        public static async Task<Response<string>> SendMaklumatPembayaran(string query, Android.Content.Context context = null)
+        {
+#if DEBUG
+            return new Response<string> { Success = true };
+#endif
+
+            if (context != null)
+                GeneralAndroidClass.StopLocationService(context);
+
+            Thread.Sleep(500);
+            var result = new Response<string>()
+            {
+                Success = false,
+                Mesage = "Ralat"
+            };
+
+            var encodedQuery = BLL.GeneralBll.Base64Encode(query);
+            var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.ExecQueryPost}str=" + encodedQuery;
+
+            try
+            {
+                using (HttpClient client = GenerateHttpClient())
+                {
+                    var req = new HttpRequestMessage(HttpMethod.Get, url);
+                    var response = await client.SendAsync(req);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        var stringJson = await response.Content.ReadAsStringAsync();
+                        var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
+
+                        result.Success = true;
+                        result.Mesage = string.Empty;
+
+                    }
+                    else
+                    {
+                        var stringJson = await response.Content.ReadAsStringAsync();
+                        if (stringJson.Contains("Duplicate entry"))
+                        {
+                            result.Success = true;
+                            result.Mesage = string.Empty;
+
+                            Log.WriteLogFile("HttpClientService", "ExecuteQuery, StatusCode", response.StatusCode.ToString(), Enums.LogType.Debug);
+                            Log.WriteLogFile("HttpClientService", "query", query, Enums.LogType.Debug);
+                            Log.WriteLogFile("HttpClientService", "url", url, Enums.LogType.Debug);
+                            Log.WriteLogFile("HttpClientService", "url", stringJson, Enums.LogType.Debug);
+                            return result;
+                        }
+
+                        Log.WriteLogFile("HttpClientService", "ExecuteQuery, StatusCode", response.StatusCode.ToString(), Enums.LogType.Debug);
+                        Log.WriteLogFile("HttpClientService", "query", query, Enums.LogType.Debug);
+                        Log.WriteLogFile("HttpClientService", "url", url, Enums.LogType.Debug);
+
+                        result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
+                        result.Success = false;
+                    }
+
+                }
+            }
+            catch (TimeoutException ex)
+            {
+                Log.WriteLogFile("HttpClientService", "ExecuteQuery", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+                Log.WriteLogFile("HttpClientService", "url", url, Enums.LogType.Debug);
+                result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                result.Success = false;
+            }
+            catch (System.Exception ex)
+            {
+                Log.WriteLogFile("HttpClientService", "ExecuteQuery", ex.Message, Enums.LogType.Error);
+                Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+                Log.WriteLogFile("HttpClientService", "url", url, Enums.LogType.Debug);
+
+                if (ex.Message.Contains("Unable to resolve host"))
+                    result.Mesage = Constants.ErrorMessages.ErrorApiTimeout;
+                else
+                    result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi_Exception, ex.Message);
+                result.Success = false;
+            }
+            finally
+            {
+                if (context != null)
+                    GeneralAndroidClass.StartLocationService(context);
+            }
+
+            //Log.WriteLogFile("HttpClientService", "Status => ", $"{result.Success}", Enums.LogType.Info);
+
 
             return result;
         }

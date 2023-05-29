@@ -239,7 +239,7 @@ namespace IEMSApps.Activities
             {
                 if (negeri) 
                 {
-                    UpdateInfo(Constants.Messages.InsertData + " Ip Negeri ");
+                    UpdateInfo(Constants.Messages.InsertData + " Ip Negeri");
                     totalData = result.Result.ip_negeri.Count;
                     _progressBar1.Max = totalData;
 

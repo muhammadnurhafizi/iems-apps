@@ -43,12 +43,12 @@ namespace IEMSApps.BusinessObject.Responses
 
         public string perihal { get; set; }
 
-        public string keterangan { get; set; }
-
         public string no_rujukan { get; set; }
 
         public string kod_akaun { get; set; }
 
         public string jumlah { get; set; }
+
+        public string jumlah_bayaran { get; set; }
     }
 }

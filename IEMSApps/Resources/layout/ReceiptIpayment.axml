@@ -102,12 +102,13 @@
             android:id="@+id/noteLayout">
 
             <TextView
-                android:text="Nota : Bayaran ini dikenakan caj transaksi yang perlu ditanggung oleh Pelanggan"
+                android:text="Ringgit Malaysia : "
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
                 android:textColor="@color/black"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:id="@+id/note" />
+                android:id="@id/txtRinggitMalaysia" />
 
         </LinearLayout>
 
@@ -141,6 +142,7 @@
             <TextView
                 android:text="Jabatan Akauntan Negara Malaysia."
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:paddingTop="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
@@ -149,6 +151,7 @@
             <TextView
                 android:text="No. Kelulusan Perbendaharaan : "
                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:paddingTop="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"

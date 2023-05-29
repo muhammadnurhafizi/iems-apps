@@ -129,6 +129,8 @@ namespace IEMSApps.Activities
             if (data.isbayarmanual == Constants.GambarBayaran.Yes) 
             {
                 chkGambarBayaran.Checked = true;
+                btnReceipt.SetBackgroundResource(Resource.Drawable.receipt_icon_enable);
+                btnReceipt.Enabled = true;
             }
             chkGambarBayaran.Enabled = false;
 
@@ -199,7 +201,6 @@ namespace IEMSApps.Activities
         {
             var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
             var norujukan = kompaun.Datas.NoRujukanKpp;
-            norujukan = "KPPHQR0082300003";
             var data = AkuanBll.CheckIpResitsData(norujukan);
 
             if (data.Success)
@@ -227,7 +228,6 @@ namespace IEMSApps.Activities
         {
             var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);   
             var norujukan = kompaun.Datas.NoRujukanKpp;
-            norujukan = "KPPHQR0082300003";
             var intent = new Intent(this, typeof(Activities.ReceiptIpayment));
             intent.PutExtra("NoRujukanKpp", norujukan);
             StartActivity(intent);

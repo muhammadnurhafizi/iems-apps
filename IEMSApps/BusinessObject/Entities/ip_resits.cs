@@ -57,8 +57,6 @@ namespace IEMSApps.BusinessObject.Entities
         [MaxLength(255)]
         public string perihal { get; set;}
 
-        public string keterangan { get; set; }
-
         public string no_rujukan { get; set; }
 
         [MaxLength(8)]
@@ -66,6 +64,8 @@ namespace IEMSApps.BusinessObject.Entities
 
         [MaxLength(13)]
         public string jumlah { get; set; }
+
+        public string jumlah_bayaran { get; set; }
 
     }
 }

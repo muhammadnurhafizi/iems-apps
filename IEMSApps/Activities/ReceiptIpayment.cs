@@ -94,9 +94,6 @@ namespace IEMSApps.Activities
 
                 txtBil = FindViewById<TextView>(Resource.Id.txtBil);
 
-                txtKeterangan = FindViewById<TextView>(Resource.Id.txtKeterangan);
-                txtKeterangan.Text = IpResit.keterangan;
-
                 txtNoRujukan = FindViewById<TextView>(Resource.Id.txtNoRujukan);
                 txtNoRujukan.Text = IpResit.no_rujukan;
 
@@ -107,9 +104,19 @@ namespace IEMSApps.Activities
                 txtJumlah.Text = IpResit.jumlah;
 
                 txtJumlahBayaran = FindViewById<TextView>(Resource.Id.txtJumlahBayaran);
-                txtJumlahBayaran.Text = IpResit.jumlah.ToString();
+                txtJumlahBayaran.Text = IpResit.jumlah_bayaran.ToString();
 
                 #endregion
+
+                #region ringgit Malaysia
+
+                int jumlah = GeneralBll.ConvertStringToInt(IpResit.jumlah_bayaran);
+                string jumlahInString = IntegerToWordConverter.ConvertNumberToWords(jumlah);
+
+                txtRinggitMalaysia = FindViewById<TextView>(Resource.Id.txtRinggitMalaysia);
+                txtRinggitMalaysia.Text = "Ringgit Malaysia : " + jumlahInString + " SAHAJA";
+                #endregion
+
 
                 _hourGlass?.StopMessage();
             }

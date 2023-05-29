@@ -285,6 +285,7 @@ namespace IEMSApps.Utils
             public const string GetJpnDetailByNoIc = ApiUrl + "getjpndetailbynoiclog/";
             public const string GetJpnDetailByNoIcWithErr = ApiUrl + "getjpndetailbynoiclogwitherr/";
             public const string GetKawasan = ApiUrl + "getKawasan/";
+            public const string Ipayment = ApiUrl + "ipayment/";
         }
 
         public const int DefaultStafId = 1;
