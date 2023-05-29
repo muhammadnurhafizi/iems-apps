@@ -536,7 +536,7 @@ namespace IEMSApps.Activities
                     else
                     {
                         //GeneralAndroidClass.ShowToast(service.Mesage);
-                        var message = Constants.Messages.NoReceiptOnServer;
+                        var message = service.Mesage;
                         var ad = GeneralAndroidClass.GetDialogCustom(this);
                         ad.SetMessage(Html.FromHtml(message));
                         ad.SetButton("Tutup", (s, ev) => { });

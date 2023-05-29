@@ -251,6 +251,13 @@ namespace IEMSApps.Utils
                                                   "<br> Hasilkan semula Kompaun ? </div>";
         }
 
+        public static class IpaymentMessages
+        {
+            public const string NoReceiptFoundInServer = "<div style='text-align:center' > <br> <b>Tiada Resit Dijumpai di Sistem IEMS </b>" +
+                                                         "<br> Pastikan OKK membuat bayaran di Sistem iPayment dan sila cuba sekali lagi </div>";
+            public const string ErrorApiReceipt = "Error : <b> {0} </b>. <br> Ralat mendapatkan data dari Sistem Utama IEMS.Sila hubungi admin sistem";
+        }
+
         public const string Close = "Tutup";
         public const string ViewResit = "Lihat Resit";
 

@@ -366,13 +366,13 @@ namespace IEMSApps.Services
             var result = new Response<CheckIPResitsResponse>()
             {
                 Success = false,
-                Mesage = "Ralat"
+                Mesage = "Ralat mendapatkan"
             };
 
             try
             {
-                var query = $"Select * from ip_resits where norujukankpp = '{noRujukan}'";
-                //var query = $"Select * from tbtest_resits where norujukankpp = '{noRujukan}'";
+                //var query = $"select * from ip_resits where norujukankpp = '{noRujukan}'";
+                var query = $"select * from tbtest_resits where norujukankpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
                 using (HttpClient client = GenerateHttpClient())
@@ -405,11 +405,15 @@ namespace IEMSApps.Services
                     }
                     else if (response.StatusCode == HttpStatusCode.NotFound)
                     {
-                        result.Mesage = Constants.ErrorMessages.NotFound;
+                        result.Mesage = Constants.IpaymentMessages.NoReceiptFoundInServer;
                         result.Success = false;
-
-                        Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", $"No Rujukan : {noRujukan} Not Found", Enums.LogType.Error);
-                        Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", query, Enums.LogType.Error);
+                        Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", $"Tiada Resit Bagi No Rujukan : {noRujukan} Not Found", Enums.LogType.Error);
+                    }
+                    else
+                    {
+                        result.Mesage = String.Format(Constants.IpaymentMessages.ErrorApiReceipt, response.StatusCode);
+                        result.Success = false;
+                        Log.WriteLogFile("HttpClientService", "CheckReceiptOnServer", "Error : " + response.StatusCode , Enums.LogType.Error);
                     }
                 }
             }

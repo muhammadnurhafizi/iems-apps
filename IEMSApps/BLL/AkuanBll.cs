@@ -33,15 +33,20 @@ namespace IEMSApps.BLL
             result = Task.Run(async () => await HttpClientService.CheckReceiptOnServer(noRujukan)).Result;
             if (result.Success)
             {
-                InsertIpResits(noRujukan, result.Result);
+                try
+                {
+                    InsertIpResits(noRujukan, result.Result);
+                }
+                catch (System.Exception ex) 
+                {
+                    Log.WriteLogFile("AkuanBll", "CheckServiceReceiptIP", ex.Message, Enums.LogType.Error);
+                    Log.WriteLogFile("StackTrace : ", ex.StackTrace, Enums.LogType.Error);
+                }
             }
             else
             {
-                if (result.Mesage == Constants.ErrorMessages.NotFound)
-                {
-                    result.Mesage = Constants.Messages.NoReceiptOnServer;
-                    result.Success = false;
-                }
+                result.Mesage = result.Mesage;
+                result.Success = false;
             }
 
             return result;
@@ -81,7 +86,7 @@ namespace IEMSApps.BLL
                 Result<ip_resits> insertResult = DataAccessQuery<ip_resits>.Insert(dataResponse);
                 if (!insertResult.Success) 
                 {
-                    GeneralAndroidClass.ShowToast("Gagal menyimpan Resit Data");
+                    Log.WriteLogFile("AkuanBll", "InsertIpResits", insertResult.Message, Enums.LogType.Error);
                 }
             } 
         }
