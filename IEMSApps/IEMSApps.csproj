@@ -227,6 +227,7 @@
     <Compile Include="BusinessObject\Inputs\SaveAkuanInput.cs" />
     <Compile Include="BusinessObject\Inputs\SearchDataInput.cs" />
     <Compile Include="BusinessObject\Response.cs" />
+    <Compile Include="BusinessObject\Responses\MaklumatPembayaranResponse.cs" />
     <Compile Include="BusinessObject\Responses\CheckIPResitsResponse.cs" />
     <Compile Include="BusinessObject\Responses\CheckKompaunIzinResponse.cs" />
     <Compile Include="BusinessObject\Responses\CountDataResponse.cs" />

@@ -366,13 +366,13 @@ namespace IEMSApps.Services
             var result = new Response<CheckIPResitsResponse>()
             {
                 Success = false,
-                Mesage = "Ralat mendapatkan"
+                Mesage = "Ralat mendapatkan Data"
             };
 
             try
             {
-                //var query = $"select * from ip_resits where norujukankpp = '{noRujukan}'";
-                var query = $"select * from tbtest_resits where norujukankpp = '{noRujukan}'";
+                var query = $"select * from ip_resits where norujukankpp = '{noRujukan}'";
+                //var query = $"select * from tbtest_resits where norujukankpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
                 using (HttpClient client = GenerateHttpClient())
@@ -382,8 +382,8 @@ namespace IEMSApps.Services
 #endif
 
 #if DEBUG
-                    var url = $"http://mhdamn.me/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
-                    //var url = $"http://iemsstag.kpdnhep.gov.my/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+                    //var url = $"http://mhdamn.me/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
+                    var url = $"http://iemsstag.kpdnhep.gov.my/{Constants.ApiUrlAction.GetRecord}" + encodedQuery;
 #endif
                     var req = new HttpRequestMessage(HttpMethod.Get, url);
                     var response = await client.SendAsync(req);
@@ -1390,7 +1390,7 @@ namespace IEMSApps.Services
             return result;
         }
 
-        public static async Task<Response<string>> SendMaklumatPembayaran(string query, Android.Content.Context context = null)
+        public static async Task<Response<string>> SendMaklumatPembayaran(string norujukankpp, Android.Content.Context context = null)
         {
 #if DEBUG
             return new Response<string> { Success = true };
@@ -1406,8 +1406,7 @@ namespace IEMSApps.Services
                 Mesage = "Ralat"
             };
 
-            var encodedQuery = BLL.GeneralBll.Base64Encode(query);
-            var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.ExecQueryPost}str=" + encodedQuery;
+            var url = $"{GeneralBll.GetWebServicUrl()}{Constants.ApiUrlAction.Ipayment}maklumatpembayaran/" + norujukankpp + "/1";
 
             try
             {
@@ -1420,6 +1419,10 @@ namespace IEMSApps.Services
                         var stringJson = await response.Content.ReadAsStringAsync();
                         var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
 
+                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result.Replace("\"", ""));
+                        var jsonDataResult = jsonData.Substring(jsonData.IndexOf('{')).Replace("]", "");
+
+                        result.Result = JsonConvert.DeserializeObject<string>(jsonDataResult);
                         result.Success = true;
                         result.Mesage = string.Empty;
 
@@ -1433,14 +1436,14 @@ namespace IEMSApps.Services
                             result.Mesage = string.Empty;
 
                             Log.WriteLogFile("HttpClientService", "ExecuteQuery, StatusCode", response.StatusCode.ToString(), Enums.LogType.Debug);
-                            Log.WriteLogFile("HttpClientService", "query", query, Enums.LogType.Debug);
+                            Log.WriteLogFile("HttpClientService", "norujukankpp", norujukankpp, Enums.LogType.Debug);
                             Log.WriteLogFile("HttpClientService", "url", url, Enums.LogType.Debug);
                             Log.WriteLogFile("HttpClientService", "url", stringJson, Enums.LogType.Debug);
                             return result;
                         }
 
                         Log.WriteLogFile("HttpClientService", "ExecuteQuery, StatusCode", response.StatusCode.ToString(), Enums.LogType.Debug);
-                        Log.WriteLogFile("HttpClientService", "query", query, Enums.LogType.Debug);
+                        Log.WriteLogFile("HttpClientService", "norujukankpp", norujukankpp, Enums.LogType.Debug);
                         Log.WriteLogFile("HttpClientService", "url", url, Enums.LogType.Debug);
 
                         result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
@@ -1474,10 +1477,6 @@ namespace IEMSApps.Services
                 if (context != null)
                     GeneralAndroidClass.StartLocationService(context);
             }
-
-            //Log.WriteLogFile("HttpClientService", "Status => ", $"{result.Success}", Enums.LogType.Info);
-
-
             return result;
         }
     }

@@ -103,7 +103,8 @@
             Akuan_UpdateKompaun = 8,
             Akuan_UpdateKompaun_HH = 9,
 
-            IpResit_Manual = 10
+            IpResit_Manual = 10,
+            MaklumatBayaran = 11
         }
 
         public enum StatusOnline

@@ -15,36 +15,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="No Rujukan KPP "
-            android:textStyle="bold"
-            android:layout_weight="6"
-            android:textColor="@color/black"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text=" : "/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtNoRujukanKPP"
-            android:layout_weight="9"
-            android:textColor="@color/black"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="15">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="Diterima Daripada "
             android:textStyle="bold"
             android:layout_weight="6"
@@ -65,42 +35,6 @@
             android:layout_weight="9"
             android:textColor="@color/black"
             android:ellipsize="end" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="15">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Bayaran Bagi Pihak "
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:layout_weight="6"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:gravity="center_vertical"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text=" : "/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtBayaranBgiPihak"
-            android:layout_weight="10"
-            android:singleLine="true"
-            android:ellipsize="end"
-            android:textColor="@color/black"
-            android:gravity="center_vertical"/>
     </LinearLayout>
 
     <LinearLayout
@@ -146,39 +80,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Alamat "
-            android:layout_weight="6"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:singleLine="true"
-            android:ellipsize="end" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text=" : "/>
-    
-        <TextView
-            android:layout_weight="8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:id="@+id/txtAlamat"/>
-        
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="15">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="Email "
             android:layout_weight="6"
             android:textStyle="bold"
@@ -213,71 +114,6 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="No . Rujukan iPayment "
-            android:layout_weight="6"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:singleLine="true"
-            android:ellipsize="end" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text=" : "/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtNoRujukanIpayment"
-            android:layout_weight="8"
-            android:singleLine="true"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="15">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Perihal Bayaran "
-            android:layout_weight="6"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:singleLine="true"
-            android:ellipsize="end" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text=" : "/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/txtPerihalBayaran"
-            android:layout_weight="8"
-            android:textColor="@color/black"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="15">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:text="No Resit "
             android:layout_weight="6"
             android:textStyle="bold"
@@ -298,8 +134,42 @@
             android:layout_height="wrap_content"
             android:id="@+id/txtNoResit"
             android:layout_weight="8"
+            android:textStyle="bold"
             android:singleLine="true"
             android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="15">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Alamat "
+            android:layout_weight="6"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text=" : "/>
+    
+        <TextView
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:id="@+id/txtAlamat"/>
+        
     </LinearLayout>
 
     <LinearLayout
@@ -379,6 +249,36 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="Rangkaian Pengeluar "
+            android:textStyle="bold"
+            android:layout_weight="6"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text=" : "/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtRangkaianPengeluar"
+            android:layout_weight="9"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="15">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:text="No. Transaksi iPayment "
             android:layout_weight="6"
             android:textStyle="bold"
@@ -437,4 +337,37 @@
             android:textColor="@color/black"
             android:ellipsize="end" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="15">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Perihal Bayaran "
+            android:layout_weight="6"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:singleLine="true"
+            android:ellipsize="end" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text=" : "/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtPerihalBayaran"
+            android:layout_weight="8"
+            android:textColor="@color/black"/>
+    </LinearLayout>
+
 </LinearLayout>

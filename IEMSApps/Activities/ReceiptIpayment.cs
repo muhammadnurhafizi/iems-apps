@@ -16,11 +16,11 @@ namespace IEMSApps.Activities
     {
         private const string LayoutName = "ReceiptIpayment";
         string _noRujukanKpp;
-        TextView txtNoRujukanKPP, txtDiterimaDaripada, txtBayaranBgiPihak, txtNoIdentiti, txtAlamat, txtEmel, txtNoRujukanIpayment, txtPerihalBayaran,
-                 txtNoResit, txtTarikh, txtModBayaran, txtRangkaian, txtNoTransaksiIpayment, txtNoTransaksiRMA;
+        TextView txtDiterimaDaripada,txtNoIdentiti, txtAlamat, txtEmel, txtPerihalBayaran,
+                 txtNoResit, txtTarikh, txtModBayaran, txtRangkaianPengeluar, txtNoTransaksiIpayment, txtNoTransaksiRMA;
         TextView txtBil, txtKeterangan, txtNoRujukan, txtKodAkaun, txtJumlah, txtAmaun, txtDiskaun, txtAmaunDgnDiskaun, 
                  txtAmaunCukaiPercent, txtAmaunCukai, txtPelarasan, txtJumlahBayaran;
-        TextView txtRinggitMalaysia, txtPusatTerimaan, txtPetugasKaunter;
+        TextView txtRinggitMalaysia;
 
         Button BtnBack;
 
@@ -50,32 +50,20 @@ namespace IEMSApps.Activities
                 var IpResit = AkuanBll.GetIpResitsByKPP(_noRujukanKpp);
 
                 #region Header
-                txtNoRujukanKPP = FindViewById<TextView>(Resource.Id.txtNoRujukanKPP);
-                txtNoRujukanKPP.Text = IpResit.norujukankpp;
-
                 txtDiterimaDaripada = FindViewById<TextView>(Resource.Id.txtDiterimaDaripada);
                 txtDiterimaDaripada.Text = IpResit.diterima_drpd;
-
-                txtBayaranBgiPihak = FindViewById<TextView>(Resource.Id.txtBayaranBgiPihak);
-                txtBayaranBgiPihak.Text = IpResit.byrn_bg_pihak;
 
                 txtNoIdentiti = FindViewById<TextView>(Resource.Id.txtNoIdentiti);
                 txtNoIdentiti.Text = IpResit.no_identiti;
 
-                txtAlamat = FindViewById<TextView>(Resource.Id.txtAlamat);
-                txtAlamat.Text = IpResit.alamat_1 + "," + IpResit.alamat_2 + "," + IpResit.alamat_3;
-
                 txtEmel = FindViewById<TextView>(Resource.Id.txtEmel);
                 txtEmel.Text = IpResit.emel;
 
-                txtNoRujukanIpayment = FindViewById<TextView>(Resource.Id.txtNoRujukanIpayment);
-                txtNoRujukanIpayment.Text = IpResit.no_rujukan_ipayment;
-
-                txtPerihalBayaran = FindViewById<TextView>(Resource.Id.txtPerihalBayaran);
-                txtPerihalBayaran.Text = IpResit.perihal;
-
                 txtNoResit = FindViewById<TextView>(Resource.Id.txtNoResit);
                 txtNoResit.Text = IpResit.no_resit;
+
+                txtAlamat = FindViewById<TextView>(Resource.Id.txtAlamat);
+                txtAlamat.Text = IpResit.alamat_1 + "," + IpResit.alamat_2 + "," + IpResit.alamat_3;
 
                 txtTarikh = FindViewById<TextView>(Resource.Id.txtTarikh);
                 txtTarikh.Text = IpResit.tarikh_bayaran.ToString();
@@ -83,16 +71,25 @@ namespace IEMSApps.Activities
                 txtModBayaran = FindViewById<TextView>(Resource.Id.txtModBayaran);
                 txtModBayaran.Text = IpResit.mod_pembayaran;
 
+                txtRangkaianPengeluar = FindViewById<TextView>(Resource.Id.txtRangkaianPengeluar);
+                txtRangkaianPengeluar.Text = IpResit.rangkaian;
+
                 txtNoTransaksiIpayment = FindViewById<TextView>(Resource.Id.txtNoTransaksiIpayment);
                 txtNoTransaksiIpayment.Text = IpResit.no_transaksi_ipayment;
 
                 txtNoTransaksiRMA = FindViewById<TextView>(Resource.Id.txtNoTransaksiRMA);
                 txtNoTransaksiRMA.Text = IpResit.no_transaksi_rma;
+
+                txtPerihalBayaran = FindViewById<TextView>(Resource.Id.txtPerihalBayaran);
+                txtPerihalBayaran.Text = IpResit.perihal;
                 #endregion
 
                 #region table
 
                 txtBil = FindViewById<TextView>(Resource.Id.txtBil);
+
+                txtKeterangan = FindViewById<TextView>(Resource.Id.txtKeterangan);
+                txtKeterangan.Text = IpResit.keterangan;
 
                 txtNoRujukan = FindViewById<TextView>(Resource.Id.txtNoRujukan);
                 txtNoRujukan.Text = IpResit.no_rujukan;
@@ -110,11 +107,9 @@ namespace IEMSApps.Activities
 
                 #region ringgit Malaysia
 
-                int jumlah = GeneralBll.ConvertStringToInt(IpResit.jumlah_bayaran);
-                string jumlahInString = IntegerToWordConverter.ConvertNumberToWords(jumlah);
-
                 txtRinggitMalaysia = FindViewById<TextView>(Resource.Id.txtRinggitMalaysia);
-                txtRinggitMalaysia.Text = "Ringgit Malaysia : " + jumlahInString + " SAHAJA";
+                txtRinggitMalaysia.Text = "Ringgit Malaysia : " + IpResit.jumlah_bayaran_words + " SAHAJA";
+
                 #endregion
 
 

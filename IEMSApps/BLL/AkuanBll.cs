@@ -58,26 +58,27 @@ namespace IEMSApps.BLL
             {
                 norujukankpp = result.norujukankpp,
                 diterima_drpd = result.diterima_drpd,
-                no_resit = result.no_resit,
-                byrn_bg_pihak = result.byrn_bg_pihak,
-                tarikh_bayaran = result.tarikh_bayaran,
                 no_identiti = result.no_identiti,
-                mod_pembayaran = result.mod_pembayaran,
+                emel = result.emel,
                 alamat_1 = result.alamat_1,
                 alamat_2 = result.alamat_2,
                 alamat_3 = result.alamat_3,
                 poskod = result.poskod,
                 bandar = result.bandar,
                 negeri = result.negeri,
-                emel = result.emel,
-                no_transaksi_ipayment = result.no_transaksi_ipayment,
-                no_rujukan_ipayment = result.no_rujukan_ipayment,
-                no_transaksi_rma = result.no_transaksi_rma,
-                perihal = result.perihal,
+                no_resit = result.no_resit,
                 no_rujukan = result.no_rujukan,
+                no_transaksi_ipayment = result.no_transaksi_ipayment,
+                no_transaksi_rma = result.no_transaksi_rma,
+                mod_pembayaran = result.mod_pembayaran,
+                rangkaian = result.rangkaian,
+                tarikh_bayaran = result.tarikh_bayaran, 
+                perihal = result.perihal,
+                keterangan = result.keterangan,
                 kod_akaun = result.kod_akaun,
                 jumlah = result.jumlah,
-                jumlah_bayaran = result.jumlah_bayaran
+                jumlah_bayaran = result.jumlah_bayaran,
+                jumlah_bayaran_words = result.jumlah_bayaran_words
 
             };
             var data = DataAccessQuery<ip_resits>.Get(c => c.norujukankpp == noRujukan);

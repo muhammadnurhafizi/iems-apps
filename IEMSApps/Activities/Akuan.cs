@@ -526,7 +526,7 @@ namespace IEMSApps.Activities
                             ad.Show();
                         } else
                         {
-                            var message = "Gagal Mendapatkan Data Dari Sistem IEMS";
+                            var message = Constants.IpaymentMessages.RalatFetchData;
                             var ad = GeneralAndroidClass.GetDialogCustom(this);
                             ad.SetMessage(Html.FromHtml(message));
                             ad.SetButton("Tutup", (s, ev) => { });
@@ -535,7 +535,6 @@ namespace IEMSApps.Activities
                     } 
                     else
                     {
-                        //GeneralAndroidClass.ShowToast(service.Mesage);
                         var message = service.Mesage;
                         var ad = GeneralAndroidClass.GetDialogCustom(this);
                         ad.SetMessage(Html.FromHtml(message));
@@ -1376,6 +1375,7 @@ namespace IEMSApps.Activities
                 GeneralAndroidClass.ShowToast(Constants.Messages.SuccessSendData);
                 _dialog?.Dismiss();
                 OnModalDialog(Constants.Messages.SuccessSave);
+                SendMaklumatPembayaran();
             }
             else
             {
@@ -1404,6 +1404,23 @@ namespace IEMSApps.Activities
 
                 alertDialog.Show();
 
+            }
+        }
+
+        private void SendMaklumatPembayaran()
+        {
+            try
+            {
+                var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
+                var ResultSendMaklumatPemabayaran = Task.Run(async () => await SendOnlineBll.SendDataOnlineAsync(kompaun.Datas.NoRujukanKpp, Enums.TableType.MaklumatBayaran, this)).Result;
+                if (ResultSendMaklumatPemabayaran.Success)
+                {
+                    GeneralAndroidClass.ShowToast("Maklumat Pembayaran Berjaya Dihantar");
+                }
+            } 
+            catch (Exception ex) 
+            {
+                GeneralAndroidClass.LogData(LayoutName, "SendMaklumatPembayaran", ex.Message, Enums.LogType.Error);
             }
         }
 

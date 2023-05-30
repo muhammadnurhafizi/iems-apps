@@ -893,7 +893,7 @@ namespace IEMSApps.BLL
                         Log.WriteLogFile("KompaundBll - SaveDataAkuanTrx", "UpdateDataKesAfterPaid", "Finish...", Enums.LogType.Debug);
                     }
 
-                    AkuanBll.SavePusatTerimaanTrx(input, insAccess);
+                    AkuanBll.SavePusatTerimaanTrx(input, insAccess); // check balik
 
                     if (data.Datas.IsCetakAkuan == Constants.CetakAkuan.Yes)
                     {
@@ -924,6 +924,14 @@ namespace IEMSApps.BLL
                                 return false;
                             }
                             if (!SendOnlineBll.InserDataOnline(data.Datas.NoRujukanKpp, Enums.TableType.IpResit_Manual, insAccess))
+                            {
+                                insAccess.RollBackTrx();
+                                return false;
+                            }
+                        } else
+                        {
+                            // masuk dlm tbsendonline jika dia bayar cash . Tidak guna iPayment.
+                            if (!SendOnlineBll.InserDataOnline(data.Datas.NoRujukanKpp, Enums.TableType.MaklumatBayaran, insAccess))
                             {
                                 insAccess.RollBackTrx();
                                 return false;

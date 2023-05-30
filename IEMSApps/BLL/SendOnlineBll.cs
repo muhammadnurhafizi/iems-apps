@@ -151,7 +151,7 @@ namespace IEMSApps.BLL
         /// <param name="type"></param>
         public static async Task<Response<string>> SendDataOnlineAsync(string noRujukan, Enums.TableType type, Android.Content.Context context)
         {
-#if !DEBUG
+#if DEBUG
             if (!GeneralAndroidClass.IsOnline())
                 return new Response<string> { Success = false, Mesage = "Tiada Sambungan Internet" };
 #endif
@@ -213,9 +213,9 @@ namespace IEMSApps.BLL
                     }
                     return new Response<string>() { Success = allDatasIsSended, Mesage = errorMessage };
                 }
-                else if (type == Enums.TableType.Akuan_UpdateKompaun || type == Enums.TableType.Akuan_UpdateKompaun_HH)
+                else if (type == Enums.TableType.Akuan_UpdateKompaun || type == Enums.TableType.Akuan_UpdateKompaun_HH || type == Enums.TableType.MaklumatBayaran)
                 {
-                    foreach (var item in datas.Datas.Where(m => m.Type == Enums.TableType.Akuan_UpdateKompaun || m.Type == Enums.TableType.Akuan_UpdateKompaun_HH || m.Type == Enums.TableType.KompaunBayaran))
+                    foreach (var item in datas.Datas.Where(m => m.Type == Enums.TableType.Akuan_UpdateKompaun || m.Type == Enums.TableType.Akuan_UpdateKompaun_HH || m.Type == Enums.TableType.KompaunBayaran || m.Type == Enums.TableType.MaklumatBayaran))
                     {
                         //if (item.Status == Enums.StatusOnline.Sent) continue;
                         var respose = await SendAkuanAsync(noRujukan, item.Type, context);
@@ -1374,9 +1374,6 @@ namespace IEMSApps.BLL
                                         //Set Data name resit send
                                         SetStatusDataOnline(noRujukan, Enums.TableType.IpResit_Manual, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
 
-                                        //trigger maklumat pembayaran if isBayarManual is 0
-                                        //http://localhost:8000/api/ipayment/maklumatpembayaran/KPPMLKMAN2300001/1
-
                                         //Save the script if have error when send api
                                         if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(sqlQuery);
                                     }
@@ -1401,6 +1398,22 @@ namespace IEMSApps.BLL
                                         SetStatusDataOnline(noRujukan, Enums.TableType.Akuan_UpdateKompaun_HH, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
                                         //Set Data name resit send
                                         SetStatusDataOnline(noRujukan, Enums.TableType.IpResit_Manual, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+                                    }
+                                }
+                                if (tableType == Enums.TableType.MaklumatBayaran)
+                                {
+                                    var dataKompaund = DataAccessQuery<TbSendOnlineData>.Get(m => m.NoRujukan == kompaun.Datas.NoRujukanKpp && m.Type == Enums.TableType.MaklumatBayaran && m.Status != Enums.StatusOnline.Sent);
+                                    if (dataKompaund.Success && dataKompaund.Datas != null)
+                                    {
+                                        //Send Maklumat Pembayaran
+                                        response = await HttpClientService.SendMaklumatPembayaran(kompaun.Datas.NoRujukanKpp, context);
+                                        Log.WriteLogFile("SendMaklumatBayaran : Response result ", response.Result, Enums.LogType.Debug);
+                                        Log.WriteLogFile("SendOnlineBll - SendAkuanAsync", "SendMaklumatPembayaran", response.Mesage, Enums.LogType.Debug);
+                                        //Set Data online for Kompaun Bayaran
+                                        //Save the script if have error when send api
+                                        if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(noRujukan);
+                                        SetStatusDataOnline(noRujukan, Enums.TableType.MaklumatBayaran, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+                                       
                                     }
                                 }
                             }
