@@ -1375,7 +1375,23 @@ namespace IEMSApps.Activities
                 GeneralAndroidClass.ShowToast(Constants.Messages.SuccessSendData);
                 _dialog?.Dismiss();
                 OnModalDialog(Constants.Messages.SuccessSave);
-                SendMaklumatPembayaran();
+
+                //send maklumat pembayaran after saving all the data.
+                new Task(() =>
+                {
+                    try
+                    {
+                        //RunOnUiThread(() => OnPrinting());
+                        SendMaklumatPembayaran();
+                        IsLoading(this, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        IsLoading(this, false);
+                        GeneralAndroidClass.LogData(LayoutName, "SendDataOnline : SendMaklumatPembayaran", ex.Message, Enums.LogType.Error);
+                    }
+                }).RunSynchronously();
+
             }
             else
             {

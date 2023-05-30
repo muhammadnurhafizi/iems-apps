@@ -1419,10 +1419,6 @@ namespace IEMSApps.Services
                         var stringJson = await response.Content.ReadAsStringAsync();
                         var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
 
-                        var jsonData = BLL.GeneralBll.Base64Decode(resultObject.Result.Replace("\"", ""));
-                        var jsonDataResult = jsonData.Substring(jsonData.IndexOf('{')).Replace("]", "");
-
-                        result.Result = JsonConvert.DeserializeObject<string>(jsonDataResult);
                         result.Success = true;
                         result.Mesage = string.Empty;
 

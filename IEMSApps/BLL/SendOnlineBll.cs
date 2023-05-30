@@ -1402,18 +1402,21 @@ namespace IEMSApps.BLL
                                 }
                                 if (tableType == Enums.TableType.MaklumatBayaran)
                                 {
-                                    var dataKompaund = DataAccessQuery<TbSendOnlineData>.Get(m => m.NoRujukan == kompaun.Datas.NoRujukanKpp && m.Type == Enums.TableType.MaklumatBayaran && m.Status != Enums.StatusOnline.Sent);
+                                    var dataKompaund = DataAccessQuery<TbSendOnlineData>.Get(m => m.NoRujukan == noRujukan && m.Type == Enums.TableType.MaklumatBayaran && m.Status != Enums.StatusOnline.Sent);
                                     if (dataKompaund.Success && dataKompaund.Datas != null)
                                     {
-                                        //Send Maklumat Pembayaran
-                                        response = await HttpClientService.SendMaklumatPembayaran(kompaun.Datas.NoRujukanKpp, context);
-                                        Log.WriteLogFile("SendMaklumatBayaran : Response result ", response.Result, Enums.LogType.Debug);
-                                        Log.WriteLogFile("SendOnlineBll - SendAkuanAsync", "SendMaklumatPembayaran", response.Mesage, Enums.LogType.Debug);
-                                        //Set Data online for Kompaun Bayaran
-                                        //Save the script if have error when send api
-                                        if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(noRujukan);
-                                        SetStatusDataOnline(noRujukan, Enums.TableType.MaklumatBayaran, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
-                                       
+                                        var MaklumatKompaun = KompaunBll.GetKompaunByRujukan(noRujukan);
+                                        if (MaklumatKompaun.Success && MaklumatKompaun != null) 
+                                        {
+                                            //Send Maklumat Pembayaran
+                                            response = await HttpClientService.SendMaklumatPembayaran(MaklumatKompaun.Datas.NoRujukanKpp, context);
+                                            //Log.WriteLogFile("SendMaklumatBayaran : Response result ", response, Enums.LogType.Debug);
+                                            Log.WriteLogFile("SendOnlineBll - SendAkuanAsync", "SendMaklumatPembayaran", response.Mesage, Enums.LogType.Debug);
+                                            //Set Data online for Kompaun Bayaran
+                                            //Save the script if have error when send api
+                                            if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(MaklumatKompaun.Datas.NoRujukanKpp);
+                                            SetStatusDataOnline(noRujukan, Enums.TableType.MaklumatBayaran, response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error);
+                                        }
                                     }
                                 }
                             }

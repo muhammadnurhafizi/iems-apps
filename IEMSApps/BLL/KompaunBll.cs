@@ -931,7 +931,7 @@ namespace IEMSApps.BLL
                         } else
                         {
                             // masuk dlm tbsendonline jika dia bayar cash . Tidak guna iPayment.
-                            if (!SendOnlineBll.InserDataOnline(data.Datas.NoRujukanKpp, Enums.TableType.MaklumatBayaran, insAccess))
+                            if (!SendOnlineBll.InserDataOnline(data.Datas.NoKmp, Enums.TableType.MaklumatBayaran, insAccess))
                             {
                                 insAccess.RollBackTrx();
                                 return false;
