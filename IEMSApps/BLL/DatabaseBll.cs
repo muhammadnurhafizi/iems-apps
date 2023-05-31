@@ -211,7 +211,7 @@ namespace IEMSApps.BLL
 
         private static bool CheckTableIpaymentExist()
         {
-            var result = DataAccessQuery<ip_identiti_pelanggans>.Count(c => c.jenis_identiti != "");
+            var result = DataAccessQuery<ip_resits>.Count(c => c.negeri != "");
             if (result < 0)
             {
                 return true;

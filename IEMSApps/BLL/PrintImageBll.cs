@@ -1690,7 +1690,7 @@ namespace IEMSApps.BLL
                 lastPositionY += addLine20;
                 listData.Add(CreateText("No Resit: " + kompaun.NoResit, positionX, lastPositionY));
                 lastPositionY += addLine20;
-                listData.Add(CreateText("Tarikh Resit: " + GeneralBll.GetLocalDateTime().ToString(), positionX, lastPositionY));
+                listData.Add(CreateText("Tarikh Resit: " + haveIP.tarikh_bayaran.ToString() , positionX, lastPositionY));
                 lastPositionY += addLine;
             }
 
