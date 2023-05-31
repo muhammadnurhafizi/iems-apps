@@ -186,6 +186,7 @@
     <Compile Include="BusinessObject\Entities\TbKppAgensiSerahan.cs" />
     <Compile Include="BusinessObject\Entities\TbKppAsasTindakan.cs" />
     <Compile Include="BusinessObject\Entities\TbKppLokalitiKategoriKhas.cs" />
+    <Compile Include="BusinessObject\Entities\TbJenamaStesenMinyak.cs" />
     <Compile Include="BusinessObject\Entities\TbLokalitiKategoriKhas.cs" />
     <Compile Include="BusinessObject\Entities\TbNegeri.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukan.cs" />

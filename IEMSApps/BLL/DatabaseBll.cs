@@ -63,6 +63,9 @@ namespace IEMSApps.BLL
             CreateTbKppLokalitiKategoriKhas();
             CreateTbAgensiSerahan();
             CreateTbKppAgensiSerahan();
+
+
+            CreateTbJenamaStesenMinyak();
             return true;
 
             //if (!CreateTbAkta()) return false;
@@ -106,6 +109,18 @@ namespace IEMSApps.BLL
             //if (!CreateTbDataKesPesalah()) return false;
 
             //return true;
+        }
+
+        private static bool CreateTbJenamaStesenMinyak()
+        {
+            string sQuery = "SELECT * FROM tbjenama_stesen_minyak";
+            var result = DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbJenamaStesenMinyak>.CreateTable();
+                return true;
+            }
+            return false;
         }
 
         public static bool AlterDatabase()
@@ -162,6 +177,9 @@ namespace IEMSApps.BLL
             CreateTbKppLokalitiKategoriKhas();
             CreateTbAgensiSerahan();
             CreateTbKppAgensiSerahan();
+
+
+            CreateTbJenamaStesenMinyak();
             return true;
 
             //if (!CreateTbKompaunIzin()) return false;
