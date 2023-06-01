@@ -266,10 +266,10 @@ namespace IEMSApps.BLL
         public static bool CreateTbKppAgensiSerahan()
         {
             string sQuery = "SELECT * FROM tbkpp_agensi_serahan";
-            var result = DataAccessQuery<TbKppAgensiSerahan>.ExecuteSql(sQuery);
+            var result = DataAccessQuery<TbKppAgensiTerlibat>.ExecuteSql(sQuery);
             if (result == Constants.Error)
             {
-                DataAccessQuery<TbKppAgensiSerahan>.CreateTable();
+                DataAccessQuery<TbKppAgensiTerlibat>.CreateTable();
 
                 return true;
             }

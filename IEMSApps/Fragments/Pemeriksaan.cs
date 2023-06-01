@@ -31,6 +31,7 @@ using Thread = System.Threading.Thread;
 using Plugin.BxlMpXamarinSDK.Abstractions;
 using System.Threading;
 using Plugin.BxlMpXamarinSDK;
+using static IEMSApps.Utils.Constants;
 
 namespace IEMSApps.Fragments
 {
@@ -74,9 +75,11 @@ namespace IEMSApps.Fragments
 
         private CheckBox chkAmaran;
 
+        private LinearLayout linearJenamaStesen;
+
         private EditText txtLokaliti, txtAgensiSerahan;
-        private Spinner spKategoriPerniagaan;
-        private Dictionary<string, string> ListKategoriPerniagaan;
+        private Spinner spKategoriPerniagaan, spJenamaStesenMinyak;
+        private Dictionary<string, string> ListKategoriPerniagaan, ListStesenMinyak;
         //Lawatan
         private Spinner spKategoryKawasan;//, spTujuanLawatan;
 
@@ -98,8 +101,8 @@ namespace IEMSApps.Fragments
         private Dictionary<string, string> ListKategoryPremis, ListNegeri;
         //private RadioButton rdTiadaKes, rdKots, rdSiasatanLanjut;
         private Button btnOk, btnCamera, btnPrint, btnNote, btnLokasi, btnSearchJpn;
-        private Spinner spTindakan;
-        private Dictionary<string, string> ListTindakan;
+        private Spinner spTindakan, spKewarganegaraan;
+        private Dictionary<string, string> ListTindakan, ListWarganegara;
 
         private AlertDialog _dialog;
 
@@ -112,7 +115,8 @@ namespace IEMSApps.Fragments
 
         private Button btnKesalahanKompaun;
         private EditText txtNoIP, txtNoEP;
-        private LinearLayout linearSiasatUlangan, linearButtonKesalahan;
+        private LinearLayout linearSiasatUlangan, linearButtonKesalahan, linearNotisSerahan;
+        private RelativeLayout relativeNoPassport;
 
         private bool _isSkip;
 
@@ -147,7 +151,6 @@ namespace IEMSApps.Fragments
                 SetLayoutInvisible(viewPenerima, lblTabPenerima, tabPenerima);
 
                 _kodAsasSelected = new List<AsasTindakanDto>();
-                _lokalitiSelected = new List<LokalitiKategoriKhasDto>();
                 _agensiSerahanSelected = new List<AgensiSerahanDto>();
 
                 LoadData();
@@ -239,6 +242,9 @@ namespace IEMSApps.Fragments
             lblNoKpp.Text = GeneralBll.GenerateNoRujukan(Enums.PrefixType.KPP);
 
             spKategoriPerniagaan = View.FindViewById<Spinner>(Resource.Id.spKategoriPerniagaan);
+
+            linearJenamaStesen = View.FindViewById<LinearLayout>(Resource.Id.linearJenamaStesen);
+            spJenamaStesenMinyak = View.FindViewById<Spinner>(Resource.Id.spJenamaStesenMinyak);
 
             txtNamaPremis.TextChanged += Event_CheckMandatory_Dropdown_Edittext;
             txtAlamat1.TextChanged += Event_CheckMandatory_Dropdown_Edittext;
@@ -348,6 +354,7 @@ namespace IEMSApps.Fragments
                 new IInputFilter[] { new InputFilterAllCaps(), new InputFilterLengthFilter(80), allowedFilter });
 
 
+            spKewarganegaraan = View.FindViewById<Spinner>(Resource.Id.spKewarganegaraan);
             spTindakan = View.FindViewById<Spinner>(Resource.Id.spTindakan);
 
             txtNoIP = View.FindViewById<EditText>(Resource.Id.txtNoIP);
@@ -358,6 +365,11 @@ namespace IEMSApps.Fragments
             txtNoEP.SetFilters(new IInputFilter[] { new InputFilterAllCaps(), new FilterNoIPAndNoEPChar(), new InputFilterLengthFilter(30) });
 
             linearSiasatUlangan.Visibility = ViewStates.Gone;
+
+            linearNotisSerahan = View.FindViewById<LinearLayout>(Resource.Id.linearNotisSerahan);
+            linearNotisSerahan.Visibility = ViewStates.Gone;
+
+            relativeNoPassport = View.FindViewById<RelativeLayout>(Resource.Id.relativeNoPassport);
 
             #endregion
 
@@ -562,6 +574,9 @@ namespace IEMSApps.Fragments
         List<JenisNiagaDto> listOfJenisNiaga;
         private int _jenisNiaga;
 
+        List<LokalitiKategoriKhasDto> listLokaliti;
+        private int _listLokaliti;
+
         List<AsasTindakanDto> listOfAsasTindakan;
         //private int _asasTindakan;
         private List<AsasTindakanDto> _kodAsasSelected;
@@ -693,117 +708,49 @@ namespace IEMSApps.Fragments
             }
         }
 
-        List<LokalitiKategoriKhasDto> listLokaliti;
-        private List<LokalitiKategoriKhasDto> _lokalitiSelected;
-
         private void ShowLokaliti()
         {
-            listLokaliti = MasterDataBll.GetLokalitiKategoriKhas();
-            var lokalitiSelected = new List<LokalitiKategoriKhasDto>();
-            var newlokalitiSelected = new List<LokalitiKategoriKhasDto>();
+            if (listLokaliti == null)
+                listLokaliti = MasterDataBll.GetLokalitiKategoriKhas();
 
-            if (_lokalitiSelected.Any())
-            {
-                foreach (var item in listLokaliti)
-                {
-                    item.IsSelected = _lokalitiSelected.Any(m => m.Id == item.Id && m.Prgn == item.Prgn);
-                    if (item.IsSelected)
-                    {
-                        lokalitiSelected.Add(item);
-                    }
-                }
-            }
-
-            var listFiltered = listLokaliti;
+            var listLokalitiFiltered = listLokaliti;
 
 
             var builder = new AlertDialog.Builder(this.Activity).Create();
             var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
             builder.SetView(view);
-            builder.SetCancelable(false);
-            builder.SetButton2(Constants.Messages.Yes, (c, ev) =>
-            {
-                if (lokalitiSelected.Any())
-                {
-                    txtLokaliti.Text = string.Join(", ",
-                        listLokaliti.Where(m => lokalitiSelected.Any(x => m.Id == x.Id && m.Prgn == x.Prgn)).Select(m => m.Prgn)
-                            .ToArray());
-                }
-                else
-                {
-                    txtLokaliti.Text = "";
-                }
 
-
-
-                _lokalitiSelected = new List<LokalitiKategoriKhasDto>();
-                foreach (var i in lokalitiSelected)
-                {
-                    _lokalitiSelected.Add(i);
-                }
-
-                SetPrintButton();
-
-                builder.Dismiss();
-            });
-            builder.SetButton(Constants.Messages.No, (c, ev) =>
-            {
-
-                lokalitiSelected = new List<LokalitiKategoriKhasDto>();
-                foreach (var i in _lokalitiSelected)
-                {
-                    lokalitiSelected.Add(i);
-                }
-                SetPrintButton();
-                builder.Dismiss();
-            });
             txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
             listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
             var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
             lblTitleCarian.Text = "Lokaliti/ Kategori Khas";
 
-            listView.Adapter = new CarianLokalitiMultipleAdapter(this.Activity, listLokaliti);
+            listView.Adapter = new CarianLokalitiKategoriKhasAdapter(this.Activity, listLokaliti);
 
             txtCarian.TextChanged += (send, args) =>
             {
-                listFiltered = listLokaliti
+                listLokalitiFiltered = listLokaliti
                     .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
 
-                if (lokalitiSelected.Any())
-                {
-                    foreach (var item in listFiltered)
-                    {
-                        item.IsSelected = lokalitiSelected.Any(m => m.Id == item.Id && m.Prgn == item.Prgn);
-                    }
-                }
-
-                listView.Adapter = new CarianLokalitiMultipleAdapter(this.Activity, listFiltered);
+                listView.Adapter = new CarianLokalitiKategoriKhasAdapter(this.Activity, listLokalitiFiltered);
             };
 
             listView.ItemClick += (send, args) =>
             {
-                listFiltered[args.Position].IsSelected = !listFiltered[args.Position].IsSelected;
+                txtLokaliti.Text = listLokalitiFiltered[args.Position]?.Prgn;
+                _listLokaliti = listLokalitiFiltered[args.Position] != null
+                    ? listLokalitiFiltered[args.Position].Id
+                    : 0;
 
-                if (lokalitiSelected.Any(m => m.Id == listFiltered[args.Position].Id && m.Prgn == listFiltered[args.Position].Prgn))
-                {
-                    lokalitiSelected.Remove(listFiltered[args.Position]);
-                    if (newlokalitiSelected.Any(c => c.Id == listFiltered[args.Position].Id && c.Prgn == listFiltered[args.Position].Prgn))
-                    {
-                        newlokalitiSelected.Remove(listFiltered[args.Position]);
-                    }
-                }
-                else
-                {
-                    lokalitiSelected.Add(listFiltered[args.Position]);
-                    newlokalitiSelected.Add(listFiltered[args.Position]);
-                }
-
-                listView.InvalidateViews();
+                SetPrintButton();
+                builder.Dismiss();
+                ShowJenamaStesenMinyak();
             };
 
             var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
             close_button.Click += (send, args) =>
             {
+                SetPrintButton();
                 builder.Dismiss();
             };
 
@@ -873,7 +820,7 @@ namespace IEMSApps.Fragments
         {
             listagensiserahan = MasterDataBll.GetAgensiSerahan();
             var agensiSerahanSelected = new List<AgensiSerahanDto>();
-            var newlokalitiSelected = new List<AgensiSerahanDto>();
+            var newSerahanSelected = new List<AgensiSerahanDto>();
 
             if (_agensiSerahanSelected.Any())
             {
@@ -960,15 +907,15 @@ namespace IEMSApps.Fragments
                 if (agensiSerahanSelected.Any(m => m.kodserahagensi == listFiltered[args.Position].kodserahagensi && m.prgn == listFiltered[args.Position].prgn))
                 {
                     agensiSerahanSelected.Remove(listFiltered[args.Position]);
-                    if (newlokalitiSelected.Any(c => c.kodserahagensi == listFiltered[args.Position].kodserahagensi && c.prgn == listFiltered[args.Position].prgn))
+                    if (newSerahanSelected.Any(c => c.kodserahagensi == listFiltered[args.Position].kodserahagensi && c.prgn == listFiltered[args.Position].prgn))
                     {
-                        newlokalitiSelected.Remove(listFiltered[args.Position]);
+                        newSerahanSelected.Remove(listFiltered[args.Position]);
                     }
                 }
                 else
                 {
                     agensiSerahanSelected.Add(listFiltered[args.Position]);
-                    newlokalitiSelected.Add(listFiltered[args.Position]);
+                    newSerahanSelected.Add(listFiltered[args.Position]);
                 }
 
                 listView.InvalidateViews();
@@ -1019,6 +966,7 @@ namespace IEMSApps.Fragments
 
                 SetPrintButton();
                 builder.Dismiss();
+                ShowJenamaStesenMinyak();
             };
 
             var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
@@ -1029,6 +977,18 @@ namespace IEMSApps.Fragments
             };
 
             builder.Show();
+        }
+
+        private void ShowJenamaStesenMinyak()
+        {
+            if (txtJenisNiaga.Text.Contains("STESEN MINYAK"))
+            {
+                linearJenamaStesen.Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                linearJenamaStesen.Visibility = ViewStates.Gone;
+            }
         }
 
         private void BtnLokasi_Click(object sender, EventArgs e)
@@ -1301,6 +1261,55 @@ namespace IEMSApps.Fragments
             spKategoriPerniagaan.Adapter = new ArrayAdapter<string>(this.Activity,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListKategoriPerniagaan.Select(c => c.Value).ToList());
 
+            ListStesenMinyak = MasterDataBll.GetJenamaStesenMinyak();
+            spJenamaStesenMinyak.Adapter = new ArrayAdapter<string>(this.Activity,
+                Resource.Layout.support_simple_spinner_dropdown_item, ListStesenMinyak.Select(c => c.Value).ToList());
+
+            ListWarganegara = PemeriksaanBll.GetKewarganegaraan();
+            spKewarganegaraan.Adapter = new ArrayAdapter<string>(this.Activity,
+                Resource.Layout.support_simple_spinner_dropdown_item, ListWarganegara.Select(c => c.Value).ToList());
+
+            spKewarganegaraan.ItemSelected += spKewarganegaraan_ItemSelected;
+
+        }
+
+        private void spKewarganegaraan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            try
+            {
+                chkAmaran.Checked = false;
+                chkAmaran.Enabled = false;
+
+                chkBayar.Enabled = false;
+                chkBayar.Checked = false;
+                btnKesalahanKompaun.Enabled = false;
+                btnKesalahanKompaun.SetBackgroundResource(Resource.Color.buttondisable);
+                linearButtonKesalahan.Visibility = ViewStates.Gone;
+
+                linearSiasatUlangan.Visibility = ViewStates.Gone;
+                txtNoEP.Text = "";
+                txtNoIP.Text = "";
+
+                linearNotisSerahan.Visibility = ViewStates.Gone;
+
+                var selectedPosition = spTindakan.SelectedItemPosition;
+
+                if (selectedPosition == Constants.Kewarganegaraan.BukanWarganegara)
+                {
+                    relativeNoPassport.Visibility = ViewStates.Visible;
+                }
+                else 
+                {
+                    relativeNoPassport.Visibility = ViewStates.Gone;
+                }
+
+                SetPrintButton();
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData("Pemeriksaan", "spKewarganegaraan_ItemSelected", ex.Message,
+                    Enums.LogType.Error);
+            }
         }
 
         private void SpNegeri_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -1333,6 +1342,8 @@ namespace IEMSApps.Fragments
                 txtNoEP.Text = "";
                 txtNoIP.Text = "";
 
+                linearNotisSerahan.Visibility = ViewStates.Gone;
+
                 var selectedPosition = spTindakan.SelectedItemPosition - 1;
 
                 if (selectedPosition == Constants.Tindakan.TiadaKes)
@@ -1351,6 +1362,10 @@ namespace IEMSApps.Fragments
                 else if (selectedPosition == Constants.Tindakan.SiasatUlangan)
                 {
                     linearSiasatUlangan.Visibility = ViewStates.Visible;
+                }
+                else if(selectedPosition ==  Constants.Tindakan.SerahanNotis) 
+                {
+                    linearNotisSerahan.Visibility = ViewStates.Visible;
                 }
 
                 SetPrintButton();

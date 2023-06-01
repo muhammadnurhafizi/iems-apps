@@ -35,6 +35,26 @@
 			android:layout_alignParentRight="true"
 			android:background="@drawable/namapremis_icon"/>
 	</RelativeLayout>	
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingTop="2dp"
+		android:id="@+id/linearKewarganegaraan">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Kewarganegaraan : "
+			android:textColor="#FF0000"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+		<Spinner
+			android:layout_width="match_parent"
+			android:id="@+id/spKewarganegaraan" 
+			android:spinnerMode="dropdown"
+			android:layout_height="35dp"
+			android:background="@drawable/spiner_bg"/>
+	</LinearLayout>
 	
 	<RelativeLayout
 		android:layout_width="match_parent"
@@ -66,6 +86,29 @@
 		
 	</RelativeLayout>
 
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
+		android:orientation="vertical"
+		android:visibility="gone"
+		android:id="@+id/relativeNoPassport">	
+			<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabelRequired"
+			android:layout_alignParentLeft="true">	
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="35dp"
+				android:id="@+id/txtNoPassport"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="No Passport"
+				android:singleLine="true"/>	
+		</android.support.design.widget.TextInputLayout>
+	</RelativeLayout>
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -86,6 +129,7 @@
 				android:singleLine="true"/>	
 		</android.support.design.widget.TextInputLayout>
 	</LinearLayout>	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -246,6 +290,54 @@
 		</LinearLayout>
 	</LinearLayout>
 
-	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingTop="10dp"
+		android:paddingBottom="5dp"
+		android:visibility="gone"
+		android:id="@+id/linearNotisSerahan">
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="30dp"
+				android:orientation="horizontal">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:text="Notis Barang (NB) : "
+					android:textAppearance="?android:attr/textAppearanceSmall"/>
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:id="@+id/chkNB"
+					android:background="@drawable/edittext_bg"/>
+			</LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="30dp"
+				android:orientation="horizontal">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:text="Notis Pengesahan Maklumat Barang (NPMB) : "
+					android:textAppearance="?android:attr/textAppearanceSmall"/>
+				<CheckBox
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:id="@+id/chkNPMB"
+					android:background="@drawable/edittext_bg"/>
+			</LinearLayout>
+		</LinearLayout>
+
+	</LinearLayout>
 
 </LinearLayout>

@@ -76,6 +76,27 @@
 			android:background="@drawable/question_mark"/>
 	</RelativeLayout>	
 
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingTop="2dp"
+		android:visibility="gone"
+		android:id="@+id/linearJenamaStesen">
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Jenama Stesen Minyak : "
+			android:textColor="#FF0000"
+			android:textAppearance="?android:attr/textAppearanceSmall"/>
+		<Spinner
+			android:layout_width="match_parent"
+			android:id="@+id/spJenamaStesenMinyak" 
+			android:spinnerMode="dropdown"
+			android:layout_height="35dp"
+			android:background="@drawable/spiner_bg"/>
+	</LinearLayout>
+
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -105,6 +126,7 @@
 			android:background="@drawable/question_mark"/>
 		
 	</RelativeLayout>
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -123,6 +145,7 @@
 			android:layout_height="35dp"
 			android:background="@drawable/spiner_bg"/>
 	</LinearLayout>	
+
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"		
@@ -152,6 +175,7 @@
 			android:layout_alignParentRight="true"
 			android:background="@drawable/question_mark"/>
 	</RelativeLayout>	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -190,12 +214,14 @@
 			android:paddingLeft="5dp"
 			android:singleLine="true"/>	
 	</LinearLayout>
+
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:text="Maklumat Tambahan : "
 			android:layout_marginTop="3dp"
 			android:textAppearance="?android:attr/textAppearanceSmall"/>
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

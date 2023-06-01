@@ -394,6 +394,7 @@ namespace IEMSApps.BLL
             result.Add("1", Constants.TindakanName.KOTS);
             result.Add("2", Constants.TindakanName.SiasatLanjut);
             result.Add("3", Constants.TindakanName.SiasatUlangan);
+            result.Add("4", Constants.TindakanName.SerahanNotis);
 
             return result;
         }
@@ -963,6 +964,18 @@ namespace IEMSApps.BLL
             }
             return resultData;
 
+        }
+
+        public static Dictionary<string, string> GetKewarganegaraan(bool isAddDefault = true)
+        {
+            var result = new Dictionary<string, string>();
+            if (isAddDefault)
+            {
+                result.Add("1", Constants.KewarganegaraanName.Warganegara);
+            }
+            result.Add("2", Constants.KewarganegaraanName.BukanWarganegara);
+
+            return result;
         }
     }
 

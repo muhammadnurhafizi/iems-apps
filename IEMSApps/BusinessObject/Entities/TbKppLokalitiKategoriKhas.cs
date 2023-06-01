@@ -9,9 +9,9 @@ namespace IEMSApps.BusinessObject.Entities
         [PrimaryKey]
         public int id { get; set; } 
 
-        public int norujukankpp { get; set; }
+        public string norujukankpp { get; set; }
 
-        public string kodlokalitikategorikhas { get; set; }
+        public string tblokaliti_kategori_khas_id { get; set; }
 
 
     }

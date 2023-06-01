@@ -144,11 +144,28 @@ namespace IEMSApps.BusinessObject.Entities
 
         public int IsSkipIzin { get; set; }
 
-        //cr
+        //cr lokaliti kategori khas
         public int lokalitikategorikhas { get; set; }
       
+        // kod agensi terlibat
         public string kodagensiterlibat { get; set; }
 
-        public int kodkategoriperniagaan { get; set; }
+        // kod kategori perniagaan
+        public int kodkatperniagaan { get; set; }
+
+        // stesen minyak
+        public int kodjenama { get; set; }
+
+        //Serahan Notis : NB
+        public int nb { get; set; }
+
+        //Serahan Notis : NPMB
+        public int npmb { get; set; }
+
+        //kewarganegaraan
+        public int kewarganegaraan { get; set; }
+
+        //nopassport
+        public string nopassport { get; set; }
     }
 }

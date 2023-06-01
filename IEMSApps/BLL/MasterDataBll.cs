@@ -551,13 +551,13 @@ namespace IEMSApps.BLL
             var listData = DataAccessQuery<TbLokalitiKategoriKhas>.GetAll();
             if (listData.Success)
             {
-                var list = listData.Datas.OrderBy(m => m.Prgn);
+                var list = listData.Datas.OrderBy(m => m.prgn);
                 foreach (var tblokaliti in list)
                 {
                     var data = new LokalitiKategoriKhasDto
                     {
-                        Id = tblokaliti.Id,
-                        Prgn = tblokaliti.Prgn
+                        Id = tblokaliti.id,
+                        Prgn = tblokaliti.prgn
                     };
 
                     result.Add(data);
@@ -576,7 +576,7 @@ namespace IEMSApps.BLL
             var listData = DataAccessQuery<TbAgensiSerahan>.GetAll();
             if (listData.Success)
             {
-                var list = listData.Datas.OrderBy(m => m.prgn);
+                var list = listData.Datas.OrderBy(m => m.prgn).Where(m => m.Status == "1");
                 foreach (var tbagensiserahan in list)
                 {
                     var data = new AgensiSerahanDto
@@ -592,5 +592,25 @@ namespace IEMSApps.BLL
             return result;
 
         }
+
+        public static Dictionary<string, string> GetJenamaStesenMinyak()
+        {
+            var result = new Dictionary<string, string>();
+
+            result.Add("-", "");
+
+            var listData = DataAccessQuery<TbJenamaStesenMinyak>.GetAll();
+            if (listData.Success)
+            {
+                var list = listData.Datas.ToList();
+                foreach (var tbjenama in list)
+                {
+                    result.Add(tbjenama.kodjenama.ToString(), tbjenama.prgn);
+                }
+            }
+
+            return result;
+        }
+
     }
 }

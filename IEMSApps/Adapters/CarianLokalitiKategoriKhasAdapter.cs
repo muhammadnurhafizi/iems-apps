@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
 using Android.App;
-using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using IEMSApps.BusinessObject.DTOs;
 
 namespace IEMSApps.Adapters
 {
-    public class CarianLokalitiMultipleAdapter : BaseAdapter<LokalitiKategoriKhasDto>
+    public class CarianLokalitiKategoriKhasAdapter : BaseAdapter<LokalitiKategoriKhasDto>
     {
         private readonly List<LokalitiKategoriKhasDto> _items;
         private readonly Activity _context;
 
-        public CarianLokalitiMultipleAdapter(Activity activity, List<LokalitiKategoriKhasDto> listData)
+        public CarianLokalitiKategoriKhasAdapter(Activity activity, List<LokalitiKategoriKhasDto> premisDtos)
         {
             _context = activity;
-            _items = listData;
+            _items = premisDtos;
         }
 
         public override LokalitiKategoriKhasDto this[int position] => _items[position];
@@ -35,7 +34,7 @@ namespace IEMSApps.Adapters
             var view = convertView;
             if (view == null)
             {
-                view = _context.LayoutInflater.Inflate(Resource.Layout.CarianTypeMultiple, parent, false) as LinearLayout;
+                view = _context.LayoutInflater.Inflate(Resource.Layout.CarianType1, parent, false) as LinearLayout;
                 vh = new ViewHolder();
 
                 // here's where we get our subview references
@@ -60,21 +59,21 @@ namespace IEMSApps.Adapters
         private class ViewHolder : Java.Lang.Object
         {
             private TextView lblNama;
-            private LinearLayout linear1;
-
+         
             // this method now handles getting references to our subviews
             public void Initialize(View view)
             {
                 lblNama = view.FindViewById(Resource.Id.lblNama) as TextView;
-                linear1 = view.FindViewById(Resource.Id.linear1) as LinearLayout;
+              
             }
 
             // this method now handles binding data
             public void Bind(LokalitiKategoriKhasDto data)
             {
                 lblNama.Text = data.Prgn;
-                linear1.SetBackgroundColor(data.IsSelected ? Color.LightGray : Color.White);
+              
             }
         }
+
     }
 }

@@ -4,7 +4,7 @@ using SQLite.Net.Attributes;
 
 namespace IEMSApps.BusinessObject.Entities
 {
-    [Table("tb_jenama_stesen_minyak")]
+    [Table("tbjenama_stesen_minyak")]
     public class TbJenamaStesenMinyak : BaseEntities
     {
         [PrimaryKey]
