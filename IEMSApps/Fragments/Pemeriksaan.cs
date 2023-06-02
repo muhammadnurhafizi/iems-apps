@@ -64,7 +64,7 @@ namespace IEMSApps.Fragments
         TextView lblTabPremis, lblTabLawatan, lblTabPenerima;
         View viewPremis, viewLawatan, viewPenerima;
 
-        //Premis
+        #region Init Premis
         private TextView lblNoKpp;
 
         private EditText txtNamaPremis, txtAlamat1, txtAlamat2, txtAlamat3;
@@ -80,7 +80,10 @@ namespace IEMSApps.Fragments
         private EditText txtLokaliti, txtAgensiSerahan;
         private Spinner spKategoriPerniagaan, spJenamaStesenMinyak;
         private Dictionary<string, string> ListKategoriPerniagaan, ListStesenMinyak;
-        //Lawatan
+        #endregion
+
+        #region Init Lawatan
+
         private Spinner spKategoryKawasan;//, spTujuanLawatan;
 
         private EditText txtLokasi, txtNoRujukanAtr, txtNoAduan, txtCatatanLawatan, txtHasilLawatan;
@@ -90,12 +93,14 @@ namespace IEMSApps.Fragments
         private Button btnAsasTindakan;
         private Button btnLokaliti, btnAgensiSerahan;
 
-        //Penerima
-        private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima;
+        #endregion
+
+        #region Init Penerima
+        private EditText txtNamaPenerima, txtNoKpPenerima, txtJawatanPenerima, txtNoPassport;
 
         private EditText txtAlamatPenerima1, txtAlamatPenerima2, txtAlamatPenerima3;
         private Button btnNamaPenerima;
-        private CheckBox chkBayar;
+        private CheckBox chkBayar, chkNB, chkNPMB;
 
         private Dictionary<string, string> ListTujuanLawatan, ListKategoriKawasan;
         private Dictionary<string, string> ListKategoryPremis, ListNegeri;
@@ -119,6 +124,8 @@ namespace IEMSApps.Fragments
         private RelativeLayout relativeNoPassport;
 
         private bool _isSkip;
+
+        #endregion
 
         private MPosControllerPrinter _printer;
         MposConnectionInformation _connectionInfo;
@@ -151,6 +158,7 @@ namespace IEMSApps.Fragments
                 SetLayoutInvisible(viewPenerima, lblTabPenerima, tabPenerima);
 
                 _kodAsasSelected = new List<AsasTindakanDto>();
+                _lokalitiSelected = new List<LokalitiKategoriKhasDto>();
                 _agensiSerahanSelected = new List<AgensiSerahanDto>();
 
                 LoadData();
@@ -311,6 +319,7 @@ namespace IEMSApps.Fragments
             txtAlamatPenerima1 = View.FindViewById<EditText>(Resource.Id.txtAlamatPenerima1);
             txtAlamatPenerima2 = View.FindViewById<EditText>(Resource.Id.txtAlamatPenerima2);
             txtAlamatPenerima3 = View.FindViewById<EditText>(Resource.Id.txtAlamatPenerima3);
+            txtNoPassport = View.FindViewById<EditText>(Resource.Id.txtNoPassport);
 
 
             //rdTiadaKes = View.FindViewById<RadioButton>(Resource.Id.rdTiadaKes);
@@ -318,8 +327,10 @@ namespace IEMSApps.Fragments
             //rdSiasatanLanjut = View.FindViewById<RadioButton>(Resource.Id.rdSiasatanLanjut);
             chkBayar = View.FindViewById<CheckBox>(Resource.Id.chkBayar);
             chkAmaran = View.FindViewById<CheckBox>(Resource.Id.chkAmaran);
+            chkNB = View.FindViewById<CheckBox>(Resource.Id.chkNB);
+            chkNPMB = View.FindViewById<CheckBox>(Resource.Id.chkNPMB);
 
-            btnKesalahanKompaun = View.FindViewById<Button>(Resource.Id.btnKesalahanKompaun);
+           btnKesalahanKompaun = View.FindViewById<Button>(Resource.Id.btnKesalahanKompaun);
             btnKesalahanKompaun.Enabled = false;
             linearButtonKesalahan = View.FindViewById<LinearLayout>(Resource.Id.linearButtonKesalahan);
             linearButtonKesalahan.Visibility = ViewStates.Gone;
@@ -574,9 +585,6 @@ namespace IEMSApps.Fragments
         List<JenisNiagaDto> listOfJenisNiaga;
         private int _jenisNiaga;
 
-        List<LokalitiKategoriKhasDto> listLokaliti;
-        private int _listLokaliti;
-
         List<AsasTindakanDto> listOfAsasTindakan;
         //private int _asasTindakan;
         private List<AsasTindakanDto> _kodAsasSelected;
@@ -708,55 +716,116 @@ namespace IEMSApps.Fragments
             }
         }
 
+
+        List<LokalitiKategoriKhasDto> listLokaliti;
+        private List<LokalitiKategoriKhasDto> _lokalitiSelected;
+
         private void ShowLokaliti()
         {
-            if (listLokaliti == null)
-                listLokaliti = MasterDataBll.GetLokalitiKategoriKhas();
+            listLokaliti = MasterDataBll.GetLokalitiKategoriKhas();
+            var lokalitiSelected = new List<LokalitiKategoriKhasDto>();
+            var newlokalitiSelected = new List<LokalitiKategoriKhasDto>();
 
-            var listLokalitiFiltered = listLokaliti;
+            if (_lokalitiSelected.Any())
+            {
+                foreach (var item in listLokaliti)
+                {
+                    item.IsSelected = _lokalitiSelected.Any(m => m.Id == item.Id && m.Prgn == item.Prgn);
+                    if (item.IsSelected)
+                    {
+                        lokalitiSelected.Add(item);
+                    }
+                }
+            }
+
+            var listFiltered = listLokaliti;
 
 
             var builder = new AlertDialog.Builder(this.Activity).Create();
             var view = this.Activity.LayoutInflater.Inflate(Resource.Layout.CarianPremis, null);
             builder.SetView(view);
+            builder.SetCancelable(false);
+            builder.SetButton2(Constants.Messages.Yes, (c, ev) =>
+            {
+                if (lokalitiSelected.Any())
+                {
+                    txtLokaliti.Text = string.Join(", ",
+                        listLokaliti.Where(m => lokalitiSelected.Any(x => m.Id == x.Id && m.Prgn == x.Prgn)).Select(m => m.Prgn)
+                            .ToArray());
+                }
+                else
+                {
+                    txtLokaliti.Text = "";
+                }
 
+                _lokalitiSelected = new List<LokalitiKategoriKhasDto>();
+                foreach (var i in lokalitiSelected)
+                {
+                    _lokalitiSelected.Add(i);
+                }
+                SetPrintButton();
+                builder.Dismiss();
+            });
+            builder.SetButton(Constants.Messages.No, (c, ev) =>
+            {
+                lokalitiSelected = new List<LokalitiKategoriKhasDto>();
+                foreach (var i in _lokalitiSelected)
+                {
+                    lokalitiSelected.Add(i);
+                }
+                SetPrintButton();
+                builder.Dismiss();
+            });
             txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
             listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
             var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
             lblTitleCarian.Text = "Lokaliti/ Kategori Khas";
 
-            listView.Adapter = new CarianLokalitiKategoriKhasAdapter(this.Activity, listLokaliti);
+            listView.Adapter = new CarianLokalitiMultipleAdapter(this.Activity, listLokaliti);
 
             txtCarian.TextChanged += (send, args) =>
             {
-                listLokalitiFiltered = listLokaliti
+                listFiltered = listLokaliti
                     .Where(m => m.Prgn.ToLower().Contains(txtCarian.Text.ToLower())).ToList();
 
-                listView.Adapter = new CarianLokalitiKategoriKhasAdapter(this.Activity, listLokalitiFiltered);
+                if (lokalitiSelected.Any())
+                {
+                    foreach (var item in listFiltered)
+                    {
+                        item.IsSelected = lokalitiSelected.Any(m => m.Id == item.Id && m.Prgn == item.Prgn);
+                    }
+                }
+                listView.Adapter = new CarianLokalitiMultipleAdapter(this.Activity, listFiltered);
             };
 
             listView.ItemClick += (send, args) =>
             {
-                txtLokaliti.Text = listLokalitiFiltered[args.Position]?.Prgn;
-                _listLokaliti = listLokalitiFiltered[args.Position] != null
-                    ? listLokalitiFiltered[args.Position].Id
-                    : 0;
+                listFiltered[args.Position].IsSelected = !listFiltered[args.Position].IsSelected;
+                if (lokalitiSelected.Any(m => m.Id == listFiltered[args.Position].Id && m.Prgn == listFiltered[args.Position].Prgn))
+                {
+                    lokalitiSelected.Remove(listFiltered[args.Position]);
+                    if (newlokalitiSelected.Any(c => c.Id == listFiltered[args.Position].Id && c.Prgn == listFiltered[args.Position].Prgn))
+                    {
+                        newlokalitiSelected.Remove(listFiltered[args.Position]);
+                    }
+                }
+                else
+                {
+                    lokalitiSelected.Add(listFiltered[args.Position]);
+                    newlokalitiSelected.Add(listFiltered[args.Position]);
+                }
 
-                SetPrintButton();
-                builder.Dismiss();
-                ShowJenamaStesenMinyak();
+                listView.InvalidateViews();
             };
 
             var close_button = view.FindViewById<ImageView>(Resource.Id.close_button);
             close_button.Click += (send, args) =>
             {
-                SetPrintButton();
                 builder.Dismiss();
             };
 
             builder.Show();
         }
-
 
         List<BandarDto> listOfBandar;
         private void ShowBandar()
@@ -1277,22 +1346,8 @@ namespace IEMSApps.Fragments
         {
             try
             {
-                chkAmaran.Checked = false;
-                chkAmaran.Enabled = false;
-
-                chkBayar.Enabled = false;
-                chkBayar.Checked = false;
-                btnKesalahanKompaun.Enabled = false;
-                btnKesalahanKompaun.SetBackgroundResource(Resource.Color.buttondisable);
-                linearButtonKesalahan.Visibility = ViewStates.Gone;
-
-                linearSiasatUlangan.Visibility = ViewStates.Gone;
-                txtNoEP.Text = "";
-                txtNoIP.Text = "";
-
-                linearNotisSerahan.Visibility = ViewStates.Gone;
-
-                var selectedPosition = spTindakan.SelectedItemPosition;
+                relativeNoPassport.Visibility = ViewStates.Gone;
+                var selectedPosition = spKewarganegaraan.SelectedItemPosition + 1;
 
                 if (selectedPosition == Constants.Kewarganegaraan.BukanWarganegara)
                 {
@@ -1658,6 +1713,21 @@ namespace IEMSApps.Fragments
                     data.AmnKmp = GeneralBll.ConvertStringToDecimal(_amaunTawaran);
                 }
 
+                //save data cr
+                if (_lokalitiSelected != null && _lokalitiSelected.Count > 0) 
+                {
+                    data.lokalitikategorikhas = _lokalitiSelected.FirstOrDefault()?.Id ?? 0;
+                }
+                if (_agensiSerahanSelected != null && _agensiSerahanSelected.Count > 0)
+                {
+                    data.kodagensiterlibat = _agensiSerahanSelected.FirstOrDefault()?.kodserahagensi ?? "";
+                }
+                data.kodkatperniagaan = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListKategoriPerniagaan, spKategoriPerniagaan.SelectedItem?.ToString() ?? null));
+                data.kodjenama = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListStesenMinyak, spJenamaStesenMinyak.SelectedItem?.ToString() ?? ""));
+                data.kewarganegaraan = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListWarganegara, spKewarganegaraan.SelectedItem?.ToString() ?? ""));
+                data.nopassport = txtNoPassport.Text;
+                data.nb = chkNB.Checked ? Constants.NotisBertulis.Yes : Constants.NotisBertulis.No;
+                data.npmb = chkNPMB.Checked ? Constants.NotisPengesahanMaklumatBarang.Yes : Constants.NotisPengesahanMaklumatBarang.No;
 
                 data.PengeluarKpp = GeneralBll.GetUserStaffId();
                 data.PgnDaftar = data.PengeluarKpp;
@@ -1676,7 +1746,7 @@ namespace IEMSApps.Fragments
 
                 #endregion
 
-                if (PemeriksaanBll.SavePemeriksaanTrx(data, _kodAsasSelected))
+                if (PemeriksaanBll.SavePemeriksaanTrx(data, _kodAsasSelected, _lokalitiSelected, _agensiSerahanSelected))
                 {
                     _isSaved = true;
                     SetButtonTindakan();
@@ -1835,6 +1905,9 @@ namespace IEMSApps.Fragments
 
             spNegeri.Enabled = blValue;
             btnBandar.Enabled = blValue;
+
+            spKategoriPerniagaan.Enabled = blValue;
+            spJenamaStesenMinyak.Enabled = blValue;
           
             #endregion
 
@@ -1854,6 +1927,11 @@ namespace IEMSApps.Fragments
 
             txtNoEP.Enabled = blValue;
             txtNoIP.Enabled = blValue;
+
+            spKewarganegaraan.Enabled = blValue;
+            txtNoPassport.Enabled = blValue;
+            chkNB.Enabled = blValue;
+            chkNPMB.Enabled = blValue;
             #endregion
 
 
@@ -1893,6 +1971,7 @@ namespace IEMSApps.Fragments
 
                 //cr
                 spKategoriPerniagaan.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                spJenamaStesenMinyak.SetBackgroundResource(Resource.Drawable.spiner_bg);
                 #endregion
 
                 #region Penerima
@@ -1909,6 +1988,10 @@ namespace IEMSApps.Fragments
                 txtNoEP.SetBackgroundResource(Resource.Drawable.editText_bg);
                 txtNoIP.SetBackgroundResource(Resource.Drawable.editText_bg);
 
+                spKewarganegaraan.SetBackgroundResource(Resource.Drawable.spiner_bg);
+                txtNoPassport.SetBackgroundResource(Resource.Drawable.editText_bg);
+                chkNB.SetBackgroundResource(Resource.Drawable.editText_bg);
+                chkNPMB.SetBackgroundResource(Resource.Drawable.editText_bg);
                 #endregion
 
 
@@ -1949,6 +2032,7 @@ namespace IEMSApps.Fragments
 
                 //cr
                 spKategoriPerniagaan.SetBackgroundResource(Resource.Drawable.textView_bg);
+                spJenamaStesenMinyak.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
                 #region Penerima
@@ -1963,6 +2047,11 @@ namespace IEMSApps.Fragments
                 spTindakan.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoEP.SetBackgroundResource(Resource.Drawable.textView_bg);
                 txtNoIP.SetBackgroundResource(Resource.Drawable.textView_bg);
+
+                spKewarganegaraan.SetBackgroundResource(Resource.Drawable.textView_bg);
+                txtNoPassport.SetBackgroundResource(Resource.Drawable.textView_bg);
+                chkNB.SetBackgroundResource(Resource.Drawable.textView_bg);
+                chkNPMB.SetBackgroundResource(Resource.Drawable.textView_bg);
                 #endregion
 
             }
@@ -1986,7 +2075,7 @@ namespace IEMSApps.Fragments
 
             var tindakan = (Enums.Tindakan)(spTindakan.SelectedItemPosition - 1);
 
-            if (!_isSaved || tindakan == Enums.Tindakan.TiadaKes || tindakan == Enums.Tindakan.SiasatUlangan)
+            if (!_isSaved || tindakan == Enums.Tindakan.TiadaKes || tindakan == Enums.Tindakan.SiasatUlangan || tindakan == Enums.Tindakan.SerahanNotis)
             {
                 ShowTamatDialog();
                 return;
@@ -2062,6 +2151,10 @@ namespace IEMSApps.Fragments
             txtCatatanLawatan.Text = "";
             txtHasilLawatan.Text = "";
 
+            spKategoryKawasan.SetSelection(0);
+            txtLokasi.Text = "";
+            txtAsasTindakan.Text = "";
+
             var localDate = GeneralBll.GetLocalDateTime().ToString(Constants.DateFormatDisplay);
             var localTime = GeneralBll.GetLocalDateTime().ToString(Constants.TimeFormatDisplay);
 
@@ -2096,6 +2189,8 @@ namespace IEMSApps.Fragments
 
             //cr
             spKategoriPerniagaan.SetSelection(0);
+            spJenamaStesenMinyak.SetSelection(0);
+            linearJenamaStesen.Visibility = ViewStates.Gone;
             #endregion
 
             #region Penerima
@@ -2125,6 +2220,10 @@ namespace IEMSApps.Fragments
             txtNoEP.Text = "";
             txtNoIP.Text = "";
             linearSiasatUlangan.Visibility = ViewStates.Gone;
+
+            txtNoPassport.Text = "";
+            chkNB.Checked = false;
+            chkNPMB.Checked = false;
 
             SetPrintButton();
         }

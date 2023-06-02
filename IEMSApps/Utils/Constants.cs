@@ -168,6 +168,18 @@ namespace IEMSApps.Utils
             public const string GpsOff = "GpsOff";
         }
 
+        public static class NotisBertulis
+        {
+            public const int Yes = 1;
+            public const int No = 0;
+        }
+
+        public static class NotisPengesahanMaklumatBarang
+        {
+            public const int Yes = 1;
+            public const int No = 0;
+        }
+
         public static class Messages
         {
             public const string SavingData = "Sedang proses simpan data... Sila tunggu";

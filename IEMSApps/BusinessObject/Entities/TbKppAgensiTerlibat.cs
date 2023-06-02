@@ -1,4 +1,5 @@
 ﻿
+using IEMSApps.Utils;
 using SQLite.Net.Attributes;
 
 namespace IEMSApps.BusinessObject.Entities
@@ -7,12 +8,14 @@ namespace IEMSApps.BusinessObject.Entities
     public class TbKppAgensiTerlibat : BaseEntities
     {
         [PrimaryKey]
+        [AutoIncrement]
         public int id { get; set; } 
 
         public string norujukankpp { get; set; }
 
         public string kodserahagensi { get; set; }
 
+        public Enums.StatusOnline IsSendOnline { get; set; } 
 
     }
 }

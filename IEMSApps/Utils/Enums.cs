@@ -117,6 +117,7 @@
             Kots = 1,
             SiasatLanjutan = 2,
             SiasatUlangan = 3,
+            SerahanNotis = 4
         }
     }
 }

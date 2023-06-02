@@ -98,9 +98,9 @@
     <Compile Include="Activities\ViewPemeriksaan.cs" />
     <Compile Include="Activities\ViewSiasatLanjut.cs" />
     <Compile Include="Adapters\CarianAgensiSerahanMultipleAdapter.cs" />
+    <Compile Include="Adapters\CarianLokalitiMultipleAdapter.cs" />
     <Compile Include="Adapters\CarianAsasTindakanMultipleAdapter.cs" />
     <Compile Include="Adapters\CarianBandarAdapter.cs" />
-    <Compile Include="Adapters\CarianLokalitiKategoriKhasAdapter.cs" />
     <Compile Include="Adapters\CarianJenisNiagaAdapter.cs" />
     <Compile Include="Adapters\CarianKesalahanAdapter.cs" />
     <Compile Include="Adapters\CarianPremisAdapter.cs" />

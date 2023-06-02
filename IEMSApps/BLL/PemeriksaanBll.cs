@@ -383,6 +383,82 @@ namespace IEMSApps.BLL
 
         }
 
+        private static bool SaveKppLokalitiKategoriKhas(string noRujukan, int LokalitiKategoriKhas, List<LokalitiKategoriKhasDto> listLokalitiKategori, DataAccessQueryTrx insAccess = null)
+        {
+            var localDate = GeneralBll.GetLocalDateTime().ToString(Constants.DatabaseDateFormat);
+            var userId = GeneralBll.GetUserStaffId();
+
+            foreach (var lokaliti in listLokalitiKategori)
+            {
+                var kppLokalitiKhas = new TbKppLokalitiKategoriKhas
+                {
+                    norujukankpp = noRujukan,
+                    tblokaliti_kategori_khas_id = lokaliti.Id,
+                    PgnDaftar = userId,
+                    PgnAkhir = userId,
+                    TrkhDaftar = localDate,
+                    TrkhAkhir = localDate,
+                    IsSendOnline = Enums.StatusOnline.New
+                };
+
+                if (insAccess != null)
+                {
+                    if (!insAccess.InsertTrx(kppLokalitiKhas))
+                    {
+                        return false;
+                    }
+                }
+
+                else
+                {
+                    var result = DataAccessQuery<TbKppLokalitiKategoriKhas>.Insert(kppLokalitiKhas);
+                    if (!result.Success)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private static bool SaveKppAgensiTerlibat(string noRujukan, string kodAgensiTerlibat, List<AgensiSerahanDto> listAgensiTerlibat, DataAccessQueryTrx insAccess = null)
+        {
+            var localDate = GeneralBll.GetLocalDateTime().ToString(Constants.DatabaseDateFormat);
+            var userId = GeneralBll.GetUserStaffId();
+
+            foreach (var agensi in listAgensiTerlibat)
+            {
+                var agensiTerlibat = new TbKppAgensiTerlibat
+                {
+                    norujukankpp = noRujukan,
+                    kodserahagensi = agensi.kodserahagensi,
+                    PgnDaftar = userId,
+                    PgnAkhir = userId,
+                    TrkhDaftar = localDate,
+                    TrkhAkhir = localDate,
+                    IsSendOnline = Enums.StatusOnline.New
+                };
+
+                if (insAccess != null)
+                {
+                    if (!insAccess.InsertTrx(agensiTerlibat))
+                    {
+                        return false;
+                    }
+                }
+
+                else
+                {
+                    var result = DataAccessQuery<TbKppAgensiTerlibat>.Insert(agensiTerlibat);
+                    if (!result.Success)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public static Dictionary<string, string> GetAllTindakan(bool isAddDefault = true)
         {
             var result = new Dictionary<string, string>();
@@ -709,7 +785,7 @@ namespace IEMSApps.BLL
 
         }
 
-        public static bool SavePemeriksaanTrx(TbKpp input, List<AsasTindakanDto> listAsas)
+        public static bool SavePemeriksaanTrx(TbKpp input, List<AsasTindakanDto> listAsas, List<LokalitiKategoriKhasDto> kategoriKhas, List<AgensiSerahanDto> agensiTerlibat)
         {
             var insAccess = new DataAccessQueryTrx();
             if (insAccess.BeginTrx())
@@ -765,6 +841,18 @@ namespace IEMSApps.BLL
                 }
 
                 if (!SaveKppAsasTindakan(input.NoRujukanKpp, input.KodTujuan, listAsas, insAccess))
+                {
+                    insAccess.RollBackTrx();
+                    return false;
+                }
+
+                if (!SaveKppLokalitiKategoriKhas(input.NoRujukanKpp, input.lokalitikategorikhas, kategoriKhas, insAccess))
+                {
+                    insAccess.RollBackTrx();
+                    return false;
+                }
+
+                if (!SaveKppAgensiTerlibat(input.NoRujukanKpp, input.kodagensiterlibat, agensiTerlibat, insAccess)) 
                 {
                     insAccess.RollBackTrx();
                     return false;

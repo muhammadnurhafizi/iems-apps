@@ -211,12 +211,33 @@ namespace IEMSApps.BLL
         }
         private static bool AlterKodKatPerniagaanOnTbKpp()
         {
-            var query = "SELECT kodkategoriperniagaan FROM tbkpp";
+            var query = "SELECT kodkatperniagaan FROM tbkpp";
             var result = DataAccessQuery<TbKpp>.ExecuteCheckSelectSql(query);
 
             if (!result)
             {
-                query = "ALTER TABLE tbkpp ADD COLUMN kodkategoriperniagaan int";
+                query = "ALTER TABLE tbkpp ADD COLUMN kodkatperniagaan int";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                query = "ALTER TABLE tbkpp ADD COLUMN lokalitikategorikhas int";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                query = "ALTER TABLE tbkpp ADD COLUMN kodagensiterlibat varchar";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                query = "ALTER TABLE tbkpp ADD COLUMN kodjenama int";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                query = "ALTER TABLE tbkpp ADD COLUMN kewarganegaraan int";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                query = "ALTER TABLE tbkpp ADD COLUMN nb int";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                query = "ALTER TABLE tbkpp ADD COLUMN npmb int";
+                DataAccessQuery<TbKpp>.ExecuteSql(query);
+
+                query = "ALTER TABLE tbkpp ADD COLUMN nopassport varchar";
                 DataAccessQuery<TbKpp>.ExecuteSql(query);
 
                 return true;
