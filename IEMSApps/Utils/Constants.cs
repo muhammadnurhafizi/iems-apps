@@ -345,20 +345,11 @@ namespace IEMSApps.Utils
             public const string KOTS = "KOTS";
             public const string SiasatLanjut = "Kes Baru dihasilkan (untuk siasatan)";
             public const string SiasatUlangan = "Siasatan Ulangan";
-            //public const string SerahanNotis = "Serahan Notis";
         }
 
-        //public static class JenisKad 
-        //{
-        //    public const string MyKad = "MyKAD";
-        //    public const string MyKas = "MyKAS";
-        //    public const string MyPR = "MyPR";
-        //    public const string Passport = "Passport";
-        //    public const string Others = "Lain-lain";
-        
-        //}
-
         public const string FWCODE = "1202T1";
+
+        public const string Negara = "458";
 
         public static class SkipIzin
         {

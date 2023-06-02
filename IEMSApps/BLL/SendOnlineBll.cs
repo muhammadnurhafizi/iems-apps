@@ -247,7 +247,7 @@ namespace IEMSApps.BLL
 
             return " INSERT INTO tbkompaun_hh " +
                 " (nokmp, norujukankmp, idhh, jeniskmp, kodcawangan, kodkatpremis, jenispesalah, namaokk, nokpokk, noep, noip, " +
-                " namapremis, nodaftarpremis, alamatokk1, alamatokk2, alamatokk3, trkhkmp, nolaporanpolis, nolaporancwgn, trkhsalah, " +
+                " namapremis, nodaftarpremis, alamatokk1, alamatokk2, alamatokk3, negaraokk, trkhkmp, nolaporanpolis, nolaporancwgn, trkhsalah, " +
                 " tempatsalah, kodakta, kodsalah, butirsalah, isarahansemasa, tempohtawaran, amnkmp, amnbyr, noresit, pegawaipengeluar, " +
                 " norujukankpp, namapenerima, nokppenerima, alamatpenerima1, alamatpenerima2, alamatpenerima3, trkhpenerima, iscetakakuan, " +
                 " namapenerima_akuan, nokppenerima1_akuan, alamatpenerima1_akuan, alamatpenerima2_akuan, alamatpenerima3_akuan, trkhpenerima_akuan, " +
@@ -256,7 +256,7 @@ namespace IEMSApps.BLL
                 " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran, ip_identiti_pelanggan_id_akuan)" +
                 " VALUES " +
                 $"('{nokmp}', '', '{tbKompaun.IdHh}', '{tbKompaun.JenisKmp}', '{tbKompaun.KodCawangan}', '{tbKompaun.KodKatPremis}', '{tbKompaun.JenisPesalah}', '{tbKompaun.NamaOkk.ReplaceSingleQuote()}', '{tbKompaun.NoKpOkk.ReplaceSingleQuote()}','{tbKompaun.NoEp}','{tbKompaun.NoIp}', " +
-                $" '{tbKompaun.NamaPremis.ReplaceSingleQuote()}', '{tbKompaun.NoDaftarPremis.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk1.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk2.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk3.ReplaceSingleQuote()}', '{trkhKmp}', '{tbKompaun.NoLaporanPolis.ReplaceSingleQuote()}', '{tbKompaun.NoLaporanCwgn.ReplaceSingleQuote()}', '{trkhSalah}', " +
+                $" '{tbKompaun.NamaPremis.ReplaceSingleQuote()}', '{tbKompaun.NoDaftarPremis.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk1.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk2.ReplaceSingleQuote()}', '{tbKompaun.AlamatOkk3.ReplaceSingleQuote()}', '458', '{trkhKmp}', '{tbKompaun.NoLaporanPolis.ReplaceSingleQuote()}', '{tbKompaun.NoLaporanCwgn.ReplaceSingleQuote()}', '{trkhSalah}', " +
                 $" '{tbKompaun.TempatSalah.ReplaceSingleQuote()}', '{tbKompaun.KodAkta}', '{tbKompaun.KodSalah}', '{tbKompaun.ButirSalah.ReplaceSingleQuote()}', '{tbKompaun.IsArahanSemasa}', '{tbKompaun.TempohTawaran}', '{tbKompaun.AmnKmp}', '{tbKompaun.AmnByr}', '{tbKompaun.NoResit}', '{tbKompaun.PegawaiPengeluar}', " +
                 $" '{tbKompaun.NoRujukanKpp}', '{tbKompaun.NamaPenerima.ReplaceSingleQuote()}', '{tbKompaun.NoKpPenerima}', '{tbKompaun.AlamatPenerima1.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima2.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima3.ReplaceSingleQuote()}', '{trkhPenerima}', '{tbKompaun.IsCetakAkuan}', " +
                 $" '{tbKompaun.NamaPenerima_Akuan.ReplaceSingleQuote()}', '{tbKompaun.NoKpPenerima_Akuan.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima1_Akuan.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima2_Akuan.ReplaceSingleQuote()}', '{tbKompaun.AlamatPenerima3_Akuan.ReplaceSingleQuote()}', NULL, " +
@@ -274,7 +274,7 @@ namespace IEMSApps.BLL
 
             return " INSERT INTO tbkompaun " +
                 " (nokmp, norujukankmp, idhh, jeniskmp, kodcawangan, kodkatpremis, jenispesalah, namaokk, nokpokk, namapremis, noep, noip, " +
-                " nodaftarpremis, alamatokk1, alamatokk2, alamatokk3, trkhkmp, nolaporanpolis, nolaporancwgn, trkhsalah, tempatsalah, " +
+                " nodaftarpremis, alamatokk1, alamatokk2, alamatokk3, negaraokk, trkhkmp, nolaporanpolis, nolaporancwgn, trkhsalah, tempatsalah, " +
                 " kodakta, kodsalah, butirsalah, isarahansemasa, tempohtawaran, amnkmp, amnbyr, noresit, pegawaipengeluar, norujukankpp, " +
                 " namapenerima, nokppenerima, alamatpenerima1, alamatpenerima2, alamatpenerima3, trkhpenerima, iscetakakuan, namapenerima_akuan, " +
                 " nokppenerima1_akuan, alamatpenerima1_akuan, alamatpenerima2_akuan, alamatpenerima3_akuan, trkhpenerima_akuan,ishh, " +
@@ -283,7 +283,7 @@ namespace IEMSApps.BLL
                 " poskodpenerima_akuan, bandarpenerima_akuan, negeripenerima_akuan, negarapenerima_akuan, notelpenerima_akuan, emelpenerima_akuan, isbayarmanual, gambarbuktibayaran, ip_identiti_pelanggan_id_akuan)" +
                 " VALUES " +
                 $" ('{nokmp}' ,'' ,'{tbKompaun.IdHh}' ,'{tbKompaun.JenisKmp}' ,'{tbKompaun.KodCawangan}' ,'{tbKompaun.KodKatPremis}' ,'{tbKompaun.JenisPesalah}' ,'{tbKompaun.NamaOkk.ReplaceSingleQuote()}' ,'{tbKompaun.NoKpOkk}' ,'{tbKompaun.NamaPremis.ReplaceSingleQuote()}', '{tbKompaun.NoEp}','{tbKompaun.NoIp}'," +
-                $" '{tbKompaun.NoDaftarPremis.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk1.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk2.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk3.ReplaceSingleQuote()}' , '{trkhKmp}' ,'{tbKompaun.NoLaporanPolis.ReplaceSingleQuote()}' ,'{tbKompaun.NoLaporanCwgn}' , '{trkhSalah}' ,'{tbKompaun.TempatSalah.ReplaceSingleQuote()}', " +
+                $" '{tbKompaun.NoDaftarPremis.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk1.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk2.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatOkk3.ReplaceSingleQuote()}', '458', '{trkhKmp}' ,'{tbKompaun.NoLaporanPolis.ReplaceSingleQuote()}' ,'{tbKompaun.NoLaporanCwgn}' , '{trkhSalah}' ,'{tbKompaun.TempatSalah.ReplaceSingleQuote()}', " +
                 $" '{tbKompaun.KodAkta}' ,'{tbKompaun.KodSalah}' ,'{tbKompaun.ButirSalah.ReplaceSingleQuote()}' ,'{tbKompaun.IsArahanSemasa}' ,'{tbKompaun.TempohTawaran}' ,'{tbKompaun.AmnKmp}' ,'{tbKompaun.AmnByr}' ,'{tbKompaun.NoResit.ReplaceSingleQuote()}' ,'{tbKompaun.PegawaiPengeluar}' ,'{tbKompaun.NoRujukanKpp}', " +
                 $" '{tbKompaun.NamaPenerima.ReplaceSingleQuote()}' ,'{tbKompaun.NoKpPenerima}' ,'{tbKompaun.AlamatPenerima1.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima2.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima3.ReplaceSingleQuote()}' , '{trkhPenerima}' ,'{tbKompaun.IsCetakAkuan}' ,'{tbKompaun.NamaPenerima_Akuan.ReplaceSingleQuote()}', " +
                 $" '{tbKompaun.NoKpPenerima_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima1_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima2_Akuan.ReplaceSingleQuote()}' ,'{tbKompaun.AlamatPenerima3_Akuan.ReplaceSingleQuote()}' , NULL ,'0', " +

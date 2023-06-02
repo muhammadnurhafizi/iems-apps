@@ -155,8 +155,6 @@ namespace IEMSApps.BLL
                 CreateTbAktaTemp();
                 CreateTbKesalahanTemp();
             }
-            //new
-            AlterKodKatPerniagaanOnTbKpp();
 
             AlterTbKompaunBarangKompaun();
             CreateTbDataKesPesalahKesalahan();
@@ -915,22 +913,7 @@ namespace IEMSApps.BLL
                 query = "ALTER TABLE tbkpp ADD COLUMN emelpenerima varchar(100)";
                 DataAccessQuery<TbKpp>.ExecuteSql(query);
 
-                query = "ALTER TABLE tbkpp ADD COLUMN negarapenerima varchar(2)";
-                DataAccessQuery<TbKpp>.ExecuteSql(query);
-
-                return true;
-            }
-            return false;
-        }
-
-        private static bool AlterKodKatPerniagaanOnTbKpp()
-        {
-            var query = "SELECT kodkategoriperniagaan FROM tbkpp";
-            var result = DataAccessQuery<TbKpp>.ExecuteCheckSelectSql(query);
-
-            if (!result)
-            {
-                query = "ALTER TABLE tbkpp ADD COLUMN kodkategoriperniagaan int";
+                query = "ALTER TABLE tbkpp ADD COLUMN negarapenerima varchar(5)";
                 DataAccessQuery<TbKpp>.ExecuteSql(query);
 
                 return true;
@@ -963,7 +946,7 @@ namespace IEMSApps.BLL
                 query = "ALTER TABLE tbkompaun ADD COLUMN emelpenerima varchar(100)";
                 DataAccessQuery<TbKompaun>.ExecuteSql(query);
 
-                query = "ALTER TABLE tbkompaun ADD COLUMN negarapenerima varchar(2)";
+                query = "ALTER TABLE tbkompaun ADD COLUMN negarapenerima varchar(5)";
                 DataAccessQuery<TbKompaun>.ExecuteSql(query);
 
                 query = "ALTER TABLE tbkompaun ADD COLUMN poskodpenerima_akuan varchar(5)";
@@ -981,7 +964,7 @@ namespace IEMSApps.BLL
                 query = "ALTER TABLE tbkompaun ADD COLUMN emelpenerima_akuan varchar(100)";
                 DataAccessQuery<TbKompaun   >.ExecuteSql(query);
 
-                query = "ALTER TABLE tbkompaun ADD COLUMN negarapenerima_akuan varchar(2)";
+                query = "ALTER TABLE tbkompaun ADD COLUMN negarapenerima_akuan varchar(5)";
                 DataAccessQuery<TbKompaun>.ExecuteSql(query);
 
                 query = "ALTER TABLE tbkompaun ADD COLUMN ip_identiti_pelanggan_id_akuan varchar";

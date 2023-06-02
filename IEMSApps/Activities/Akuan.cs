@@ -809,6 +809,7 @@ namespace IEMSApps.Activities
                 notelpenerima = txtNoTelefonPenerima.Text,
                 emelpenerima = txtEmailPenerima.Text,
                 negeripenerima = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? ""),
+                negarapenerima = Constants.Negara,
                 bandarpenerima = txtBandarPenerima.Text,
                 poskodpenerima = txtPoskodPenerima.Text,
                 AlamatPenerima1 = txtAlamatPenerima1.Text,

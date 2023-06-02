@@ -159,7 +159,7 @@ namespace IEMSApps.BusinessObject.Entities
         [MaxLength(5)]
         public string poskodpenerima { get; set;}
 
-        [MaxLength(2)]
+        [MaxLength(5)]
         public string negarapenerima { get; set; }
 
         public int ip_identiti_pelanggan_id { get; set; }

@@ -1326,6 +1326,7 @@ namespace IEMSApps.Activities
             data.notelpenerima = txtNoTelefonPenerima.Text;
             data.emelpenerima = txtEmailPenerima.Text;
             data.negeripenerima = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? "");
+            data.negarapenerima = Constants.Negara;
             data.bandarpenerima = txtBandarPenerima.Text;
             data.poskodpenerima = txtPoskodPenerima.Text;
             data.AlamatPenerima1 = txtAlamatPenerima1.Text;

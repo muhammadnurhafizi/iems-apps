@@ -1550,6 +1550,7 @@ namespace IEMSApps.Fragments
                     notelpenerima = txtNoTelefonPenerima.Text,
                     emelpenerima = txtEmailPenerima.Text,
                     negeripenerima = GeneralBll.GetKeySelected(ListNegeri, spNegeriPenerima.SelectedItem?.ToString() ?? ""),
+                    negarapenerima = Constants.Negara,
                     bandarpenerima = txtBandarPenerima.Text,
                     poskodpenerima = txtPoskodPenerima.Text,
                     Jawatanpenerima = txtJawatanPenerima.Text,

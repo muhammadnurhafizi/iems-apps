@@ -134,7 +134,7 @@ namespace IEMSApps.BusinessObject.Entities
         [MaxLength(2)]
         public string negeripenerima { get; set; }
 
-        [MaxLength(2)]
+        [MaxLength(5)]
         public string negarapenerima { get; set; }
 
         [MaxLength(15)]
@@ -152,7 +152,7 @@ namespace IEMSApps.BusinessObject.Entities
         [MaxLength(2)]
         public string negeripenerima_akuan { get; set; }
 
-        [MaxLength(2)]
+        [MaxLength(5)]
         public string negarapenerima_akuan { get; set; }
 
         [MaxLength(15)]
