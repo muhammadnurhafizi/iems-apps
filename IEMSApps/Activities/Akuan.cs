@@ -1382,7 +1382,6 @@ namespace IEMSApps.Activities
                 {
                     try
                     {
-                        //RunOnUiThread(() => OnPrinting());
                         SendMaklumatPembayaran();
                         IsLoading(this, false);
                     }
@@ -1429,8 +1428,8 @@ namespace IEMSApps.Activities
             try
             {
                 var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
-                var ResultSendMaklumatPemabayaran = Task.Run(async () => await SendOnlineBll.SendDataOnlineAsync(kompaun.Datas.NoRujukanKpp, Enums.TableType.MaklumatBayaran, this)).Result;
-                if (ResultSendMaklumatPemabayaran.Success)
+                var ResultSendMaklumatPembayaran = Task.Run(async () => await SendOnlineBll.SendDataOnlineAsync(kompaun.Datas.NoRujukanKpp, Enums.TableType.MaklumatBayaran, this)).Result;
+                if (ResultSendMaklumatPembayaran.Success && kompaun.Datas.isbayarmanual == 1)
                 {
                     GeneralAndroidClass.ShowToast("Maklumat Pembayaran Berjaya Dihantar");
                 }

@@ -924,11 +924,11 @@ namespace IEMSApps.BLL
                                 insAccess.RollBackTrx();
                                 return false;
                             }
-                            if (!SendOnlineBll.InserDataOnline(data.Datas.NoRujukanKpp, Enums.TableType.IpResit_Manual, insAccess))
-                            {
-                                insAccess.RollBackTrx();
-                                return false;
-                            }
+                            //if (!SendOnlineBll.InserDataOnline(data.Datas.NoRujukanKpp, Enums.TableType.IpResit_Manual, insAccess))
+                            //{
+                            //    insAccess.RollBackTrx();
+                            //    return false;
+                            //}
                         } else
                         {
                             // masuk dlm tbsendonline jika dia bayar cash . Tidak guna iPayment.
