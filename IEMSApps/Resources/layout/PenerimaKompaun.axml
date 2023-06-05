@@ -124,7 +124,7 @@
 				android:id="@+id/txtEmailPenerima"
 				android:background="@drawable/edittext_bg"
 				android:paddingLeft="5dp"
-				android:hint="Email"
+				android:hint="Emel"
 				android:singleLine="true"/>	
 		</android.support.design.widget.TextInputLayout>
 	</RelativeLayout>
