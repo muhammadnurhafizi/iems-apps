@@ -612,5 +612,60 @@ namespace IEMSApps.BLL
             return result;
         }
 
+        public static string GetLokalitiNameByNoRujukan(string norujukankpp)
+        {
+
+            var data = DataAccessQuery<TbKppLokalitiKategoriKhas>.Get(c => c.norujukankpp == norujukankpp);
+
+            if (data.Success && data.Datas != null)
+            {
+                var dataLokaliti = DataAccessQuery<TbLokalitiKategoriKhas>.Get(c => c.id == data.Datas.id);
+                if (dataLokaliti.Success && dataLokaliti.Datas != null)
+                {
+                    return dataLokaliti.Datas.prgn;
+                }
+                return "";
+            }
+
+            return "";
+        }
+
+        public static string GetAgensiNameByNoRujukan(string norujukankpp)
+        {
+
+            var data = DataAccessQuery<TbKppAgensiTerlibat>.Get(c => c.norujukankpp == norujukankpp);
+
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas.kodserahagensi;
+            }
+
+            return "";
+        }
+
+        public static string GetKatPerniagaaanName(int kodKatPerniagaan)
+        {
+
+            var data = DataAccessQuery<TbKategoriPerniagaan>.Get(c => c.KodKatPerniagaan == kodKatPerniagaan);
+
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas.Prgn;
+            }
+            return "";
+        }
+
+        public static string GetKodJenamaStesenMinyak(int kodJenama)
+        {
+
+            var data = DataAccessQuery<TbJenamaStesenMinyak>.Get(c => c.kodjenama == kodJenama);
+
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas.prgn;
+            }
+            return "";
+        }
+
     }
 }

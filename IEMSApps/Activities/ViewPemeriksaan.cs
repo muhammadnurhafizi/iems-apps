@@ -133,6 +133,14 @@ namespace IEMSApps.Activities
             txtKategoriKawasan.Text = MasterDataBll.GetKatKawasanName(data.KodKatKawasan);
             SetDisableEditText(txtKategoriKawasan);
 
+            var txtLokaliti = FindViewById<EditText>(Resource.Id.txtLokaliti);
+            txtLokaliti.Text = MasterDataBll.GetLokalitiNameByNoRujukan(data.NoRujukanKpp);
+            SetDisableEditText(txtLokaliti);
+
+            var txtAgensiSerahan = FindViewById<EditText>(Resource.Id.txtAgensiSerahan);
+            txtAgensiSerahan.Text = MasterDataBll.GetAgensiNameByNoRujukan(data.NoRujukanKpp);
+            SetDisableEditText(txtAgensiSerahan);
+
             var txtLokasi = FindViewById<EditText>(Resource.Id.txtLokasi);
             txtLokasi.Text = data.LokasiLawatan;
             SetDisableEditText(txtLokasi);
@@ -176,9 +184,17 @@ namespace IEMSApps.Activities
             txtKategoriPremis.Text = MasterDataBll.GetKatPremisName(data.KodKatPremis);
             SetDisableEditText(txtKategoriPremis);
 
+            var txtKategoriPerniagaan = FindViewById<EditText>(Resource.Id.txtKategoriPerniagaan);
+            txtKategoriPerniagaan.Text = MasterDataBll.GetKatPerniagaaanName(data.kodkatperniagaan);
+            SetDisableEditText(txtKategoriPerniagaan);
+
             var txtJenisPerniagaan = FindViewById<EditText>(Resource.Id.txtJenisPerniagaan);
             txtJenisPerniagaan.Text = MasterDataBll.GetJenisPerniagaanName(data.KodJenis);
             SetDisableEditText(txtJenisPerniagaan);
+
+            var txtJenamaStesenMinyak = FindViewById<EditText>(Resource.Id.txtJenamaStesenMinyak);
+            txtJenamaStesenMinyak.Text = MasterDataBll.GetKodJenamaStesenMinyak(data.kodjenama);
+            SetDisableEditText(txtJenamaStesenMinyak);
 
             var txtNamaPremis = FindViewById<EditText>(Resource.Id.txtNamaPremis);
             txtNamaPremis.Text = data.NamaPremis;
@@ -231,6 +247,17 @@ namespace IEMSApps.Activities
             txtNamaPenerima.Text = data.NamaPenerima;
             SetDisableEditText(txtNamaPenerima);
 
+            var txtKewarganegaraan = FindViewById<EditText>(Resource.Id.txtKewarganegaraan);
+            if (data.kewarganegaraan == 1)
+            {
+                txtKewarganegaraan.Text = "WARGANEGARA";
+            }
+            else
+            {
+                txtKewarganegaraan.Text = "BUKAN WARGANEGARA";
+            }
+            SetDisableEditText(txtKewarganegaraan);
+            
             var txtNoKpPenerima = FindViewById<EditText>(Resource.Id.txtNoKpPenerima);
             txtNoKpPenerima.Text = data.NoKpPenerima;
             SetDisableEditText(txtNoKpPenerima);
@@ -274,7 +301,12 @@ namespace IEMSApps.Activities
             //    rdSiasatanLanjut.Checked = true;
             //}
             var linearSiasatUlangan = FindViewById<LinearLayout>(Resource.Id.linearSiasatUlangan);
-            linearSiasatUlangan.Visibility = ViewStates.Invisible;
+            linearSiasatUlangan.Visibility = ViewStates.Gone;
+
+            var linearNotisSerahan = FindViewById<LinearLayout>(Resource.Id.linearNotisSerahan);
+            linearNotisSerahan.Visibility = ViewStates.Gone;
+            var chkNB = FindViewById<CheckBox>(Resource.Id.chkNB);
+            var chkNPMB = FindViewById<CheckBox>(Resource.Id.chkNPMB);
 
             var txtTindakan = FindViewById<EditText>(Resource.Id.txtTindakan);
             if (data.Tindakan == Constants.Tindakan.TiadaKes)
@@ -304,9 +336,31 @@ namespace IEMSApps.Activities
                 txtNoEP.SetFilters(new IInputFilter[] { new FilterChar() });
                 txtNoIP.SetFilters(new IInputFilter[] { new FilterChar() });
             }
+            else if (data.Tindakan == Constants.Tindakan.SerahanNotis)
+            {
+                txtTindakan.Text = Constants.TindakanName.SerahanNotis;
+                linearNotisSerahan.Visibility = ViewStates.Visible;
+                if (data.nb == Constants.NotisBertulis.Yes)
+                {
+                    chkNB.Checked = true;
+                } else
+                {
+                    chkNB.Checked = false;
+                }
+
+                if (data.npmb == Constants.NotisPengesahanMaklumatBarang.Yes)
+                {
+                    chkNPMB.Checked = true; 
+                } else 
+                {
+                    chkNPMB.Checked = false;
+                }
+
+                chkNB.Enabled = false;
+                chkNPMB.Enabled = false;
+            }
 
             SetDisableEditText(txtTindakan);
-
 
             var chkBayar = FindViewById<CheckBox>(Resource.Id.chkBayar);
             if (data.SetujuByr == Constants.SetujuBayar.Yes)

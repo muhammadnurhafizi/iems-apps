@@ -209,6 +209,31 @@
 			<EditText
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:id="@id/txtLokaliti"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="Lokaliti/ Kategori Khas"
+				android:lines="3"
+				android:maxLines="10"
+				android:gravity="top|left"
+				android:scrollbars="vertical"
+				android:inputType="textMultiLine"/>	
+		</android.support.design.widget.TextInputLayout>		
+	</LinearLayout>	
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
+		android:orientation="vertical">
+		<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabelRequired"
+			android:layout_alignParentLeft="true">
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
 				android:id="@+id/txtAsasTindakan"
 				android:background="@drawable/edittext_bg"
 				android:paddingLeft="5dp"
@@ -220,6 +245,32 @@
 				android:inputType="textMultiLine"/>	
 		</android.support.design.widget.TextInputLayout>		
 	</LinearLayout>	
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="2dp"
+		android:orientation="vertical">
+		<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabelRequired"
+			android:layout_alignParentLeft="true">
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:id="@+id/txtAgensiSerahan"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="Agensi Serahan"
+				android:lines="3"
+				android:maxLines="10"
+				android:gravity="top|left"
+				android:scrollbars="vertical"
+				android:inputType="textMultiLine"/>	
+		</android.support.design.widget.TextInputLayout>		
+	</LinearLayout>	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

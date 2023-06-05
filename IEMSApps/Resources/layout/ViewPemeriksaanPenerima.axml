@@ -41,6 +41,26 @@
 			<EditText
 				android:layout_width="match_parent"
 				android:layout_height="35dp"
+				android:id="@+id/txtKewarganegaraan"
+				android:background="@drawable/edittext_bg"
+				android:paddingLeft="5dp"
+				android:hint="Kewarganegaraan"
+				android:singleLine="true"/>	
+		</android.support.design.widget.TextInputLayout>
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingTop="3dp"
+		android:orientation="vertical">
+		<android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+			android:theme="@style/TextLabelRequired"
+			android:layout_alignParentLeft="true">	
+			<EditText
+				android:layout_width="match_parent"
+				android:layout_height="35dp"
 				android:id="@+id/txtNoKpPenerima"
 				android:background="@drawable/edittext_bg"
 				android:paddingLeft="5dp"
@@ -159,6 +179,7 @@
 				android:singleLine="true"/>	
 		</android.support.design.widget.TextInputLayout>		
 	</LinearLayout>	
+
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -179,7 +200,7 @@
 			android:id="@+id/chkAmaran"
 			android:background="@drawable/edittext_bg"/>	
 	</LinearLayout>
-	<LinearLayout
+		<LinearLayout
 		android:layout_width="0dp"
 			android:layout_height="wrap_content"
 			android:layout_weight="1">
@@ -195,7 +216,7 @@
 			android:background="@drawable/edittext_bg"/>	
 	</LinearLayout>
 
-		</LinearLayout>
+	</LinearLayout>
 	
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -241,5 +262,47 @@
 			</android.support.design.widget.TextInputLayout>
 		</LinearLayout>
 	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"	
+		android:id="@+id/linearNotisSerahan"
+		android:orientation="vertical"
+		android:weightSum="2">
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Notis Bertulis : "
+				android:textAppearance="?android:attr/textAppearanceSmall"/>
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkNB"
+				android:background="@drawable/edittext_bg"/>	
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Notis Pengesahan Maklumat Barang : "
+				android:textAppearance="?android:attr/textAppearanceSmall"/>
+			<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="30dp"
+				android:id="@+id/chkNPMB"
+				android:background="@drawable/edittext_bg"/>	
+		</LinearLayout>
+	</LinearLayout>
+
+
 
 </LinearLayout>

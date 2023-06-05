@@ -85,6 +85,10 @@ namespace IEMSApps.BLL
                     {
                         searchDto.Tindakan = Constants.TindakanName.SiasatUlangan;
                     }
+                    else if (tbKpp.Tindakan == Constants.Tindakan.SerahanNotis)
+                    {
+                        searchDto.Tindakan = Constants.TindakanName.SerahanNotis;
+                    }
                     result.Add(searchDto);
                 }
 

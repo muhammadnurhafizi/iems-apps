@@ -304,7 +304,7 @@ namespace IEMSApps.BLL
                    " trkhdaftar, pgnakhir, trkhakhir, ishh," +
                    " jenispesalah, kodakta, kodsalah, butirsalah, isarahansemasa, tempohtawaran, amnkmp," +
                    " noep, noip" +
-                   " lokalitikategorikhas, kodagensiterlibat, kodkatperniagaan, kodjenama, kewarganegaraan, nopassport, nb, nbmb )" +
+                   " kodkatperniagaan, kodjenama, kewarganegaraan, nb, nbmb )" +
                    " VALUES" +
                    $" ('{rujukan.NoRujukanKpp}', '{rujukan.IdHh}', '{rujukan.KodCawangan}', '{rujukan.KodTujuan}', '{rujukan.KodAsas}', " +
                    $" '{rujukan.KodJenis}', '{rujukan.CatatanLawatan.ReplaceSingleQuote()}', '{rujukan.KodKatKawasan}', '{rujukan.NoRujukanAtr.ReplaceSingleQuote()}', '{rujukan.NoSiriBorangKpp.ReplaceSingleQuote()}', " +
@@ -317,7 +317,7 @@ namespace IEMSApps.BLL
                    $"  UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), {rujukan.PgnAkhir}, UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), 2," +
                    $" '{rujukan.JenisPesalah}', '{rujukan.KodAkta}','{rujukan.KodSalah}', '{rujukan.ButirSalah.ReplaceSingleQuote()}', '{rujukan.IsArahanSemasa}', '{rujukan.TempohTawaran}', '{rujukan.AmnKmp}'," +
                    $" '{rujukan.NoEp}','{rujukan.NoIp}'" +
-                   $" '{rujukan.lokalitikategorikhas}', '{rujukan.kodagensiterlibat}', '{rujukan.kodkatperniagaan}', '{rujukan.kodjenama}', '{rujukan.kewarganegaraan}', '{rujukan.nopassport}', '{rujukan.nb}', '{rujukan.npmb}'); ";
+                   $" '{rujukan.kodkatperniagaan}', '{rujukan.kodjenama}', '{rujukan.kewarganegaraan}', '{rujukan.nb}', '{rujukan.npmb}'); ";
         }
 
         public static string GenerateSQLScriptForTablePasukan_Trans(TbPasukanTrans pasukanTrans, string query)
@@ -362,8 +362,7 @@ namespace IEMSApps.BLL
                    " alamatpenerima3, trkhpenerima, setujubyr, tahun, pgndaftar," +
                    " trkhdaftar, isupdate, " +
                    " jenispesalah, kodakta, kodsalah, butirsalah, isarahansemasa, tempohtawaran, amnkmp," +
-                   " noep, noip" +
-                   " lokalitikategorikhas, kodagensiterlibat, kodkatperniagaan, kodjenama, kewarganegaraan, nopassport, nb, nbmb )" +
+                   " noep, noip )" +
                    " VALUES" +
                    $" ('{rujukan.NoRujukanKpp}', '{rujukan.IdHh}', '{rujukan.KodCawangan}', '{rujukan.KodTujuan}', '{rujukan.KodAsas}', " +
                    $" '{rujukan.KodJenis}', '{rujukan.CatatanLawatan.ReplaceSingleQuote()}', '{rujukan.KodKatKawasan}', '{rujukan.NoRujukanAtr.ReplaceSingleQuote()}', '{rujukan.NoSiriBorangKpp.ReplaceSingleQuote()}', " +
@@ -375,8 +374,7 @@ namespace IEMSApps.BLL
                    $" '{rujukan.AlamatPenerima3.ReplaceSingleQuote()}', '{rujukan.TrkhPenerima}', '{rujukan.SetujuByr}', '{tahun}', '{rujukan.PgnDaftar}', " +
                    $"  UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), 0," +
                    $" '{rujukan.JenisPesalah}', '{rujukan.KodAkta}','{rujukan.KodSalah}', '{rujukan.ButirSalah.ReplaceSingleQuote()}', '{rujukan.IsArahanSemasa}', '{rujukan.TempohTawaran}', '{rujukan.AmnKmp}'," +
-                   $" '{rujukan.NoEp}','{rujukan.NoIp}'" +
-                   $" '{rujukan.lokalitikategorikhas}', '{rujukan.kodagensiterlibat}', '{rujukan.kodkatperniagaan}', '{rujukan.kodjenama}', '{rujukan.kewarganegaraan}', '{rujukan.nopassport}', '{rujukan.nb}', '{rujukan.npmb}' ); ";
+                   $" '{rujukan.NoEp}','{rujukan.NoIp}'";
         }
         #endregion
 

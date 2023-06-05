@@ -1349,14 +1349,14 @@ namespace IEMSApps.Fragments
                 relativeNoPassport.Visibility = ViewStates.Gone;
                 var selectedPosition = spKewarganegaraan.SelectedItemPosition + 1;
 
-                if (selectedPosition == Constants.Kewarganegaraan.BukanWarganegara)
-                {
-                    relativeNoPassport.Visibility = ViewStates.Visible;
-                }
-                else 
-                {
-                    relativeNoPassport.Visibility = ViewStates.Gone;
-                }
+                //if (selectedPosition == Constants.Kewarganegaraan.BukanWarganegara)
+                //{
+                //    relativeNoPassport.Visibility = ViewStates.Visible;
+                //}
+                //else 
+                //{
+                //    relativeNoPassport.Visibility = ViewStates.Gone;
+                //}
 
                 SetPrintButton();
             }
@@ -1725,7 +1725,7 @@ namespace IEMSApps.Fragments
                 data.kodkatperniagaan = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListKategoriPerniagaan, spKategoriPerniagaan.SelectedItem?.ToString() ?? null));
                 data.kodjenama = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListStesenMinyak, spJenamaStesenMinyak.SelectedItem?.ToString() ?? ""));
                 data.kewarganegaraan = GeneralBll.ConvertStringToInt(GeneralBll.GetKeySelected(ListWarganegara, spKewarganegaraan.SelectedItem?.ToString() ?? ""));
-                data.nopassport = txtNoPassport.Text;
+                //data.nopassport = txtNoPassport.Text;
                 data.nb = chkNB.Checked ? Constants.NotisBertulis.Yes : Constants.NotisBertulis.No;
                 data.npmb = chkNPMB.Checked ? Constants.NotisPengesahanMaklumatBarang.Yes : Constants.NotisPengesahanMaklumatBarang.No;
 
@@ -2778,9 +2778,14 @@ namespace IEMSApps.Fragments
             var result = new List<ConfirmDto>();
             result.Add(GeneralBll.CreateConfirmDto("Lawatan", "", true));
             result.Add(GeneralBll.CreateConfirmDto("Kategori Kawasan", spKategoryKawasan.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("Lokaliti/ Kategori Khas", txtLokaliti.Text));
             result.Add(GeneralBll.CreateConfirmDto("Lokasi", txtLokasi.Text));
             //result.Add(GeneralBll.CreateConfirmDto("Tujuan Lawatan", spTujuanLawatan.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("Asas Tindakan", txtAsasTindakan.Text));
+            if (txtAsasTindakan.Text.Contains("OPERASI BERSEPADU BERSAMA AGENSI"))
+            {
+                result.Add(GeneralBll.CreateConfirmDto("Agensi Serahan", txtAgensiSerahan.Text));
+            }
             result.Add(GeneralBll.CreateConfirmDto("No. Aduan", txtNoAduan.Text));
             result.Add(GeneralBll.CreateConfirmDto("No. Rujukan ATR", txtNoRujukanAtr.Text));
             result.Add(GeneralBll.CreateConfirmDto("Catatan Lawatan", txtCatatanLawatan.Text));
@@ -2788,9 +2793,13 @@ namespace IEMSApps.Fragments
 
             result.Add(GeneralBll.CreateConfirmDto("Premis", "", true));
             result.Add(GeneralBll.CreateConfirmDto("Kategori Premis", spKategoryPremis.SelectedItem?.ToString() ?? ""));
+            result.Add(GeneralBll.CreateConfirmDto("Kategori Perniagaan", spKategoriPerniagaan.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("Jenis Perniagaan", txtJenisNiaga.Text));
+            if(txtJenisNiaga.Text.Contains("STESEN MINYAK"))
+            {
+                result.Add(GeneralBll.CreateConfirmDto("Jenama Stesen Minyak", spJenamaStesenMinyak.SelectedItem?.ToString() ?? ""));
+            }
             result.Add(GeneralBll.CreateConfirmDto("Nama Premis", txtNamaPremis.Text));
-
             var alamat = GeneralBll.GettOneAlamat(txtAlamat1.Text, txtAlamat2.Text, txtAlamat3.Text);
             result.Add(GeneralBll.CreateConfirmDto("Alamat Premis", alamat));
 
@@ -2803,6 +2812,7 @@ namespace IEMSApps.Fragments
 
             result.Add(GeneralBll.CreateConfirmDto("Penerima", "", true));
             result.Add(GeneralBll.CreateConfirmDto("Nama", txtNamaPenerima.Text));
+            result.Add(GeneralBll.CreateConfirmDto("Kewarganegaraan", spKewarganegaraan.SelectedItem?.ToString() ?? ""));
             result.Add(GeneralBll.CreateConfirmDto("No. K/P", txtNoKpPenerima.Text));
             result.Add(GeneralBll.CreateConfirmDto("Jawatan", txtJawatanPenerima.Text));
 
@@ -2826,6 +2836,10 @@ namespace IEMSApps.Fragments
             else if (tindakan == Enums.Tindakan.SiasatUlangan)
             {
                 tindakanName = Constants.TindakanName.SiasatUlangan;
+            }
+            else if (tindakan == Enums.Tindakan.SerahanNotis)
+            {
+                tindakanName = Constants.TindakanName.SerahanNotis;
             }
 
             //if (rdTiadaKes.Checked) tindakan = "Tiada Kes";
@@ -2857,6 +2871,11 @@ namespace IEMSApps.Fragments
             {
                 result.Add(GeneralBll.CreateConfirmDto("No EP", txtNoEP.Text));
                 result.Add(GeneralBll.CreateConfirmDto("No IP", txtNoIP.Text));
+            }
+            else if (tindakan == Enums.Tindakan.SerahanNotis)
+            {
+                result.Add(GeneralBll.CreateConfirmDto("Notis Bertulis", chkNB.Checked ? "Ya" : "Tidak"));
+                result.Add(GeneralBll.CreateConfirmDto("Notis Pengesahan Maklumat Barang", chkNPMB.Checked ? "Ya" : "Tidak"));
             }
             return result;
         }
