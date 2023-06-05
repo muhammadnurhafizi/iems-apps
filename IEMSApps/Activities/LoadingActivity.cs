@@ -115,7 +115,7 @@ namespace IEMSApps.Activities
                 _progressBar1.Progress = 100;
                 UpdateCountAndPercentage(0, 0);
 
-                for (int i = 1; i <= 16; i++)
+                for (int i = 1; i <= 18; i++)
                 {
                     switch (i)
                     {
@@ -216,6 +216,13 @@ namespace IEMSApps.Activities
                         case 16:
                             totalData = InsertJenama(result);
                             break;
+                        case 17:
+                            totalData = InsertAgensiSerahan(result);
+                            break;
+                        case 18:
+                            totalData =  InsertJenamaStesenMinyak(result);
+                            break;
+
                     }
                     Thread.Sleep(500);
                 }
@@ -257,6 +264,58 @@ namespace IEMSApps.Activities
                     _alertDialog.Show()
                 );
             }
+        }
+
+        private int InsertJenamaStesenMinyak(Response<DownloadDataResponse> result)
+        {
+            int totalData;
+            //(Constants.Messages.HapusData + " Jenis Agensi Serahan Temp");
+            //DataAccessQuery<TbAgensiSerahan>.ExecuteSql("DELETE FROM tbagensiserahan");
+
+            UpdateInfo(Constants.Messages.InsertData + " Jenama Stesen Minyak");
+            totalData = result.Result.TbJenama_Stesen_Minyak.Count;
+            _progressBar1.Max = totalData;
+
+            foreach (var item in result.Result.TbJenama_Stesen_Minyak.Select((value, index) => new { index, value }))
+            {
+                UpdateCountAndPercentage(item.index, totalData);
+                DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql(item.value.Value);
+            }
+            UpdateCountAndPercentage(totalData, totalData);
+
+            //UpdateInfo(Constants.Messages.HapusData + " Jenis Jenama");
+            //DataAccessQuery<TbJenama>.ExecuteSql("DELETE FROM tbbarang_jenama WHERE KodJenama IN (SELECT KodJenama FROM tbbarang_jenamaTemp)");
+
+            //UpdateInfo(Constants.Messages.Move + " Kategori Perniagaan");
+            //DataAccessQuery<TbJenama>.ExecuteSql("INSERT INTO tbbarang_jenama(KodJenama, Prgn, PgnDaftar, TrkhDaftar) " +
+            //                                       "SELECT KodJenama, Prgn, PgnDaftar, TrkhDaftar FROM tbbarang_jenamaTemp  WHERE Status = 1");
+            return totalData;
+        }
+
+        private int InsertAgensiSerahan(Response<DownloadDataResponse> result)
+        {
+            int totalData;
+            //(Constants.Messages.HapusData + " Jenis Agensi Serahan Temp");
+            //DataAccessQuery<TbAgensiSerahan>.ExecuteSql("DELETE FROM tbagensiserahan");
+
+            UpdateInfo(Constants.Messages.InsertData + " Jenis Agensi Serahan");
+            totalData = result.Result.TbAgensiSerahan.Count;
+            _progressBar1.Max = totalData;
+
+            foreach (var item in result.Result.TbAgensiSerahan.Select((value, index) => new { index, value }))
+            {
+                UpdateCountAndPercentage(item.index, totalData);
+                DataAccessQuery<TbAgensiSerahan>.ExecuteSql(item.value.Value);
+            }
+            UpdateCountAndPercentage(totalData, totalData);
+
+            //UpdateInfo(Constants.Messages.HapusData + " Jenis Jenama");
+            //DataAccessQuery<TbJenama>.ExecuteSql("DELETE FROM tbbarang_jenama WHERE KodJenama IN (SELECT KodJenama FROM tbbarang_jenamaTemp)");
+
+            //UpdateInfo(Constants.Messages.Move + " Kategori Perniagaan");
+            //DataAccessQuery<TbJenama>.ExecuteSql("INSERT INTO tbbarang_jenama(KodJenama, Prgn, PgnDaftar, TrkhDaftar) " +
+            //                                       "SELECT KodJenama, Prgn, PgnDaftar, TrkhDaftar FROM tbbarang_jenamaTemp  WHERE Status = 1");
+            return totalData;
         }
 
         private int InsertJenama(Response<DownloadDataResponse> result)
