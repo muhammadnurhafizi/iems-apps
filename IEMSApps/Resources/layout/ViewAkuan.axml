@@ -19,7 +19,7 @@
 			android:layout_height="wrap_content"
 			android:gravity="center_vertical">
 			<TextView
-				android:text="LIHAT AKUAN"
+				android:text="LIHAT AKUAN PENERIMAAN KOMPAUN"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

@@ -19,7 +19,7 @@
 			android:background="#ffff00"
 			android:gravity="center_vertical">
 			<TextView
-				android:text="LIHAT KOMPAUN"
+				android:text="LIHAT TAWARAN KOMPAUN"
 				android:textAppearance="?android:attr/textAppearanceMedium"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
