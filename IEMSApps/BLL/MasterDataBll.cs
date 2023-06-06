@@ -576,7 +576,7 @@ namespace IEMSApps.BLL
             var listData = DataAccessQuery<TbAgensiSerahan>.GetAll();
             if (listData.Success)
             {
-                var list = listData.Datas.OrderBy(m => m.prgn).Where(m => m.Status == "1");
+                var list = listData.Datas.OrderBy(m => m.prgn);
                 foreach (var tbagensiserahan in list)
                 {
                     var data = new AgensiSerahanDto

@@ -223,7 +223,7 @@ namespace IEMSApps.Fragments
                     ShowLoadingWhenInsertData(true);
                     var totalData = 0;
                     var totalSaved = 0;
-                    for (int i = 1; i <= 15; i++)
+                    for (int i = 1; i <= 16; i++)
                     {
                         totalSaved = 0;
                         switch (i)
@@ -601,7 +601,54 @@ namespace IEMSApps.Fragments
 
                                 break;
                             case 15:
+                                if (!result.Result.TbAgensiSerahan.Any()) continue;
 
+                                DataAccessQuery<TbAgensiSerahan>.DeleteAll();
+                                UpdateInfo(Constants.Messages.InsertData + " Agensi Terlibat");
+
+                                totalData = result.Result.TbAgensiSerahan.Count;
+                                _progressBar1.Max = totalData;
+
+                                foreach (var item in result.Result.TbAgensiSerahan.Select((value, index) => new { index, value }))
+                                {
+                                    UpdateCountAndPercentage(item.index, totalData);
+                                    totalSaved += DataAccessQuery<TbAgensiSerahan>.ExecuteSql(item.value.Value);
+                                }
+                                UpdateCountAndPercentage(totalData, totalData);
+                                Activity.RunOnUiThread(() =>
+                                {
+                                    currentDatas.Where(m => m.TableName == "tbagensiserahan").ToList().ForEach(m =>
+                                    {
+                                        m.TotalApp = totalSaved;
+
+                                    });
+                                    AdapterIsChange();
+                                });
+                                break;
+                            case 16:
+                                if (!result.Result.TbJenama_Stesen_Minyak.Any()) continue;
+
+                                DataAccessQuery<TbJenamaStesenMinyak>.DeleteAll();
+                                UpdateInfo(Constants.Messages.InsertData + " Jenama Stesen Minyak");
+
+                                totalData = result.Result.TbJenama_Stesen_Minyak.Count;
+                                _progressBar1.Max = totalData;
+
+                                foreach (var item in result.Result.TbJenama_Stesen_Minyak.Select((value, index) => new { index, value }))
+                                {
+                                    UpdateCountAndPercentage(item.index, totalData);
+                                    totalSaved += DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql(item.value.Value);
+                                }
+                                UpdateCountAndPercentage(totalData, totalData);
+                                Activity.RunOnUiThread(() =>
+                                {
+                                    currentDatas.Where(m => m.TableName == "tbjenama_stesen_minyak").ToList().ForEach(m =>
+                                    {
+                                        m.TotalApp = totalSaved;
+
+                                    });
+                                    AdapterIsChange();
+                                });
                                 break;
                         }
                         Thread.Sleep(500);

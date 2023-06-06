@@ -120,19 +120,6 @@ namespace IEMSApps.Activities
                     switch (i)
                     {
                         case 1:
-                            //DataAccessQuery<TbPasukanHh>.DeleteAll();
-                            //UpdateInfo(Constants.Messages.InsertData + " Pasukan");
-
-                            //totalData = result.Result.Tbpasukan_hh.Count;
-                            //_progressBar1.Max = totalData;
-
-                            //foreach (var item in result.Result.Tbpasukan_hh.Select((value, index) => new { index, value }))
-                            //{
-                            //    UpdateCountAndPercentage(item.index, totalData);
-                            //    DataAccessQuery<TbPasukanHh>.ExecuteSql(item.value.Value);
-                            //}
-
-                            //UpdateCountAndPercentage(totalData, totalData
                             deleteTbGpsLogs();
                             break;
                         case 2:
@@ -156,18 +143,7 @@ namespace IEMSApps.Activities
                             InsertCawangan(result.Result.TbcawanganTemp);
                             break;
                         case 4:
-                            //DataAccessQuery<TbPengguna>.DeleteAll();
-                            //UpdateInfo(Constants.Messages.InsertData + " Pengguna");
-
-                            //totalData = result.Result.Tbpengguna.Count;
-                            //_progressBar1.Max = totalData;
-
-                            //foreach (var item in result.Result.Tbpengguna.Select((value, index) => new { index, value }))
-                            //{
-                            //    UpdateCountAndPercentage(item.index, totalData);
-                            //    DataAccessQuery<TbPengguna>.ExecuteSql(item.value.Value);
-                            //}
-                            //UpdateCountAndPercentage(totalData, totalData);
+                            
                             break;
                         case 5:
                             totalData = InsertTujuanLawatan(result);
