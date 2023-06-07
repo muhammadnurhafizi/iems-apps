@@ -137,8 +137,19 @@ namespace IEMSApps.Activities
             txtLokaliti.Text = MasterDataBll.GetLokalitiNameByNoRujukan(data.NoRujukanKpp);
             SetDisableEditText(txtLokaliti);
 
+            var linearAgensiSerahan = FindViewById<LinearLayout>(Resource.Id.linearAgensiSerahan);
             var txtAgensiSerahan = FindViewById<EditText>(Resource.Id.txtAgensiSerahan);
-            txtAgensiSerahan.Text = MasterDataBll.GetAgensiNameByNoRujukan(data.NoRujukanKpp);
+            var Agensi = MasterDataBll.GetAgensiNameByNoRujukan(data.NoRujukanKpp);
+            if (string.IsNullOrEmpty(Agensi))
+            {
+                linearAgensiSerahan.Visibility = ViewStates.Gone;
+                txtAgensiSerahan.Text = Agensi;
+            }
+            else
+            {
+                linearAgensiSerahan.Visibility = ViewStates.Visible;
+                txtAgensiSerahan.Text = Agensi;
+            }
             SetDisableEditText(txtAgensiSerahan);
 
             var txtLokasi = FindViewById<EditText>(Resource.Id.txtLokasi);
@@ -192,8 +203,18 @@ namespace IEMSApps.Activities
             txtJenisPerniagaan.Text = MasterDataBll.GetJenisPerniagaanName(data.KodJenis);
             SetDisableEditText(txtJenisPerniagaan);
 
+            var linearJenamaStesen = FindViewById<LinearLayout>(Resource.Id.linearJenamaStesen);
             var txtJenamaStesenMinyak = FindViewById<EditText>(Resource.Id.txtJenamaStesenMinyak);
-            txtJenamaStesenMinyak.Text = MasterDataBll.GetKodJenamaStesenMinyak(data.kodjenama);
+            var jenamaStesenMinyak = MasterDataBll.GetKodJenamaStesenMinyak(data.kodjenama);
+            if (string.IsNullOrEmpty(jenamaStesenMinyak))
+            {
+                linearJenamaStesen.Visibility = ViewStates.Gone;
+                txtJenamaStesenMinyak.Text = jenamaStesenMinyak;
+            } else
+            {
+                linearJenamaStesen.Visibility = ViewStates.Gone;
+                txtJenamaStesenMinyak.Text = jenamaStesenMinyak;
+            }
             SetDisableEditText(txtJenamaStesenMinyak);
 
             var txtNamaPremis = FindViewById<EditText>(Resource.Id.txtNamaPremis);
@@ -265,7 +286,6 @@ namespace IEMSApps.Activities
             var txtJawatanPenerima = FindViewById<EditText>(Resource.Id.txtJawatanPenerima);
             txtJawatanPenerima.Text = data.Jawatanpenerima;
             SetDisableEditText(txtJawatanPenerima);
-
 
             var txtAlamatPenerima1 = FindViewById<EditText>(Resource.Id.txtAlamatPenerima1);
             txtAlamatPenerima1.Text = data.AlamatPenerima1;
@@ -691,7 +711,11 @@ namespace IEMSApps.Activities
                         _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
 
                         if (_printer == null)
+                        {
+                            GeneralAndroidClass.ShowToast("Tiada Sambungan Printer Bixolon");
+                            Log.WriteLogFile("lvResult_ItemClick", "Printer Bixolon : " + _printer, Enums.LogType.Error);
                             return;
+                        }    
 
                         await _printSemaphore.WaitAsync();
 
@@ -848,7 +872,7 @@ namespace IEMSApps.Activities
         private async Task OnPrinting()
         {
             Log.WriteLogFile("Printer Firmware : " + GlobalClass.FwCode);
-#if DEBUG
+#if !DEBUG
             //await ShowMessageNew(true, "Loading...");
             //Thread.Sleep(1000);
             //await ShowMessageNew(true, "Message 1");

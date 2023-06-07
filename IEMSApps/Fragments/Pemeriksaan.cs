@@ -1056,6 +1056,7 @@ namespace IEMSApps.Fragments
             }
             else
             {
+                spJenamaStesenMinyak.SetSelection(0);
                 linearJenamaStesen.Visibility = ViewStates.Gone;
             }
         }
@@ -1333,13 +1334,13 @@ namespace IEMSApps.Fragments
             ListStesenMinyak = MasterDataBll.GetJenamaStesenMinyak();
             spJenamaStesenMinyak.Adapter = new ArrayAdapter<string>(this.Activity,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListStesenMinyak.Select(c => c.Value).ToList());
+            spJenamaStesenMinyak.ItemSelected += Event_CheckMandatory_Dropdown;
 
             ListWarganegara = PemeriksaanBll.GetKewarganegaraan();
             spKewarganegaraan.Adapter = new ArrayAdapter<string>(this.Activity,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListWarganegara.Select(c => c.Value).ToList());
 
             spKewarganegaraan.ItemSelected += spKewarganegaraan_ItemSelected;
-
         }
 
         private void spKewarganegaraan_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
@@ -1349,14 +1350,14 @@ namespace IEMSApps.Fragments
                 relativeNoPassport.Visibility = ViewStates.Gone;
                 var selectedPosition = spKewarganegaraan.SelectedItemPosition + 1;
 
-                //if (selectedPosition == Constants.Kewarganegaraan.BukanWarganegara)
-                //{
-                //    relativeNoPassport.Visibility = ViewStates.Visible;
-                //}
-                //else 
-                //{
-                //    relativeNoPassport.Visibility = ViewStates.Gone;
-                //}
+                if (selectedPosition == Constants.Kewarganegaraan.BukanWarganegara)
+                {
+                    btnSearchJpn.Visibility = ViewStates.Invisible;
+                }
+                else
+                {
+                    btnSearchJpn.Visibility = ViewStates.Visible;
+                }
 
                 SetPrintButton();
             }
@@ -2669,12 +2670,20 @@ namespace IEMSApps.Fragments
             if (string.IsNullOrEmpty(txtLokasi.Text)) return false;
             //var tujuanLawatan = spTujuanLawatan?.SelectedItem.ToString();
             //if (string.IsNullOrEmpty(tujuanLawatan)) return false;
-            if (_kodAsasSelected == null || _kodAsasSelected.Count == 0) return false;
-
+            if (_kodAsasSelected == null || _kodAsasSelected.Count == 0) 
+            {
+                if (_agensiSerahanSelected == null)
+                {
+                    return false;
+                }
+            } 
+            else
+            { return false;}
             if (string.IsNullOrEmpty(txtHasilLawatan.Text)) return false;
             if (string.IsNullOrEmpty(spKategoryPremis.SelectedItem.ToString())) return false;
             //if (_jenisNiaga == 0) return false;
-            if (string.IsNullOrEmpty(txtJenisNiaga.Text)) return false;
+            if (string.IsNullOrEmpty(txtJenisNiaga.Text)){ return false; }
+            if (string.IsNullOrEmpty(spJenamaStesenMinyak.SelectedItem.ToString()) && txtJenisNiaga.Text.Contains("STESEN MINYAK")){return false;} 
             if (string.IsNullOrEmpty(txtNamaPremis.Text)) return false;
             if (string.IsNullOrEmpty(txtAlamat1.Text)) return false;
             if (string.IsNullOrEmpty(txtNamaPenerima.Text)) return false;
@@ -2691,7 +2700,7 @@ namespace IEMSApps.Fragments
 
             var countPhoto = GeneralBll.GetCountPhotoByRujukan(lblNoKpp.Text);
 
-            if (tindakan != Enums.Tindakan.TiadaKes)
+            if (tindakan != Enums.Tindakan.TiadaKes || tindakan != Enums.Tindakan.SerahanNotis)
             {
                 if (countPhoto < Constants.MinPhoto)
                     return false;

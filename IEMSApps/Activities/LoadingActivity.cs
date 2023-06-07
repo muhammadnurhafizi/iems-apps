@@ -143,7 +143,7 @@ namespace IEMSApps.Activities
                             InsertCawangan(result.Result.TbcawanganTemp);
                             break;
                         case 4:
-                            
+                            totalData = InsertLokaliti(result);
                             break;
                         case 5:
                             totalData = InsertTujuanLawatan(result);
@@ -447,6 +447,32 @@ namespace IEMSApps.Activities
             UpdateInfo(Constants.Messages.Move + " Negeri");
             DataAccessQuery<TbNegeri>.ExecuteSql("INSERT INTO tbnegeri(KodNegeri, Prgn, PgnDaftar, TrkhDaftar) " +
                                                    "SELECT KodNegeri, Prgn, PgnDaftar, TrkhDaftar FROM tbnegeriTemp  WHERE Status = 1");
+            return totalData;
+        }
+
+        private int InsertLokaliti(Response<DownloadDataResponse> result)
+        {
+            int totalData;
+            UpdateInfo(Constants.Messages.HapusData + " Lokaliti/ Kategori Khas");
+            DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql("DELETE FROM TbLokalitiKategoriKhas");
+
+            UpdateInfo(Constants.Messages.InsertData + " Lokaliti/ Kategori Khas");
+            totalData = result.Result.TbLokaliti_Kategori_Khas.Count;
+            _progressBar1.Max = totalData;
+
+            foreach (var item in result.Result.TbLokaliti_Kategori_Khas.Select((value, index) => new { index, value }))
+            {
+                UpdateCountAndPercentage(item.index, totalData);
+                DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql(item.value.Value);
+            }
+            UpdateCountAndPercentage(totalData, totalData);
+
+            //UpdateInfo(Constants.Messages.HapusData + " Negeri");
+           // DataAccessQuery<TbNegeri>.ExecuteSql("DELETE FROM tbnegeri WHERE KodNegeri IN (SELECT KodNegeri FROM tbnegeriTemp)");
+
+            //UpdateInfo(Constants.Messages.Move + " Negeri");
+            //DataAccessQuery<TbNegeri>.ExecuteSql("INSERT INTO tbnegeri(KodNegeri, Prgn, PgnDaftar, TrkhDaftar) " +
+            //                                       "SELECT KodNegeri, Prgn, PgnDaftar, TrkhDaftar FROM tbnegeriTemp  WHERE Status = 1");
             return totalData;
         }
 

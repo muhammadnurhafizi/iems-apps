@@ -657,6 +657,8 @@ namespace IEMSApps.BLL
                     item.TotalApp = DataAccessQuery<TbAgensiSerahan>.Count();
                 if (item.TableName == "tbjenama_stesen_minyak")
                     item.TotalApp = DataAccessQuery<TbJenamaStesenMinyak>.Count();
+                if (item.TableName == "tblokaliti_kategori_khas")
+                    item.TotalApp = DataAccessQuery<TbLokalitiKategoriKhas>.Count();
             }
 
             return datas;

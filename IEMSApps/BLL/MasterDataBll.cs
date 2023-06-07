@@ -615,16 +615,38 @@ namespace IEMSApps.BLL
         public static string GetLokalitiNameByNoRujukan(string norujukankpp)
         {
 
-            var data = DataAccessQuery<TbKppLokalitiKategoriKhas>.Get(c => c.norujukankpp == norujukankpp);
+            var listData = DataAccessQuery<TbKppLokalitiKategoriKhas>.GetAll();
+            if (listData.Success)
+            {
+                var listPrgn = new List<string>();
+                var data = listData.Datas.Where(c => c.norujukankpp == norujukankpp).ToList();
+
+                foreach (var tbKppLokaliti in data)
+                {
+                    var lokaliti = GetLokalitiNameById(tbKppLokaliti.tblokaliti_kategori_khas_id);
+                    if (!string.IsNullOrEmpty(lokaliti))
+                    {
+                        listPrgn.Add(lokaliti);
+                    }
+                }
+                if (listPrgn.Count > 0)
+                {
+                    return string.Join(", ", listPrgn);
+                }
+
+            }
+
+            return "";
+        }
+
+        public static string GetLokalitiNameById(int idLokaliti)
+        {
+
+            var data = DataAccessQuery<TbLokalitiKategoriKhas>.Get(c => c.id == idLokaliti);
 
             if (data.Success && data.Datas != null)
             {
-                var dataLokaliti = DataAccessQuery<TbLokalitiKategoriKhas>.Get(c => c.id == data.Datas.id);
-                if (dataLokaliti.Success && dataLokaliti.Datas != null)
-                {
-                    return dataLokaliti.Datas.prgn;
-                }
-                return "";
+                return data.Datas.prgn;
             }
 
             return "";
@@ -633,11 +655,38 @@ namespace IEMSApps.BLL
         public static string GetAgensiNameByNoRujukan(string norujukankpp)
         {
 
-            var data = DataAccessQuery<TbKppAgensiTerlibat>.Get(c => c.norujukankpp == norujukankpp);
+            var listData = DataAccessQuery<TbKppAgensiTerlibat>.GetAll();
+            if (listData.Success)
+            {
+                var listPrgn = new List<string>();
+                var data = listData.Datas.Where(c => c.norujukankpp == norujukankpp).ToList();
+
+                foreach (var tbKppAgensi in data)
+                {
+                    var lokaliti = GetAgensiNameByKodSerahAgensi(tbKppAgensi.kodserahagensi);
+                    if (!string.IsNullOrEmpty(lokaliti))
+                    {
+                        listPrgn.Add(lokaliti);
+                    }
+                }
+                if (listPrgn.Count > 0)
+                {
+                    return string.Join(", ", listPrgn);
+                }
+
+            }
+
+            return "";
+        }
+
+        public static string GetAgensiNameByKodSerahAgensi(string kodserahagensi)
+        {
+
+            var data = DataAccessQuery<TbAgensiSerahan>.Get(c => c.kodserahagensi == kodserahagensi);
 
             if (data.Success && data.Datas != null)
             {
-                return data.Datas.kodserahagensi;
+                return data.Datas.prgn;
             }
 
             return "";

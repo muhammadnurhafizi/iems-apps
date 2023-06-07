@@ -63,8 +63,6 @@ namespace IEMSApps.BLL
             CreateTbKppLokalitiKategoriKhas();
             CreateTbAgensiSerahan();
             CreateTbKppAgensiSerahan();
-
-
             CreateTbJenamaStesenMinyak();
             return true;
 
@@ -172,14 +170,15 @@ namespace IEMSApps.BLL
             CreateTbError();
 
             //new add CR
-            AlterKodKatPerniagaanOnTbKpp();
-            CreateTbLokalitiKategoriKhas();
-            CreateTbKppLokalitiKategoriKhas();
-            CreateTbAgensiSerahan();
-            CreateTbKppAgensiSerahan();
-
-
-            CreateTbJenamaStesenMinyak();
+            if (AlterKodKatPerniagaanOnTbKpp()) 
+            {
+                CreateTbLokalitiKategoriKhas();
+                CreateTbKppLokalitiKategoriKhas();
+                CreateTbAgensiSerahan();
+                CreateTbKppAgensiSerahan();
+                CreateTbJenamaStesenMinyak();
+            } 
+            
             return true;
 
             //if (!CreateTbKompaunIzin()) return false;

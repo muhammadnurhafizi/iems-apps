@@ -223,7 +223,7 @@ namespace IEMSApps.Fragments
                     ShowLoadingWhenInsertData(true);
                     var totalData = 0;
                     var totalSaved = 0;
-                    for (int i = 1; i <= 16; i++)
+                    for (int i = 1; i <= 17; i++)
                     {
                         totalSaved = 0;
                         switch (i)
@@ -643,6 +643,31 @@ namespace IEMSApps.Fragments
                                 Activity.RunOnUiThread(() =>
                                 {
                                     currentDatas.Where(m => m.TableName == "tbjenama_stesen_minyak").ToList().ForEach(m =>
+                                    {
+                                        m.TotalApp = totalSaved;
+
+                                    });
+                                    AdapterIsChange();
+                                });
+                                break;
+                            case 17:
+                                if (!result.Result.TbLokaliti_Kategori_Khas.Any()) continue;
+
+                                DataAccessQuery<TbLokalitiKategoriKhas>.DeleteAll();
+                                UpdateInfo(Constants.Messages.InsertData + " Lokaliti");
+
+                                totalData = result.Result.TbLokaliti_Kategori_Khas.Count;
+                                _progressBar1.Max = totalData;
+
+                                foreach (var item in result.Result.TbLokaliti_Kategori_Khas.Select((value, index) => new { index, value }))
+                                {
+                                    UpdateCountAndPercentage(item.index, totalData);
+                                    totalSaved += DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql(item.value.Value);
+                                }
+                                UpdateCountAndPercentage(totalData, totalData);
+                                Activity.RunOnUiThread(() =>
+                                {
+                                    currentDatas.Where(m => m.TableName == "tblokaliti_kategori_khas").ToList().ForEach(m =>
                                     {
                                         m.TotalApp = totalSaved;
 
