@@ -303,8 +303,8 @@ namespace IEMSApps.BLL
                    " alamatpenerima3, trkhpenerima, setujubyr, status, pgndaftar," +
                    " trkhdaftar, pgnakhir, trkhakhir, ishh," +
                    " jenispesalah, kodakta, kodsalah, butirsalah, isarahansemasa, tempohtawaran, amnkmp," +
-                   " noep, noip" +
-                   " kodkatperniagaan, kodjenama, kewarganegaraan, nb, nbmb )" +
+                   " noep, noip," +
+                   " kodkatperniagaan, kodjenama, kewarganegaraan, nb, npmb )" +
                    " VALUES" +
                    $" ('{rujukan.NoRujukanKpp}', '{rujukan.IdHh}', '{rujukan.KodCawangan}', '{rujukan.KodTujuan}', '{rujukan.KodAsas}', " +
                    $" '{rujukan.KodJenis}', '{rujukan.CatatanLawatan.ReplaceSingleQuote()}', '{rujukan.KodKatKawasan}', '{rujukan.NoRujukanAtr.ReplaceSingleQuote()}', '{rujukan.NoSiriBorangKpp.ReplaceSingleQuote()}', " +
@@ -316,7 +316,7 @@ namespace IEMSApps.BLL
                    $" '{rujukan.AlamatPenerima3.ReplaceSingleQuote()}', '{rujukan.TrkhPenerima}', '{rujukan.SetujuByr}', '{rujukan.Status}', '{rujukan.PgnDaftar}', " +
                    $"  UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), {rujukan.PgnAkhir}, UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), 2," +
                    $" '{rujukan.JenisPesalah}', '{rujukan.KodAkta}','{rujukan.KodSalah}', '{rujukan.ButirSalah.ReplaceSingleQuote()}', '{rujukan.IsArahanSemasa}', '{rujukan.TempohTawaran}', '{rujukan.AmnKmp}'," +
-                   $" '{rujukan.NoEp}','{rujukan.NoIp}'" +
+                   $" '{rujukan.NoEp}','{rujukan.NoIp}'," +
                    $" '{rujukan.kodkatperniagaan}', '{rujukan.kodjenama}', '{rujukan.kewarganegaraan}', '{rujukan.nb}', '{rujukan.npmb}'); ";
         }
 
@@ -362,7 +362,7 @@ namespace IEMSApps.BLL
                    " alamatpenerima3, trkhpenerima, setujubyr, tahun, pgndaftar," +
                    " trkhdaftar, isupdate, " +
                    " jenispesalah, kodakta, kodsalah, butirsalah, isarahansemasa, tempohtawaran, amnkmp," +
-                   " noep, noip )" +
+                   " noep, noip)" +
                    " VALUES" +
                    $" ('{rujukan.NoRujukanKpp}', '{rujukan.IdHh}', '{rujukan.KodCawangan}', '{rujukan.KodTujuan}', '{rujukan.KodAsas}', " +
                    $" '{rujukan.KodJenis}', '{rujukan.CatatanLawatan.ReplaceSingleQuote()}', '{rujukan.KodKatKawasan}', '{rujukan.NoRujukanAtr.ReplaceSingleQuote()}', '{rujukan.NoSiriBorangKpp.ReplaceSingleQuote()}', " +
@@ -374,7 +374,7 @@ namespace IEMSApps.BLL
                    $" '{rujukan.AlamatPenerima3.ReplaceSingleQuote()}', '{rujukan.TrkhPenerima}', '{rujukan.SetujuByr}', '{tahun}', '{rujukan.PgnDaftar}', " +
                    $"  UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}'), 0," +
                    $" '{rujukan.JenisPesalah}', '{rujukan.KodAkta}','{rujukan.KodSalah}', '{rujukan.ButirSalah.ReplaceSingleQuote()}', '{rujukan.IsArahanSemasa}', '{rujukan.TempohTawaran}', '{rujukan.AmnKmp}'," +
-                   $" '{rujukan.NoEp}','{rujukan.NoIp}'";
+                   $" '{rujukan.NoEp}','{rujukan.NoIp}');";
         }
         #endregion
 
@@ -841,6 +841,16 @@ namespace IEMSApps.BLL
                 var responseAsasTindakan = await SendKppAsasTindakan(noRujukan, context, saveScriptToFile);
                 if (!responseAsasTindakan.Success)
                     response.Success = false;
+
+                //send Lokaliti/ Kategori Khas
+                var responseLokaliti = await SendKppLokalitiKategoriLokasi(noRujukan, context, saveScriptToFile);
+                if (!responseLokaliti.Success)
+                    response.Success = false;
+
+                //send Lokaliti/ Kategori Khas
+                var responseAgensiTerlibat = await SendKppAgensiTerlibat(noRujukan, context, saveScriptToFile);
+                if (!responseAgensiTerlibat.Success)
+                    response.Success = false;
             }
 
             return response;
@@ -875,6 +885,42 @@ namespace IEMSApps.BLL
             // $"FROM dual " +
             // $"WHERE NOT EXISTS (SELECT concat(norujukankpp, kodtujuan, kodasas) FROM tbkpp_asastindakan " +
             // $"WHERE concat(norujukankpp, kodtujuan, kodasas) = '{tindakan.NoRujukanKpp}{tindakan.KodTujuan}{tindakan.KodAsas}') LIMIT 1; ";
+
+        }
+
+        public static string GenerateScriptLokalitiKategoriKhas(TbKppLokalitiKategoriKhas tindakan, string query)
+        {
+
+            if (string.IsNullOrEmpty(query))
+            {
+                query = " INSERT INTO tbkpp_lokaliti_kategori_khas " +
+                        " (norujukankpp, tblokaliti_kategori_khas_id, pgndaftar, trkhdaftar, pgnakhir, trkhakhir) " +
+                        " VALUES " +
+                        $" ('{tindakan.norujukankpp}', '{tindakan.tblokaliti_kategori_khas_id}', '{tindakan.PgnDaftar}', UNIX_TIMESTAMP('{tindakan.TrkhDaftar}'), '{tindakan.PgnAkhir}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}')),";
+            }
+            else
+            {
+                query += $" ('{tindakan.norujukankpp}', '{tindakan.tblokaliti_kategori_khas_id}', '{tindakan.PgnDaftar}', UNIX_TIMESTAMP('{tindakan.TrkhDaftar}'), '{tindakan.PgnAkhir}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}')),";
+            }
+            return query;
+
+        }
+
+        public static string GenerateScriptAgensiTerlibat(TbKppAgensiTerlibat tindakan, string query)
+        {
+
+            if (string.IsNullOrEmpty(query))
+            {
+                query = " INSERT INTO tbkpp_agensi_terlibat " +
+                        " (norujukankpp, kodserahagensi, pgndaftar, trkhdaftar, pgnakhir, trkhakhir) " +
+                        " VALUES " +
+                        $" ('{tindakan.norujukankpp}', '{tindakan.kodserahagensi}', '{tindakan.PgnDaftar}', UNIX_TIMESTAMP('{tindakan.TrkhDaftar}'), '{tindakan.PgnAkhir}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}')),";
+            }
+            else
+            {
+                query += $" ('{tindakan.norujukankpp}', '{tindakan.kodserahagensi}', '{tindakan.PgnDaftar}', UNIX_TIMESTAMP('{tindakan.TrkhDaftar}'), '{tindakan.PgnAkhir}', UNIX_TIMESTAMP('{GeneralBll.GetLocalDateTimeForDatabase()}')),";
+            }
+            return query;
 
         }
 
@@ -930,6 +976,128 @@ namespace IEMSApps.BLL
                         {
                             response.Success = false;
                             response.Mesage = "Asas Tindakan Tidak Dihantar";
+                            return response;
+                        }
+                    }
+                }
+            }
+
+            return new Response<string>();
+        }
+
+        public static async Task<Response<string>> SendKppLokalitiKategoriLokasi(string noRujukan, Android.Content.Context context, bool saveScriptToFile = false)
+        {
+            var allAsasTindakanSend = true;
+            var asasTindakan = DataAccessQuery<TbKppLokalitiKategoriKhas>.GetAll(m => m.norujukankpp == noRujukan && m.IsSendOnline != Enums.StatusOnline.Sent);
+            foreach (var item in asasTindakan.Datas)
+            {
+                //Check data to server
+                var query = $"select count(*) as count from tbkpp_lokaliti_kategori_khas where norujukankpp='{item.norujukankpp}'";
+                var responseCheckData = await HttpClientService.CountAync(query);
+                Log.WriteLogFile($"Check data KPP Lokaliti/ Kategori Khas, No Rujukan {item.norujukankpp}... , {responseCheckData.Success} - {responseCheckData.Result?.Count}");
+
+                if (responseCheckData.Success && responseCheckData.Result?.Count > 0)
+                {
+                    DataAccessQuery<TbKppLokalitiKategoriKhas>.ExecuteSql($"UPDATE tbkpp_lokaliti_kategori_khas SET IsSendOnline = '{(int)Enums.StatusOnline.Sent}' " +
+                                              $"WHERE norujukankpp = '{item.norujukankpp}' AND IsSendOnline <> '{(int)Enums.StatusOnline.Sent}'");
+                }
+            }
+
+            asasTindakan = DataAccessQuery<TbKppLokalitiKategoriKhas>.GetAll(m => m.norujukankpp == noRujukan && m.IsSendOnline != Enums.StatusOnline.Sent);
+            if (asasTindakan.Success)
+            {
+                var query = "";
+                var tbKppAsasTindakanAfterSplit = asasTindakan.Datas.Split();
+                foreach (var asasTindakans in tbKppAsasTindakanAfterSplit)
+                {
+                    query = string.Empty;
+                    foreach (var item in asasTindakans)
+                    {
+                        query = SendOnlineBll.GenerateScriptLokalitiKategoriKhas(item, query);
+                    }
+                    if (!string.IsNullOrEmpty(query))
+                    {
+                        if (query.EndsWith(","))
+                            query = query.Remove(query.Length - 1) + ";";
+
+                        var response = await HttpClientService.ExecuteQuery(query, context);
+                        var statusOnline = response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error;
+                        foreach (var item in asasTindakans)
+                        {
+                            DataAccessQuery<TbKppLokalitiKategoriKhas>.ExecuteSql($"UPDATE tbkpp_lokaliti_kategori_khas SET IsSendOnline = '{(int)statusOnline}' " +
+                                                                          $"WHERE norujukankpp = '{item.norujukankpp}' AND tblokaliti_kategori_khas_id = '{item.tblokaliti_kategori_khas_id}' AND IsSendOnline <> '{(int)Enums.StatusOnline.Sent}'");
+                        }
+
+                        if (!response.Success)
+                        {
+                            allAsasTindakanSend = false;
+                        }
+                        if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(query);
+                        if (!allAsasTindakanSend)
+                        {
+                            response.Success = false;
+                            response.Mesage = "Lokaliti Agensi Khas Tidak Dihantar";
+                            return response;
+                        }
+                    }
+                }
+            }
+
+            return new Response<string>();
+        }
+
+        public static async Task<Response<string>> SendKppAgensiTerlibat(string noRujukan, Android.Content.Context context, bool saveScriptToFile = false)
+        {
+            var allAsasTindakanSend = true;
+            var asasTindakan = DataAccessQuery<TbKppAgensiTerlibat>.GetAll(m => m.norujukankpp == noRujukan && m.IsSendOnline != Enums.StatusOnline.Sent);
+            foreach (var item in asasTindakan.Datas)
+            {
+                //Check data to server
+                var query = $"select count(*) as count from tbkpp_agensi_terlibat where norujukankpp='{item.norujukankpp}'";
+                var responseCheckData = await HttpClientService.CountAync(query);
+                Log.WriteLogFile($"Check data KPP Agensi Terlibat, No Rujukan {item.norujukankpp}... , {responseCheckData.Success} - {responseCheckData.Result?.Count}");
+
+                if (responseCheckData.Success && responseCheckData.Result?.Count > 0)
+                {
+                    DataAccessQuery<TbKppAgensiTerlibat>.ExecuteSql($"UPDATE tbkpp_agensi_terlibat SET IsSendOnline = '{(int)Enums.StatusOnline.Sent}' " +
+                                              $"WHERE norujukankpp = '{item.norujukankpp}' AND IsSendOnline <> '{(int)Enums.StatusOnline.Sent}'");
+                }
+            }
+
+            asasTindakan = DataAccessQuery<TbKppAgensiTerlibat>.GetAll(m => m.norujukankpp == noRujukan && m.IsSendOnline != Enums.StatusOnline.Sent);
+            if (asasTindakan.Success)
+            {
+                var query = "";
+                var tbKppAsasTindakanAfterSplit = asasTindakan.Datas.Split();
+                foreach (var asasTindakans in tbKppAsasTindakanAfterSplit)
+                {
+                    query = string.Empty;
+                    foreach (var item in asasTindakans)
+                    {
+                        query = SendOnlineBll.GenerateScriptAgensiTerlibat(item, query);
+                    }
+                    if (!string.IsNullOrEmpty(query))
+                    {
+                        if (query.EndsWith(","))
+                            query = query.Remove(query.Length - 1) + ";";
+
+                        var response = await HttpClientService.ExecuteQuery(query, context);
+                        var statusOnline = response.Success ? Enums.StatusOnline.Sent : Enums.StatusOnline.Error;
+                        foreach (var item in asasTindakans)
+                        {
+                            DataAccessQuery<TbKppAgensiTerlibat>.ExecuteSql($"UPDATE tbkpp_agensi_terlibat SET IsSendOnline = '{(int)statusOnline}' " +
+                                                                          $"WHERE norujukankpp = '{item.norujukankpp}' AND kodserahagensi = '{item.kodserahagensi}' AND IsSendOnline <> '{(int)Enums.StatusOnline.Sent}'");
+                        }
+
+                        if (!response.Success)
+                        {
+                            allAsasTindakanSend = false;
+                        }
+                        if (saveScriptToFile && !response.Success) Log.WriteErrorRecords(query);
+                        if (!allAsasTindakanSend)
+                        {
+                            response.Success = false;
+                            response.Mesage = "Agensi Terlibat Tidak Dihantar";
                             return response;
                         }
                     }
