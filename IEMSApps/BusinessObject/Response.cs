@@ -37,9 +37,9 @@ namespace IEMSApps.BusinessObject
         public List<ValueResponse> TbbandarTemp { get; set; }
         public List<ValueResponse> Tbskipcontrol { get; set; }
         public List<ValueResponse> Tbbarang_jenamaTemp { get; set; }
-        public List<ValueResponse> TbAgensiSerahan { get; set; }
-        public List<ValueResponse> TbJenama_Stesen_Minyak { get; set; }
-        public List<ValueResponse> TbLokaliti_Kategori_Khas { get; set; }
+        public List<ValueResponse> TbAgensiSerahanTemp { get; set; }
+        public List<ValueResponse> TbJenama_Stesen_Minyak_Temp { get; set; }
+        public List<ValueResponse> TbLokaliti_Kategori_Khas_Temp { get; set; }
     }
 
     //public class DownloadDataFreshResponse

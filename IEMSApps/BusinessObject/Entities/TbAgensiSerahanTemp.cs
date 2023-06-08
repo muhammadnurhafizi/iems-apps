@@ -2,8 +2,8 @@
 
 namespace IEMSApps.BusinessObject.Entities
 {
-    [Table("tbagensiserahan")]
-    public class TbAgensiSerahan : MasterBaseEntities
+    [Table("tbagensiserahantemp")]
+    public class TbAgensiSerahanTemp : BaseEntities
     {
         [PrimaryKey]
         [MaxLength(10)]

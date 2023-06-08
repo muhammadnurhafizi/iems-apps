@@ -2670,15 +2670,8 @@ namespace IEMSApps.Fragments
             if (string.IsNullOrEmpty(txtLokasi.Text)) return false;
             //var tujuanLawatan = spTujuanLawatan?.SelectedItem.ToString();
             //if (string.IsNullOrEmpty(tujuanLawatan)) return false;
-            if (_kodAsasSelected == null || _kodAsasSelected.Count == 0) 
-            {
-                if (_agensiSerahanSelected == null)
-                {
-                    return false;
-                }
-            } 
-            else
-            { return false;}
+            if (_kodAsasSelected == null || _kodAsasSelected.Count == 0) {return false;}
+            if (txtAsasTindakan.Text.Contains("OPERASI BERSEPADU BERSAMA AGENSI") && (_agensiSerahanSelected == null || _agensiSerahanSelected.Count == 0)) {return false;}
             if (string.IsNullOrEmpty(txtHasilLawatan.Text)) return false;
             if (string.IsNullOrEmpty(spKategoryPremis.SelectedItem.ToString())) return false;
             //if (_jenisNiaga == 0) return false;

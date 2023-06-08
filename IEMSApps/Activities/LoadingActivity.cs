@@ -245,52 +245,52 @@ namespace IEMSApps.Activities
         private int InsertJenamaStesenMinyak(Response<DownloadDataResponse> result)
         {
             int totalData;
-            //(Constants.Messages.HapusData + " Jenis Agensi Serahan Temp");
-            //DataAccessQuery<TbAgensiSerahan>.ExecuteSql("DELETE FROM tbagensiserahan");
+            UpdateInfo(Constants.Messages.HapusData + " Jenama Stesen Minyak Temp");
+            DataAccessQuery<TbJenamaStesenMinyakTemp>.ExecuteSql("DELETE FROM tbjenama_stesen_minyak_temp");
 
-            UpdateInfo(Constants.Messages.InsertData + " Jenama Stesen Minyak");
-            totalData = result.Result.TbJenama_Stesen_Minyak.Count;
+            UpdateInfo(Constants.Messages.InsertData + " Jenama Stesen Minyak Temp");
+            totalData = result.Result.TbJenama_Stesen_Minyak_Temp.Count;
             _progressBar1.Max = totalData;
 
-            foreach (var item in result.Result.TbJenama_Stesen_Minyak.Select((value, index) => new { index, value }))
+            foreach (var item in result.Result.TbJenama_Stesen_Minyak_Temp.Select((value, index) => new { index, value }))
             {
                 UpdateCountAndPercentage(item.index, totalData);
-                DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql(item.value.Value);
+                DataAccessQuery<TbJenamaStesenMinyakTemp>.ExecuteSql(item.value.Value);
             }
             UpdateCountAndPercentage(totalData, totalData);
 
-            //UpdateInfo(Constants.Messages.HapusData + " Jenis Jenama");
-            //DataAccessQuery<TbJenama>.ExecuteSql("DELETE FROM tbbarang_jenama WHERE KodJenama IN (SELECT KodJenama FROM tbbarang_jenamaTemp)");
+            UpdateInfo(Constants.Messages.HapusData + " Jenama Stesen Minyak");
+            DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql("DELETE FROM tbjenama_stesen_minyak WHERE kodjenama IN (SELECT kodjenama FROM tbjenama_stesen_minyak_temp)");
 
-            //UpdateInfo(Constants.Messages.Move + " Kategori Perniagaan");
-            //DataAccessQuery<TbJenama>.ExecuteSql("INSERT INTO tbbarang_jenama(KodJenama, Prgn, PgnDaftar, TrkhDaftar) " +
-            //                                       "SELECT KodJenama, Prgn, PgnDaftar, TrkhDaftar FROM tbbarang_jenamaTemp  WHERE Status = 1");
+            UpdateInfo(Constants.Messages.Move + " Jenama Stesen Minyak");
+            DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql("INSERT INTO tbjenama_stesen_minyak(kodjenama, prgn, PgnDaftar, TrkhDaftar) " +
+                                                   "SELECT kodjenama, prgn, PgnDaftar, TrkhDaftar FROM tbjenama_stesen_minyak_temp  WHERE Status = 1");
             return totalData;
         }
 
         private int InsertAgensiSerahan(Response<DownloadDataResponse> result)
         {
             int totalData;
-            //(Constants.Messages.HapusData + " Jenis Agensi Serahan Temp");
-            //DataAccessQuery<TbAgensiSerahan>.ExecuteSql("DELETE FROM tbagensiserahan");
+            UpdateInfo(Constants.Messages.HapusData + " Jenis Agensi Serahan Temp");
+            DataAccessQuery<TbAgensiSerahanTemp>.ExecuteSql("DELETE FROM tbagensiserahantemp");
 
-            UpdateInfo(Constants.Messages.InsertData + " Jenis Agensi Serahan");
-            totalData = result.Result.TbAgensiSerahan.Count;
+            UpdateInfo(Constants.Messages.InsertData + " Jenis Agensi Serahan Temp");
+            totalData = result.Result.TbAgensiSerahanTemp.Count;
             _progressBar1.Max = totalData;
 
-            foreach (var item in result.Result.TbAgensiSerahan.Select((value, index) => new { index, value }))
+            foreach (var item in result.Result.TbAgensiSerahanTemp.Select((value, index) => new { index, value }))
             {
                 UpdateCountAndPercentage(item.index, totalData);
-                DataAccessQuery<TbAgensiSerahan>.ExecuteSql(item.value.Value);
+                DataAccessQuery<TbAgensiSerahanTemp>.ExecuteSql(item.value.Value);
             }
             UpdateCountAndPercentage(totalData, totalData);
 
-            //UpdateInfo(Constants.Messages.HapusData + " Jenis Jenama");
-            //DataAccessQuery<TbJenama>.ExecuteSql("DELETE FROM tbbarang_jenama WHERE KodJenama IN (SELECT KodJenama FROM tbbarang_jenamaTemp)");
+            UpdateInfo(Constants.Messages.HapusData + " Jenis Agensi Serahan");
+            DataAccessQuery<TbAgensiSerahan>.ExecuteSql("DELETE FROM tbagensiserahan WHERE kodserahagensi IN (SELECT kodserahagensi FROM tbagensiserahantemp)");
 
-            //UpdateInfo(Constants.Messages.Move + " Kategori Perniagaan");
-            //DataAccessQuery<TbJenama>.ExecuteSql("INSERT INTO tbbarang_jenama(KodJenama, Prgn, PgnDaftar, TrkhDaftar) " +
-            //                                       "SELECT KodJenama, Prgn, PgnDaftar, TrkhDaftar FROM tbbarang_jenamaTemp  WHERE Status = 1");
+            UpdateInfo(Constants.Messages.Move + " Jenis Agensi Serahan");
+            DataAccessQuery<TbAgensiSerahan>.ExecuteSql("INSERT INTO tbagensiserahan(kodserahagensi, prgn, PgnDaftar, TrkhDaftar) " +
+                                                   "SELECT kodserahagensi, prgn, PgnDaftar, TrkhDaftar FROM tbagensiserahantemp  WHERE Status = 1");
             return totalData;
         }
 
@@ -453,26 +453,26 @@ namespace IEMSApps.Activities
         private int InsertLokaliti(Response<DownloadDataResponse> result)
         {
             int totalData;
-            UpdateInfo(Constants.Messages.HapusData + " Lokaliti/ Kategori Khas");
-            DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql("DELETE FROM TbLokalitiKategoriKhas");
+            UpdateInfo(Constants.Messages.HapusData + " Lokaliti/ Kategori Khas Temp");
+            DataAccessQuery<TbLokalitiKategoriKhasTemp>.ExecuteSql("DELETE FROM TbLokalitiKategoriKhas Temp");
 
-            UpdateInfo(Constants.Messages.InsertData + " Lokaliti/ Kategori Khas");
-            totalData = result.Result.TbLokaliti_Kategori_Khas.Count;
+            UpdateInfo(Constants.Messages.InsertData + " Lokaliti/ Kategori Khas Temp");
+            totalData = result.Result.TbLokaliti_Kategori_Khas_Temp.Count;
             _progressBar1.Max = totalData;
 
-            foreach (var item in result.Result.TbLokaliti_Kategori_Khas.Select((value, index) => new { index, value }))
+            foreach (var item in result.Result.TbLokaliti_Kategori_Khas_Temp.Select((value, index) => new { index, value }))
             {
                 UpdateCountAndPercentage(item.index, totalData);
-                DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql(item.value.Value);
+                DataAccessQuery<TbLokalitiKategoriKhasTemp>.ExecuteSql(item.value.Value);
             }
             UpdateCountAndPercentage(totalData, totalData);
 
-            //UpdateInfo(Constants.Messages.HapusData + " Negeri");
-           // DataAccessQuery<TbNegeri>.ExecuteSql("DELETE FROM tbnegeri WHERE KodNegeri IN (SELECT KodNegeri FROM tbnegeriTemp)");
+            UpdateInfo(Constants.Messages.HapusData + " Lokaliti/ Kategori Khas");
+            DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql("DELETE FROM tblokaliti_kategori_khas WHERE id IN (SELECT id FROM tblokaliti_kategori_khas_temp)");
 
-            //UpdateInfo(Constants.Messages.Move + " Negeri");
-            //DataAccessQuery<TbNegeri>.ExecuteSql("INSERT INTO tbnegeri(KodNegeri, Prgn, PgnDaftar, TrkhDaftar) " +
-            //                                       "SELECT KodNegeri, Prgn, PgnDaftar, TrkhDaftar FROM tbnegeriTemp  WHERE Status = 1");
+            UpdateInfo(Constants.Messages.Move + " Lokaliti/ Kategori Khas");
+            DataAccessQuery<TbLokalitiKategoriKhas>.ExecuteSql("INSERT INTO tblokaliti_kategori_khas(id, prgn, PgnDaftar, TrkhDaftar) " +
+                                                   "SELECT id, prgn, PgnDaftar, TrkhDaftar FROM tblokaliti_kategori_khas_temp WHERE Status = 1");
             return totalData;
         }
 

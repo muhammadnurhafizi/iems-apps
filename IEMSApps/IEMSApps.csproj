@@ -152,6 +152,8 @@
     <Compile Include="BusinessObject\DTOs\SearchDto.cs" />
     <Compile Include="BusinessObject\DTOs\VersionDto.cs" />
     <Compile Include="BusinessObject\Entities\BaseEntities.cs" />
+    <Compile Include="BusinessObject\Entities\TbAgensiSerahanTemp.cs" />
+    <Compile Include="BusinessObject\Entities\TbJenamaStesenMinyakTemp.cs" />
     <Compile Include="BusinessObject\Entities\TbKewarganegaraan.cs" />
     <Compile Include="BusinessObject\Entities\TbAgensiSerahan.cs" />
     <Compile Include="BusinessObject\Entities\TbError.cs" />
@@ -188,6 +190,7 @@
     <Compile Include="BusinessObject\Entities\TbKppAsasTindakan.cs" />
     <Compile Include="BusinessObject\Entities\TbKppLokalitiKategoriKhas.cs" />
     <Compile Include="BusinessObject\Entities\TbJenamaStesenMinyak.cs" />
+    <Compile Include="BusinessObject\Entities\TbLokalitiKategoriKhasTemp.cs" />
     <Compile Include="BusinessObject\Entities\TbLokalitiKategoriKhas.cs" />
     <Compile Include="BusinessObject\Entities\TbNegeri.cs" />
     <Compile Include="BusinessObject\Entities\TbPasukan.cs" />

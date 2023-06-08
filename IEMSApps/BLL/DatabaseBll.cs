@@ -64,6 +64,10 @@ namespace IEMSApps.BLL
             CreateTbAgensiSerahan();
             CreateTbKppAgensiSerahan();
             CreateTbJenamaStesenMinyak();
+
+            CreateTbJenamaStesenMinyakTemp();
+            CreateTbAgensiSerahanTemp();
+            CreateTbLokalitiKategoriKhasTemp();
             return true;
 
             //if (!CreateTbAkta()) return false;
@@ -107,18 +111,6 @@ namespace IEMSApps.BLL
             //if (!CreateTbDataKesPesalah()) return false;
 
             //return true;
-        }
-
-        private static bool CreateTbJenamaStesenMinyak()
-        {
-            string sQuery = "SELECT * FROM tbjenama_stesen_minyak";
-            var result = DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql(sQuery);
-            if (result == Constants.Error)
-            {
-                DataAccessQuery<TbJenamaStesenMinyak>.CreateTable();
-                return true;
-            }
-            return false;
         }
 
         public static bool AlterDatabase()
@@ -173,10 +165,15 @@ namespace IEMSApps.BLL
             if (AlterKodKatPerniagaanOnTbKpp()) 
             {
                 CreateTbLokalitiKategoriKhas();
+                CreateTbLokalitiKategoriKhasTemp();
                 CreateTbKppLokalitiKategoriKhas();
+
                 CreateTbAgensiSerahan();
+                CreateTbAgensiSerahanTemp();
                 CreateTbKppAgensiSerahan();
+
                 CreateTbJenamaStesenMinyak();
+                CreateTbJenamaStesenMinyakTemp();
             } 
             
             return true;
@@ -244,6 +241,30 @@ namespace IEMSApps.BLL
             return false;
         }
 
+        private static bool CreateTbJenamaStesenMinyak()
+        {
+            string sQuery = "SELECT * FROM tbjenama_stesen_minyak";
+            var result = DataAccessQuery<TbJenamaStesenMinyak>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbJenamaStesenMinyak>.CreateTable();
+                return true;
+            }
+            return false;
+        }
+
+        private static bool CreateTbJenamaStesenMinyakTemp()
+        {
+            string sQuery = "SELECT * FROM tbjenama_stesen_minyak_temp";
+            var result = DataAccessQuery<TbJenamaStesenMinyakTemp>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbJenamaStesenMinyakTemp>.CreateTable();
+                return true;
+            }
+            return false;
+        }
+
         public static bool CreateTbLokalitiKategoriKhas()
         {
             string sQuery = "SELECT * FROM tblokaliti_kategori_khas";
@@ -251,6 +272,19 @@ namespace IEMSApps.BLL
             if (result == Constants.Error)
             {
                 DataAccessQuery<TbLokalitiKategoriKhas>.CreateTable();
+
+                return true;
+            }
+            return false;
+        }
+
+        public static bool CreateTbLokalitiKategoriKhasTemp()
+        {
+            string sQuery = "SELECT * FROM tblokaliti_kategori_khas_temp";
+            var result = DataAccessQuery<TbLokalitiKategoriKhasTemp>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbLokalitiKategoriKhasTemp>.CreateTable();
 
                 return true;
             }
@@ -277,6 +311,19 @@ namespace IEMSApps.BLL
             if (result == Constants.Error)
             {
                 DataAccessQuery<TbAgensiSerahan>.CreateTable();
+
+                return true;
+            }
+            return false;
+        }
+
+        public static bool CreateTbAgensiSerahanTemp()
+        {
+            string sQuery = "SELECT * FROM tbagensiserahantemp";
+            var result = DataAccessQuery<TbAgensiSerahanTemp>.ExecuteSql(sQuery);
+            if (result == Constants.Error)
+            {
+                DataAccessQuery<TbAgensiSerahanTemp>.CreateTable();
 
                 return true;
             }
