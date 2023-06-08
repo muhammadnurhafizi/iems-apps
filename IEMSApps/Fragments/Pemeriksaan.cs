@@ -2351,9 +2351,19 @@ namespace IEMSApps.Fragments
                         _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
 
                         if (_printer == null)
+                        {
+                            GeneralAndroidClass.ShowToast("Tiada Sambungan Printer Bixolon");
+                            Log.WriteLogFile("lvResult_ItemClick", "Printer Bixolon : " + _printer, Enums.LogType.Error);
                             return;
+                        }
 
                         await _printSemaphore.WaitAsync();
+
+                        var stats = await CheckPrinterBixolonStatus(_printer);
+                        if (stats > 0)
+                        {
+                            return;
+                        }
 
                         await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
 
@@ -2404,6 +2414,16 @@ namespace IEMSApps.Fragments
             {
                 GeneralAndroidClass.LogData(LayoutName, "lvResult_ItemClick", ex.Message, Enums.LogType.Error);
             }
+        }
+
+        public async Task<uint> CheckPrinterBixolonStatus(MPosControllerPrinter printer)
+        {
+
+            var status = await printer.checkPrinterStatus();
+            GeneralAndroidClass.ShowToast("Printer Status: " + status);
+            Log.WriteLogFile("CheckPrinterBixolonStatus", "Printer Status : " + status, Enums.LogType.Debug);
+            return status;
+
         }
 
         private void Print(bool isNeedCheck)

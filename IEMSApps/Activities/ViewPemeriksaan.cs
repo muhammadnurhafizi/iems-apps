@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -278,7 +279,7 @@ namespace IEMSApps.Activities
                 txtKewarganegaraan.Text = "BUKAN WARGANEGARA";
             }
             SetDisableEditText(txtKewarganegaraan);
-            
+
             var txtNoKpPenerima = FindViewById<EditText>(Resource.Id.txtNoKpPenerima);
             txtNoKpPenerima.Text = data.NoKpPenerima;
             SetDisableEditText(txtNoKpPenerima);
@@ -370,8 +371,8 @@ namespace IEMSApps.Activities
 
                 if (data.npmb == Constants.NotisPengesahanMaklumatBarang.Yes)
                 {
-                    chkNPMB.Checked = true; 
-                } else 
+                    chkNPMB.Checked = true;
+                } else
                 {
                     chkNPMB.Checked = false;
                 }
@@ -645,7 +646,10 @@ namespace IEMSApps.Activities
         async Task<MPosControllerDevices> OpenPrinterService(MposConnectionInformation connectionInfo)
         {
             if (connectionInfo == null)
+            {
+                Log.WriteLogFile("OpenPrinterService", "MposConnectionInformation connectionInfo : " + connectionInfo, Enums.LogType.Debug);
                 return null;
+            }
 
             if (_printer != null)
                 return _printer;
@@ -683,90 +687,22 @@ namespace IEMSApps.Activities
 
             return _printer;
         }
-        
+
         async void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             try
             {
-                string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
+                if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
+                    return;
+
                 _alert.Dismiss();
-                if (bx == "SPP-R410")
-                {
+                GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
 
-                    try
-                    {
-                        
-                        _connectionInfo = new MposConnectionInformation();
-
-                        _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
-                        _connectionInfo.Name = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
-                        _connectionInfo.MacAddress = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
-
-                        if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
-                        {
-                                GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
-                        }
-
-                        // Prepares to communicate with the printer
-                        _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
-
-                        if (_printer == null)
-                        {
-                            GeneralAndroidClass.ShowToast("Tiada Sambungan Printer Bixolon");
-                            Log.WriteLogFile("lvResult_ItemClick", "Printer Bixolon : " + _printer, Enums.LogType.Error);
-                            return;
-                        }    
-
-                        await _printSemaphore.WaitAsync();
-
-                        await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
-
-                        var printImageBll = new PrintImageBll();
-                        var bitmap = printImageBll.Pemeriksaan(this, lblNoKpp.Text);
-
-                        await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth);
-
-                        // note : Page mode and transaction mode cannot be used together between IN and OUT.
-                        // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
-                        await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
-                        
-                        await _printer.directIO(new byte[] { 0x1b, 0x40 });
-
-                        await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
-
-                        // Feed to tear-off position (Manual Cutter Position)
-                        await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
-                    }
-                    catch (Exception ex)
-                    {
-                        //DisplayAlert("Exception", ex.Message, "OK");
-                        GeneralAndroidClass.LogData(LayoutName, "Printer error : ", ex.Message, Enums.LogType.Error);
-                    }
-                    finally
-                    {
-                        // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
-                         await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
-                        // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
-                        _printSemaphore.Release();
-
-                        await ShowMessageNew(true, Constants.Messages.SuccessPrint);
-                        Thread.Sleep(Constants.DefaultWaitingMilisecond);
-                        await ShowMessageNew(false, "");
-                    }
-
-                }
-                else
-                {
-                    if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
-                        return;
-
-                    _alert.Dismiss();
-                    GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
-                    Print(false);
-                }
-
-
-               
+#if DEBUG
+                Print(true);
+#else
+                Print(false);
+#endif
             }
             catch (Exception ex)
             {
@@ -788,16 +724,28 @@ namespace IEMSApps.Activities
                 }
             }
 
-            //RunOnUiThread(() => GetFWCode()) ;
-            GetFWCode();
+            
 
             new Task(() =>
             {
                 try
                 {
                     //RunOnUiThread(() => OnPrinting());
-                    OnPrinting();
-                    IsLoading(this, false);
+                    string BluetoothName = GlobalClass.BluetoothDevice.Name;
+                    GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
+                    GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
+                    if (BluetoothName == Constants.BixolonBluetoothName)
+                    {
+                        OnPrintingBixolon();
+                    }
+                    else
+                    {
+                        //RunOnUiThread(() => GetFWCode()) ;
+                        GetFWCode();
+                        OnPrinting();
+                        IsLoading(this, false);
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -986,6 +934,119 @@ namespace IEMSApps.Activities
             }
         }
 
+
+        #endregion
+
+        #region PrintingBixolon
+
+        private async Task OnPrintingBixolon()
+        {
+            uint stats = 0;
+            try
+            {
+                _connectionInfo = new MposConnectionInformation();
+
+                _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
+                _connectionInfo.Name = GlobalClass.BluetoothDevice.Name;
+                _connectionInfo.MacAddress = GlobalClass.BluetoothDevice.Address;
+
+                if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
+                {
+                    GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
+                }
+
+                Log.WriteLogFile("OnPrintingBixolon", "connection Info : " + _connectionInfo, Enums.LogType.Error);
+
+                // convert kpp to bitmapkpp to get ready to print
+                await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
+                var printImageBll = new PrintImageBll();
+                var bitmap = printImageBll.Pemeriksaan(this, lblNoKpp.Text);
+
+                await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth + " Printer Bixolon");
+                // Prepares to communicate with the printer
+                _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
+
+                if (_printer == null)
+                {
+                    Log.WriteLogFile("OnPrintingBixolon", "OpenPrinterService : " + _printer, Enums.LogType.Error);
+                    Thread.Sleep(Constants.DefaultWaitingConnectionToBluetooth);
+                    await ShowMessageNew(false, "");
+                    GeneralAndroidClass.ShowToast("Tiada Sambungan Printer Bixolon");
+                    return;
+                }
+
+                await _printSemaphore.WaitAsync();
+
+                stats = await CheckPrinterBixolonStatus(_printer);
+                if (stats > 0)
+                {
+                    return;
+                }
+
+                // note : Page mode and transaction mode cannot be used together between IN and OUT.
+                // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
+                await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
+
+                await _printer.directIO(new byte[] { 0x1b, 0x40 });
+
+                await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
+
+                // Feed to tear-off position (Manual Cutter Position)
+                await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
+
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData(LayoutName, "OnPrintingBixolon : ", ex.Message, Enums.LogType.Error);
+            }
+            finally
+            {
+                if (_printer != null || stats > 0)
+                {
+                    // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
+                    await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
+                    // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
+                    _printSemaphore.Release();
+
+                    await ShowMessageNew(true, Constants.Messages.SuccessPrint);
+                }
+                
+                Thread.Sleep(Constants.DefaultWaitingMilisecond);
+                await ShowMessageNew(false, "");
+            }
+        }
+
+        public async Task<uint> CheckPrinterBixolonStatus(MPosControllerPrinter printer)
+        {
+            var message = "";
+            var status = await printer.checkPrinterStatus();
+            switch (status)
+            {
+                case 0:
+                    message = "Printer Status: " + "Printing Is Possible";
+                    break;
+                case 1:
+                    message = "Printer Status: " + "Cover Open";
+                    break;
+                case 2:
+                    message = "Printer Status: " + "No Paper";
+                    break;
+                case 4:
+                    message = "Printer Status: " + "Printing Is Possible";
+                    break;
+                case 8:
+                    message = "Printer Status: " + "Error (Offline or Unkown Error)";
+                    break;
+                case 128:
+                    message = "Printer Status: " + "Offline by the Printer's power off";
+                    break;
+
+            }
+            GeneralAndroidClass.ShowToast(message);
+            Log.WriteLogFile("CheckPrinterBixolonStatus : ", message, Enums.LogType.Debug);
+
+            return status;
+        }
 
         #endregion
     }
