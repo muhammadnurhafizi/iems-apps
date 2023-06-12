@@ -949,7 +949,7 @@ namespace IEMSApps.Fragments
             txtCarian = view.FindViewById<EditText>(Resource.Id.txtCarian);
             listView = view.FindViewById<ListView>(Resource.Id.carianPremisListView);
             var lblTitleCarian = view.FindViewById<TextView>(Resource.Id.lblTitleCarian);
-            lblTitleCarian.Text = "Agensi Serahan Terlibat";
+            lblTitleCarian.Text = "Agensi Terlibat";
 
             listView.Adapter = new CarianAgensiSerahanMultipleAdapter(this.Activity, listagensiserahan);
 

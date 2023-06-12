@@ -304,7 +304,18 @@ namespace IEMSApps.Activities
             }
             else
             {
-                GeneralAndroidClass.ShowToast("Tidak ada data Akuan");
+                //GeneralAndroidClass.ShowToast("Tidak ada data Akuan");
+                var message = string.Format(Constants.Messages.SambungAkuan);
+                var ad = GeneralAndroidClass.GetDialogCustom(this);
+                ad.SetMessage(Html.FromHtml(message));
+                ad.SetButton(Constants.Messages.No, (s, ev) => { });
+                ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
+                {
+                    var intent = new Intent(this, typeof(Akuan));
+                    intent.PutExtra("NoRujukan", lblNoKpp.Text);
+                    StartActivity(intent);
+                });
+                ad.Show();
             }
             _hourGlass?.StopMessage();
         }

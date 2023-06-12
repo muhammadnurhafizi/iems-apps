@@ -277,7 +277,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Notis Bertulis : "
+				android:text="Notis Bertulis (NB) : "
 				android:textAppearance="?android:attr/textAppearanceSmall"/>
 			<CheckBox
 				android:layout_width="wrap_content"
@@ -293,7 +293,7 @@
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="Notis Pengesahan Maklumat Barang : "
+				android:text="Notis Pengesahan Maklumat Barang (NPMB): "
 				android:textAppearance="?android:attr/textAppearanceSmall"/>
 			<CheckBox
 				android:layout_width="wrap_content"

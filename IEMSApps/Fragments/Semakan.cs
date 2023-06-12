@@ -160,7 +160,7 @@ namespace IEMSApps.Fragments
                     var result = new BusinessObject.Response<string>();
                     var successSendData = true;
 
-                    if (searchDto.Tindakan == Constants.TindakanName.Pemeriksaan || searchDto.Tindakan == Constants.TindakanName.SiasatUlangan)
+                    if (searchDto.Tindakan == Constants.TindakanName.Pemeriksaan || searchDto.Tindakan == Constants.TindakanName.SiasatUlangan || searchDto.Tindakan == Constants.TindakanName.SerahanNotis)
                     {
                         result = await SendOnlineBll.SendDataOnlineAsync(searchDto.NoRujukan, Enums.TableType.KPP, this.Activity);
                         if (!result.Success) successSendData = false;
