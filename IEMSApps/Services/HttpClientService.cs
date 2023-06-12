@@ -122,10 +122,16 @@ namespace IEMSApps.Services
                         result.Success = true;
                         result.Mesage = string.Empty;
                     }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    {
+                        result.Mesage = $"ID Peranti {IdPeranti} belum mempunyai Pasukan. Sila hubungi Pejabat";
+                        result.Success = false;
+                    }
                     else
                     {
                         result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
                         result.Success = false;
+                        Log.WriteLogFile("HttpClientService", "PrepareDownloadDatas", String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode), Enums.LogType.Debug);
                     }
                 }
             }
