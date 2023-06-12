@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Graphics;
+using Android.Locations;
 using Android.OS;
 using Android.Text;
 using Android.Views;
@@ -932,7 +933,7 @@ namespace IEMSApps.Activities
                 {
                     //RunOnUiThread(() => OnPrinting());
                     string BluetoothName = GlobalClass.BluetoothDevice.Name;
-                    GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
+                    //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
                     GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
                     if (BluetoothName == Constants.BixolonBluetoothName)
                     {
@@ -1139,21 +1140,23 @@ namespace IEMSApps.Activities
 
         #region PrintingBixolon
 
-        public bool CheckPrinter(MPosControllerPrinter _printer)
+        public async Task<int> CheckPrinter(MPosControllerPrinter _printer)
         {
-            bool status = true;
+            int status = 1;
             try
             {
                 if (_printer == null)
                 {
                     GeneralAndroidClass.ShowToast("Printer Not Avalaible");
                     Log.WriteLogFile("CheckPrinter", "OpenPrinterService : Null", Enums.LogType.Debug);
-                    status = false;
+                    status = 2;
                 }
                 else
                 {
-                    GeneralAndroidClass.ShowToast("Printer Avalaible");
-                    status = true;
+                    //GeneralAndroidClass.ShowToast("Printer Avalaible");
+                    await ShowMessageNew(true, "Printer Avalaible");
+                    Thread.Sleep(Constants.DefaultWaitingMilisecond);
+                    status = 1;
                 }
 
             }
@@ -1168,7 +1171,7 @@ namespace IEMSApps.Activities
         private async Task OnPrintingBixolon()
         {
             uint stats = 0;
-            bool check = true;
+            int check = 1;
             try
             {
                 _connectionInfo = new MposConnectionInformation();
@@ -1192,8 +1195,9 @@ namespace IEMSApps.Activities
                  _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
 
                 await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth + " Printer Bixolon");
-                check = CheckPrinter(_printer);
-                if (check == false)
+
+                check = await CheckPrinter(_printer);
+                if (check == 2)
                 {
                     Thread.Sleep(Constants.DefaultWaitingConnectionToBluetooth);
                     await ShowMessageNew(false, "");
@@ -1204,6 +1208,10 @@ namespace IEMSApps.Activities
                 stats = await CheckPrinterBixolonStatus(_printer);
                 if (stats > 0)
                 {
+                    //reset _printer = null, if failed to connect after turn off and on the printer.
+                    ResetPrinterConnection();
+                    GeneralAndroidClass.ShowToast("Sila Cuba Sekali Lagi");
+                    await ShowMessageNew(false, "");
                     return;
                 }
 
@@ -1222,7 +1230,7 @@ namespace IEMSApps.Activities
             }
             finally
             {
-                if (check == true)
+                if (check == 1)
                 {
                     // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
                     await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
@@ -1273,10 +1281,31 @@ namespace IEMSApps.Activities
                     break;  
 
             }
-            //GeneralAndroidClass.ShowToast(message);
+            GeneralAndroidClass.ShowToast(message);
             Log.WriteLogFile("CheckPrinterBixolonStatus : ", message, Enums.LogType.Debug);
 
             return status;
+        }
+
+        private void ResetPrinterConnection()
+        {
+            bool success = false;
+            var message = "Tidak Berjaya";
+            try
+            {
+                //try to reset connection
+                _printer = null;
+                if (_printer == null)
+                {
+                    success = true;
+                    message = "Berjaya";
+                }
+                GeneralAndroidClass.ShowToast("Reset _printer : " + message);
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLogFile("CheckPrinterBixolonStatus : ", ex.Message, Enums.LogType.Error);
+            }
         }
 
         #endregion
