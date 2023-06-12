@@ -677,7 +677,7 @@ namespace IEMSApps.Activities
                 if (result != (int)MPosResult.MPOS_SUCCESS)
                 {
                     _printer = null;
-                    //await DisplayAlert("Connection Fail", "openService failed. (" + result.ToString() + ")", "OK");
+                    GeneralAndroidClass.ShowToast("openService failed. (" + result.ToString() + ")");
                 }
             }
             finally
@@ -723,8 +723,6 @@ namespace IEMSApps.Activities
                     return;
                 }
             }
-
-            
 
             new Task(() =>
             {
@@ -939,9 +937,36 @@ namespace IEMSApps.Activities
 
         #region PrintingBixolon
 
+        public bool CheckPrinter(MPosControllerPrinter _printer)
+        {
+            bool status = true;
+            try
+            {
+                if (_printer == null)
+                {
+                    GeneralAndroidClass.ShowToast("Printer Not Avalaible");
+                    Log.WriteLogFile("CheckPrinter", "OpenPrinterService : Null", Enums.LogType.Debug);
+                    status = false;
+                }
+                else
+                {
+                    GeneralAndroidClass.ShowToast("Printer Avalaible");
+                    status = true;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLogFile("CheckPrinter", "CatchOn : " + ex.Message, Enums.LogType.Error);
+            }
+
+            return status;
+        }
+
         private async Task OnPrintingBixolon()
         {
             uint stats = 0;
+            bool check = true;
             try
             {
                 _connectionInfo = new MposConnectionInformation();
@@ -954,46 +979,40 @@ namespace IEMSApps.Activities
                 {
                     GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
                 }
-
-                Log.WriteLogFile("OnPrintingBixolon", "connection Info : " + _connectionInfo, Enums.LogType.Error);
+                Log.WriteLogFile("CheckPrinter", "connection Info : " + _connectionInfo, Enums.LogType.Debug);
 
                 // convert kpp to bitmapkpp to get ready to print
                 await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
                 var printImageBll = new PrintImageBll();
                 var bitmap = printImageBll.Pemeriksaan(this, lblNoKpp.Text);
 
-                await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth + " Printer Bixolon");
                 // Prepares to communicate with the printer
-                _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
+                 _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
 
-                if (_printer == null)
+                await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth + " Printer Bixolon");
+                check = CheckPrinter(_printer);
+                if (check == false)
                 {
-                    Log.WriteLogFile("OnPrintingBixolon", "OpenPrinterService : " + _printer, Enums.LogType.Error);
                     Thread.Sleep(Constants.DefaultWaitingConnectionToBluetooth);
                     await ShowMessageNew(false, "");
-                    GeneralAndroidClass.ShowToast("Tiada Sambungan Printer Bixolon");
                     return;
                 }
 
-                await _printSemaphore.WaitAsync();
-
+                await ShowMessageNew(true,"Menyemak Status Printer Bixolon");
                 stats = await CheckPrinterBixolonStatus(_printer);
                 if (stats > 0)
                 {
                     return;
                 }
 
-                // note : Page mode and transaction mode cannot be used together between IN and OUT.
-                // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
+                await ShowMessageNew(true, Constants.Messages.PrintWaitMessage);
+
+                await _printSemaphore.WaitAsync();
+
                 await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
-
                 await _printer.directIO(new byte[] { 0x1b, 0x40 });
-
                 await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
-
-                // Feed to tear-off position (Manual Cutter Position)
                 await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
-
             }
             catch (Exception ex)
             {
@@ -1001,11 +1020,12 @@ namespace IEMSApps.Activities
             }
             finally
             {
-                if (_printer != null || stats > 0)
+                if (check == true)
                 {
                     // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
                     await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
                     // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
+                    await _printer.closeService();
                     _printSemaphore.Release();
 
                     await ShowMessageNew(true, Constants.Messages.SuccessPrint);
@@ -1023,26 +1043,35 @@ namespace IEMSApps.Activities
             switch (status)
             {
                 case 0:
-                    message = "Printer Status: " + "Printing Is Possible";
+                    message = "Printing Is Possible";
                     break;
                 case 1:
-                    message = "Printer Status: " + "Cover Open";
+                    message = "Cover Open";
                     break;
                 case 2:
-                    message = "Printer Status: " + "No Paper";
+                    message = "No Paper";
                     break;
                 case 4:
-                    message = "Printer Status: " + "Printing Is Possible";
+                    message = "Printing Is Possible";
                     break;
                 case 8:
-                    message = "Printer Status: " + "Error (Offline or Unkown Error)";
+                    message = "Error (Offline or Unkown Error)";
                     break;
                 case 128:
-                    message = "Printer Status: " + "Offline by the Printer's power off";
+                    message = "Offline by the Printer's power off";
                     break;
+                case 1006:
+                    message = "Failed to connect the device";
+                    break;
+                case 1005:
+                    message = "No Response from the device";
+                    break;
+                default:
+                    message = status.ToString();
+                    break;  
 
             }
-            GeneralAndroidClass.ShowToast(message);
+            //GeneralAndroidClass.ShowToast(message);
             Log.WriteLogFile("CheckPrinterBixolonStatus : ", message, Enums.LogType.Debug);
 
             return status;
