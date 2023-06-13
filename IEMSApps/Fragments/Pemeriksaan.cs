@@ -2284,146 +2284,21 @@ namespace IEMSApps.Fragments
 
         }
 
-        async Task<MPosControllerDevices> OpenPrinterService(MposConnectionInformation connectionInfo)
-        {
-            if (connectionInfo == null)
-                return null;
-
-            if (_printer != null)
-                return _printer;
-
-            _printer = MPosDeviceFactory.Current.createDevice(MPosDeviceType.MPOS_DEVICE_PRINTER) as MPosControllerPrinter;
-
-            switch (connectionInfo.IntefaceType)
-            {
-                case MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH:
-                case MPosInterfaceType.MPOS_INTERFACE_WIFI:
-                case MPosInterfaceType.MPOS_INTERFACE_ETHERNET:
-                    _printer.selectInterface((int)connectionInfo.IntefaceType, connectionInfo.Address);
-                    _printer.selectCommandMode((int)(false ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
-                    break;
-                default:
-                    //await DisplayAlert("Connection Fail", "Not Supported Interface", "OK");
-                    return null;
-            }
-
-            await _printSemaphore.WaitAsync();
-
-            try
-            {
-                var result = await _printer.openService();
-                if (result != (int)MPosResult.MPOS_SUCCESS)
-                {
-                    _printer = null;
-                    //await DisplayAlert("Connection Fail", "openService failed. (" + result.ToString() + ")", "OK");
-                }
-            }
-            finally
-            {
-                _printSemaphore.Release();
-            }
-
-            return _printer;
-        }
-
         async void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             try
             {
-                string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
+                if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
+                    return;
+
                 _alert.Dismiss();
-                if (bx ==  "SPP-R410") {
-                    try
-                    {
-
-                        _connectionInfo = new MposConnectionInformation();
-
-                        _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
-                        _connectionInfo.Name = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
-                        _connectionInfo.MacAddress = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
-
-                        if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
-                        {
-                            GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
-                        }
-
-                        // Prepares to communicate with the printer
-                        _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
-
-                        if (_printer == null)
-                        {
-                            GeneralAndroidClass.ShowToast("Tiada Sambungan Printer Bixolon");
-                            Log.WriteLogFile("lvResult_ItemClick", "Printer Bixolon : " + _printer, Enums.LogType.Error);
-                            return;
-                        }
-
-                        await _printSemaphore.WaitAsync();
-
-                        var stats = await CheckPrinterBixolonStatus(_printer);
-                        if (stats > 0)
-                        {
-                            return;
-                        }
-
-                        await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
-
-                        var printImageBll = new PrintImageBll();
-                        var bitmap = printImageBll.Pemeriksaan(this.Activity, lblNoKpp.Text);
-
-                        await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth);
-
-                        // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
-                        await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
-
-                        await _printer.directIO(new byte[] { 0x1b, 0x40 });
-
-                        await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
-
-                        // Feed to tear-off position (Manual Cutter Position)
-                        await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
-                    }
-                    catch (Exception ex)
-                    {
-                        //DisplayAlert("Exception", ex.Message, "OK");
-                        GeneralAndroidClass.LogData(LayoutName, "Printer error : ", ex.Message, Enums.LogType.Error);
-                    }
-                    finally
-                    {
-                        // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
-                        await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
-                        // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
-                        _printSemaphore.Release();
-
-                        await ShowMessageNew(true, Constants.Messages.SuccessPrint);
-                        Thread.Sleep(Constants.DefaultWaitingMilisecond);
-                        await ShowMessageNew(false, "");
-                    }
-                } 
-                else {
-
-                    if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
-                        return;
-
-                    _alert.Dismiss();
-                    GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
-                    Print(false);
-
-                }     
+                GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
+                Print(false);     
             }
             catch (Exception ex)
             {
                 GeneralAndroidClass.LogData(LayoutName, "lvResult_ItemClick", ex.Message, Enums.LogType.Error);
             }
-        }
-
-        public async Task<uint> CheckPrinterBixolonStatus(MPosControllerPrinter printer)
-        {
-
-            var status = await printer.checkPrinterStatus();
-            GeneralAndroidClass.ShowToast("Printer Status: " + status);
-            Log.WriteLogFile("CheckPrinterBixolonStatus", "Printer Status : " + status, Enums.LogType.Debug);
-            return status;
-
         }
 
         private void Print(bool isNeedCheck)
@@ -2446,8 +2321,24 @@ namespace IEMSApps.Fragments
                 try
                 {
                     //RunOnUiThread(() => OnPrinting());
-                    OnPrinting();
-                    IsLoading(this.Activity, false);
+                    //OnPrinting();
+                    //IsLoading(this.Activity, false);
+
+                    string BluetoothName = GlobalClass.BluetoothDevice.Name;
+                    //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
+                    GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
+                    if (BluetoothName == Constants.BixolonBluetoothName)
+                    {
+                        OnPrintingBixolon();
+                    }
+                    else
+                    {
+                        //RunOnUiThread(() => OnPrinting());
+                        //RunOnUiThread(() => GetFWCode()) ;
+                        GetFWCode();
+                        OnPrinting();
+                        IsLoading(this.Activity, false);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -3730,6 +3621,93 @@ namespace IEMSApps.Fragments
 
         }
 
+
+        #region PrintingBixolon
+
+        private async Task OnPrintingBixolon()
+        {
+            uint stats = 0;
+            int check = 1;
+            PrinterBixolonClass bixolonClass = new PrinterBixolonClass();
+            try
+            {
+                _connectionInfo = new MposConnectionInformation();
+
+                _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
+                _connectionInfo.Name = GlobalClass.BluetoothDevice.Name;
+                _connectionInfo.MacAddress = GlobalClass.BluetoothDevice.Address;
+
+                if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
+                {
+                    GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
+                }
+                Log.WriteLogFile("CheckPrinter", "connection Info : " + _connectionInfo, Enums.LogType.Debug);
+
+                // convert kpp to bitmapkpp to get ready to print
+                await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
+                var printImageBll = new PrintImageBll();
+                var bitmap = printImageBll.Pemeriksaan(this.Activity, lblNoKpp.Text);
+
+                // Prepares to communicate with the printer
+                _printer = await bixolonClass.OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
+                await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth + " Printer Bixolon");
+
+                check = await bixolonClass.CheckPrinter(_printer);
+                if (check == 2)
+                {
+                    Thread.Sleep(Constants.DefaultWaitingConnectionToBluetooth);
+                    await ShowMessageNew(false, "");
+                    return;
+                }
+                else
+                {
+                    await ShowMessageNew(true, "Printer Avalaible");
+                    Thread.Sleep(Constants.DefaultWaitingConnectionToBluetooth);
+                }
+
+                await ShowMessageNew(true, "Menyemak Status Printer Bixolon");
+                stats = await bixolonClass.CheckPrinterBixolonStatus(_printer);
+                if (stats > 0)
+                {
+                    //reset _printer = null, if failed to connect after turn off and on the printer.
+                    bixolonClass.ResetPrinterConnection();
+                    GeneralAndroidClass.ShowToast("Sila Cuba Sekali Lagi");
+                    await ShowMessageNew(false, "");
+                    return;
+                }
+
+                await ShowMessageNew(true, Constants.Messages.PrintWaitMessage);
+
+                await _printSemaphore.WaitAsync();
+
+                await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
+                await _printer.directIO(new byte[] { 0x1b, 0x40 });
+                await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
+                await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData(LayoutName, "OnPrintingBixolon : ", ex.Message, Enums.LogType.Error);
+            }
+            finally
+            {
+                if (check == 1)
+                {
+                    // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
+                    await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
+                    // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
+                    await _printer.closeService();
+                    _printSemaphore.Release();
+
+                    await ShowMessageNew(true, Constants.Messages.SuccessPrint);
+                }
+
+                Thread.Sleep(Constants.DefaultWaitingMilisecond);
+                await ShowMessageNew(false, "");
+            }
+        }
+
+        #endregion
 
         //private Response<JpnDetailResponse> listJpnDetail = new Response<JpnDetailResponse>();
         //EditText txtCarianJpnDetail;
