@@ -2314,7 +2314,7 @@ namespace IEMSApps.Fragments
                 }
             }
 
-            GetFWCode();
+            //GetFWCode();
 
             new Task(() =>
             {

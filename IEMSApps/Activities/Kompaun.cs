@@ -1636,7 +1636,7 @@ namespace IEMSApps.Activities
                     return;
                 }
             }
-            GetFWCode();
+            //GetFWCode();
 
             new Task(() =>
             {
