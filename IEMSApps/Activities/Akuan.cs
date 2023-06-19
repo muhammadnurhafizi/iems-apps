@@ -1429,7 +1429,7 @@ namespace IEMSApps.Activities
             {
                 var kompaun = KompaunBll.GetKompaunByRujukan(_noRujukan);
                 var ResultSendMaklumatPembayaran = Task.Run(async () => await SendOnlineBll.SendDataOnlineAsync(kompaun.Datas.NoRujukanKpp, Enums.TableType.MaklumatBayaran, this)).Result;
-                if (ResultSendMaklumatPembayaran.Success && kompaun.Datas.isbayarmanual == 1)
+                if (ResultSendMaklumatPembayaran.Success && kompaun.Datas.isbayarmanual == 0)
                 {
                     GeneralAndroidClass.ShowToast("Maklumat Pembayaran Berjaya Dihantar");
                 }

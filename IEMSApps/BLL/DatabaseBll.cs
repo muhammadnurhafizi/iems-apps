@@ -173,7 +173,8 @@ namespace IEMSApps.BLL
                 CreateIpPoskod();
                 CreateIpResits();
                 CreateIpChargeline();
-                CreateTbKompaunBayaran(); //new add
+                CreateTbKompaunBayaran();
+                AlterTbKompaunIzin2();   //new add
             }
             
 
@@ -836,6 +837,21 @@ namespace IEMSApps.BLL
             if (!result)
             {
                 query = "ALTER TABLE tbkompaun_izin ADD COLUMN KodCawangan varchar(3)";
+                var resultExec = DataAccessQuery<TbKompaunIzin>.ExecuteSql(query);
+
+                return true;
+            }
+            return false;
+        }
+
+        private static bool AlterTbKompaunIzin2()
+        {
+            var query = "SELECT ip_status_api FROM tbkompaun_izin";
+            var result = DataAccessQuery<TbKompaunIzin>.ExecuteCheckSelectSql(query);
+
+            if (!result)
+            {
+                query = "ALTER TABLE tbkompaun_izin ADD COLUMN ip_status_api int";
                 var resultExec = DataAccessQuery<TbKompaunIzin>.ExecuteSql(query);
 
                 return true;

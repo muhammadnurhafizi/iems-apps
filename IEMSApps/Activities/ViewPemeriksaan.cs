@@ -439,9 +439,18 @@ namespace IEMSApps.Activities
             }
         }
 
-        private void ShowKompaun(string catatan)
+        private void ShowKompaun(string catatan, int ip_status)
         {
-            var message = string.Format(Constants.Messages.KompaunIzinApproved, catatan);
+            var ip_status_word = "";
+            if (ip_status == 1)
+            {
+                ip_status_word = Constants.IpaymentMessages.Success;
+            }
+            else
+            {
+                ip_status_word = Constants.IpaymentMessages.NotSuccess;
+            }
+            var message = string.Format(Constants.Messages.KompaunIzinApproved, catatan, ip_status_word);
 
             var ad = GeneralAndroidClass.GetDialogCustom(this);
 
@@ -470,10 +479,12 @@ namespace IEMSApps.Activities
                 Success = true,
                 Datas = new TbKompaunIzin
                 {
-                    Status = Enums.StatusIzinKompaun.Approved
+                    Status = Enums.StatusIzinKompaun.Approved,
+                    Catatan = "Lulus Debug Kompaun",
+                    ip_status_api = 1
                 }
             };
-            ShowKompaun(data.Datas.Catatan);
+            ShowKompaun(data.Datas.Catatan, data.Datas.ip_status_api);
 #endif
 
             if (data.Success)
@@ -507,7 +518,7 @@ namespace IEMSApps.Activities
                     switch (data.Datas.Status)
                     {
                         case Enums.StatusIzinKompaun.Approved:
-                            ShowKompaun(data.Datas.Catatan);
+                            ShowKompaun(data.Datas.Catatan, data.Datas.ip_status_api);
                             break;
                         case Enums.StatusIzinKompaun.Denied:
                             message = string.Format(Constants.Messages.KompaunIzinDenied, data.Datas.Catatan);
@@ -521,10 +532,10 @@ namespace IEMSApps.Activities
                                 switch (service.Result.Status)
                                 {
                                     case Enums.StatusIzinKompaun.Approved:
-                                        ShowKompaun(service.Result.Catatan);
+                                        ShowKompaun(service.Result.Catatan, service.Result.ip_status_api);
                                         break;
                                     case Enums.StatusIzinKompaun.Denied:
-                                        message = string.Format(Constants.Messages.KompaunIzinDenied, service.Result.Catatan);
+                                        message = string.Format(Constants.Messages.KompaunIzinDenied, service.Result.Catatan, data.Datas.ip_status_api);
                                         GeneralAndroidClass.ShowModalMessageHtml(this, message);
                                         break;
                                     default:

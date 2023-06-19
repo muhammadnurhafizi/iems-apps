@@ -203,8 +203,8 @@ namespace IEMSApps.Utils
             public const string SuccessSave = "Data berjaya disimpan";
             public const string ReplaceImageQuestion = "Ganti gambar?";
             public const string SuccessSavePasukan = "Ahli pasukan baru berjaya dimasukkan";
-            public const string KompaunIzinApproved = "<b>Keputusan izin Kompaun</b> : DIBENARKAN.<br/><br/><b>Catatan TPR</b> : {0}";
-            public const string KompaunIzinDenied = "<b>Keputusan izin Kompaun</b> : TIDAK DIBENARKAN.<br/><br/><b>Catatan TPR</b> : {0}";
+            public const string KompaunIzinApproved = "<b>Keputusan izin Kompaun</b> : DIBENARKAN.<br/><br/><b>Catatan TPR</b> : {0} <br/><br/> <b>Status iPayment</b> : {1}";
+            public const string KompaunIzinDenied = "<b>Keputusan izin Kompaun</b> : TIDAK DIBENARKAN.<br/><br/><b>Catatan TPR</b> : {0} <br/><br/> <b>Status iPayment</b> : {1}";
 
             public const string KompaunIzinWaiting =
                     "Permohonan izin kompaun telah dihantar. Sila tunggu dan klik semula butang TINDAKAN untuk mendapatkan keputusan";
@@ -258,6 +258,9 @@ namespace IEMSApps.Utils
             public const string ErrorApiReceipt = "Error : <b> {0} </b>. <br> Ralat mendapatkan data dari Sistem Utama IEMS.Sila hubungi admin sistem";
 
             public const string RalatFetchData = "Ralat Mengambil Data";
+
+            public const string Success = "Berjaya";
+            public const string NotSuccess = "Tidak Berjaya";
         }
 
         public const string Close = "Tutup";

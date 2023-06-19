@@ -7,5 +7,7 @@ namespace IEMSApps.BusinessObject.Responses
         public Enums.StatusIzinKompaun Status { get; set; }
 
         public string Catatan { get; set; }
+
+        public int ip_status_api { get; set; }
     }
 }

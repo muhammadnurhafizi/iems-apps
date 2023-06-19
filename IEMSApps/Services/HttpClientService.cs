@@ -301,7 +301,7 @@ namespace IEMSApps.Services
 
             try
             {
-                var query = $"Select status, catatan from tbkompaun_izin where norujukankpp = '{noRujukan}'";
+                var query = $"Select status, catatan, ip_status_api from tbkompaun_izin where norujukankpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
                 using (HttpClient client = GenerateHttpClient())

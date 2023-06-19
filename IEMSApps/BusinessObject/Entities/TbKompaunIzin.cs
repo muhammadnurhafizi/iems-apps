@@ -26,5 +26,7 @@ namespace IEMSApps.BusinessObject.Entities
         public string TrkhAkhir { get; set; }
 
         public string Catatan { get; set; }
+
+        public int ip_status_api { get; set; }
     }
 }

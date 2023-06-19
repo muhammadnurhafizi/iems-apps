@@ -273,11 +273,12 @@ namespace IEMSApps.BLL
             {
                 var statusIzin = result.Result.Status;
                 var catatan = result.Result.Catatan;
+                var ip_status_api = result.Result.ip_status_api;
 
                 if (statusIzin == Enums.StatusIzinKompaun.Approved ||
                     statusIzin == Enums.StatusIzinKompaun.Denied)
                 {
-                    UpdateTbKompaunIzinStatus(noRujukan, statusIzin, catatan);
+                    UpdateTbKompaunIzinStatus(noRujukan, statusIzin, catatan, ip_status_api);
                 }
 
             }
@@ -349,13 +350,14 @@ namespace IEMSApps.BLL
             return result;
         }
 
-        public static void UpdateTbKompaunIzinStatus(string noRujukan, Enums.StatusIzinKompaun statusIzin, string catatan)
+        public static void UpdateTbKompaunIzinStatus(string noRujukan, Enums.StatusIzinKompaun statusIzin, string catatan, int ip_status_api)
         {
             var data = DataAccessQuery<TbKompaunIzin>.Get(c => c.NoRujukanKpp == noRujukan);
             if (data.Success && data.Datas != null)
             {
                 data.Datas.Status = statusIzin;
                 data.Datas.Catatan = catatan;
+                data.Datas.ip_status_api = ip_status_api;
                 DataAccessQuery<TbKompaunIzin>.Update(data.Datas);
             }
         }
