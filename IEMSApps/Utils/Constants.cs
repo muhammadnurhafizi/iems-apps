@@ -351,6 +351,7 @@ namespace IEMSApps.Utils
         }
 
         public const string FWCODE = "1202T1";
+        public const string BixolonBluetoothName = "SPP-R410";
 
         public const string Negara = "458";
 
