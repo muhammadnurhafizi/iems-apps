@@ -1004,7 +1004,8 @@ namespace IEMSApps.Activities
                         _alert.DismissEvent += (s, e) =>
                         {
                             if (GlobalClass.BluetoothDevice == null)
-                                PrepareSendDataOnline();
+                                //PrepareSendDataOnline();
+                                RunOnUiThread(PrepareSendDataOnline);
                         };
 
                         _alert.Show();
@@ -1339,6 +1340,9 @@ namespace IEMSApps.Activities
                 if (ResultSendMaklumatPembayaran.Success && kompaun.Datas.isbayarmanual == 0)
                 {
                     GeneralAndroidClass.ShowToast("Maklumat Pembayaran Berjaya Dihantar");
+                } else
+                {
+                    GeneralAndroidClass.ShowToast("Maklumat Pembayaran Tidak Berjaya Dihantar");
                 }
             } 
             catch (Exception ex) 
@@ -1557,6 +1561,8 @@ namespace IEMSApps.Activities
 
                 Thread.Sleep(Constants.DefaultWaitingMilisecond);
                 await ShowMessageNew(false, "");
+
+                PrepareSendDataOnline();
             }
         }
 

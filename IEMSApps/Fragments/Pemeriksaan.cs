@@ -2111,7 +2111,8 @@ namespace IEMSApps.Fragments
                         _alert.DismissEvent += (s, e) =>
                         {
                             if (GlobalClass.BluetoothDevice == null)
-                                PrepareSendDataOnline();
+                                //PrepareSendDataOnline();
+                                Activity.RunOnUiThread(PrepareSendDataOnline);
                         };
 
                         _alert.Show();
@@ -3633,6 +3634,8 @@ namespace IEMSApps.Fragments
 
                 Thread.Sleep(Constants.DefaultWaitingMilisecond);
                 await ShowMessageNew(false, "");
+
+                PrepareSendDataOnline();
             }
         }
 
