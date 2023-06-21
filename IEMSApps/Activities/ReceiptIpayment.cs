@@ -108,7 +108,7 @@ namespace IEMSApps.Activities
                 #region ringgit Malaysia
 
                 txtRinggitMalaysia = FindViewById<TextView>(Resource.Id.txtRinggitMalaysia);
-                txtRinggitMalaysia.Text = "Ringgit Malaysia : " + IpResit.jumlah_bayaran_words + " SAHAJA";
+                txtRinggitMalaysia.Text = "Ringgit Malaysia : " + IpResit.jumlah_bayaran_words.ToUpper() + " SAHAJA";
 
                 #endregion
 

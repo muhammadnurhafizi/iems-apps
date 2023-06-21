@@ -371,7 +371,7 @@ namespace IEMSApps.Services
 
             try
             {
-                var query = $"select * from ip_resits where norujukankpp = '{noRujukan}'";
+                var query = $"select * from ip_resits where norujukankpp = '{noRujukan}' limit 1";
                 //var query = $"select * from tbtest_resits where norujukankpp = '{noRujukan}'";
                 var encodedQuery = BLL.GeneralBll.Base64Encode(query);
 
@@ -389,7 +389,6 @@ namespace IEMSApps.Services
                     var response = await client.SendAsync(req);
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-
                         var stringJson = await response.Content.ReadAsStringAsync();
 
                         var resultObject = JsonConvert.DeserializeObject<Response<string>>(stringJson);
@@ -400,8 +399,6 @@ namespace IEMSApps.Services
                         result.Result = JsonConvert.DeserializeObject<CheckIPResitsResponse>(jsonDataResult);
                         result.Success = true;
                         result.Mesage = string.Empty;
-
-
                     }
                     else if (response.StatusCode == HttpStatusCode.NotFound)
                     {
