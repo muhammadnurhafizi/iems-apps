@@ -262,7 +262,7 @@ namespace IEMSApps.Activities
                     IsLoading(this, false);
                     GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
                 }
-            }).Start();
+            }).RunSynchronously();
         }
 
 

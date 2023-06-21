@@ -545,9 +545,15 @@ namespace IEMSApps.Activities
                 }
                 else
                     if (result.Mesage.Contains("Sambungan"))
-                    _errorMesage = "Tiada sambungan ke internet. Data tidak dapat diterima/dihantar";
-                else
-                    _errorMesage = $"ID Peranti {_pirantiId} tidak wujud. Sila hubungi Administrator.";
+                    {
+                        _errorMesage = "Tiada sambungan ke internet. Data tidak dapat diterima/dihantar";
+                    }
+                    else if (result.Mesage.Contains("InternalServerError"))
+                    {
+                        _errorMesage = result.Mesage;
+                    }
+                    else
+                        _errorMesage = $"ID Peranti {_pirantiId} tidak wujud. Sila hubungi Administrator.";
 
                 _alertDialog.SetMessage(_errorMesage);
                 _alertDialog.SetButton2("OK", (s, e) => { });

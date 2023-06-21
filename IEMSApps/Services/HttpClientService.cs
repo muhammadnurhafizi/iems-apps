@@ -64,6 +64,7 @@ namespace IEMSApps.Services
                     {
                         result.Mesage = String.Format(Constants.ErrorMessages.ErrorApi, response.StatusCode);
                         result.Success = false;
+                        Log.WriteLogFile("HttpClientService", "ResponseCode", result.Mesage, Enums.LogType.Debug);
                     }
                 }
             }
