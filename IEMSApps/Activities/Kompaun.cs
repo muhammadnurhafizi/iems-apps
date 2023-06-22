@@ -2138,6 +2138,8 @@ namespace IEMSApps.Activities
 
                 Thread.Sleep(Constants.DefaultWaitingMilisecond);
                 await ShowMessageNew(false, "");
+
+                PrepareSendDataOnline();
             }
         }
 

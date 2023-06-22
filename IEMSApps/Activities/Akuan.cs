@@ -1041,6 +1041,10 @@ namespace IEMSApps.Activities
 
                 Thread.Sleep(Constants.DefaultWaitingMilisecond);
                 await ShowMessageNew(false, "");
+
+#if !DEBUG
+                PrepareSendDataOnline();
+#endif
             }
         }
 

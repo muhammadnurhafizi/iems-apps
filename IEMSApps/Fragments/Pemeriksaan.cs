@@ -3704,6 +3704,10 @@ namespace IEMSApps.Fragments
 
                 Thread.Sleep(Constants.DefaultWaitingMilisecond);
                 await ShowMessageNew(false, "");
+
+#if !DEBUG
+                PrepareSendDataOnline();
+#endif
             }
         }
 
