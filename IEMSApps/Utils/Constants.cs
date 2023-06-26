@@ -207,6 +207,11 @@ namespace IEMSApps.Utils
             public const string ConnectionToBluetooth = "Proses capaian sambungan";
             public const string GenerateBitmap = "Cetakan..";
             public const string FaildSendData = "Gagal hantar data.";
+
+            public const string SambungKompaun = "<div style='text-align:center' ><b> Tiada Data Kompaun </b> <br>" +
+                                                 "<br> Hasilkan semula Kompaun ? </div>";
+            public const string SambungAkuan = "<div style='text-align:center' ><b> Tiada Data Akuan </b> <br>" +
+                                                  "<br> Hasilkan semula Akuan ? </div>";
         }
 
         public const string InstallText = "Install";
@@ -291,6 +296,7 @@ namespace IEMSApps.Utils
         }
 
         public const string FWCODE = "1202T1";
+        public const string BixolonBluetoothName = "SPP-R410";
 
         public static class SkipIzin
         {

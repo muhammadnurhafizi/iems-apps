@@ -33,6 +33,9 @@ namespace IEMSApps.Activities
 
         ServicetHandler handler;
 
+        private AlertDialog _dialog;
+        private bool _isSkip;
+
         private HourGlassClass _hourGlass = new HourGlassClass();
 
         private MPosControllerPrinter _printer;
@@ -394,9 +397,211 @@ namespace IEMSApps.Activities
             }
             else
             {
-                GeneralAndroidClass.ShowToast("Tidak ada data KOTS");
+                //GeneralAndroidClass.ShowToast("Tidak ada data KOTS");
+
+                var message = string.Format(Constants.Messages.SambungKompaun);
+                var ad = GeneralAndroidClass.GetDialogCustom(this);
+                ad.SetMessage(Html.FromHtml(message));
+                ad.SetButton(Constants.Messages.No, (s, ev) => { });
+                ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
+                {
+                    _dialog = GeneralAndroidClass.ShowProgressDialog(this, Constants.Messages.WaitingPlease);
+                    new Thread(() =>
+                    {
+                        Thread.Sleep(1000);
+                        this.RunOnUiThread(CheckKompaunIzin);
+                    }).Start();
+
+                });
+                ad.Show();
             }
         }
+
+        private void ShowKompaun(string catatan)
+        {
+            var message = string.Format(Constants.Messages.KompaunIzinApproved, catatan);
+
+            var ad = GeneralAndroidClass.GetDialogCustom(this);
+
+            ad.SetMessage(Html.FromHtml(message));
+            ad.DismissEvent += Ad_DismissEvent;
+            ad.SetButton2("OK", (s, ev) =>
+            {
+
+            });
+            ad.Show();
+
+        }
+
+        private void Ad_DismissEvent(object sender, EventArgs e)
+        {
+            KompaunPage();
+        }
+
+        public void CheckKompaunIzin()
+        {
+            var data = PemeriksaanBll.CheckKompaunIzin(lblNoKpp.Text);
+
+#if DEBUG
+            data = new BusinessObject.Result<TbKompaunIzin>
+            {
+                Success = true,
+                Datas = new TbKompaunIzin
+                {
+                    Status = Enums.StatusIzinKompaun.Approved
+                }
+            };
+            ShowKompaun(data.Datas.Catatan);
+#endif
+
+            if (data.Success)
+            {
+                if (data.Datas == null)
+                {
+                    var dataInsert = PemeriksaanBll.CreateDefaultKompaunIzin(lblNoKpp.Text, this);
+                    if (dataInsert.Success)
+                    {
+                        GeneralAndroidClass.ShowModalMessage(this, Constants.Messages.KompaunIzinWaiting);
+                    }
+                    else
+                    {
+                        if (GeneralBll.IsSkipControl() && dataInsert.Message == Constants.ErrorMessages.NoInternetConnection)
+                        {
+                            ShowSkipMessage(Constants.ErrorMessages.SkipNoInternetConnection);
+                        }
+                        else
+                        {
+                            GeneralAndroidClass.ShowModalMessage(this, "Error " + dataInsert.Message);
+                        }
+
+
+                    }
+
+                }
+                else
+                {
+                    //check other rellated data first
+                    string message = "";
+                    switch (data.Datas.Status)
+                    {
+                        case Enums.StatusIzinKompaun.Approved:
+                            ShowKompaun(data.Datas.Catatan);
+                            break;
+                        case Enums.StatusIzinKompaun.Denied:
+                            message = string.Format(Constants.Messages.KompaunIzinDenied, data.Datas.Catatan);
+                            GeneralAndroidClass.ShowModalMessageHtml(this, message);
+                            break;
+                        default:
+                            var service = KompaunBll.CheckServiceKompaunIzin(lblNoKpp.Text, this);
+
+                            if (service.Success)
+                            {
+                                switch (service.Result.Status)
+                                {
+                                    case Enums.StatusIzinKompaun.Approved:
+                                        ShowKompaun(service.Result.Catatan);
+                                        break;
+                                    case Enums.StatusIzinKompaun.Denied:
+                                        message = string.Format(Constants.Messages.KompaunIzinDenied, service.Result.Catatan);
+                                        GeneralAndroidClass.ShowModalMessageHtml(this, message);
+                                        break;
+                                    default:
+                                        if (GeneralBll.IsSkipControl() && IsKompaunIzinWaitingSkip())
+                                        {
+                                            ShowSkipMessage(string.Format(Constants.Messages.SkipMessage,
+                                                Constants.MaxSkipWaitingInMinute));
+                                        }
+                                        else
+                                        {
+                                            GeneralAndroidClass.ShowModalMessage(this,
+                                                Constants.Messages.KompaunIzinWaiting);
+                                        }
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                if (GeneralBll.IsSkipControl() && IsKompaunIzinWaitingSkip())
+                                {
+                                    ShowSkipMessage(string.Format(Constants.Messages.SkipMessage,
+                                        Constants.MaxSkipWaitingInMinute));
+                                }
+                                else
+                                {
+                                    GeneralAndroidClass.ShowModalMessage(this, "Error " + service.Mesage);
+                                }
+
+                            }
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                GeneralAndroidClass.ShowModalMessage(this, Constants.ErrorMessages.FailedCreateKompaunIzin);
+            }
+            _dialog?.Dismiss();
+
+        }
+
+        private void ShowSkipMessage(string message)
+        {
+            _isSkip = false;
+
+            var ad = GeneralAndroidClass.GetDialogCustom(this);
+            ad.DismissEvent += Ad_DismissEventSkip;
+            ad.SetMessage(message);
+            ad.SetButton("Tidak", (s, ev) =>
+            {
+            });
+            ad.SetButton2("Ya", (s, ev) =>
+            {
+                _isSkip = true;
+                PemeriksaanBll.UpdatePemeriksaanSkipIzin(lblNoKpp.Text, Constants.SkipIzin.Yes);
+                ShowKompaunPage();
+            });
+            ad.Show();
+
+        }
+
+        private void Ad_DismissEventSkip(object sender, EventArgs e)
+        {
+            if (!_isSkip)
+            {
+                PemeriksaanBll.UpdatePemeriksaanSkipIzin(lblNoKpp.Text, Constants.SkipIzin.No);
+            }
+        }
+
+        private bool IsKompaunIzinWaitingSkip()
+        {
+            var dtNow = GeneralBll.GetLocalDateTime();
+
+            var data = KompaunBll.GetKompaunIzinByRujukanAndStatus(lblNoKpp.Text, Enums.StatusIzinKompaun.Waiting);
+            if (data.Success && data.Datas != null)
+            {
+                var createdDate = GeneralBll.ConvertDatabaseFormatStringToDateTime(data.Datas.TrkhDaftar);
+
+                if ((dtNow - createdDate).TotalMinutes > Constants.MaxSkipWaitingInMinute)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void KompaunPage()
+        {
+            var data = PemeriksaanBll.GetPemeriksaanByRujukan(_noRujukan);
+            // _isTindakanClick = true;
+            //_activeForm = Enums.ActiveForm.Kompaun;
+            var intent = new Intent(this, typeof(Kompaun));
+            intent.PutExtra("JenisKmp", ((int)Enums.JenisKompaun.KOTS).ToString());
+            intent.PutExtra("NoRujukanKpp", _noRujukan);
+            intent.PutExtra("NoKpPenerima", data.NoKpPenerima);
+            StartActivity(intent);
+        }
+
 
         private void ShowSiasatPage()
         {
@@ -567,128 +772,17 @@ namespace IEMSApps.Activities
             }
 
         }
-
-        async Task<MPosControllerDevices> OpenPrinterService(MposConnectionInformation connectionInfo)
-        {
-            if (connectionInfo == null)
-                return null;
-
-            if (_printer != null)
-                return _printer;
-
-            _printer = MPosDeviceFactory.Current.createDevice(MPosDeviceType.MPOS_DEVICE_PRINTER) as MPosControllerPrinter;
-
-            switch (connectionInfo.IntefaceType)
-            {
-                case MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH:
-                case MPosInterfaceType.MPOS_INTERFACE_WIFI:
-                case MPosInterfaceType.MPOS_INTERFACE_ETHERNET:
-                    _printer.selectInterface((int)connectionInfo.IntefaceType, connectionInfo.Address);
-                    _printer.selectCommandMode((int)(false ? MPosCommandMode.MPOS_COMMAND_MODE_DEFAULT : MPosCommandMode.MPOS_COMMAND_MODE_BYPASS));
-                    break;
-                default:
-                    //await DisplayAlert("Connection Fail", "Not Supported Interface", "OK");
-                    return null;
-            }
-
-            await _printSemaphore.WaitAsync();
-
-            try
-            {
-                var result = await _printer.openService();
-                if (result != (int)MPosResult.MPOS_SUCCESS)
-                {
-                    _printer = null;
-                    //await DisplayAlert("Connection Fail", "openService failed. (" + result.ToString() + ")", "OK");
-                }
-            }
-            finally
-            {
-                _printSemaphore.Release();
-            }
-
-            return _printer;
-        }
-        
+       
         async void lvResult_ItemClick(object sender, AdapterView.ItemClickEventArgs e)
         {
             try
-            {
-                string bx = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
+            {   
+                if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
+                    return;
+
                 _alert.Dismiss();
-                if (bx == "SPP-R410")
-                {
-
-                    try
-                    {
-                        
-                        _connectionInfo = new MposConnectionInformation();
-
-                        _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
-                        _connectionInfo.Name = GlobalClass.BluetoothAndroid._listDevice[e.Position].Name.ToString();
-                        _connectionInfo.MacAddress = GlobalClass.BluetoothAndroid._listDevice[e.Position].Address.ToString();
-
-                        if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
-                        {
-                                GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
-                        }
-
-                        // Prepares to communicate with the printer
-                        _printer = await OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
-
-                        if (_printer == null)
-                            return;
-
-                        await _printSemaphore.WaitAsync();
-
-                        await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
-
-                        var printImageBll = new PrintImageBll();
-                        var bitmap = printImageBll.Pemeriksaan(this, lblNoKpp.Text);
-
-                        await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth);
-
-                        // note : Page mode and transaction mode cannot be used together between IN and OUT.
-                        // When "setTransaction" function called with "MPOS_PRINTER_TRANSACTION_IN", print data are stored in the buffer.
-                        await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
-                        
-                        await _printer.directIO(new byte[] { 0x1b, 0x40 });
-
-                        await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
-
-                        // Feed to tear-off position (Manual Cutter Position)
-                        await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
-                    }
-                    catch (Exception ex)
-                    {
-                        //DisplayAlert("Exception", ex.Message, "OK");
-                        GeneralAndroidClass.LogData(LayoutName, "Printer error : ", ex.Message, Enums.LogType.Error);
-                    }
-                    finally
-                    {
-                        // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
-                         await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
-                        // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
-                        _printSemaphore.Release();
-
-                        await ShowMessageNew(true, Constants.Messages.SuccessPrint);
-                        Thread.Sleep(Constants.DefaultWaitingMilisecond);
-                        await ShowMessageNew(false, "");
-                    }
-
-                }
-                else
-                {
-                    if (e.Position > GlobalClass.BluetoothAndroid._listDevice.Count)
-                        return;
-
-                    _alert.Dismiss();
-                    GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
-                    Print(false);
-                }
-
-
-               
+                GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
+                Print(false);
             }
             catch (Exception ex)
             {
@@ -711,15 +805,30 @@ namespace IEMSApps.Activities
             }
 
             //RunOnUiThread(() => GetFWCode()) ;
-            GetFWCode();
+            //GetFWCode();
 
             new Task(() =>
             {
                 try
                 {
                     //RunOnUiThread(() => OnPrinting());
-                    OnPrinting();
-                    IsLoading(this, false);
+                    //OnPrinting();
+                    //IsLoading(this, false);
+
+                    string BluetoothName = GlobalClass.BluetoothDevice.Name;
+                    //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
+                    GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
+                    if (BluetoothName == Constants.BixolonBluetoothName)
+                    {
+                        OnPrintingBixolon();
+                    }
+                    else
+                    {
+                        //RunOnUiThread(() => GetFWCode()) ;
+                        GetFWCode();
+                        OnPrinting();
+                        IsLoading(this, false);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -908,6 +1017,93 @@ namespace IEMSApps.Activities
             }
         }
 
+        #endregion
+
+
+        #region PrintingBixolon
+
+        private async Task OnPrintingBixolon()
+        {
+            uint stats = 0;
+            int check = 1;
+            PrinterBixolonClass bixolonClass = new PrinterBixolonClass();
+            try
+            {
+                _connectionInfo = new MposConnectionInformation();
+
+                _connectionInfo.IntefaceType = MPosInterfaceType.MPOS_INTERFACE_BLUETOOTH;
+                _connectionInfo.Name = GlobalClass.BluetoothDevice.Name;
+                _connectionInfo.MacAddress = GlobalClass.BluetoothDevice.Address;
+
+                if (!GeneralAndroidClass.IsRegisterPrinter(_connectionInfo.MacAddress))
+                {
+                    GeneralAndroidClass.RegisterPrinter(_connectionInfo.MacAddress);
+                }
+                Log.WriteLogFile("CheckPrinter", "connection Info : " + _connectionInfo, Enums.LogType.Debug);
+
+                // convert kpp to bitmapkpp to get ready to print
+                await ShowMessageNew(true, Constants.Messages.GenerateBitmap);
+                var printImageBll = new PrintImageBll();
+                var bitmap = printImageBll.Pemeriksaan(this, lblNoKpp.Text);
+
+                // Prepares to communicate with the printer
+                _printer = await bixolonClass.OpenPrinterService(_connectionInfo) as MPosControllerPrinter;
+                await ShowMessageNew(true, Constants.Messages.ConnectionToBluetooth + " Printer Bixolon");
+
+                check = await bixolonClass.CheckPrinter(_printer);
+                if (check == 2)
+                {
+                    Thread.Sleep(Constants.DefaultWaitingConnectionToBluetooth);
+                    await ShowMessageNew(false, "");
+                    return;
+                }
+                else
+                {
+                    await ShowMessageNew(true, "Printer Avalaible");
+                    Thread.Sleep(Constants.DefaultWaitingConnectionToBluetooth);
+                }
+
+                await ShowMessageNew(true, "Menyemak Status Printer Bixolon");
+                stats = await bixolonClass.CheckPrinterBixolonStatus(_printer);
+                if (stats > 0)
+                {
+                    //reset _printer = null, if failed to connect after turn off and on the printer.
+                    bixolonClass.ResetPrinterConnection();
+                    GeneralAndroidClass.ShowToast("Sila Cuba Sekali Lagi");
+                    await ShowMessageNew(false, "");
+                    return;
+                }
+
+                await ShowMessageNew(true, Constants.Messages.PrintWaitMessage);
+
+                await _printSemaphore.WaitAsync();
+
+                await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_IN);
+                await _printer.directIO(new byte[] { 0x1b, 0x40 });
+                await _printer.printBitmap(bitmap, -2, 1, Constants.Brightness, true, true);
+                await _printer.directIO(new byte[] { 0x1b, 0x4a, 0xaf });
+            }
+            catch (Exception ex)
+            {
+                GeneralAndroidClass.LogData(LayoutName, "OnPrintingBixolon : ", ex.Message, Enums.LogType.Error);
+            }
+            finally
+            {
+                if (check == 1)
+                {
+                    // Printer starts printing by calling "setTransaction" function with "MPOS_PRINTER_TRANSACTION_OUT"
+                    await _printer.setTransaction((int)MPosTransactionMode.MPOS_PRINTER_TRANSACTION_OUT);
+                    // If there's nothing to do with the printer, call "closeService" method to disconnect the communication between Host and Printer.
+                    await _printer.closeService();
+                    _printSemaphore.Release();
+
+                    await ShowMessageNew(true, Constants.Messages.SuccessPrint);
+                }
+
+                Thread.Sleep(Constants.DefaultWaitingMilisecond);
+                await ShowMessageNew(false, "");
+            }
+        }
 
         #endregion
     }
