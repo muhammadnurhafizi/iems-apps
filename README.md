@@ -1,5 +1,9 @@
 # Release Note For iems-apps 
 
+Version: 1.1.4.0
+====================================================================================
+1. Feature for Change Request (CR) 
+
 Version: 1.1.3.9
 ====================================================================================
 1. Fix Printer Problem with new gadget (Samsung A53 5G)
