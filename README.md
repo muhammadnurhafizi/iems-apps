@@ -1,5 +1,10 @@
 # Release Note For iems-apps 
 
+Version: 1.1.3.9
+====================================================================================
+1. Fix Printer Problem with new gadget (Samsung A53 5G)
+2. Can continue KOTS after crash on SEMAKAN.
+
 Version: 1.1.3.8
 ====================================================================================
 1. Add function and make Connection to Bixolon Printer for latest Samsung A53 Gadget

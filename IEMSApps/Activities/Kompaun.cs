@@ -1661,6 +1661,7 @@ namespace IEMSApps.Activities
                         OnPrinting();
                         IsLoading(this, false);
                     }
+
                 }
                 catch (Exception ex)
                 {

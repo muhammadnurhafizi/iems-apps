@@ -225,6 +225,7 @@
     <Compile Include="Classes\GeneralAndroidClass.cs" />
     <Compile Include="Classes\GlobalClass.cs" />
     <Compile Include="Classes\HourGlassClass.cs" />
+    <Compile Include="Classes\PrinterBixolonClass.cs" />
     <Compile Include="Classes\SharedPreferences.cs" />
     <Compile Include="Classes\PrinterBixolonClass.cs" />
     <Compile Include="Classes\SharedPreferencesKeys.cs" />

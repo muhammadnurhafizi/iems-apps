@@ -212,7 +212,7 @@ namespace IEMSApps.Activities
 
                 _alert.Dismiss();
                 GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
-                Print(false);
+                Print(false);  
             }
             catch (Exception ex)
             {
@@ -425,6 +425,7 @@ namespace IEMSApps.Activities
             await Task.Delay(Constants.DefaultWaitingMilisecond);
         }
         #endregion
+
 
         #region PrintingBixolon
 

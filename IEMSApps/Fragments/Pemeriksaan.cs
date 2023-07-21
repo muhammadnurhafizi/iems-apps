@@ -2293,7 +2293,7 @@ namespace IEMSApps.Fragments
 
                 _alert.Dismiss();
                 GlobalClass.BluetoothDevice = GlobalClass.BluetoothAndroid._listDevice[e.Position];
-                Print(false);     
+                Print(false);    
             }
             catch (Exception ex)
             {
@@ -2333,7 +2333,6 @@ namespace IEMSApps.Fragments
                     }
                     else
                     {
-                        //RunOnUiThread(() => OnPrinting());
                         //RunOnUiThread(() => GetFWCode()) ;
                         GetFWCode();
                         OnPrinting();
@@ -3618,9 +3617,7 @@ namespace IEMSApps.Fragments
             }
 
             _hourGlass?.StopMessage();
-
         }
-
 
         #region PrintingBixolon
 
@@ -3705,9 +3702,7 @@ namespace IEMSApps.Fragments
                 Thread.Sleep(Constants.DefaultWaitingMilisecond);
                 await ShowMessageNew(false, "");
 
-#if !DEBUG
                 PrepareSendDataOnline();
-#endif
             }
         }
 

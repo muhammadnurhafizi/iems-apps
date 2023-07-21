@@ -595,7 +595,7 @@ namespace IEMSApps.Activities
             //GetFWCode();
 
             new Task(() =>
-            {
+            { 
                 try
                 {
                     //RunOnUiThread(() => OnPrinting());
