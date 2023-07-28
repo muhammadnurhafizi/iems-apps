@@ -217,7 +217,7 @@ namespace IEMSApps.Activities
                 txtJenamaStesenMinyak.Text = jenamaStesenMinyak;
             } else
             {
-                linearJenamaStesen.Visibility = ViewStates.Gone;
+                linearJenamaStesen.Visibility = ViewStates.Visible;
                 txtJenamaStesenMinyak.Text = jenamaStesenMinyak;
             }
             SetDisableEditText(txtJenamaStesenMinyak);
