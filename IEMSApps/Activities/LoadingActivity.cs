@@ -454,7 +454,7 @@ namespace IEMSApps.Activities
         {
             int totalData;
             UpdateInfo(Constants.Messages.HapusData + " Lokaliti/ Kategori Khas Temp");
-            DataAccessQuery<TbLokalitiKategoriKhasTemp>.ExecuteSql("DELETE FROM TbLokalitiKategoriKhas Temp");
+            DataAccessQuery<TbLokalitiKategoriKhasTemp>.ExecuteSql("DELETE FROM tblokaliti_kategori_khas_temp");
 
             UpdateInfo(Constants.Messages.InsertData + " Lokaliti/ Kategori Khas Temp");
             totalData = result.Result.TbLokaliti_Kategori_Khas_Temp.Count;
