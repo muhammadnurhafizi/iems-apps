@@ -2603,7 +2603,7 @@ namespace IEMSApps.Fragments
 
             var countPhoto = GeneralBll.GetCountPhotoByRujukan(lblNoKpp.Text);
 
-            if (tindakan != Enums.Tindakan.TiadaKes || tindakan != Enums.Tindakan.SerahanNotis)
+            if (tindakan != Enums.Tindakan.TiadaKes)
             {
                 if (countPhoto < Constants.MinPhoto)
                     return false;
