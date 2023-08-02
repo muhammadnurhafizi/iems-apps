@@ -599,8 +599,8 @@ namespace IEMSApps.Activities
                 if (File.Exists(filePath))
                     File.Delete(filePath);
 
-                var totalBytes = 0;
-                var receivedBytes = 0;
+                long totalBytes = 0;
+                long receivedBytes = 0;
                 var received = 0;
                 var total = 0;
                 UpdateInfo(Constants.Messages.Downloading);
@@ -694,11 +694,11 @@ namespace IEMSApps.Activities
             RunOnUiThread(() => _lblInfo.Text = message);
         }
 
-        private void UpdateCountAndPercentage(int index, int total, bool isDownloading = false)
+        private void UpdateCountAndPercentage(long index, int total, bool isDownloading = false)
         {
             RunOnUiThread(() =>
             {
-                _progressBar1.Progress = index;
+                _progressBar1.Progress = (int)index;
 
                 if (index != 0 && total != 0)
                 {

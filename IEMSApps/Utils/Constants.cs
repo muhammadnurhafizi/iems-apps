@@ -8,8 +8,8 @@ namespace IEMSApps.Utils
     public static class Constants
     {
 
-        public const string AppVersion = "Version: 1.1.4.1";
-        public const int AppVersionValueForUpdate = 1141;
+        public const string AppVersion = "Version: 1.1.4.2";
+        public const int AppVersionValueForUpdate = 1142;
 
         public const string AppName = "IEMS";
        

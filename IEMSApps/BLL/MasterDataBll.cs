@@ -423,12 +423,13 @@ namespace IEMSApps.BLL
             return "";
         }
 
-        public static Dictionary<string, string> GetAllKategoriPerniagaan()
+        public static Dictionary<string, string> GetAllKategoriPerniagaan(bool isAddDefault = true)
         {
             var result = new Dictionary<string, string>();
-
-            result.Add("-", "");
-
+            if (isAddDefault)
+            {
+                result.Add("0", "");
+            }
             var listData = DataAccessQuery<TbKategoriPerniagaan>.GetAll();
             if (listData.Success)
             {

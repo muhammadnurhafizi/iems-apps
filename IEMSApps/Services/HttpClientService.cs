@@ -24,7 +24,7 @@ namespace IEMSApps.Services
         {
             var httpClient = new HttpClient
             {
-                Timeout = TimeSpan.FromMinutes(2)
+                Timeout = TimeSpan.FromMinutes(0.5)
             };
 
             return httpClient;

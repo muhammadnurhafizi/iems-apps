@@ -1310,11 +1310,6 @@ namespace IEMSApps.Fragments
             //spTujuanLawatan.Adapter = new ArrayAdapter<string>(this.Activity, Resource.Layout.support_simple_spinner_dropdown_item, ListTujuanLawatan.Select(c => c.Value).ToList());
             //spTujuanLawatan.ItemSelected += SpTujuanLawatan_ItemSelected;
 
-
-            spKategoryKawasan.ItemSelected += Event_CheckMandatory_Dropdown;
-            spKategoryPremis.ItemSelected += Event_CheckMandatory_Dropdown;
-
-
             ListTindakan = PemeriksaanBll.GetAllTindakan();
             spTindakan.Adapter = new ArrayAdapter<string>(this.Activity,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListTindakan.Select(c => c.Value).ToList());
@@ -1339,6 +1334,10 @@ namespace IEMSApps.Fragments
             ListWarganegara = PemeriksaanBll.GetKewarganegaraan();
             spKewarganegaraan.Adapter = new ArrayAdapter<string>(this.Activity,
                 Resource.Layout.support_simple_spinner_dropdown_item, ListWarganegara.Select(c => c.Value).ToList());
+
+            spKategoryKawasan.ItemSelected += Event_CheckMandatory_Dropdown;
+            spKategoryPremis.ItemSelected += Event_CheckMandatory_Dropdown;
+            spKategoriPerniagaan.ItemSelected += Event_CheckMandatory_Dropdown;
 
             spKewarganegaraan.ItemSelected += spKewarganegaraan_ItemSelected;
         }
@@ -2586,6 +2585,7 @@ namespace IEMSApps.Fragments
             if (string.IsNullOrEmpty(spKategoryPremis.SelectedItem.ToString())) return false;
             //if (_jenisNiaga == 0) return false;
             if (string.IsNullOrEmpty(txtJenisNiaga.Text)){ return false; }
+            if (string.IsNullOrEmpty(spKategoriPerniagaan.SelectedItem.ToString())) return false; 
             if (string.IsNullOrEmpty(spJenamaStesenMinyak.SelectedItem.ToString()) && txtJenisNiaga.Text.Contains("STESEN MINYAK")){return false;} 
             if (string.IsNullOrEmpty(txtNamaPremis.Text)) return false;
             if (string.IsNullOrEmpty(txtAlamat1.Text)) return false;

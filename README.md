@@ -1,5 +1,14 @@
 # Release Note For iems-apps 
 
+Version: 1.1.4.2
+====================================================================================
+1. Fix boleh print jika kategori perniagaan tidak diisi
+2. Fix download percent bar jadi negative selepas 79%
+
+Version: 1.1.4.1
+====================================================================================
+1. Fix KPP perlu ambil 2 gambar kepada gambar
+
 Version: 1.1.4.0
 ====================================================================================
 1. Feature for Change Request (CR) 

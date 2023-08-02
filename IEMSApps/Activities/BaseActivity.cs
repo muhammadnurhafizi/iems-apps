@@ -75,8 +75,12 @@ namespace IEMSApps.Activities
                 else
                     action();
             }
-            else
-                action();
+            else 
+            {
+                GeneralAndroidClass.ShowToast(versionDto.Mesage);
+                GeneralAndroidClass.LogData("BaseActivity", "CheckNewVersion", versionDto.Mesage, Enums.LogType.Info);
+                action(); 
+            }
         }
 
         private void DownloadNewVersion(string url)
