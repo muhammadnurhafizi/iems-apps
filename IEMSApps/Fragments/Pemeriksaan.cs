@@ -2151,9 +2151,9 @@ namespace IEMSApps.Fragments
             txtCatatanLawatan.Text = "";
             txtHasilLawatan.Text = "";
 
-            spKategoryKawasan.SetSelection(0);
-            txtLokasi.Text = "";
-            txtAsasTindakan.Text = "";
+            //spKategoryKawasan.SetSelection(0);
+            //txtLokasi.Text = "";
+            //txtAsasTindakan.Text = "";
 
             var localDate = GeneralBll.GetLocalDateTime().ToString(Constants.DateFormatDisplay);
             var localTime = GeneralBll.GetLocalDateTime().ToString(Constants.TimeFormatDisplay);
