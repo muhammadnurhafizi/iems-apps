@@ -910,19 +910,11 @@ namespace IEMSApps.Activities
                 }
             }
 
-            //RunOnUiThread(() => GetFWCode()) ;
-            //GetFWCode();
-
             new Task(() =>
             {
                 try
                 {
-                    //RunOnUiThread(() => OnPrinting());
-                    //OnPrinting();
-                    //IsLoading(this, false);
-
                     string BluetoothName = GlobalClass.BluetoothDevice.Name;
-                    //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
                     GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
                     if (BluetoothName == Constants.BixolonBluetoothName)
                     {
@@ -930,8 +922,12 @@ namespace IEMSApps.Activities
                     }
                     else
                     {
-                        //RunOnUiThread(() => GetFWCode()) ;
-                        GetFWCode();
+                        new Task(() =>
+                        {
+                            GetFWCode();
+
+                        }).Start();
+
                         OnPrinting();
                         IsLoading(this, false);
                     }
@@ -1009,7 +1005,7 @@ namespace IEMSApps.Activities
         private async Task OnPrinting()
         {
             Log.WriteLogFile("Printer Firmware : " + GlobalClass.FwCode);
-#if !DEBUG
+#if DEBUG
             //await ShowMessageNew(true, "Loading...");
             //Thread.Sleep(1000);
             //await ShowMessageNew(true, "Message 1");

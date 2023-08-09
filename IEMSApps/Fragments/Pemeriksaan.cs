@@ -2349,8 +2349,13 @@ namespace IEMSApps.Fragments
                     }
                     else
                     {
-                        //RunOnUiThread(() => GetFWCode()) ;
-                        GetFWCode();
+                        //GetFWCode();
+                        new Task(() =>
+                        {
+                            GetFWCode();
+
+                        }).Start();
+
                         OnPrinting();
                         IsLoading(this.Activity, false);
                     }
