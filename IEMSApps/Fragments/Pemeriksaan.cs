@@ -1173,9 +1173,15 @@ namespace IEMSApps.Fragments
                         this.Activity.RunOnUiThread(ShowSiasatanLanjut);
                     }).Start();
                 }
-
-
-
+                else if (_isSaved && tindakan == Enums.Tindakan.SerahanNotis)
+                {
+                    _dialog = GeneralAndroidClass.ShowProgressDialog(this.Activity, Constants.Messages.WaitingPlease);
+                    new Thread(() =>
+                    {
+                        Thread.Sleep(1000);
+                        this.Activity.RunOnUiThread(ShowSerahanNotis);
+                    }).Start();
+                }
             }
             catch (Exception ex)
             {
@@ -1187,6 +1193,17 @@ namespace IEMSApps.Fragments
         {
             //_isTindakanClick = true;
             _activeForm = Enums.ActiveForm.SiasatLanjutan;
+
+            var intent = new Intent(this.Activity, typeof(SiasatLanjutan));
+            intent.PutExtra("NoRujukanKpp", lblNoKpp.Text);
+            StartActivity(intent);
+            _dialog?.Dismiss();
+        }
+
+        private void ShowSerahanNotis()
+        {
+            //_isTindakanClick = true;
+            _activeForm = Enums.ActiveForm.SerahanNotis;
 
             var intent = new Intent(this.Activity, typeof(SiasatLanjutan));
             intent.PutExtra("NoRujukanKpp", lblNoKpp.Text);

@@ -226,6 +226,10 @@ namespace IEMSApps.Utils
                                                  "<br> Hasilkan semula Kompaun ? </div>";
             public const string SambungAkuan = "<div style='text-align:center' ><b> Tiada Data Akuan </b> <br>" +
                                                   "<br> Hasilkan semula Akuan ? </div>";
+            public const string SambungSiasatanUlangan = "<div style='text-align:center' ><b> Tiada Data Kes Siasatan Ulangan  </b> <br>" +
+                                                  "<br> Hasilkan semula Data Kes Bagi Siasatan Ulangan? </div>";
+            public const string SambungSerahanNotis = "<div style='text-align:center' ><b> Tiada Data Kes Serahan Notis  </b> <br>" +
+                                                  "<br> Hasilkan semula Data Kes Bagi Serahan Notis ? </div>";
         }
 
         public const string InstallText = "Install";

@@ -22,6 +22,7 @@ using IEMSApps.Services;
 using IEMSApps.Utils;
 using Plugin.BxlMpXamarinSDK;
 using Plugin.BxlMpXamarinSDK.Abstractions;
+using static IEMSApps.Utils.Enums;
 
 namespace IEMSApps.Activities
 {
@@ -456,6 +457,10 @@ namespace IEMSApps.Activities
                 {
                     ShowSiasatPage();
                 }
+                else if (_tindakan == Constants.Tindakan.SerahanNotis)
+                {
+                    ShowSerahanNotisPage();
+                }
             }
             _hourGlass?.StopMessage();
         }
@@ -691,6 +696,31 @@ namespace IEMSApps.Activities
             else
             {
                 GeneralAndroidClass.ShowToast("Tidak ada data Siasatan Lanjut");
+            }
+        }
+        private void ShowSerahanNotisPage()
+        {
+            // serahan notis same as Siasatan Lanjut
+            var data = KompaunBll.GetSiasatByRujukanKpp(lblNoKpp.Text);
+            if (data != null)
+            {
+                var intent = new Intent(this, typeof(ViewSiasatLanjut));
+                intent.PutExtra("NoRujukanKpp", lblNoKpp.Text);
+                StartActivity(intent);
+            }
+            else
+            {
+                var message = string.Format(Constants.Messages.SambungSerahanNotis);
+                var ad = GeneralAndroidClass.GetDialogCustom(this);
+                ad.SetMessage(Html.FromHtml(message));
+                ad.SetButton(Constants.Messages.No, (s, ev) => { });
+                ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
+                {
+                    var intent = new Intent(this, typeof(SiasatLanjutan));
+                    intent.PutExtra("NoRujukanKpp", lblNoKpp.Text);
+                    StartActivity(intent);
+                });
+                ad.Show();
             }
         }
 

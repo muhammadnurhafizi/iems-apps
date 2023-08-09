@@ -62,6 +62,7 @@
             Akuan = 3,
             Camera = 4,
             SiasatLanjutan = 5,
+            SerahanNotis = 6,
         }
 
         public enum SearchCarianType
