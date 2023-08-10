@@ -1135,7 +1135,7 @@ namespace IEMSApps.Fragments
             btnNote.Enabled = false;
 
             var tindakan = (Enums.Tindakan)spTindakan.SelectedItemPosition - 1;
-            if (_isSaved && (tindakan == Enums.Tindakan.Kots || tindakan == Enums.Tindakan.SiasatLanjutan))
+            if (_isSaved && (tindakan == Enums.Tindakan.Kots || tindakan == Enums.Tindakan.SiasatLanjutan || tindakan == Enums.Tindakan.SerahanNotis))
             {
                 btnNote.SetBackgroundResource(Resource.Drawable.catatan_icon);
                 btnNote.Enabled = true;
@@ -2330,42 +2330,71 @@ namespace IEMSApps.Fragments
                 }
             }
 
-            //GetFWCode();
-
-            new Task(() =>
+            try
             {
-                try
+                string BluetoothName = GlobalClass.BluetoothDevice.Name;
+                GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
+                if (BluetoothName == Constants.BixolonBluetoothName)
                 {
-                    //RunOnUiThread(() => OnPrinting());
-                    //OnPrinting();
-                    //IsLoading(this.Activity, false);
-
-                    string BluetoothName = GlobalClass.BluetoothDevice.Name;
-                    //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
-                    GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
-                    if (BluetoothName == Constants.BixolonBluetoothName)
+                    new Task(() =>
                     {
                         OnPrintingBixolon();
-                    }
-                    else
-                    {
-                        //GetFWCode();
-                        new Task(() =>
-                        {
-                            GetFWCode();
 
-                        }).Start();
+                    }).RunSynchronously();
+
+                }
+                else
+                {
+                    GetFWCode();
+                    new Task(() =>
+                    {
 
                         OnPrinting();
-                        IsLoading(this.Activity, false);
-                    }
-                }
-                catch (Exception ex)
-                {
+
+                    }).RunSynchronously();
                     IsLoading(this.Activity, false);
-                    GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
                 }
-            }).RunSynchronously();
+            }
+            catch (Exception ex)
+            {
+                IsLoading(this.Activity, false);
+                GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
+            }
+
+            //new Task(() =>
+            //{
+            //    try
+            //    {
+            //        //RunOnUiThread(() => OnPrinting());
+            //        //OnPrinting();
+            //        //IsLoading(this.Activity, false);
+
+            //        string BluetoothName = GlobalClass.BluetoothDevice.Name;
+            //        //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
+            //        GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
+            //        if (BluetoothName == Constants.BixolonBluetoothName)
+            //        {
+            //            OnPrintingBixolon();
+            //        }
+            //        else
+            //        {
+            //            //GetFWCode();
+            //            new Task(() =>
+            //            {
+            //                GetFWCode();
+
+            //            }).Start();
+
+            //            OnPrinting();
+            //            IsLoading(this.Activity, false);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        IsLoading(this.Activity, false);
+            //        GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
+            //    }
+            //}).RunSynchronously();
         }
 
 
