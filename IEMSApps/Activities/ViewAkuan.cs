@@ -233,67 +233,36 @@ namespace IEMSApps.Activities
                     return;
                 }
             }
+            //GetFWCode();
 #endif
-
-            try
+            new Task(() =>
             {
-                string BluetoothName = GlobalClass.BluetoothDevice.Name;
-                GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
-                if (BluetoothName == Constants.BixolonBluetoothName)
+                try
                 {
-                    new Task(() =>
+                    //OnPrinting();
+                    //IsLoading(this, false);
+
+                    string BluetoothName = GlobalClass.BluetoothDevice.Name;
+                    //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
+                    GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
+                    if (BluetoothName == Constants.BixolonBluetoothName)
                     {
                         OnPrintingBixolon();
-
-                    }).RunSynchronously();
-
-                }
-                else
-                {
-                    GetFWCode();
-                    new Task(() =>
+                    }
+                    else
                     {
-
+                        //RunOnUiThread(() => GetFWCode()) ;
+                        GetFWCode();
                         OnPrinting();
-
-                    }).RunSynchronously();
-                    IsLoading(this, false);
+                        IsLoading(this, false);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                IsLoading(this, false);
-                GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
-            }
-
-            //new Task(() =>
-            //{
-            //    try
-            //    {
-            //        //OnPrinting();
-            //        //IsLoading(this, false);
-
-            //        string BluetoothName = GlobalClass.BluetoothDevice.Name;
-            //        //GeneralAndroidClass.ShowToast("Printer Dipilih : " + BluetoothName);
-            //        GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
-            //        if (BluetoothName == Constants.BixolonBluetoothName)
-            //        {
-            //            OnPrintingBixolon();
-            //        }
-            //        else
-            //        {
-            //            //RunOnUiThread(() => GetFWCode()) ;
-            //            GetFWCode();
-            //            OnPrinting();
-            //            IsLoading(this, false);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        IsLoading(this, false);
-            //        GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
-            //    }
-            //}).RunSynchronously();
+                catch (Exception ex)
+                {
+                    IsLoading(this, false);
+                    GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
+                }
+            }).RunSynchronously();
         }
 
 

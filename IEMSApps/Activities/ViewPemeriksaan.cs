@@ -695,18 +695,7 @@ namespace IEMSApps.Activities
             }
             else
             {
-                //GeneralAndroidClass.ShowToast("Tidak ada data Siasatan Lanjut");
-                var message = string.Format(Constants.Messages.SambungSiasatanUlangan);
-                var ad = GeneralAndroidClass.GetDialogCustom(this);
-                ad.SetMessage(Html.FromHtml(message));
-                ad.SetButton(Constants.Messages.No, (s, ev) => { });
-                ad.SetButton2(Constants.Messages.Yes, (s, ev) =>
-                {
-                    var intent = new Intent(this, typeof(SiasatLanjutan));
-                    intent.PutExtra("NoRujukanKpp", lblNoKpp.Text);
-                    StartActivity(intent);
-                });
-                ad.Show();
+                GeneralAndroidClass.ShowToast("Tidak ada data Siasatan Lanjut");
             }
         }
         private void ShowSerahanNotisPage()
@@ -921,65 +910,34 @@ namespace IEMSApps.Activities
                 }
             }
 
-            try
+            new Task(() =>
             {
-                string BluetoothName = GlobalClass.BluetoothDevice.Name;
-                GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
-                if (BluetoothName == Constants.BixolonBluetoothName)
+                try
                 {
-                    new Task(() =>
+                    string BluetoothName = GlobalClass.BluetoothDevice.Name;
+                    GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
+                    if (BluetoothName == Constants.BixolonBluetoothName)
                     {
                         OnPrintingBixolon();
-
-                    }).RunSynchronously();
-                    
-                }
-                else
-                {
-                    GetFWCode();
-                    new Task(() =>
+                    }
+                    else
                     {
-                        
+                        new Task(() =>
+                        {
+                            GetFWCode();
+
+                        }).Start();
+
                         OnPrinting();
-
-                    }).RunSynchronously();
-                    IsLoading(this, false);
+                        IsLoading(this, false);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                IsLoading(this, false);
-                GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
-            }
-
-            //new Task(() =>
-            //{
-            //    try
-            //    {
-            //        string BluetoothName = GlobalClass.BluetoothDevice.Name;
-            //        GeneralAndroidClass.LogData(LayoutName, "Print using Device : ", BluetoothName, Enums.LogType.Debug);
-            //        if (BluetoothName == Constants.BixolonBluetoothName)
-            //        {
-            //            OnPrintingBixolon();
-            //        }
-            //        else
-            //        {
-            //            new Task(() =>
-            //            {
-            //                GetFWCode();
-
-            //            }).RunSynchronously();
-
-            //            OnPrinting();
-            //            IsLoading(this, false);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        IsLoading(this, false);
-            //        GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
-            //    }
-            //}).RunSynchronously();
+                catch (Exception ex)
+                {
+                    IsLoading(this, false);
+                    GeneralAndroidClass.LogData(LayoutName, "Print", ex.Message, Enums.LogType.Error);
+                }
+            }).RunSynchronously();
         }
 
         //BluetoothPrintService printService = null;
