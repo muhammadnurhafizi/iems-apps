@@ -2092,7 +2092,7 @@ namespace IEMSApps.Fragments
 
             var tindakan = (Enums.Tindakan)(spTindakan.SelectedItemPosition - 1);
 
-            if (!_isSaved || tindakan == Enums.Tindakan.TiadaKes || tindakan == Enums.Tindakan.SiasatUlangan || tindakan == Enums.Tindakan.SerahanNotis)
+            if (!_isSaved || tindakan == Enums.Tindakan.TiadaKes || tindakan == Enums.Tindakan.SiasatUlangan)
             {
                 ShowTamatDialog();
                 return;
@@ -2144,6 +2144,19 @@ namespace IEMSApps.Fragments
                 {
                     GeneralAndroidClass.ShowModalMessage(this.Activity,
                         Constants.ErrorMessages.SiasatLanjutNotCompleted);
+                }
+            }
+            else if (tindakan == Enums.Tindakan.SerahanNotis)
+            {
+                var serahanNotis = PemeriksaanBll.GetSerahanNotisByRujukanKpp(lblNoKpp.Text);
+                if (serahanNotis != null)
+                {
+                    ShowTamatDialog();
+                }
+                else
+                {
+                    GeneralAndroidClass.ShowModalMessage(this.Activity,
+                        Constants.ErrorMessages.SerahanNotisNotCompleted);
                 }
             }
 
@@ -3238,6 +3251,12 @@ namespace IEMSApps.Fragments
             {
                 var siasat = PemeriksaanBll.GetSiasatLanjutByRujukanKpp(lblNoKpp.Text);
                 if (siasat == null) return true;
+            }
+
+            if (tindakan == Enums.Tindakan.SerahanNotis)
+            {
+                var serahan = PemeriksaanBll.GetSerahanNotisByRujukanKpp(lblNoKpp.Text);
+                if (serahan == null) return true;
             }
 
             return false;

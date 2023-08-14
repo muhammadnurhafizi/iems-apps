@@ -86,6 +86,7 @@ namespace IEMSApps.Utils
             public const string PasukanExist = "ID Pengguna yang ingin ditambah telah wujud dalam pasukan ini";
             public const string KompaunNotCompleted = "Maklumat Kompaun masih belum lengkap. Selesai pemeriksaan tidak dibenarkan";
             public const string SiasatLanjutNotCompleted = "Maklumat Siasatan Lanjut masih belum lengkap. Selesai pemeriksaan tidak dibenarkan";
+            public const string SerahanNotisNotCompleted = "Maklumat Serahan Notis masih belum lengkap. Selesai pemeriksaan tidak dibenarkan";
             public const string ErrorApi = "Error Code : {0}. Ralat mendapatkan data dari Sistem Utama IEMS.Sila hubungi admin sistem";
             public const string ErrorApi_Exception = "Error : {0}. Ralat mendapatkan data dari Sistem Utama IEMS.Sila hubungi admin sistem";
             public const string ErrorApiTimeout = "Gagal berhubung ke server IEMS. Sila cuba lagi atau hubungi admin sistem";

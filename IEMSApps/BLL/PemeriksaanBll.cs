@@ -292,6 +292,17 @@ namespace IEMSApps.BLL
             return null;
         }
 
+        public static TbDataKes GetSerahanNotisByRujukanKpp(string noRujukan)
+        {
+            var data = DataAccessQuery<TbDataKes>.Get(c => c.NoKpp == noRujukan);
+            if (data.Success && data.Datas != null)
+            {
+                return data.Datas;
+            }
+
+            return null;
+        }
+
         public static List<string> GetPasukanAhliByRujukan(string noRujukan)
         {
             string sSql = "SELECT b.* FROM tbpasukan_trans a " +
